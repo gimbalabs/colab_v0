@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "FriendlyFlyer2",
-    "slug": "FriendlyFlyer2",
-    "version": "1.0.0",
+    "name": "Colab_v0",
+    "slug": "colab-v0",
+    "version": "0.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -13,9 +13,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },

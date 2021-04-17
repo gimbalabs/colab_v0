@@ -1,10 +1,7 @@
 import * as React from "react";
 
 import { Button, View, Text, StyleSheet } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-
-import { globalContext } from "../../contexts/profileContext";
+import { globalContext } from "contexts/profileContext";
 
 export const AddBioScreen = ({ navigation }) => {
   // use the state in context

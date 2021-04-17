@@ -3,7 +3,7 @@
  * @desc Context container for the data
  */
 import React, { useState, createContext } from "react";
-import { BioState } from "../interfaces/profileInterface";
+import { BioState } from "@interfaces/profileInterface";
 
 export const initialState: BioState = {
   alias: "Batman",
@@ -15,7 +15,7 @@ export const initialState: BioState = {
   setAboutURL: () => {},
   setImageURL: () => {},
   setTimeClockLengthMin: () => {},
-  setTimeBlockCostADA: () => {}
+  setTimeBlockCostADA: () => {},
 };
 
 export const globalContext = createContext<BioState>(initialState);
@@ -45,7 +45,7 @@ export const ContextProvider: React.FC = ({ children }: Props) => {
         setAboutURL,
         setImageURL,
         setTimeClockLengthMin,
-        setTimeBlockCostADA
+        setTimeBlockCostADA,
       }}
     >
       {children}

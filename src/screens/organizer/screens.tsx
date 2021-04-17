@@ -1,6 +1,4 @@
-import { AddBioScreen } from "./AddBioScreen";
-import { AddIdeaScreen } from "./AddIdeaScreen";
-import { OrganizerScreen } from "./OrganizerScreen";
-import { RegisterScreen } from "./RegisterScreen";
-
-export { AddBioScreen, AddIdeaScreen, OrganizerScreen, RegisterScreen };
+export { AddBioScreen } from "./AddBioScreen";
+export { AddIdeaScreen } from "./AddIdeaScreen";
+export { OrganizerScreen } from "./OrganizerScreen";
+export { RegisterScreen } from "./RegisterScreen";

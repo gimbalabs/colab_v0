@@ -5,7 +5,7 @@ import {
   OrganizerScreen,
   AddBioScreen,
 } from "./screens";
-import { ContextProvider } from "../../contexts/profileContext";
+import { ContextProvider } from "contexts/profileContext";
 import { createStackNavigator } from "@react-navigation/stack";
 // import { greaterThan } from "react-native-reanimated";
 

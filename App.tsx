@@ -2,9 +2,9 @@ import "react-native-gesture-handler";
 
 import * as React from "react";
 
-import Organizer from "./src/screens/organizer/index";
-import { HomeScreen } from "./src/screens/HomeScreen";
-import { ContextProvider } from "./src/contexts/profileContext";
+import Organizer from "organizer/index";
+import { HomeScreen } from "screens/HomeScreen";
+import { ContextProvider } from "contexts/profileContext";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
