@@ -15,8 +15,8 @@
       "containers/*": ["./src/containers/*"],
       "contexts/*": ["./src/contexts/*"],
       "interfaces/*": ["./src/interfaces/*"],
-      "organizer/*": ["./src/screens/organizer/*"],
-      "screens/*": ["./src/screens/*"]
+      "screens/*": ["./src/screens/*"],
+      "tabs/*": ["./src/tabs/*"]
     }
   }
 }

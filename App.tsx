@@ -2,11 +2,11 @@ import "react-native-gesture-handler";
 
 import * as React from "react";
 
-import Organizer from "organizer/index";
-import { HomeScreen } from "screens/HomeScreen";
-import { ContextProvider } from "contexts/profileContext";
+import { HomeScreen, MyCalendarScreen } from "screens/index";
+import { OrganizerTabs } from "tabs/OrganizerTabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { ContextProvider } from "contexts/profileContext";
 
 const Stack = createStackNavigator();
 
@@ -15,8 +15,17 @@ function App() {
     <ContextProvider>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="Organizer" component={Organizer} />
+          <Stack.Screen
+            name="Home"
+            options={{ title: "Colab Home Screen" }}
+            component={HomeScreen}
+          />
+          <Stack.Screen name="My Calendar" component={MyCalendarScreen} />
+          <Stack.Screen
+            name="Organizer"
+            options={{ title: "Organizer" }}
+            component={OrganizerTabs}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </ContextProvider>

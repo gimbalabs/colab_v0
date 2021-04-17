@@ -10,6 +10,10 @@ export const HomeScreen = ({ navigation }) => {
           title="Organizers"
           onPress={() => navigation.navigate("Organizer")}
         />
+        <Button
+          title="My Calendar"
+          onPress={() => navigation.navigate("My Calendar")}
+        />
       </View>
     </View>
   );

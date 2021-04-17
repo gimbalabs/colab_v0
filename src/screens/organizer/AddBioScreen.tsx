@@ -9,6 +9,10 @@ export const AddBioScreen = ({ navigation }) => {
 
   // set the context state wth Hooks
   // setAlias(_____)
+  React.useEffect(() => {
+    setAlias("Batman");
+  }, []);
+
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Text style={styles.primary}>Create Profile</Text>
