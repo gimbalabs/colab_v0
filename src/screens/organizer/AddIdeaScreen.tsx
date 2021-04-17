@@ -15,7 +15,7 @@ export const AddIdeaScreen = ({ navigation }) => {
       </Text>
       <Text style={styles.detail}>populates an array of ideas for users</Text>
       <Button
-        title="Go back to home"
+        title="Go back to Menu"
         onPress={() => navigation.popToTop()}
         color="#05269f"
       />

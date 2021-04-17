@@ -33,7 +33,7 @@ export const AddBioScreen = ({ navigation }) => {
 
       <View style={[{ width: "50%", margin: 10 }]}>
         <Button
-          title="Back to Home"
+          title="Back to Menu"
           onPress={() => navigation.popToTop()}
           color="#05269f"
         />

@@ -11,10 +11,10 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 const Tab = createStackNavigator();
 
-export const OrganizerTabs: React.FC = () => {
+export const OrganizerTabs = () => {
   return (
     <ContextProvider>
-      <Tab.Navigator>
+      <Tab.Navigator headerMode="none">
         <Tab.Screen name="Organizer" component={OrganizerHomeScreen} />
         <Tab.Screen name="Register Id" component={RegisterScreen} />
         <Tab.Screen name="Add Bio" component={AddBioScreen} />

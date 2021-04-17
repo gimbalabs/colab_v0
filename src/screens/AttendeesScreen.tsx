@@ -1,30 +1,18 @@
 import * as React from "react";
 import { View, Button, Text, StyleSheet } from "react-native";
 
-export const HomeScreen = ({ navigation }) => {
+export const AttendeesScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Colab Home Screen</Text>
+      <Text style={styles.header}>Attendees</Text>
       <View style={{ marginVertical: 10, width: "50%" }}>
-        <Button
-          title="Organizers"
-          onPress={() => navigation.navigate("Organizer")}
-        />
+        <Button title="How it Works" onPress={() => {}} />
       </View>
       <View style={{ marginVertical: 10, width: "50%" }}>
-        <Button
-          title="Attendees"
-          onPress={() => navigation.navigate("Attendees")}
-        />
+        <Button title="Create Account" onPress={() => {}} />
       </View>
       <View style={{ marginVertical: 10, width: "50%" }}>
         <Button title="Browse" onPress={() => navigation.navigate("Browse")} />
-      </View>
-      <View style={{ marginVertical: 10, width: "50%" }}>
-        <Button
-          title="My Calendar"
-          onPress={() => navigation.navigate("My Calendar")}
-        />
       </View>
     </View>
   );

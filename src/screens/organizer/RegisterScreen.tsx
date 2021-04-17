@@ -19,7 +19,7 @@ export const RegisterScreen = ({ navigation }) => {
 
       <View style={[{ width: "50%", margin: 10 }]}>
         <Button
-          title="Go back to home"
+          title="Go back to Menu"
           onPress={() => navigation.popToTop()}
           color="#05269f"
         />
