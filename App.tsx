@@ -1,7 +1,5 @@
 import "react-native-gesture-handler";
-
 import * as React from "react";
-
 import {
   AttendeesScreen,
   BrowseScreen,
@@ -19,7 +17,7 @@ function App() {
   return (
     <ContextProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator initialRouteName="Home" headerMode="screen">
           <Stack.Screen
             name="Home"
             options={{ title: "Home" }}
@@ -30,7 +28,7 @@ function App() {
           <Stack.Screen name="Browse" component={BrowseScreen} />
           <Stack.Screen
             name="Organizer"
-            options={{ title: "Organizer" }}
+            options={{ title: "Organizer", headerShown: false }}
             component={OrganizerTabs}
           />
         </Stack.Navigator>

@@ -14,7 +14,7 @@ const Tab = createStackNavigator();
 export const OrganizerTabs = () => {
   return (
     <ContextProvider>
-      <Tab.Navigator headerMode="none">
+      <Tab.Navigator>
         <Tab.Screen name="Organizer" component={OrganizerHomeScreen} />
         <Tab.Screen name="Register Id" component={RegisterScreen} />
         <Tab.Screen name="Add Bio" component={AddBioScreen} />
