@@ -2,15 +2,21 @@
   "compilerOptions": {
     "jsx": "react-native",
     "target": "esnext",
-    "lib": [
-      "esnext"
-    ],
+    "lib": ["esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "noEmit": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "paths": {
+      "components/*": ["./src/components/*"],
+      "containers/*": ["./src/containers/*"],
+      "contexts/*": ["./src/contexts/*"],
+      "interfaces/*": ["./src/interfaces/*"],
+      "screens/*": ["./src/screens/*"],
+      "tabs/*": ["./src/tabs/*"]
+    }
   }
 }
