@@ -2,11 +2,11 @@ export interface BioState {
   alias: string,
   aboutURL?: string,
   imageURL?: string,
-  timeClockLengthMin: number | null,
+  timeBlockLengthMin: number | null,
   timeBlockCostADA: number | null;
   setAlias: (input: string ) => void;
   setAboutURL: (input: string ) => void;
   setImageURL: (input: string) => void;
-  setTimeClockLengthMin :(input: number ) => void;
+  setTimeBlockLengthMin :(input: number ) => void;
   setTimeBlockCostADA: (input: number) => void;
 };
