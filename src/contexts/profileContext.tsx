@@ -9,12 +9,12 @@ export const initialState: BioState = {
   alias: "Batman",
   aboutURL: "",
   imageURL: "",
-  timeClockLengthMin: null,
+  timeBlockLengthMin: null,
   timeBlockCostADA: null,
   setAlias: () => {},
   setAboutURL: () => {},
   setImageURL: () => {},
-  setTimeClockLengthMin: () => {},
+  setTimeBlockLengthMin: () => {},
   setTimeBlockCostADA: () => {},
 };
 
@@ -24,7 +24,7 @@ export const ContextProvider: React.FC<React.ReactNode> = ({ children }) => {
   const [alias, setAlias] = useState<string>("");
   const [aboutURL, setAboutURL] = useState<string>("");
   const [imageURL, setImageURL] = useState<string>("");
-  const [timeClockLengthMin, setTimeClockLengthMin] = useState<number | null>(
+  const [timeBlockLengthMin, setTimeBlockLengthMin] = useState<number | null>(
     null
   );
   const [timeBlockCostADA, setTimeBlockCostADA] = useState<number | null>(null);
@@ -35,12 +35,12 @@ export const ContextProvider: React.FC<React.ReactNode> = ({ children }) => {
         alias,
         aboutURL,
         imageURL,
-        timeClockLengthMin,
+        timeBlockLengthMin,
         timeBlockCostADA,
         setAlias,
         setAboutURL,
         setImageURL,
-        setTimeClockLengthMin,
+        setTimeBlockLengthMin,
         setTimeBlockCostADA,
       }}
     >
