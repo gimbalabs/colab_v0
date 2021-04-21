@@ -1,7 +1,20 @@
 import * as React from "react";
 import { Button, View, Text, StyleSheet } from "react-native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { OrganizerTabParamList } from "common/types";
 
-export const RegisterScreen = ({ navigation }) => {
+type RegisterScreenNavigationProp = StackNavigationProp<
+  OrganizerTabParamList,
+  "Register Id"
+>;
+
+type Props = {
+  navigation: RegisterScreenNavigationProp;
+};
+
+export const RegisterScreen: React.FunctionComponent<Props> = ({
+  navigation,
+}) => {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Text style={styles.primary}>Register</Text>

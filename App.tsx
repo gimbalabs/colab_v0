@@ -10,8 +10,9 @@ import { OrganizerTabs } from "tabs/OrganizerTabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { ContextProvider } from "contexts/profileContext";
+import { AppStackParamList } from "common/types";
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<AppStackParamList>();
 
 function App() {
   return (

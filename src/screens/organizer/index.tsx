@@ -1,4 +1,4 @@
 export { AddBioScreen } from "./AddBioScreen";
-export { AddIdeaScreen } from "./AddIdeaScreen";
+export { AddIdeasScreen } from "./AddIdeasScreen";
 export { OrganizerHomeScreen } from "./OrganizerHomeScreen";
 export { RegisterScreen } from "./RegisterScreen";

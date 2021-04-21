@@ -3,6 +3,7 @@
     "jsx": "react-native",
     "target": "esnext",
     "lib": ["esnext"],
+    "strict": true,
     "allowJs": true,
     "skipLibCheck": true,
     "noEmit": true,
@@ -11,12 +12,19 @@
     "esModuleInterop": true,
     "moduleResolution": "node",
     "paths": {
+      "common/*": ["./src/common/*"],
       "components/*": ["./src/components/*"],
       "containers/*": ["./src/containers/*"],
       "contexts/*": ["./src/contexts/*"],
-      "interfaces/*": ["./src/interfaces/*"],
+      "interfaces/*": ["./src/common/interfaces/*"],
       "screens/*": ["./src/screens/*"],
       "tabs/*": ["./src/tabs/*"]
-    }
+    },
+    "exclude": [
+      "node_modules",
+      "babel.config.js",
+      "metro.config.js",
+      "jest.config.js"
+    ]
   }
 }

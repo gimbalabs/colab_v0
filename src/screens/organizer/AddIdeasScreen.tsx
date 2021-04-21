@@ -1,9 +1,29 @@
 import React, { useState } from "react";
-import { Button, View, Text, StyleSheet, StatusBar, FlatList } from "react-native";
-import AddIdea from "../../components/Ideas/AddIdea";
-import IdeaList from "../../components/Ideas/IdeaList";
+import {
+  Button,
+  View,
+  Text,
+  StyleSheet,
+  StatusBar,
+  FlatList,
+} from "react-native";
+import AddIdea from "components/Ideas/AddIdea";
+import IdeaList from "components/Ideas/IdeaList";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { OrganizerTabParamList } from "common/types";
 
-export const AddIdeaScreen = ({ navigation }) => {
+type AddIdeasScreenNavigationProp = StackNavigationProp<
+  OrganizerTabParamList,
+  "Add Ideas"
+>;
+
+type Props = {
+  navigation: AddIdeasScreenNavigationProp;
+};
+
+export const AddIdeasScreen: React.FunctionComponent<Props> = ({
+  navigation,
+}) => {
   const [data, setData] = useState([]);
 
   const submitHandler = (value) => {
@@ -17,7 +37,7 @@ export const AddIdeaScreen = ({ navigation }) => {
         ...prevTodo,
       ];
     });
-  }
+  };
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -31,14 +51,18 @@ export const AddIdeaScreen = ({ navigation }) => {
         <StatusBar barStyle="light-content" backgroundColor="midnightblue" />
       </View>
 
-      <Text style={styles.primary}>
-        My Ideas
-      </Text>
+      <Text style={styles.primary}>My Ideas</Text>
       <View>
-        <FlatList data={data} renderItem={({item}) => (<IdeaList item={item} />)} />
+        <FlatList
+          data={data}
+          renderItem={({ item }) => <IdeaList item={item} />}
+        />
       </View>
 
-      <Text style={styles.detail}>Need to add UPDATE and DELETE functionality. See: https://dev.to/reenydavidson/building-a-to-do-list-with-react-native-and-styled-components-2148</Text>
+      <Text style={styles.detail}>
+        Need to add UPDATE and DELETE functionality. See:
+        https://dev.to/reenydavidson/building-a-to-do-list-with-react-native-and-styled-components-2148
+      </Text>
       <Button
         title="Go back to Menu"
         onPress={() => navigation.popToTop()}
