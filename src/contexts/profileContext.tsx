@@ -6,11 +6,11 @@ import React, { useState, createContext } from "react";
 import { BioState } from "interfaces/profileInterface";
 
 export const initialState: BioState = {
-  alias: "Batman",
+  alias: "Batmanzzzzz",
   aboutURL: "",
   imageURL: "",
-  timeBlockLengthMin: null,
-  timeBlockCostADA: null,
+  timeBlockLengthMin: 15,
+  timeBlockCostADA: 20,
   setAlias: () => {},
   setAboutURL: () => {},
   setImageURL: () => {},

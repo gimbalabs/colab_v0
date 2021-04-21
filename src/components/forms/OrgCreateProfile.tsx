@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { SafeAreaView, StyleSheet, TextInput, Text } from "react-native";
+import { Input } from "react-native-elements"
+import { globalContext } from "contexts/profileContext";
 
 export default function OrgCreateProfile() {
+    const { alias , setAlias } = useContext(globalContext);
+    const { aboutURL , setAboutURL } = useContext(globalContext);
+    const { imageURL , setImageURL } = useContext(globalContext);
+    const { timeBlockCostADA, setTimeBlockCostADA } = useContext(globalContext);
+    const { timeBlockLengthMin , setTimeBlockLengthMin } = useContext(globalContext);
 
-    const [text, onChangeText] = React.useState("");
-    const [number, onChangeNumber] = React.useState(null);
 
     return (
         <SafeAreaView style={styles.formBox}>
@@ -13,37 +18,33 @@ export default function OrgCreateProfile() {
             </Text>
             <TextInput
             style={styles.input}
-            onChangeText={onChangeText}
-            value={text}
-            placeholder="What should we call you?"
+            onChangeText={setAlias}
+            value={alias}
+            placeholder={alias}
             />
             <Text style={styles.inputLabel}>
                 Time block length
             </Text>
-            <TextInput
+            <Input
             style={styles.input}
-            onChangeText={onChangeNumber}
-            value={number}
-            placeholder="minutes"
             keyboardType="numeric"
+            onChangeText={setTimeBlockLengthMin}
             />
             <Text style={styles.inputLabel}>
                 Time block cost
             </Text>
-            <TextInput
+            <Input
             style={styles.input}
-            onChangeText={onChangeNumber}
-            value={number}
-            placeholder="ADA"
             keyboardType="numeric"
+            onChangeText={setTimeBlockCostADA}
             />
             <Text style={styles.inputLabel}>
                 Personal URL
             </Text>
             <TextInput
             style={styles.input}
-            onChangeText={onChangeText}
-            value={text}
+            onChangeText={setAboutURL}
+            value={aboutURL}
             placeholder="Share a personal URL here"
             />
             <Text style={styles.inputLabel}>
@@ -51,8 +52,8 @@ export default function OrgCreateProfile() {
             </Text>
             <TextInput
             style={styles.input}
-            onChangeText={onChangeText}
-            value={text}
+            onChangeText={setImageURL}
+            value={imageURL}
             placeholder="Share an image here"
             />
         </SafeAreaView>

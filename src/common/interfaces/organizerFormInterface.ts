@@ -1,4 +1,4 @@
-import { BioState } from "./BioState";
+import { BioState } from "./profileInterface";
 
 export interface IOrganizerForm extends BioState {
   alias: string;
