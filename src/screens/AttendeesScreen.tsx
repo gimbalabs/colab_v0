@@ -1,7 +1,20 @@
 import * as React from "react";
 import { View, Button, Text, StyleSheet } from "react-native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { AppStackParamList } from "common/types";
 
-export const AttendeesScreen = ({ navigation }) => {
+type AttendeesScreenNavigationParam = StackNavigationProp<
+  AppStackParamList,
+  "Attendees"
+>;
+
+type Props = {
+  navigation: AttendeesScreenNavigationParam;
+};
+
+export const AttendeesScreen: React.FunctionComponent<Props> = ({
+  navigation,
+}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Attendees</Text>

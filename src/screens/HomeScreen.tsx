@@ -1,7 +1,15 @@
 import * as React from "react";
 import { View, Button, Text, StyleSheet } from "react-native";
+import { AppStackParamList } from "common/types";
+import { StackNavigationProp } from "@react-navigation/stack";
 
-export const HomeScreen = ({ navigation }) => {
+type HomeScreenNavigationProp = StackNavigationProp<AppStackParamList, "Home">;
+
+type Props = {
+  navigation: HomeScreenNavigationProp;
+};
+
+export const HomeScreen: React.FunctionComponent<Props> = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Colab Home Screen</Text>

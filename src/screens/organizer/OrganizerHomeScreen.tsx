@@ -1,7 +1,20 @@
 import * as React from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { OrganizerTabParamList } from "common/types";
 
-export const OrganizerHomeScreen = ({ navigation }) => {
+type OrganizerHomeScreenNavigationProp = StackNavigationProp<
+  OrganizerTabParamList,
+  "Organizer"
+>;
+
+type Props = {
+  navigation: OrganizerHomeScreenNavigationProp;
+};
+
+export const OrganizerHomeScreen: React.FunctionComponent<Props> = ({
+  navigation,
+}) => {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Text style={styles.primary}>Organizer</Text>

@@ -9,10 +9,11 @@ module.exports = function (api) {
           root: ["./src/"],
           alias: {
             // define aliases to shorten the import paths
+            common: "./src/common",
             components: "./src/components",
             containers: "./src/containers",
             contexts: "./src/contexts",
-            interfaces: "./src/interfaces",
+            interfaces: "./src/common/interfaces",
             screens: "./src/screens",
             tabs: "./src/tabs",
           },
