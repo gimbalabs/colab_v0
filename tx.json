@@ -1,0 +1,22 @@
+{
+    "101" : {
+        "title": "Cardano Project Catalyst Discord Server Owner Role Change",
+        "start-date": "2021-04-20",
+        "end-date": "2021-10-20",
+        "previous-owner": "Steve Aldrich",
+        "new-owner": "James Dunseith",
+        "current-user-count": 1749,
+        "current-channel-count": 307,
+        "message": [
+            "The Cardano Catalyst Community thanks Steve Aldrich for starting", 
+            "this Discord server on 19 September 2020. Over the last 7 months", 
+            "and one day (or 43 epochs), the server has grown to be a", 
+            "valuable tool across the Catalyst Community. In the spirit of", 
+            "our decentralized movement, server ownership will change", 
+            "regularly. Moving forward, ownership terms will be limited to at", 
+            "most 6 months. This message is to acknowledge that today, Steve", 
+            "transferred ownership to James, who will be trusted as the owner", 
+            "of the Server until no later than 20 October 2021."
+        ]
+    }
+}

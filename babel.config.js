@@ -13,6 +13,7 @@ module.exports = function (api) {
             components: "./src/components",
             containers: "./src/containers",
             contexts: "./src/contexts",
+            lib: "./src/lib",
             interfaces: "./src/common/interfaces",
             screens: "./src/screens",
             tabs: "./src/tabs",

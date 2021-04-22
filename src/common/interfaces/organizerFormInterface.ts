@@ -1,9 +1,7 @@
-import { BioState } from "./BioState";
-
-export interface IOrganizerForm extends BioState {
+export interface IOrganizerForm {
   alias: string;
-  aboutURL?: string;
-  imageURL?: string;
-  timeBlockLengthMin: number | null;
-  timeBlockCostADA: number | null;
+  aboutURL?: string | null;
+  imageURL?: string | null;
+  timeBlockLengthMin: string;
+  timeBlockCostADA: string;
 }

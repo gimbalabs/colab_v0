@@ -6,11 +6,11 @@ import React, { useState, createContext } from "react";
 import { BioState } from "interfaces/profileInterface";
 
 export const initialState: BioState = {
-  alias: "Batman",
+  alias: "Batmanzzzzz",
   aboutURL: "",
   imageURL: "",
-  timeBlockLengthMin: null,
-  timeBlockCostADA: null,
+  timeBlockLengthMin: 15,
+  timeBlockCostADA: 20,
   setAlias: () => {},
   setAboutURL: () => {},
   setImageURL: () => {},
@@ -24,10 +24,10 @@ export const ContextProvider: React.FC<React.ReactNode> = ({ children }) => {
   const [alias, setAlias] = useState<string>("");
   const [aboutURL, setAboutURL] = useState<string>("");
   const [imageURL, setImageURL] = useState<string>("");
-  const [timeBlockLengthMin, setTimeBlockLengthMin] = useState<number | null>(
+  const [timeBlockLengthMin, setTimeBlockLengthMin] = useState<string | null>(
     null
   );
-  const [timeBlockCostADA, setTimeBlockCostADA] = useState<number | null>(null);
+  const [timeBlockCostADA, setTimeBlockCostADA] = useState<string | null>(null);
 
   return (
     <globalContext.Provider
