@@ -2,3 +2,6 @@ node_modules
 .expo
 .vscode
 .DS_store
+.build
+.packages_cache
+

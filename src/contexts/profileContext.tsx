@@ -1,26 +1,29 @@
 /**
  * @name dataContext
- * @desc Context container for the data
+ * @desc Context container for the profile data
  */
 import React, { useState, createContext } from "react";
 import { BioState } from "interfaces/profileInterface";
 
 export const initialState: BioState = {
-  alias: "Batmanzzzzz",
+  alias: "Batman",
   aboutURL: "",
   imageURL: "",
-  timeBlockLengthMin: 15,
-  timeBlockCostADA: 20,
+  timeBlockLengthMin: "15",
+  timeBlockCostADA: "20",
   setAlias: () => {},
   setAboutURL: () => {},
   setImageURL: () => {},
   setTimeBlockLengthMin: () => {},
   setTimeBlockCostADA: () => {},
 };
+export const ProfileContext = createContext<BioState>(initialState);
 
-export const globalContext = createContext<BioState>(initialState);
+export interface IContextProvider {
+  children: React.ReactNode;
+}
 
-export const ContextProvider: React.FC<React.ReactNode> = ({ children }) => {
+export const ProfileContextProvider = ({ children }: IContextProvider) => {
   const [alias, setAlias] = useState<string>("");
   const [aboutURL, setAboutURL] = useState<string>("");
   const [imageURL, setImageURL] = useState<string>("");
@@ -30,7 +33,7 @@ export const ContextProvider: React.FC<React.ReactNode> = ({ children }) => {
   const [timeBlockCostADA, setTimeBlockCostADA] = useState<string | null>(null);
 
   return (
-    <globalContext.Provider
+    <ProfileContext.Provider
       value={{
         alias,
         aboutURL,
@@ -45,6 +48,6 @@ export const ContextProvider: React.FC<React.ReactNode> = ({ children }) => {
       }}
     >
       {children}
-    </globalContext.Provider>
+    </ProfileContext.Provider>
   );
 };
