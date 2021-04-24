@@ -4,4 +4,6 @@ node_modules
 .DS_store
 .build
 .packages_cache
-
+package-lock.json
+yarn.lock
+yarn-error.log*
