@@ -1,7 +1,14 @@
 import * as React from "react";
 import { TextInput, Text, StyleSheet } from "react-native";
 
-export const CustomInput: React.ReactNode = (props) => {
+export interface ICustomInput {
+  field: {};
+  form: {};
+  name: string;
+  value: string;
+}
+
+export const CustomInput = (props: any) => {
   const {
     field: { onChange, name, onBlur, value },
     form: { errors, touched, setFieldTouched },

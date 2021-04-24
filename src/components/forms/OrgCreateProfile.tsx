@@ -1,20 +1,22 @@
 import * as React from "react";
 import { formValidationSchema } from "../../lib/utils";
-import { Alert, Button, SafeAreaView, StyleSheet, Text } from "react-native";
+import { Button, SafeAreaView, StyleSheet } from "react-native";
 import { CustomInput } from "../forms/CustomInput";
 import { Formik, Field } from "formik";
-import { globalContext } from "contexts/profileContext";
+import { ProfileContext } from "contexts/profileContext";
 import { IOrganizerForm } from "common/interfaces/organizerFormInterface";
 
-export const OrgCreateProfile: React.FunctionComponent = () => {
-  const { alias, setAlias } = React.useContext(globalContext);
-  const { aboutURL, setAboutURL } = React.useContext(globalContext);
-  const { imageURL, setImageURL } = React.useContext(globalContext);
+export interface IOrgCreateProfile {}
+
+export const OrgCreateProfile = () => {
+  const { alias, setAlias } = React.useContext(ProfileContext);
+  const { aboutURL, setAboutURL } = React.useContext(ProfileContext);
+  const { imageURL, setImageURL } = React.useContext(ProfileContext);
   const { timeBlockCostADA, setTimeBlockCostADA } = React.useContext(
-    globalContext
+    ProfileContext
   );
   const { timeBlockLengthMin, setTimeBlockLengthMin } = React.useContext(
-    globalContext
+    ProfileContext
   );
 
   const updateBioContext = ({
@@ -29,13 +31,6 @@ export const OrgCreateProfile: React.FunctionComponent = () => {
     imageURL && setImageURL(imageURL);
     timeBlockCostADA && setTimeBlockCostADA(timeBlockCostADA);
     timeBlockLengthMin && setTimeBlockLengthMin(timeBlockLengthMin);
-    console.log(
-      alias,
-      aboutURL,
-      imageURL,
-      timeBlockCostADA,
-      timeBlockLengthMin
-    );
   };
 
   return (
@@ -49,15 +44,7 @@ export const OrgCreateProfile: React.FunctionComponent = () => {
           timeBlockCostADA: "",
           timeBlockLengthMin: "",
         }}
-        onSubmit={
-          (values: IOrganizerForm) => updateBioContext(values)
-          // Alert.alert("Form input", JSON.stringify(values), [
-          //   {
-          //     text: "Cancel",
-          //     style: "cancel",
-          //   },
-          // ])
-        }
+        onSubmit={(values: IOrganizerForm) => updateBioContext(values)}
       >
         {({ handleSubmit, isValid }) => (
           <>

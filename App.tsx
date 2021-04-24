@@ -9,14 +9,14 @@ import {
 import { OrganizerTabs } from "tabs/OrganizerTabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { ContextProvider } from "contexts/profileContext";
+import { AppContextProvider } from "contexts/appContext";
 import { AppStackParamList } from "common/types";
 
 const Stack = createStackNavigator<AppStackParamList>();
 
 function App() {
   return (
-    <ContextProvider>
+    <AppContextProvider>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home" headerMode="screen">
           <Stack.Screen
@@ -34,7 +34,7 @@ function App() {
           />
         </Stack.Navigator>
       </NavigationContainer>
-    </ContextProvider>
+    </AppContextProvider>
   );
 }
 
