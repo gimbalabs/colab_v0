@@ -6,21 +6,24 @@ import React, { useState, createContext } from "react";
 import { BioState } from "interfaces/profileInterface";
 
 export const initialState: BioState = {
-  alias: "Batmanzzzzz",
+  alias: "Batman",
   aboutURL: "",
   imageURL: "",
-  timeBlockLengthMin: 15,
-  timeBlockCostADA: 20,
+  timeBlockLengthMin: "15",
+  timeBlockCostADA: "20",
   setAlias: () => {},
   setAboutURL: () => {},
   setImageURL: () => {},
   setTimeBlockLengthMin: () => {},
   setTimeBlockCostADA: () => {},
 };
-
 export const globalContext = createContext<BioState>(initialState);
 
-export const ContextProvider: React.FC<React.ReactNode> = ({ children }) => {
+export interface IContextProvider {
+  children: React.ReactNode;
+}
+
+export const ContextProvider = ({ children }: IContextProvider) => {
   const [alias, setAlias] = useState<string>("");
   const [aboutURL, setAboutURL] = useState<string>("");
   const [imageURL, setImageURL] = useState<string>("");

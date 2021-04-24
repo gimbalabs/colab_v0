@@ -3,26 +3,15 @@ import * as React from "react";
 import { Button, View, Text, StyleSheet } from "react-native";
 import { globalContext } from "contexts/profileContext";
 import { OrgCreateProfile } from "components/forms/OrgCreateProfile";
-import { StackNavigationProp } from "@react-navigation/stack";
+import { StackScreenProps } from "@react-navigation/stack";
 import { OrganizerTabParamList } from "common/types";
 
-type AddBioScreenNavigationProp = StackNavigationProp<
-  OrganizerTabParamList,
-  "Add Bio"
->;
+export interface IAddBioScreen
+  extends StackScreenProps<OrganizerTabParamList, "Add Bio"> {}
 
-type Props = {
-  navigation: AddBioScreenNavigationProp;
-};
-
-export const AddBioScreen: React.FunctionComponent<Props> = ({
-  navigation,
-}) => {
+export const AddBioScreen = ({ navigation }: IAddBioScreen) => {
   // use the state in context
-  const { alias, setAlias } = React.useContext(globalContext);
-  const { timeBlockLengthMin, setTimeBlockLengthMin } = React.useContext(
-    globalContext
-  );
+  const { alias, timeBlockLengthMin } = React.useContext(globalContext);
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>

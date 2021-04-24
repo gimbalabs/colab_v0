@@ -1,15 +1,12 @@
 import * as React from "react";
 import { View, Button, Text, StyleSheet } from "react-native";
 import { AppStackParamList } from "common/types";
-import { StackNavigationProp } from "@react-navigation/stack";
+import { StackScreenProps } from "@react-navigation/stack";
 
-type HomeScreenNavigationProp = StackNavigationProp<AppStackParamList, "Home">;
+export interface IHomeScreen
+  extends StackScreenProps<AppStackParamList, "Home"> {}
 
-type Props = {
-  navigation: HomeScreenNavigationProp;
-};
-
-export const HomeScreen: React.FunctionComponent<Props> = ({ navigation }) => {
+export const HomeScreen = ({ navigation }: IHomeScreen) => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Colab Home Screen</Text>

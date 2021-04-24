@@ -1,20 +1,14 @@
 import * as React from "react";
 import { View, Button, Text, StyleSheet } from "react-native";
-import { StackNavigationProp } from "@react-navigation/stack";
+import { StackScreenProps } from "@react-navigation/stack";
 import { AppStackParamList } from "common/types";
 
-type BrowseScreenNavigationParams = StackNavigationProp<
-  AppStackParamList,
-  "Browse"
->;
+export interface IBrowseScreen
+  extends StackScreenProps<AppStackParamList, "Browse"> {
+  children: React.ReactNode;
+}
 
-type Props = {
-  navigation: BrowseScreenNavigationParams;
-};
-
-export const BrowseScreen: React.FunctionComponent<Props> = ({
-  navigation,
-}) => {
+export const BrowseScreen = ({ navigation }: IBrowseScreen) => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Browse</Text>

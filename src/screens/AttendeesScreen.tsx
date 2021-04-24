@@ -1,20 +1,12 @@
 import * as React from "react";
 import { View, Button, Text, StyleSheet } from "react-native";
-import { StackNavigationProp } from "@react-navigation/stack";
+import { StackScreenProps } from "@react-navigation/stack";
 import { AppStackParamList } from "common/types";
 
-type AttendeesScreenNavigationParam = StackNavigationProp<
-  AppStackParamList,
-  "Attendees"
->;
+export interface IAttendeesScreen
+  extends StackScreenProps<AppStackParamList, "Attendees"> {}
 
-type Props = {
-  navigation: AttendeesScreenNavigationParam;
-};
-
-export const AttendeesScreen: React.FunctionComponent<Props> = ({
-  navigation,
-}) => {
+export const AttendeesScreen = ({ navigation }: IAttendeesScreen) => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Attendees</Text>

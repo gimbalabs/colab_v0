@@ -1,3 +1,5 @@
+// import { NavigatorScreenParams } from "@react-navigation/native";
+
 export type AppStackParamList = {
   // 'undefined' means that no parameters are specified
   Home: undefined;

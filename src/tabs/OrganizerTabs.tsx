@@ -8,11 +8,10 @@ import {
 import { ContextProvider } from "contexts/profileContext";
 import { createStackNavigator } from "@react-navigation/stack";
 import { OrganizerTabParamList } from "common/types";
-// import { greaterThan } from "react-native-reanimated";
 
 const Tab = createStackNavigator<OrganizerTabParamList>();
 
-export const OrganizerTabs: React.FunctionComponent = () => {
+export const OrganizerTabs = () => {
   return (
     <ContextProvider>
       <Tab.Navigator>

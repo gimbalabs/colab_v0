@@ -1,32 +1,25 @@
 import React, { useState } from "react";
 import {
   Button,
+  SafeAreaView,
   View,
   Text,
   StyleSheet,
   StatusBar,
   FlatList,
 } from "react-native";
-import AddIdea from "components/Ideas/AddIdea";
-import IdeaList from "components/Ideas/IdeaList";
-import { StackNavigationProp } from "@react-navigation/stack";
+import { AddIdea } from "components/Ideas/AddIdea";
+import { IdeaList } from "components/Ideas/IdeaList";
+import { StackScreenProps } from "@react-navigation/stack";
 import { OrganizerTabParamList } from "common/types";
 
-type AddIdeasScreenNavigationProp = StackNavigationProp<
-  OrganizerTabParamList,
-  "Add Ideas"
->;
+export interface IAddIdeasScreen
+  extends StackScreenProps<OrganizerTabParamList, "Add Ideas"> {}
 
-type Props = {
-  navigation: AddIdeasScreenNavigationProp;
-};
+export const AddIdeasScreen = ({ navigation }: IAddIdeasScreen) => {
+  const [data, setData] = useState<object[]>([]);
 
-export const AddIdeasScreen: React.FunctionComponent<Props> = ({
-  navigation,
-}) => {
-  const [data, setData] = useState([]);
-
-  const submitHandler = (value) => {
+  const submitHandler = (value: string) => {
     setData((prevTodo) => {
       return [
         // need a more scalable solution than Math.random() for keys, this is just a placeholder
@@ -40,7 +33,9 @@ export const AddIdeasScreen: React.FunctionComponent<Props> = ({
   };
 
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+    <SafeAreaView
+      style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+    >
       <Text style={styles.primary}>IDEAS</Text>
       <Text style={styles.detail}>
         "Ideas" are how Organizers share their current interests with the
@@ -68,7 +63,7 @@ export const AddIdeasScreen: React.FunctionComponent<Props> = ({
         onPress={() => navigation.popToTop()}
         color="#05269f"
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
