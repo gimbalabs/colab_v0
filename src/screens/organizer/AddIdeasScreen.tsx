@@ -11,7 +11,7 @@ import {
 import { AddIdea } from "components/Ideas/AddIdea";
 import { IdeaList } from "components/Ideas/IdeaList";
 import { StackScreenProps } from "@react-navigation/stack";
-import { OrganizerTabParamList } from "common/types";
+import { OrganizerTabParamList } from "common/types/navigationTypes";
 
 export interface AddIdeasScreen
   extends StackScreenProps<OrganizerTabParamList, "Add Ideas"> {}

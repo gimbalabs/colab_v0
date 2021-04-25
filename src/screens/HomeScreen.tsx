@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View, Button, Text, StyleSheet, Switch } from "react-native";
-import { AppStackParamList } from "common/types";
+import { AppStackParamList } from "common/types/navigationTypes";
 import { StackScreenProps } from "@react-navigation/stack";
 import { AppContext } from "contexts/appContext";
 
