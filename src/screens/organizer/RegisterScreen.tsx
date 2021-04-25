@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Button, View, Text, StyleSheet } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
-import { OrganizerTabParamList } from "common/types";
+import { OrganizerTabParamList } from "common/types/navigationTypes";
 
 export interface RegisterScreen
   extends StackScreenProps<OrganizerTabParamList, "Register Id"> {}

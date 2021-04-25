@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View, Button, Text, StyleSheet } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
-import { AppStackParamList } from "common/types";
+import { AppStackParamList } from "common/types/navigationTypes";
 
 export interface BrowseScreen
   extends StackScreenProps<AppStackParamList, "Browse"> {

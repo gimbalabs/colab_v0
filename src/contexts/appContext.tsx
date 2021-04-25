@@ -9,12 +9,13 @@ import {
   AppContextState,
   AppContextProviderProps,
 } from "interfaces/appInterface";
+import { AppActions } from "common/types/appTypes";
 
 const initialAppState: AppState = {
   authentication: true,
 };
 
-const reducer = (state, action) => {
+const reducer = (state: AppState, action: AppActions) => {
   switch (action.type) {
     case "TOGGLE_AUTH":
       return {

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
-import { OrganizerTabParamList } from "common/types";
+import { OrganizerTabParamList } from "common/types/navigationTypes";
 import { AppContext } from "contexts/appContext";
 
 export interface OrganizerHomeScreen

@@ -4,18 +4,14 @@ import { Button, View, Text, StyleSheet } from "react-native";
 import { ProfileContext } from "contexts/profileContext";
 import { OrgCreateProfile } from "components/forms/OrgCreateProfile";
 import { StackScreenProps } from "@react-navigation/stack";
-import { OrganizerTabParamList } from "common/types";
+import { OrganizerTabParamList } from "common/types/navigationTypes";
 
 export interface AddBioScreen
   extends StackScreenProps<OrganizerTabParamList, "Add Bio"> {}
 
 export const AddBioScreen = ({ navigation }: AddBioScreen) => {
   // use the state in context
-<<<<<<< HEAD
-  const { alias, timeBlockLengthMin } = React.useContext(globalContext);
-=======
   const { alias, timeBlockLengthMin } = React.useContext(ProfileContext);
->>>>>>> 797d02435c0764f029e8a7901af8874868ce0045
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>

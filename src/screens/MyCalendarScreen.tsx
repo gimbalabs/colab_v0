@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Text, View, Button } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
-import { AppStackParamList } from "common/types";
+import { AppStackParamList } from "common/types/navigationTypes";
 
 export interface MyCalendarScreen
   extends StackScreenProps<AppStackParamList, "My Calendar"> {}
