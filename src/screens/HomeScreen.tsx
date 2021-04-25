@@ -1,14 +1,42 @@
 import * as React from "react";
-import { View, Button, Text, StyleSheet } from "react-native";
+import { View, Button, Text, StyleSheet, Switch } from "react-native";
 import { AppStackParamList } from "common/types";
 import { StackScreenProps } from "@react-navigation/stack";
+<<<<<<< HEAD
+=======
+import { AppContext } from "contexts/appContext";
+>>>>>>> 797d02435c0764f029e8a7901af8874868ce0045
 
 export interface IHomeScreen
   extends StackScreenProps<AppStackParamList, "Home"> {}
 
 export const HomeScreen = ({ navigation }: IHomeScreen) => {
+<<<<<<< HEAD
+=======
+  const { state, dispatch } = React.useContext(AppContext);
+
+>>>>>>> 797d02435c0764f029e8a7901af8874868ce0045
   return (
     <View style={styles.container}>
+      <View style={styles.header}>
+        <View style={{ alignItems: "center" }}>
+          <Switch
+            trackColor={{ false: "#3e3e3e", true: "#37a524" }}
+            thumbColor={"#f4f3f4"}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={() => dispatch({ type: "TOGGLE_AUTH" })}
+            value={state.authentication}
+          />
+          <Text
+            style={{
+              textAlign: "center",
+              paddingVertical: 10,
+            }}
+          >
+            {state.authentication ? "AUTH" : "NO-AUTH"}
+          </Text>
+        </View>
+      </View>
       <Text style={styles.header}>Colab Home Screen</Text>
       <View style={{ marginVertical: 10, width: "50%" }}>
         <Button

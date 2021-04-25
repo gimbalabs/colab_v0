@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { Button, View, Text, StyleSheet } from "react-native";
-import { globalContext } from "contexts/profileContext";
+import { ProfileContext } from "contexts/profileContext";
 import { OrgCreateProfile } from "components/forms/OrgCreateProfile";
 import { StackScreenProps } from "@react-navigation/stack";
 import { OrganizerTabParamList } from "common/types";
@@ -11,7 +11,11 @@ export interface IAddBioScreen
 
 export const AddBioScreen = ({ navigation }: IAddBioScreen) => {
   // use the state in context
+<<<<<<< HEAD
   const { alias, timeBlockLengthMin } = React.useContext(globalContext);
+=======
+  const { alias, timeBlockLengthMin } = React.useContext(ProfileContext);
+>>>>>>> 797d02435c0764f029e8a7901af8874868ce0045
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
