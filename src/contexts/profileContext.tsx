@@ -17,23 +17,14 @@ export const initialState: BioState = {
   setTimeBlockLengthMin: () => {},
   setTimeBlockCostADA: () => {},
 };
-<<<<<<< HEAD
-export const globalContext = createContext<BioState>(initialState);
 
-export interface IContextProvider {
+export interface ContextProvider {
   children: React.ReactNode;
 }
 
-export const ContextProvider = ({ children }: IContextProvider) => {
-=======
 export const ProfileContext = createContext<BioState>(initialState);
 
-export interface IContextProvider {
-  children: React.ReactNode;
-}
-
-export const ProfileContextProvider = ({ children }: IContextProvider) => {
->>>>>>> 797d02435c0764f029e8a7901af8874868ce0045
+export const ProfileContextProvider = ({ children }: ContextProvider) => {
   const [alias, setAlias] = useState<string>("");
   const [aboutURL, setAboutURL] = useState<string>("");
   const [imageURL, setImageURL] = useState<string>("");

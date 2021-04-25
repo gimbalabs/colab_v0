@@ -1,4 +1,4 @@
-export interface IOrganizerForm {
+export interface OrganizerForm {
   alias: string;
   aboutURL?: string | null;
   imageURL?: string | null;

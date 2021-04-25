@@ -4,20 +4,14 @@ import { Button, SafeAreaView, StyleSheet } from "react-native";
 import { CustomInput } from "../forms/CustomInput";
 import { Formik, Field } from "formik";
 import { ProfileContext } from "contexts/profileContext";
-import { IOrganizerForm } from "common/interfaces/organizerFormInterface";
+import { OrganizerForm } from "common/interfaces/organizerFormInterface";
 
-export interface IOrgCreateProfile {}
+export interface OrgCreateProfile {}
 
 export const OrgCreateProfile = () => {
-<<<<<<< HEAD
-  const { alias, setAlias } = React.useContext(globalContext);
-  const { aboutURL, setAboutURL } = React.useContext(globalContext);
-  const { imageURL, setImageURL } = React.useContext(globalContext);
-=======
   const { alias, setAlias } = React.useContext(ProfileContext);
   const { aboutURL, setAboutURL } = React.useContext(ProfileContext);
   const { imageURL, setImageURL } = React.useContext(ProfileContext);
->>>>>>> 797d02435c0764f029e8a7901af8874868ce0045
   const { timeBlockCostADA, setTimeBlockCostADA } = React.useContext(
     ProfileContext
   );
@@ -31,7 +25,7 @@ export const OrgCreateProfile = () => {
     imageURL,
     timeBlockCostADA,
     timeBlockLengthMin,
-  }: IOrganizerForm): void => {
+  }: OrganizerForm): void => {
     alias && setAlias(alias);
     aboutURL && setAboutURL(aboutURL);
     imageURL && setImageURL(imageURL);
@@ -50,7 +44,7 @@ export const OrgCreateProfile = () => {
           timeBlockCostADA: "",
           timeBlockLengthMin: "",
         }}
-        onSubmit={(values: IOrganizerForm) => updateBioContext(values)}
+        onSubmit={(values: OrganizerForm) => updateBioContext(values)}
       >
         {({ handleSubmit, isValid }) => (
           <>

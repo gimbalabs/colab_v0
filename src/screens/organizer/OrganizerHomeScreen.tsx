@@ -4,15 +4,13 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { OrganizerTabParamList } from "common/types";
 import { AppContext } from "contexts/appContext";
 
-export interface IOrganizerHomeScreen
+export interface OrganizerHomeScreen
   extends StackScreenProps<OrganizerTabParamList, "Organizer"> {}
 
-export const OrganizerHomeScreen = ({ navigation }: IOrganizerHomeScreen) => {
-<<<<<<< HEAD
-=======
+
+export const OrganizerHomeScreen = ({ navigation }: OrganizerHomeScreen) => {
   const { state } = React.useContext(AppContext);
 
->>>>>>> 797d02435c0764f029e8a7901af8874868ce0045
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Text style={styles.primary}>Organizer</Text>

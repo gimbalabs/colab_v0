@@ -6,10 +6,10 @@ import { OrgCreateProfile } from "components/forms/OrgCreateProfile";
 import { StackScreenProps } from "@react-navigation/stack";
 import { OrganizerTabParamList } from "common/types";
 
-export interface IAddBioScreen
+export interface AddBioScreen
   extends StackScreenProps<OrganizerTabParamList, "Add Bio"> {}
 
-export const AddBioScreen = ({ navigation }: IAddBioScreen) => {
+export const AddBioScreen = ({ navigation }: AddBioScreen) => {
   // use the state in context
 <<<<<<< HEAD
   const { alias, timeBlockLengthMin } = React.useContext(globalContext);

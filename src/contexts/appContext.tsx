@@ -5,12 +5,12 @@
  */
 import * as React from "react";
 import {
-  IAppState,
-  IAppContext,
-  IAppContextProvider,
+  AppState,
+  AppContextState,
+  AppContextProviderProps,
 } from "interfaces/appInterface";
 
-const initialAppState: IAppState = {
+const initialAppState: AppState = {
   authentication: true,
 };
 
@@ -25,12 +25,12 @@ const reducer = (state, action) => {
   }
 };
 
-export const AppContext = React.createContext<IAppContext>({
+export const AppContext = React.createContext<AppContextState>({
   state: initialAppState,
   dispatch: () => null,
 });
 
-export const AppContextProvider = ({ children }: IAppContextProvider) => {
+export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   const [state, dispatch] = React.useReducer(reducer, initialAppState);
 
   return (

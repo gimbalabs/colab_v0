@@ -3,10 +3,10 @@ import { View, Button, Text, StyleSheet } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
 import { AppStackParamList } from "common/types";
 
-export interface IAttendeesScreen
+export interface AttendeesScreen
   extends StackScreenProps<AppStackParamList, "Attendees"> {}
 
-export const AttendeesScreen = ({ navigation }: IAttendeesScreen) => {
+export const AttendeesScreen = ({ navigation }: AttendeesScreen) => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Attendees</Text>

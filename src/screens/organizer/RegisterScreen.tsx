@@ -3,10 +3,10 @@ import { Button, View, Text, StyleSheet } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
 import { OrganizerTabParamList } from "common/types";
 
-export interface IRegisterScreen
+export interface RegisterScreen
   extends StackScreenProps<OrganizerTabParamList, "Register Id"> {}
 
-export const RegisterScreen = ({ navigation }: IRegisterScreen) => {
+export const RegisterScreen = ({ navigation }: RegisterScreen) => {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Text style={styles.primary}>Register</Text>
