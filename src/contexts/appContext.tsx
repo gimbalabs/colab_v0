@@ -5,18 +5,19 @@
  */
 import * as React from "react";
 import {
-  IAppState,
-  IAppContext,
-  IAppContextProvider,
+  AppState,
+  AppContextState,
+  AppContextProviderProps,
 } from "interfaces/appInterface";
+import { AppActions, Types } from "common/types/appTypes";
 
-const initialAppState: IAppState = {
+const initialAppState: AppState = {
   authentication: true,
 };
 
-const reducer = (state, action) => {
+const reducer = (state: AppState, action: AppActions) => {
   switch (action.type) {
-    case "TOGGLE_AUTH":
+    case Types.ToggleAuth:
       return {
         authentication: !state.authentication,
       };
@@ -25,12 +26,12 @@ const reducer = (state, action) => {
   }
 };
 
-export const AppContext = React.createContext<IAppContext>({
+export const AppContext = React.createContext<AppContextState>({
   state: initialAppState,
   dispatch: () => null,
 });
 
-export const AppContextProvider = ({ children }: IAppContextProvider) => {
+export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   const [state, dispatch] = React.useReducer(reducer, initialAppState);
 
   return (

@@ -7,7 +7,7 @@ import {
 } from "screens/organizer/index";
 import { ProfileContextProvider } from "contexts/profileContext";
 import { createStackNavigator } from "@react-navigation/stack";
-import { OrganizerTabParamList } from "common/types";
+import { OrganizerTabParamList } from "common/types/navigationTypes";
 
 const Tab = createStackNavigator<OrganizerTabParamList>();
 

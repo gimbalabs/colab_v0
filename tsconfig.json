@@ -19,7 +19,8 @@
       "lib/*": ["./src/lib/*"],
       "interfaces/*": ["./src/common/interfaces/*"],
       "screens/*": ["./src/screens/*"],
-      "tabs/*": ["./src/tabs/*"]
+      "tabs/*": ["./src/tabs/*"],
+      "types/*": ["./src/common/types*"]
     }
   },
   "exclude": [

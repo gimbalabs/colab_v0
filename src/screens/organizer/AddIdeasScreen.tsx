@@ -11,12 +11,12 @@ import {
 import { AddIdea } from "components/Ideas/AddIdea";
 import { IdeaList } from "components/Ideas/IdeaList";
 import { StackScreenProps } from "@react-navigation/stack";
-import { OrganizerTabParamList } from "common/types";
+import { OrganizerTabParamList } from "common/types/navigationTypes";
 
-export interface IAddIdeasScreen
+export interface AddIdeasScreen
   extends StackScreenProps<OrganizerTabParamList, "Add Ideas"> {}
 
-export const AddIdeasScreen = ({ navigation }: IAddIdeasScreen) => {
+export const AddIdeasScreen = ({ navigation }: AddIdeasScreen) => {
   const [data, setData] = useState<object[]>([]);
 
   const submitHandler = (value: string) => {

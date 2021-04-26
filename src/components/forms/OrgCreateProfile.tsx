@@ -4,9 +4,9 @@ import { Button, SafeAreaView, StyleSheet } from "react-native";
 import { CustomInput } from "../forms/CustomInput";
 import { Formik, Field } from "formik";
 import { ProfileContext } from "contexts/profileContext";
-import { IOrganizerForm } from "common/interfaces/organizerFormInterface";
+import { OrganizerForm } from "common/interfaces/organizerFormInterface";
 
-export interface IOrgCreateProfile {}
+export interface OrgCreateProfile {}
 
 export const OrgCreateProfile = () => {
   const { alias, setAlias } = React.useContext(ProfileContext);
@@ -25,7 +25,7 @@ export const OrgCreateProfile = () => {
     imageURL,
     timeBlockCostADA,
     timeBlockLengthMin,
-  }: IOrganizerForm): void => {
+  }: OrganizerForm): void => {
     alias && setAlias(alias);
     aboutURL && setAboutURL(aboutURL);
     imageURL && setImageURL(imageURL);
@@ -44,7 +44,7 @@ export const OrgCreateProfile = () => {
           timeBlockCostADA: "",
           timeBlockLengthMin: "",
         }}
-        onSubmit={(values: IOrganizerForm) => updateBioContext(values)}
+        onSubmit={(values: OrganizerForm) => updateBioContext(values)}
       >
         {({ handleSubmit, isValid }) => (
           <>

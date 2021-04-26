@@ -1,13 +1,13 @@
 import * as React from "react";
 import { View, Button, Text, StyleSheet, Switch } from "react-native";
-import { AppStackParamList } from "common/types";
+import { AppStackParamList } from "common/types/navigationTypes";
 import { StackScreenProps } from "@react-navigation/stack";
 import { AppContext } from "contexts/appContext";
 
-export interface IHomeScreen
+export interface HomeScreen
   extends StackScreenProps<AppStackParamList, "Home"> {}
 
-export const HomeScreen = ({ navigation }: IHomeScreen) => {
+export const HomeScreen = ({ navigation }: HomeScreen) => {
   const { state, dispatch } = React.useContext(AppContext);
 
   return (

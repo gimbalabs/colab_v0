@@ -1,7 +1,7 @@
 import * as React from "react";
 import { TextInput, Text, StyleSheet } from "react-native";
 
-export interface ICustomInput {
+export interface CustomInput {
   field: {};
   form: {};
   name: string;

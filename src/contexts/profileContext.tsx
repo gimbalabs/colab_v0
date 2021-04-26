@@ -17,13 +17,14 @@ export const initialState: BioState = {
   setTimeBlockLengthMin: () => {},
   setTimeBlockCostADA: () => {},
 };
-export const ProfileContext = createContext<BioState>(initialState);
 
-export interface IContextProvider {
+export interface ContextProvider {
   children: React.ReactNode;
 }
 
-export const ProfileContextProvider = ({ children }: IContextProvider) => {
+export const ProfileContext = createContext<BioState>(initialState);
+
+export const ProfileContextProvider = ({ children }: ContextProvider) => {
   const [alias, setAlias] = useState<string>("");
   const [aboutURL, setAboutURL] = useState<string>("");
   const [imageURL, setImageURL] = useState<string>("");
