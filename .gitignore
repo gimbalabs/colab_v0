@@ -3,10 +3,7 @@ node_modules
 .vscode
 .DS_store
 .build
-<<<<<<< HEAD
-=======
 packages_cache
 package-lock.json
 yarn.lock
 yarn-error.log*
->>>>>>> 797d02435c0764f029e8a7901af8874868ce0045
