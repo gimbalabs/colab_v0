@@ -1,7 +1,6 @@
 import * as React from "react";
 import {
   CalendarEventsList,
-  CalendarEventsDetail,
   CalendarHeader,
   MainCalendar,
   MonthlyDay,
@@ -10,5 +9,11 @@ import {
 } from "components/calendar";
 
 export const MyCalendar = () => {
-  return <></>;
+  return (
+    <CalendarWrapper>
+      <CalendarHeader></CalendarHeader>
+      <MainCalendar></MainCalendar>
+      <CalendarEventsList></CalendarEventsList>
+    </CalendarWrapper>
+  );
 };

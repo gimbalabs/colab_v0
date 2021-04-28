@@ -1,5 +1,5 @@
 import * as React from "react";
 
-export const WeekDays = () => {
+export const WeekDayNames = () => {
   return <></>;
 };
