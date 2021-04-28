@@ -9,11 +9,7 @@ import {
   AppContextState,
   AppContextProviderProps,
 } from "interfaces/appInterface";
-<<<<<<< HEAD
-import { AppActions } from "common/types/appTypes";
-=======
 import { AppActions, Types } from "common/types/appTypes";
->>>>>>> 5b5b035736c417960a694a3b62ff1889f2df44f1
 
 const initialAppState: AppState = {
   authentication: true,
