@@ -1,6 +1,6 @@
-# GimbaLabs ticketing Prototype
-A mobile first ticketing app for event starters and fans of the arts and decentralization
-  
+# First Proof of Concept for "Event Ticketing"
+This Dapp allows "Organizers" to create events with exactly one ticket each, and "Attendees" to book time with Organizers.
+
 A collaborative application built by the Gimbalabs team featuring decentralized technologies from Web3 that we're really excited about
 
 ## Usage
