@@ -48,15 +48,17 @@ const reducer = (state: MyCalendarState, action: MyCalendarActions) => {
         ...state,
       };
     case MyCalendarTypes.AddAvailability:
-      // TODO: Check before sending a dispatch if the availability already exists
+      // TODO: Check before dispatching if user availability already exists
       action.payload.availabilities.forEach((availability) => {
         state.myAvailabilities.push(availability);
       });
       return {
         ...state,
       };
+    case MyCalendarTypes.ResetState:
+      return initialState;
     default:
-      throw Error(`Unknow type of action: ${action.type}`);
+      throw Error(`Unknown type of action: ${action.type}`);
   }
 };
 
