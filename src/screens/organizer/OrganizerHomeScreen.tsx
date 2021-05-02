@@ -4,11 +4,10 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { OrganizerTabParamList } from "common/types/navigationTypes";
 import { AppContext } from "contexts/appContext";
 
-export interface OrganizerHomeScreen
+export interface OrganizerHomeProps
   extends StackScreenProps<OrganizerTabParamList, "Organizer"> {}
 
-
-export const OrganizerHomeScreen = ({ navigation }: OrganizerHomeScreen) => {
+export const OrganizerHomeScreen = ({ navigation }: OrganizerHomeProps) => {
   const { state } = React.useContext(AppContext);
 
   return (

@@ -6,7 +6,7 @@ import { Formik, Field } from "formik";
 import { ProfileContext } from "contexts/profileContext";
 import { OrganizerForm } from "common/interfaces/organizerFormInterface";
 
-export interface OrgCreateProfile {}
+export interface OrgCreateProfileProps {}
 
 export const OrgCreateProfile = () => {
   const { alias, setAlias } = React.useContext(ProfileContext);

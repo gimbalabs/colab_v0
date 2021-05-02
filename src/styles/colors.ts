@@ -88,7 +88,7 @@ export const shadeColor = (hexColor: string, percent: number): string => {
   };
 
   const toHex = (gamut: number): string => {
-    var hex = gamut.toString(16);
+    const hex = gamut.toString(16);
     return hex.length === 1 ? `0${hex}` : hex;
   };
 
