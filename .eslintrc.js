@@ -10,4 +10,5 @@ module.exports = {
       allowSeparatedGroups: false,
     },
   ],
+  plugins: ["react", "react-native"],
 };

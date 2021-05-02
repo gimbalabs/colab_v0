@@ -6,10 +6,10 @@
 import * as React from "react";
 import {
   AppState,
-  AppContextState,
   AppContextProviderProps,
+  AppContextProps,
 } from "interfaces/appInterface";
-import { AppActions, Types } from "common/types/appTypes";
+import { AppActions, AppTypes } from "common/types/contextTypes";
 
 const initialAppState: AppState = {
   authentication: true,
@@ -17,7 +17,7 @@ const initialAppState: AppState = {
 
 const reducer = (state: AppState, action: AppActions) => {
   switch (action.type) {
-    case Types.ToggleAuth:
+    case AppTypes.ToggleAuth:
       return {
         authentication: !state.authentication,
       };
@@ -26,7 +26,7 @@ const reducer = (state: AppState, action: AppActions) => {
   }
 };
 
-export const AppContext = React.createContext<AppContextState>({
+export const AppContext = React.createContext<AppContextProps>({
   state: initialAppState,
   dispatch: () => null,
 });
