@@ -10,9 +10,7 @@ export interface AppContextProviderProps {
   children: React.ReactNode;
 }
 
-export interface AppContextState {
+export interface AppContextProps {
   state: AppState;
   dispatch: React.Dispatch<any>;
 }
-
-export interface ActionMap<M extends { [index: string]: any }> {}

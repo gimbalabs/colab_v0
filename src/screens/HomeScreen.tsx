@@ -1,71 +1,81 @@
 import * as React from "react";
-import { View, Button, Text, StyleSheet, Switch } from "react-native";
+import {
+  SafeAreaView,
+  View,
+  Text,
+  Pressable,
+  StyleSheet,
+  Switch,
+} from "react-native";
 import { AppStackParamList } from "common/types/navigationTypes";
 import { StackScreenProps } from "@react-navigation/stack";
 import { AppContext } from "contexts/appContext";
+import { Colors, Buttons, Typography, Sizing } from "styles/index";
+// import { SafeAreaView } from "react-native-safe-area-context";
 
-export interface HomeScreen
+export interface HomeProps
   extends StackScreenProps<AppStackParamList, "Home"> {}
 
-export const HomeScreen = ({ navigation }: HomeScreen) => {
+export const HomeScreen = ({ navigation }: HomeProps) => {
   const { state, dispatch } = React.useContext(AppContext);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "green" }}>
       <View style={styles.header}>
-        <View style={{ alignItems: "center" }}>
+        <View style={styles.switch}>
           <Switch
             trackColor={{ false: "#3e3e3e", true: "#37a524" }}
-            thumbColor={"#f4f3f4"}
+            thumbColor="#f4f3f4"
             ios_backgroundColor="#3e3e3e"
             onValueChange={() => dispatch({ type: "TOGGLE_AUTH" })}
             value={state.authentication}
           />
-          <Text
-            style={{
-              textAlign: "center",
-              paddingVertical: 10,
-            }}
-          >
-            {state.authentication ? "AUTH" : "NO-AUTH"}
-          </Text>
+          <Text>{state.authentication ? "AUTH" : "NO-AUTH"}</Text>
         </View>
       </View>
       <Text style={styles.header}>Colab Home Screen</Text>
-      <View style={{ marginVertical: 10, width: "50%" }}>
-        <Button
-          title="Organizers"
-          onPress={() => navigation.navigate("Organizer")}
-        />
+      <View>
+        <Pressable onPress={() => navigation.navigate("Organizer")}>
+          <Text>Organizer</Text>
+        </Pressable>
       </View>
-      <View style={{ marginVertical: 10, width: "50%" }}>
-        <Button
-          title="Attendees"
-          onPress={() => navigation.navigate("Attendees")}
-        />
+      <View>
+        <Pressable onPress={() => navigation.navigate("Attendees")}>
+          <Text>Attendees</Text>
+        </Pressable>
       </View>
-      <View style={{ marginVertical: 10, width: "50%" }}>
-        <Button title="Browse" onPress={() => navigation.navigate("Browse")} />
+      <View>
+        <Pressable onPress={() => navigation.navigate("Browse")}>
+          <Text>Browse</Text>
+        </Pressable>
       </View>
-      <View style={{ marginVertical: 10, width: "50%" }}>
-        <Button
-          title="My Calendar"
-          onPress={() => navigation.navigate("My Calendar")}
-        />
+      <View>
+        <Pressable
+          style={styles.button}
+          onPress={() => navigation.navigate("My Calendar")}>
+          <Text>My Calendar</Text>
+        </Pressable>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    // paddingHorizontal: Sizing.x30,
+    // paddingHorizontal: Sizing.x10,
+    // paddingVertical: Sizing.x10,
+    // margin: Sizing.x20,
   },
   header: {
-    marginBottom: 50,
-    fontSize: 28,
-    textAlign: "center",
+    backgroundColor: "yellow",
+  },
+  headerText: {},
+  button: {},
+  switch: {
+    alignItems: "center",
+    flexDirection: "row-reverse",
+    alignContent: "center",
   },
 });

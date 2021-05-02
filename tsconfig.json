@@ -10,6 +10,7 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
+    "isolatedModules": true,
     "moduleResolution": "node",
     "paths": {
       "common/*": ["./src/common/*"],
@@ -19,6 +20,7 @@
       "lib/*": ["./src/lib/*"],
       "interfaces/*": ["./src/common/interfaces/*"],
       "screens/*": ["./src/screens/*"],
+      "styles/*": ["./src/styles/*"],
       "tabs/*": ["./src/tabs/*"],
       "types/*": ["./src/common/types*"]
     }

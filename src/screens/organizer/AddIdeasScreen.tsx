@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   Button,
-  SafeAreaView,
   View,
   Text,
   StyleSheet,
@@ -13,10 +12,10 @@ import { IdeaList } from "components/Ideas/IdeaList";
 import { StackScreenProps } from "@react-navigation/stack";
 import { OrganizerTabParamList } from "common/types/navigationTypes";
 
-export interface AddIdeasScreen
+export interface AddIdeasProps
   extends StackScreenProps<OrganizerTabParamList, "Add Ideas"> {}
 
-export const AddIdeasScreen = ({ navigation }: AddIdeasScreen) => {
+export const AddIdeasScreen = ({ navigation }: AddIdeasProps) => {
   const [data, setData] = useState<object[]>([]);
 
   const submitHandler = (value: string) => {
@@ -33,9 +32,7 @@ export const AddIdeasScreen = ({ navigation }: AddIdeasScreen) => {
   };
 
   return (
-    <SafeAreaView
-      style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-    >
+    <View>
       <Text style={styles.primary}>IDEAS</Text>
       <Text style={styles.detail}>
         "Ideas" are how Organizers share their current interests with the
@@ -63,7 +60,7 @@ export const AddIdeasScreen = ({ navigation }: AddIdeasScreen) => {
         onPress={() => navigation.popToTop()}
         color="#05269f"
       />
-    </SafeAreaView>
+    </View>
   );
 };
 

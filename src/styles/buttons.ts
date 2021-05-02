@@ -1,16 +1,16 @@
 import { TextStyle, ViewStyle, PressableStateCallbackType } from "react-native";
 
 import * as Colors from "./colors";
-import * as Sizing from "./sizing";
 import * as Outlines from "./outlines";
-import * as Typography from "./Typography";
+import * as Sizing from "./sizing";
+import * as Typography from "./typography";
 
 type Bar = "primary" | "secondary";
 export const bar: Record<Bar, ViewStyle> = {
   primary: {
     alignItems: "center",
     justifyContent: "center",
-    padding: Sizing.layout.x30,
+    padding: Sizing.x30,
     borderRadius: Outlines.borderRadius.base,
     backgroundColor: Colors.primary.brand,
   },
@@ -18,7 +18,7 @@ export const bar: Record<Bar, ViewStyle> = {
     alignItems: "center",
     alignSelf: "center",
     justifyContent: "center",
-    padding: Sizing.layout.x10,
+    padding: Sizing.x10,
     borderRadius: Outlines.borderRadius.base,
   },
 };
@@ -40,8 +40,8 @@ export const barText: Record<BarText, TextStyle> = {
 type Circular = "primary";
 export const circular: Record<Circular, ViewStyle> = {
   primary: {
-    height: Sizing.layout.x30,
-    width: Sizing.layout.x30,
+    height: Sizing.x30,
+    width: Sizing.x30,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: Colors.primary.brand,

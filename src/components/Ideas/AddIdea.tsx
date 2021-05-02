@@ -7,11 +7,11 @@ import {
   StyleSheet,
 } from "react-native";
 
-export interface AddIdea {
+export interface AddIdeaProps {
   submitHandler: (arg: string) => void;
 }
 
-export const AddIdea = ({ submitHandler }: AddIdea) => {
+export const AddIdea = ({ submitHandler }: AddIdeaProps) => {
   const [value, setValue] = useState<string>("");
 
   const onChangeText = (text: string) => {

@@ -3,12 +3,12 @@ import { View, Button, Text, StyleSheet } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
 import { AppStackParamList } from "common/types/navigationTypes";
 
-export interface BrowseScreen
+export interface BrowseProps
   extends StackScreenProps<AppStackParamList, "Browse"> {
   children: React.ReactNode;
 }
 
-export const BrowseScreen = ({ navigation }: BrowseScreen) => {
+export const BrowseScreen = ({ navigation }: BrowseProps) => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Browse</Text>
