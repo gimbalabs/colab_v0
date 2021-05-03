@@ -1,8 +1,9 @@
 import * as React from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Text, Pressable, StyleSheet, SafeAreaView } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
 import { OrganizerTabParamList } from "common/types/navigationTypes";
 import { AppContext } from "contexts/appContext";
+import { Buttons, Outlines, Typography, Sizing, Colors } from "styles";
 
 export interface OrganizerHomeProps
   extends StackScreenProps<OrganizerTabParamList, "Organizer"> {}
@@ -11,44 +12,61 @@ export const OrganizerHomeScreen = ({ navigation }: OrganizerHomeProps) => {
   const { state } = React.useContext(AppContext);
 
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text style={styles.primary}>Organizer</Text>
-      <Text style={styles.primary}>Cºl⍺b</Text>
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Organizer</Text>
+        <Text style={styles.headerText}>Cºl⍺b</Text>
 
-      {state.authentication ? (
-        <>
-          <View style={[{ width: "50%", margin: 10 }]}>
-            <Button
-              title="2: Add Profile"
-              onPress={() => navigation.navigate("Add Bio")}
-              color="#05269f"
-            />
-          </View>
+        {state.authentication ? (
+          <>
+            <View style={styles.body}>
+              <Pressable
+                style={Buttons.applyOpacity(styles.button)}
+                onPress={() => navigation.navigate("Add Bio")}>
+                <Text style={styles.buttonText}>Add Bio</Text>
+              </Pressable>
 
-          <View style={[{ width: "50%", margin: 10 }]}>
-            <Button
-              title="3: Add Ideas"
-              onPress={() => navigation.navigate("Add Ideas")}
-              color="#05269f"
-            />
+              <Pressable
+                style={Buttons.applyOpacity(styles.button)}
+                onPress={() => navigation.navigate("Add Ideas")}>
+                <Text style={styles.buttonText}>Add Ideas</Text>
+              </Pressable>
+            </View>
+          </>
+        ) : (
+          <View style={styles.body}>
+            <Pressable
+              style={Buttons.applyOpacity(styles.button)}
+              onPress={() => navigation.push("Register Id")}>
+              <Text style={styles.buttonText}>Register as Organizer</Text>
+            </Pressable>
           </View>
-        </>
-      ) : (
-        <View style={[{ width: "50%", margin: 10 }]}>
-          <Button
-            title="1: Register as Organizer"
-            onPress={() => navigation.push("Register Id")}
-            color="#05269f"
-          />
-        </View>
-      )}
-    </View>
+        )}
+      </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  primary: {
-    fontSize: 30,
-    margin: 20,
+  safeArea: { flex: 1 },
+  header: {
+    alignItems: "center",
+    marginVertical: Sizing.x100,
+  },
+  headerText: {
+    ...Typography.header.x50,
+  },
+  body: {
+    marginTop: Sizing.x40,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  button: {
+    ...Buttons.bar.secondary,
+    width: Sizing.x120,
+    marginVertical: Sizing.x15,
+  },
+  buttonText: {
+    ...Buttons.barText.primary,
   },
 });

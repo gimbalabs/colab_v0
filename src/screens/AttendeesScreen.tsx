@@ -1,37 +1,67 @@
 import * as React from "react";
-import { View, Button, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, SafeAreaView, Pressable } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
 import { AppStackParamList } from "common/types/navigationTypes";
+import { Colors, Buttons, Typography, Sizing, Outlines } from "styles";
 
 export interface AttendeesProps
   extends StackScreenProps<AppStackParamList, "Attendees"> {}
 
 export const AttendeesScreen = ({ navigation }: AttendeesProps) => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Attendees</Text>
-      <View style={{ marginVertical: 10, width: "50%" }}>
-        <Button title="How it Works" onPress={() => {}} />
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Attendees</Text>
       </View>
-      <View style={{ marginVertical: 10, width: "50%" }}>
-        <Button title="Create Account" onPress={() => {}} />
+      <View style={styles.body}>
+        <Pressable
+          style={Buttons.applyOpacity(styles.button)}
+          onPress={() => {}}>
+          <Text style={styles.buttonText}>How it works</Text>
+        </Pressable>
+        <Pressable
+          style={Buttons.applyOpacity(styles.button)}
+          onPress={() => navigation.navigate("Attendees")}>
+          <Text style={styles.buttonText}>Create Account</Text>
+        </Pressable>
+        <Pressable
+          style={Buttons.applyOpacity(styles.button)}
+          onPress={() => navigation.navigate("Browse")}>
+          <Text style={styles.buttonText}>Browse</Text>
+        </Pressable>
       </View>
-      <View style={{ marginVertical: 10, width: "50%" }}>
-        <Button title="Browse" onPress={() => navigation.navigate("Browse")} />
-      </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+  },
+  top: {
+    margin: Sizing.x10,
   },
   header: {
-    marginBottom: 50,
-    fontSize: 28,
-    textAlign: "center",
+    marginTop: Sizing.x20,
+    marginBottom: Sizing.x60,
+    padding: Sizing.x20,
+  },
+  headerText: {
+    ...Typography.header.x60,
+    marginHorizontal: Sizing.x5,
+    marginTop: Sizing.x40,
+    alignSelf: "center",
+  },
+  body: {
+    alignItems: "center",
+  },
+  button: {
+    ...Buttons.bar.primary,
+    ...Outlines.shadow.base,
+    width: Sizing.x130,
+    margin: Sizing.x10,
+  },
+  buttonText: {
+    ...Buttons.barText.primary,
   },
 });
