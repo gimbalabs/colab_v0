@@ -68,5 +68,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     ...Buttons.barText.primary,
+    textAlign: "center",
   },
 });
