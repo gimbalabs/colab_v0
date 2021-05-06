@@ -1,5 +1,7 @@
 Feature: User Onboarding
 
+    Is there educational value in intentionally adding inconvenience to this process?
+
     Scenario: User chooses Role
         When the User opens the app for the first time
         Then the User chooses to onboard as an Organizer or as an Attendee
@@ -7,10 +9,15 @@ Feature: User Onboarding
         # ie. Can an Organizer do everything an Attendee can do, plus?
 
     Scenario: User onboarding and Authentication
-        When the User has choses a Role
+        When the User has chosen a Role
         Then the User is guided through the Registration Experience
         # Registration Experience -> Feature
         And the User receives an Authentication token
+
+    Scenario: Viewing Authentication Token
+        Given the User has an Authenticated Role
+        When the User navigates to Authentication component
+        Then the User can view their Authentication token(s)
 
     Scenario: User returns to app
         Given the User has an Authenticated Role
@@ -19,7 +26,7 @@ Feature: User Onboarding
 
 
 # Organizers
-Feature: Organizer Experience
+Feature: Organizer Identity
 
     Scenario: Organizer creates an Organizer Profile
         Given I have an Authentication token
@@ -68,9 +75,30 @@ Feature: Attendee Experience
         by Ideas
 
     Scenario: Booking Event
+        Given User is Authenticated and has sufficient funds in Wallet
 
     Scenario: Attending Event
 
     Scenario: View Calendar
 
     # Can Attendees list Ideas? Can Organizers browse for Attendees?
+
+# Wallet
+# Is the Wallet the same for both roles?
+Feature: User Wallet
+
+    Scenario: User navigates to Wallet component
+
+    Scenario: User generates receive address ADA
+
+    Scenario: User deposits ADA
+
+    Scenario: Attendee pays ADA to Organizer
+
+    Scenario: Organizer collects ADA from Attendee
+
+    Scenario: User sends ADA to address
+
+    # Not sure if this is in scope, and depends on how tickets are represented
+    Scenario: Organizer views time tokens
+
