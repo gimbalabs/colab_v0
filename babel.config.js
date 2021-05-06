@@ -16,7 +16,7 @@ module.exports = function (api) {
             lib: "./src/lib",
             interfaces: "./src/common/interfaces",
             screens: "./src/screens",
-            styles: "./src/styles",
+            styles: "./src/styles/index",
             tabs: "./src/tabs",
             types: "./src/common/types",
           },

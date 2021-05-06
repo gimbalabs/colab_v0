@@ -1,20 +1,18 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { Colors, Typography, Sizing } from "styles";
 
 export const IdeaList = ({ item }: any) => {
   return (
-    <View>
-      <Text style={styles.ideaItem}>{item.value}</Text>
+    <View style={styles.ideaItem}>
+      <Text style={styles.ideaText}>{item.value}</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   ideaItem: {
-    backgroundColor: "#05269f",
-    width: 300,
-    padding: 10,
-    margin: 10,
-    color: "white",
+    width: "80%",
   },
+  ideaText: {},
 });

@@ -1,65 +1,65 @@
-import React, { useState } from "react";
+import * as React from "react";
 import {
   View,
   TextInput,
   Text,
-  TouchableOpacity,
   StyleSheet,
+  SafeAreaView,
+  Pressable,
 } from "react-native";
+import { Forms, Buttons, Colors, Outlines, Typography, Sizing } from "styles";
 
 export interface AddIdeaProps {
   submitHandler: (arg: string) => void;
 }
 
 export const AddIdea = ({ submitHandler }: AddIdeaProps) => {
-  const [value, setValue] = useState<string>("");
+  const [value, setValue] = React.useState<string>("");
 
   const onChangeText = (text: string) => {
     setValue(text);
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.inputText}
-          placeholder="Add an Idea..."
-          onChangeText={onChangeText}
-        />
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.container}>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.inputText}
+            placeholder="Add an Idea..."
+            placeholderTextColor={Colors.neutral.s500}
+            onChangeText={onChangeText}
+          />
+        </View>
+        <Pressable
+          style={Buttons.applyOpacity(styles.submitButton)}
+          onPress={() => {
+            submitHandler(value);
+          }}>
+          <Text style={styles.submitButtonText}>Submit</Text>
+        </Pressable>
       </View>
-      <TouchableOpacity
-        onPress={() => {
-          submitHandler(value);
-        }}
-      >
-        <Text style={styles.inputButton}>Submit</Text>
-      </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: { flex: 1 },
   container: {
-    flexDirection: "column",
-    borderStyle: "solid",
-    borderWidth: 2,
-    borderRadius: 10,
-    padding: 10,
+    margin: Sizing.x20,
+    alignItems: "center",
   },
   inputContainer: {
-    flexDirection: "row",
-    padding: 2,
+    width: "80%",
   },
   inputText: {
-    fontSize: 20,
-    margin: "auto",
-    padding: 10,
-    borderRadius: 10,
+    ...Forms.input.primary,
   },
-  inputButton: {
-    backgroundColor: "#05269f",
-    color: "white",
-    padding: 10,
-    margin: 5,
+  submitButton: {
+    marginTop: Sizing.x15,
+    ...Buttons.bar.small,
+  },
+  submitButtonText: {
+    ...Buttons.barText.small,
   },
 });

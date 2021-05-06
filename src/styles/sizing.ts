@@ -1,9 +1,11 @@
 import { useWindowDimensions } from "react-native";
 
 type Screen = "height" | "width";
-export const screen: Record<Screen, number> = {
-  height: useWindowDimensions().height,
-  width: useWindowDimensions().width,
+export const screen = (): Record<Screen, number> => {
+  return {
+    height: useWindowDimensions().height,
+    width: useWindowDimensions().width,
+  };
 };
 
 type Layout =

@@ -52,8 +52,9 @@ export const fontWeight: Record<FontWeight, TextStyle> = {
   },
 };
 
-type LetterSpacing = "x30" | "x40";
+type LetterSpacing = "x20" | "x30" | "x40";
 export const letterSpacing: Record<LetterSpacing, number> = {
+  x20: 1,
   x30: 2,
   x40: 3,
 };

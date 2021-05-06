@@ -1,22 +1,23 @@
-import React, { useState } from "react";
+import * as React from "react";
 import {
-  Button,
   View,
   Text,
   StyleSheet,
-  StatusBar,
   FlatList,
+  SafeAreaView,
+  Pressable,
 } from "react-native";
 import { AddIdea } from "components/Ideas/AddIdea";
 import { IdeaList } from "components/Ideas/IdeaList";
 import { StackScreenProps } from "@react-navigation/stack";
 import { OrganizerTabParamList } from "common/types/navigationTypes";
+import { Buttons, Colors, Outlines, Typography, Sizing, Forms } from "styles";
 
 export interface AddIdeasProps
   extends StackScreenProps<OrganizerTabParamList, "Add Ideas"> {}
 
 export const AddIdeasScreen = ({ navigation }: AddIdeasProps) => {
-  const [data, setData] = useState<object[]>([]);
+  const [data, setData] = React.useState<object[]>([]);
 
   const submitHandler = (value: string) => {
     setData((prevTodo) => {
@@ -32,45 +33,51 @@ export const AddIdeasScreen = ({ navigation }: AddIdeasProps) => {
   };
 
   return (
-    <View>
-      <Text style={styles.primary}>IDEAS</Text>
-      <Text style={styles.detail}>
-        "Ideas" are how Organizers share their current interests with the
-        community
-      </Text>
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>IDEAS</Text>
+        <Text style={styles.subHeader}>
+          "Ideas" are how Organizers share their current interests with the
+          community
+        </Text>
+      </View>
       <AddIdea submitHandler={submitHandler} />
-      <View>
-        <StatusBar barStyle="light-content" backgroundColor="midnightblue" />
+      <View style={styles.ideasView}>
+        <View style={styles.ideasList}>
+          <FlatList
+            data={data}
+            renderItem={({ item }) => <IdeaList item={item} />}
+          />
+        </View>
       </View>
-
-      <Text style={styles.primary}>My Ideas</Text>
-      <View>
-        <FlatList
-          data={data}
-          renderItem={({ item }) => <IdeaList item={item} />}
-        />
+      <View style={styles.bottom}>
+        <Pressable onPress={() => navigation.popToTop()}>
+          <Text style={styles.bottomButtonText}>Back to menu</Text>
+        </Pressable>
       </View>
-
-      <Text style={styles.detail}>
-        Need to add UPDATE and DELETE functionality. See:
-        https://dev.to/reenydavidson/building-a-to-do-list-with-react-native-and-styled-components-2148
-      </Text>
-      <Button
-        title="Go back to Menu"
-        onPress={() => navigation.popToTop()}
-        color="#05269f"
-      />
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  primary: {
-    fontSize: 30,
-    margin: 20,
+  safeArea: { flex: 1 },
+  header: {
+    marginTop: Sizing.x20,
+    marginHorizontal: Sizing.x20,
   },
-  detail: {
-    fontSize: 15,
-    margin: 25,
+  headerText: {
+    ...Typography.header.x50,
+    margin: Sizing.x10,
   },
+  subHeader: {
+    margin: Sizing.x10,
+    ...Typography.body.x30,
+  },
+  ideasView: {
+    marginHorizontal: Sizing.x20,
+  },
+  ideasViewHeader: {},
+  ideasList: {},
+  bottom: {},
+  bottomButtonText: {},
 });

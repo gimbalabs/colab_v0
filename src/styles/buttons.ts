@@ -5,12 +5,12 @@ import * as Outlines from "./outlines";
 import * as Sizing from "./sizing";
 import * as Typography from "./typography";
 
-type Bar = "primary" | "secondary";
+type Bar = "primary" | "secondary" | "transparent" | "small";
 export const bar: Record<Bar, ViewStyle> = {
   primary: {
     alignItems: "center",
     justifyContent: "center",
-    padding: Sizing.x30,
+    padding: Sizing.x15,
     borderRadius: Outlines.borderRadius.base,
     backgroundColor: Colors.primary.brand,
   },
@@ -20,13 +20,40 @@ export const bar: Record<Bar, ViewStyle> = {
     justifyContent: "center",
     padding: Sizing.x10,
     borderRadius: Outlines.borderRadius.base,
+    backgroundColor: Colors.secondary.brand,
+  },
+  transparent: {
+    alignItems: "center",
+    alignSelf: "center",
+    justifyContent: "center",
+    padding: Sizing.x10,
+    borderRadius: Outlines.borderRadius.base,
+  },
+  small: {
+    alignItems: "center",
+    alignSelf: "center",
+    justifyContent: "center",
+    padding: Sizing.x10,
+    borderRadius: Outlines.borderRadius.base,
+    backgroundColor: Colors.primary.s200,
   },
 };
 
-type BarText = "primary" | "secondary";
+// text style for each bar (button) type above
+type BarText = "primary" | "secondary" | "transparent" | "small";
 export const barText: Record<BarText, TextStyle> = {
   primary: {
     ...Typography.fontSize.x30,
+    ...Typography.fontWeight.semibold,
+    color: Colors.neutral.white,
+  },
+  transparent: {
+    ...Typography.fontSize.x20,
+    ...Typography.fontWeight.regular,
+    color: Colors.neutral.s800,
+  },
+  small: {
+    ...Typography.fontSize.x20,
     ...Typography.fontWeight.semibold,
     color: Colors.neutral.white,
   },

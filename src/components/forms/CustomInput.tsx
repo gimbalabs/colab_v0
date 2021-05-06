@@ -1,24 +1,28 @@
-import * as React from "react";
-import { TextInput, Text, StyleSheet } from "react-native";
+/**
+ *  @description This is a custom form input which can be customized
+ *               by passing props (label, styles, name, etc.)
+ *
+ *               This file doesn't hold any styles declared, as to
+ *               provide flexibility on passing custom styles.
+ */
 
-export interface CustomInputForm {
-  field: {};
-  form: {};
-  name: string;
-  value: string;
-}
+import * as React from "react";
+import { TextInput, Text, View } from "react-native";
+
+export interface CustomInputProps {}
 
 export const CustomInput = (props: any) => {
   const {
     field: { onChange, name, onBlur, value },
     form: { errors, touched, setFieldTouched },
+    styles,
     ...inputProps
   } = props;
 
   const hasError = errors[name] && touched[name];
 
   return (
-    <>
+    <View style={styles.inputWrapper}>
       <Text style={styles.inputLabel}>{props.label}</Text>
       <TextInput
         name={props.name}
@@ -31,24 +35,9 @@ export const CustomInput = (props: any) => {
         }}
         {...inputProps}
       />
-      {hasError && <Text style={styles.errorInput}>{errors[name]}</Text>}
-    </>
+      <View style={styles.inputErrorWrapper}>
+        {hasError && <Text style={styles.inputError}>{errors[name]}</Text>}
+      </View>
+    </View>
   );
 };
-
-const styles = StyleSheet.create({
-  input: {
-    height: 40,
-    width: "90%",
-    marginHorizontal: "auto",
-    borderWidth: 1,
-    padding: 5,
-  },
-  errorInput: {
-    fontSize: 14,
-    color: "red",
-  },
-  inputLabel: {
-    paddingVertical: 10,
-  },
-});

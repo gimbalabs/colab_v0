@@ -1,7 +1,8 @@
 import * as React from "react";
+import { FallbackProps } from "react-error-boundary";
 import { SafeAreaView, Text, Pressable, View, StyleSheet } from "react-native";
 
-export const CalendarError = ({ error, resetErrorBoundary }: any) => {
+export const CalendarError = ({ error, resetErrorBoundary }: FallbackProps) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
