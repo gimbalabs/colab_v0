@@ -1,10 +1,17 @@
+# 
+
+# Miro (Playground) -> Gherkin (Project) -> (GitLab <- -> Figma) -> Dapp
+# Andy or OCG will start a Figma
+
+# Next step for project team is to reach consensus on this doc, then test how we take these "Features" and "Scenarios" and translate into actionable Issues / Tasks in GitLab
+
 Feature: User Onboarding
 
     Is there educational value in intentionally adding inconvenience to this process?
 
     Scenario: User chooses Role
         When the User opens the app for the first time
-        Then the User chooses to onboard as an Organizer or as an Attendee
+        Then the User sees options to onboard as an Organizer or as an Attendee
         # Is the Organizer Role a subset of the Attendee Role?
         # ie. Can an Organizer do everything an Attendee can do, plus?
 
