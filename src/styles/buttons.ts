@@ -48,8 +48,8 @@ export const barText: Record<BarText, TextStyle> = {
     color: Colors.neutral.white,
   },
   transparent: {
-    ...Typography.fontSize.x20,
-    ...Typography.fontWeight.regular,
+    ...Typography.fontSize.x30,
+    ...Typography.fontWeight.semibold,
     color: Colors.neutral.s800,
   },
   small: {
