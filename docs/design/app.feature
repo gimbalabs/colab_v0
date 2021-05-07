@@ -5,15 +5,40 @@
 
 # Next step for project team is to reach consensus on this doc, then test how we take these "Features" and "Scenarios" and translate into actionable Issues / Tasks in GitLab
 
+# define Feature
 Feature: User Onboarding
 
     Is there educational value in intentionally adding inconvenience to this process?
 
-    Scenario: User chooses Role
-        When the User opens the app for the first time
-        Then the User sees options to onboard as an Organizer or as an Attendee
-        # Is the Organizer Role a subset of the Attendee Role?
-        # ie. Can an Organizer do everything an Attendee can do, plus?
+    Scenario: User opens App
+        When User opens App
+        Given User does not have Organizer Authentication token
+        Then User sees Landing Screen
+        And User is given option to register as an Organizer or to browse events as an Attendee
+        And User is given option to Learn More
+
+    Scenario: User chooses to Learn More
+        When User presses Learn More
+
+    Scenario: User chooses to register as an Organizer
+
+    Scenario: Organizer opens App
+        When User opens App
+        Given User has an Organizer Authentication Token
+        Then User is presented with Organizer Dashboard
+
+    Scenario: Organizer views Home Screen
+        When Organizer visits Organizer Dashboard
+        Then Organizer component with list of their upcoming Scheduled Meetings
+        And Organizer sees component with Interface for changing available Time
+        And Organizer sees option to browse Meeting Times for other Organizers
+        And Organizer sees option to see current balance
+
+    Scenario: User sees more Role Information
+        When User chooses the option to see more Role Information
+        Given User is on Landing Screen
+        Then User sees a pop-up with more Information about Role
+
 
     Scenario: User onboarding and Authentication
         When the User has chosen a Role
@@ -40,6 +65,8 @@ Feature: Organizer Identity
         # Should there be separate tokens for Organizers vs Attendees?
         When I view Organizer screen
         Then I am prompted to create an Organizer Profile
+
+        # !! We probably should not include an open URL field
 
     Scenario: Organizer lists Ideas
         Given I have an Authenticaion token and an Organizer Profile
