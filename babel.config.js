@@ -14,6 +14,7 @@ module.exports = function (api) {
             containers: "./src/containers",
             contexts: "./src/contexts",
             lib: "./src/lib",
+            icons: "./src/assets/icons",
             interfaces: "./src/common/interfaces",
             screens: "./src/screens",
             styles: "./src/styles/index",
