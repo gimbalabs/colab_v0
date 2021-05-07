@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Colab_v0",
-    "slug": "colab-v0",
+    "name": "1on1",
+    "slug": "1on1",
     "version": "0.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,6 +22,10 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       }
+    },
+    "packagerOpts": {
+      "config": "metro.config.js",
+      "sourceExts": ["js", "jsx", "ts", "tsx", "svg"]
     },
     "web": {
       "favicon": "./assets/favicon.png"
