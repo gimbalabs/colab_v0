@@ -1,12 +1,5 @@
 import * as React from "react";
-import {
-  View,
-  TextInput,
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  Pressable,
-} from "react-native";
+import { View, TextInput, Text, StyleSheet, Pressable } from "react-native";
 import { Forms, Buttons, Colors, Outlines, Typography, Sizing } from "styles";
 
 export interface AddIdeaProps {
@@ -21,30 +14,27 @@ export const AddIdea = ({ submitHandler }: AddIdeaProps) => {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <View style={styles.container}>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.inputText}
-            placeholder="Add an Idea..."
-            placeholderTextColor={Colors.neutral.s500}
-            onChangeText={onChangeText}
-          />
-        </View>
-        <Pressable
-          style={Buttons.applyOpacity(styles.submitButton)}
-          onPress={() => {
-            submitHandler(value);
-          }}>
-          <Text style={styles.submitButtonText}>Submit</Text>
-        </Pressable>
+    <View style={styles.container}>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.inputText}
+          placeholder="Add an Idea..."
+          placeholderTextColor={Colors.neutral.s500}
+          onChangeText={onChangeText}
+        />
       </View>
-    </SafeAreaView>
+      <Pressable
+        style={Buttons.applyOpacity(styles.submitButton)}
+        onPress={() => {
+          submitHandler(value);
+        }}>
+        <Text style={styles.submitButtonText}>Submit</Text>
+      </Pressable>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1 },
   container: {
     margin: Sizing.x20,
     alignItems: "center",
