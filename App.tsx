@@ -1,3 +1,8 @@
+import { LogBox } from "react-native";
+
+// Ignore all log notifications:
+LogBox.ignoreAllLogs();
+
 import "react-native-gesture-handler";
 import * as React from "react";
 import {
@@ -11,6 +16,12 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { AppContextProvider } from "contexts/appContext";
 import { AppStackParamList } from "common/types/navigationTypes";
+
+// Error Handlers
+import { setJSExceptionHandler } from "react-native-exception-handler";
+import { jsErrorHandler } from "lib/errors";
+
+setJSExceptionHandler(jsErrorHandler, true); // true - enables the error in dev mode
 
 const Stack = createStackNavigator<AppStackParamList>();
 
