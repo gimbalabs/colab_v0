@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View, Text, StyleSheet, Pressable, TextInput } from "react-native";
 import { Buttons, Colors, Typography, Sizing, Outlines } from "styles/index";
-import { Icon } from "react-native-eva-icons";
+import { RemoveIcon, EditIcon } from "icons/index";
 
 export interface IdeaProps {
   value: string;
@@ -33,22 +33,15 @@ export const IdeaList = ({
       <View style={styles.ideaIcons}>
         <Pressable
           onPress={() => {
-            console.log(inputRef);
             inputRef && inputRef.focus();
           }}
           style={Buttons.applyOpacity(styles.icon)}>
-          <Icon name="edit" width={24} height={24} fill={Colors.neutral.s500} />
+          <EditIcon width={20} height={20} />
         </Pressable>
         <Pressable
           onPress={() => removeIdea(item.key)}
           style={Buttons.applyOpacity(styles.icon)}>
-          <Icon
-            name="trash-2-outline"
-            width={24}
-            height={24}
-            fill={Colors.danger.s400}
-            style={styles.icon}
-          />
+          <RemoveIcon width={20} height={20} />
         </Pressable>
       </View>
     </View>
