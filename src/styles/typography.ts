@@ -8,8 +8,11 @@ import { systemWeights } from "react-native-typography";
 
 import * as Colors from "./colors";
 
-type FontSize = "x10" | "x20" | "x30" | "x40" | "x50" | "x60" | "x70";
+type FontSize = "x5" | "x10" | "x20" | "x30" | "x40" | "x50" | "x60" | "x70";
 export const fontSize: Record<FontSize, TextStyle> = {
+  x5: {
+    fontSize: 12,
+  },
   x10: {
     fontSize: 13,
   },
@@ -152,8 +155,13 @@ export const subHeader: Record<SubHeader, TextStyle> = {
   },
 };
 
-type Body = "x10" | "x20" | "x30" | "x40" | "x50";
+type Body = "x5" | "x10" | "x20" | "x30" | "x40" | "x50";
 export const body: Record<Body, TextStyle> = {
+  x5: {
+    ...fontSize.x5,
+    ...lineHeight.x10,
+    color: Colors.neutral.s800,
+  },
   x10: {
     ...fontSize.x10,
     ...lineHeight.x10,
