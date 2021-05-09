@@ -1,8 +1,10 @@
 import * as React from "react";
 import { CalendarError } from "components/errors/calendarError";
+import { WeekDayNames } from "./WeekDayNames";
 import { ErrorBoundary } from "react-error-boundary";
 import { Pressable, SafeAreaView, StyleSheet, Text } from "react-native";
 import { MyCalendarContext } from "contexts/myCalendarContext";
+import { Buttons, Typography, Colors, Outlines } from "styles";
 
 const IsError = ({ error }: { error: boolean }) => {
   if (error) {
@@ -15,21 +17,14 @@ export const MainCalendar = () => {
   const { state, dispatch } = React.useContext(MyCalendarContext);
   const [error, setError] = React.useState(false);
 
+  //@TODO: Implement react boundaries with the calendar UI
   return (
     <ErrorBoundary
       FallbackComponent={CalendarError}
       onReset={() => {
         setError((e) => !e);
       }}>
-      <SafeAreaView style={styles.safeArea}>
-        <Text>Press me</Text>
-        <Pressable
-          onPress={() => {
-            setError((e) => !e);
-          }}>
-          <IsError error={error} />
-        </Pressable>
-      </SafeAreaView>
+      <WeekDayNames />
     </ErrorBoundary>
   );
 };

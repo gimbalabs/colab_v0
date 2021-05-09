@@ -6,7 +6,8 @@ export const jsErrorHandler = (e: any, isFatal: any) => {
     Alert.alert(
       "Unexpected error occured",
       `Error: ${isFatal ? "Fatal:" : ""} ${e.name} ${e.message}
-We have already informed our dev team!
+We have already informed our
+Gimbalabs dev team!
 Please restart the app and try again.
       `,
       [
@@ -18,6 +19,12 @@ Please restart the app and try again.
            * after that.
            */
           onPress: async () => Updates.reloadAsync(),
+        },
+        //@TODO: Remove this button in production
+        {
+          text: "Cancel",
+          onPress: () => {},
+          style: "cancel",
         },
       ]
     );

@@ -1,4 +1,5 @@
-import { RemoveIcon } from "./removeIcon";
-import { EditIcon } from "./editIcon";
+import { RemoveIcon } from "./remove";
+import { EditIcon } from "./edit";
+import { SearchIcon } from "./search";
 
-export { RemoveIcon, EditIcon };
+export { SearchIcon, RemoveIcon, EditIcon };

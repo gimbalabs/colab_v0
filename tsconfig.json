@@ -18,7 +18,7 @@
       "containers/*": ["./src/containers/*"],
       "contexts/*": ["./src/contexts/*"],
       "lib/*": ["./src/lib/*"],
-      "icons/*": ["./src/assets/icons/*"],
+      "icons/*": ["./src/assets/icons/index"],
       "interfaces/*": ["./src/common/interfaces/*"],
       "screens/*": ["./src/screens/*"],
       "styles/*": ["./src/styles/*"],
