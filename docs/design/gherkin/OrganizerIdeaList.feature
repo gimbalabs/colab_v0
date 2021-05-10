@@ -6,6 +6,8 @@ Feature: Organizer has a list Ideas to View, CRUD
 
 	Scenario: Organizer adds classification/label/category
 
+    # How can categories emerge from Organizer contributions over time?
+
     Scenario: Organizer lists Ideas
         Given I have an Authenticaion token and an Organizer Profile
         When I view to Organizer screen

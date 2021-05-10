@@ -1,18 +1,15 @@
 Feature: Attendee Experience
 
-    Scenario: Attendee creates an Attendee Profile
-        Given I have an Authentication token
-        # Should there be separate tokens for Organizers vs Attendees?
-        When I view Attendee screen
-        Then I am prompted to create an Attendee Profile
+    Scenario: Attendee has option to register
+        Given User chooses to browse as Attendee
+        Then User is given option to create an Attendee Profile
+        
+    Scenario: User creates an Attendee Profile
 
-    Scenario: Browsing
-        by Date/Time
-        by Organizer Profile
-        by Ideas
+    
 
     Scenario: Booking Event
-        Given User is Authenticated and has sufficient funds in Wallet
+        Given has sufficient funds in Wallet
 
     Scenario: Attending Event
 
