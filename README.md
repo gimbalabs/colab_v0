@@ -15,6 +15,10 @@ A collaborative application built by the Gimbalabs team featuring decentralized 
 - Cardano Blockchain
 - React Context API
 
+## Process
+Miro (Playground) -> Gherkin (Project) -> (GitLab <- -> Figma) -> Dapp
+
+
 ## How it works
 
 *Content To Be Released Soon*
