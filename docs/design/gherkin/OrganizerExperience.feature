@@ -4,13 +4,17 @@ Feature: Organizer re-opens App
         Given User has an Organizer Authentication Token
         Then User is presented with Organizer Dashboard
 
-    What does Organizer need:
-        - See their own calendar with currently listed availability and currently scheduled meetings
+    Scenario: Organizer views Organizer Dashboard
+        When Organizer views Organizer Dashboard
+        Then Organizer sees Monthly Calendar component
+        And Organizer sees a Daily Meeting List component (like on Figma) that changes based on selected Date
+        And Organizer sees Navbar at bottom of screen
+
+        Navbar:
         - Edit Profile / View Auth Token
         - Edit Ideas
         - View "Wallet"
         - Browser other Organizers
-        - Send a message
 
     Scenario: Organizer views Organizer Dashboard
         When Organizer visits Organizer Dashboard 
