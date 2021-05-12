@@ -4,8 +4,28 @@ Feature: Organizer re-opens App
         Given User has an Organizer Authentication Token
         Then User is presented with Organizer Dashboard
 
-    Scenario: Organizer views Home Screen
-        When Organizer visits Organizer Dashboard
+    What does Organizer need:
+        - See their own calendar with currently listed availability and currently scheduled meetings
+        - Edit Profile / View Auth Token
+        - Edit Ideas
+        - View "Wallet"
+        - Browser other Organizers
+        - Send a message
+
+    Scenario: Organizer views Organizer Dashboard
+        When Organizer visits Organizer Dashboard 
+        
+        
+        
+        --> is it a bunch of buttons, or is it dynamic information?
+        
+        
+        
+        Organizer sees a list of upcoming meetings
+
+
+
+
         Then Organizer component with list of their upcoming Scheduled Meetings
         And Organizer sees component with Interface for changing available Time
         And Organizer sees option to browse Meeting Times for other Organizers
