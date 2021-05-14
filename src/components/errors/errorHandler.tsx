@@ -14,7 +14,9 @@ export const myErrorHandler = (error: Error) => {
 export const ErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
   return (
     <View style={styles.container}>
-      <Text style={Typography.header.x40}>Something went wrong...</Text>
+      <Text style={Typography.header.x40}>
+        Hey gimbal, something went wrong...
+      </Text>
       <Text style={Typography.body.x20}>{error.message}</Text>
       <Pressable onPress={() => resetErrorBoundary()} style={styles.button}>
         <Text style={Buttons.barText.transparent}>Try again</Text>
