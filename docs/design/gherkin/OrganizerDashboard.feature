@@ -7,7 +7,7 @@ Feature: Organizer re-opens App
     Scenario: Organizer views Organizer Dashboard
         When Organizer views Organizer Dashboard
         Then Organizer sees Monthly Calendar component
-        And Organizer sees a Daily Meeting List component (like on Figma) that changes based on selected Date
+        And Organizer sees a List of Upcoming Meetings
         And Organizer sees Navbar at bottom of screen
 
         Navbar:
@@ -15,6 +15,9 @@ Feature: Organizer re-opens App
         - Edit Ideas
         - View "Wallet"
         - Browser other Organizers
+
+        Timeline next events
+
 
     Scenario: Organizer views Organizer Dashboard
         When Organizer visits Organizer Dashboard 
