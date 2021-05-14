@@ -3,7 +3,7 @@ import { SafeAreaView, StyleSheet } from "react-native";
 import { MyCalendarProvider } from "contexts/myCalendarContext";
 
 export interface CalendarWrapperProps {
-  children?: React.ReactNode;
+  children: React.ReactNode;
 }
 
 export const CalendarWrapper = ({ children }: CalendarWrapperProps) => {

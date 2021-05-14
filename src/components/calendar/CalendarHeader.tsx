@@ -10,6 +10,8 @@ import {
   UIManager,
   LayoutAnimation,
 } from "react-native";
+
+import { MyCalendarContext } from "contexts/myCalendarContext";
 import { Buttons, Colors, Sizing, Outline, Typography } from "styles";
 import { SearchIcon } from "icons";
 
@@ -21,6 +23,8 @@ if (Platform.OS === "android") {
 }
 
 export const CalendarHeader = () => {
+  const { state } = React.useContext(MyCalendarContext);
+
   const [activeSearch, setActiveSearch] = React.useState<boolean>(false);
   const [nodeTag, setNodeTag] = React.useState<number | null>(null);
 
@@ -58,12 +62,17 @@ export const CalendarHeader = () => {
     }
   };
 
+  const calendarYear = state.calendarHeader ? state.calendarHeader.year : "";
+
+  const calendarMonth = state.calendarHeader ? state.calendarHeader.month : "";
+
   return (
     <View
       onStartShouldSetResponder={(event) => handleResponderEvent(event)}
       style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>May / 2021</Text>
+        <Text style={styles.headerText}>{calendarMonth}</Text>
+        <Text style={styles.headerText}>{calendarYear}</Text>
       </View>
       <View
         style={styles.searchBarView}
@@ -73,7 +82,7 @@ export const CalendarHeader = () => {
             onPress={handleSearchPress}
             style={[
               styles.searchBarButton,
-              { width: activeSearch ? Sizing.x110 : Sizing.x100 },
+              { width: activeSearch ? "85%" : "80%" },
             ]}>
             <SearchIcon
               style={styles.searchIcon}
@@ -86,7 +95,10 @@ export const CalendarHeader = () => {
               placeholder={"Search"}
               clearTextOnFocus
               onPressIn={handleSearchPress}
-              style={styles.searchBarText}></TextInput>
+              style={[
+                styles.searchBarText,
+                { width: activeSearch ? "75%" : "70%" },
+              ]}></TextInput>
           </Pressable>
         </View>
       </View>
@@ -139,6 +151,5 @@ const styles = StyleSheet.create({
   searchBarText: {
     marginLeft: Sizing.x5,
     ...Typography.fontSize.x30,
-    maxWidth: Sizing.x80,
   },
 });
