@@ -1,4 +1,4 @@
-Feature: Organizer re-opens App
+Feature: Organizer Dashboard
     Scenario: Organizer opens App
         When User opens App
         Given User has an Organizer Authentication Token
@@ -8,36 +8,11 @@ Feature: Organizer re-opens App
         When Organizer views Organizer Dashboard
         Then Organizer sees Monthly Calendar component
         And Organizer sees a List of Upcoming Meetings
-        And Organizer sees Navbar at bottom of screen
+        And Organizer sees Navbar
 
-        Navbar:
-        - Edit Profile / View Auth Token
-        - Edit Ideas
-        - View "Wallet"
-        - Browser other Organizers
-
-        Timeline next events
-
-
-    Scenario: Organizer views Organizer Dashboard
-        When Organizer visits Organizer Dashboard 
+    Scenario: Organizer interacts with Calendar
         
-        
-        
-        --> is it a bunch of buttons, or is it dynamic information?
-        
-        
-        
-        Organizer sees a list of upcoming meetings
-
-
-
-
-        Then Organizer component with list of their upcoming Scheduled Meetings
-        And Organizer sees component with Interface for changing available Time
-        And Organizer sees option to browse Meeting Times for other Organizers
-        And Organizer sees option to see current balance
-
+   
     Scenario: User sees more Role Information
         When User chooses the option to see more Role Information
         Given User is on Landing Screen
