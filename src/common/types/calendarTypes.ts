@@ -25,3 +25,22 @@ export const months: Record<number, Month> = {
   10: "November",
   11: "December",
 };
+
+type WeekDays =
+  | "Monday"
+  | "Tuesday"
+  | "Wednesday"
+  | "Thursday"
+  | "Friday"
+  | "Saturday"
+  | "Sunday";
+// days aren't indexed from 0, as months are
+export const weekDays: Record<number, WeekDays> = {
+  1: "Monday",
+  2: "Tuesday",
+  3: "Wednesday",
+  4: "Thursday",
+  5: "Friday",
+  6: "Saturday",
+  7: "Sunday",
+};

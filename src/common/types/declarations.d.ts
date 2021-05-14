@@ -3,3 +3,10 @@ declare module "*.svg" {
   const content: React.StatelessComponent<SvgProps>;
   export default content;
 }
+
+// declare namespace JSX {
+//   interface IntrinsicAttributes {
+//     name?: string;
+//     year?: number;
+//   }
+// }

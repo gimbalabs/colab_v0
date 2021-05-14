@@ -20,9 +20,16 @@ const initialState: MyCalendarState = {
   scheduledEvents: [
     {
       title: "My Test Event",
-      fromDate: 1620116789,
-      toDate: 1620123989,
-      description: "A very important event which I cannot miss!",
+      fromDate: 1621083600000,
+      toDate: 1621087200000,
+      description: "A very important event that I cannot miss!",
+      participants: ["piotr.napierala94@gmail.com", "john@travolta.com"],
+    },
+    {
+      title: "My Test Event 2",
+      fromDate: 1621166400000,
+      toDate: 1621168200000,
+      description: "A very important event that I cannot miss!",
       participants: ["piotr.napierala94@gmail.com", "john@travolta.com"],
     },
   ],
@@ -55,8 +62,16 @@ const reducer = (state: MyCalendarState, action: MyCalendarActions) => {
       return {
         ...state,
       };
-    case MyCalendarTypes.ResetState:
-      return initialState;
+    case MyCalendarTypes.ChangeMonthHeader:
+      return {
+        ...state,
+        calendarHeader: action.payload.calendarHeader,
+      };
+    case MyCalendarTypes.LoadMyCalendar:
+      return {
+        ...state,
+        calendar: action.payload.calendar,
+      };
     default:
       throw Error(`Unknown type of action: ${action.type}`);
   }

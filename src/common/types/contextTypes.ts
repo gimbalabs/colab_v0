@@ -1,7 +1,13 @@
 /**
- * @types for appContext, myCalendarContext files.
+ * @types for appContext & myCalendarContext files.
  */
-import { AvailabilityDay, CalendarEvent } from "interfaces/myCalendarInterface";
+import {
+  AvailabilityDay,
+  CalendarEvent,
+  CalendarHeader,
+  Month,
+  MyCalendarState,
+} from "interfaces/myCalendarInterface";
 
 export enum AppTypes {
   ToggleAuth = "TOGGLE_AUTH",
@@ -11,6 +17,8 @@ export enum MyCalendarTypes {
   AddEvent = "ADD_EVENT",
   AddAvailability = "ADD_AVAILABILITY",
   ResetState = "RESET_STATE",
+  LoadMyCalendar = "LOAD_MY_CALENDAR",
+  ChangeMonthHeader = "CHANGE_MONTH_HEADER",
 }
 
 /**
@@ -42,7 +50,15 @@ export type MyCalendarPaylaod = {
   [MyCalendarTypes.AddAvailability]: {
     availabilities: AvailabilityDay[];
   };
-  [MyCalendarTypes.ResetState]: {};
+  [MyCalendarTypes.LoadMyCalendar]: {
+    calendar: Month[];
+  };
+  [MyCalendarTypes.ChangeMonthHeader]: {
+    calendarHeader: CalendarHeader;
+  };
+  [MyCalendarTypes.ResetState]: {
+    calendarState?: MyCalendarState;
+  };
 };
 
 export type MyCalendarActions = ActionMap<MyCalendarPaylaod>[keyof ActionMap<MyCalendarPaylaod>];
