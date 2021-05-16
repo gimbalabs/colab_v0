@@ -2,11 +2,12 @@
  * @types for appContext & myCalendarContext files.
  */
 import {
-  AvailabilityDay,
-  CalendarEvent,
+  Availabilities,
   CalendarHeader,
   Month,
   MyCalendarState,
+  PreviewingDayEvents,
+  ScheduledEvents,
 } from "interfaces/myCalendarInterface";
 
 export enum AppTypes {
@@ -19,6 +20,7 @@ export enum MyCalendarTypes {
   ResetState = "RESET_STATE",
   LoadMyCalendar = "LOAD_MY_CALENDAR",
   ChangeMonthHeader = "CHANGE_MONTH_HEADER",
+  PreviewDayEvents = "PREVIEW_DAY_EVENTS",
 }
 
 /**
@@ -45,16 +47,19 @@ export type AppPayload = {
 
 export type MyCalendarPaylaod = {
   [MyCalendarTypes.AddEvent]: {
-    event: CalendarEvent;
+    event: ScheduledEvents;
   };
   [MyCalendarTypes.AddAvailability]: {
-    availabilities: AvailabilityDay[];
+    availabilities: Availabilities[];
   };
   [MyCalendarTypes.LoadMyCalendar]: {
     calendar: Month[];
   };
   [MyCalendarTypes.ChangeMonthHeader]: {
     calendarHeader: CalendarHeader;
+  };
+  [MyCalendarTypes.PreviewDayEvents]: {
+    previewingDayEvents: PreviewingDayEvents;
   };
   [MyCalendarTypes.ResetState]: {
     calendarState?: MyCalendarState;

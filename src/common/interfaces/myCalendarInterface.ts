@@ -1,33 +1,65 @@
-export interface CalendarEvent {
-  title: string;
-  fromDate: number;
-  toDate: number;
-  description?: string;
-  participants: string[];
+export interface MyCalendarState {
+  calendar: Month[];
+  registrationDate: number;
+  availabilities: Availabilities[];
+  scheduledEvents: ScheduledEvents[];
+  calendarHeader: CalendarHeader;
+  previewingDayEvents: PreviewingDayEvents;
 }
 
-export interface AvailabilitySlot {
-  fromTime: string;
-  toTime: string;
+export interface Availabilities {
+  year: number;
+  months: AvailabilitiesMonth[];
 }
 
-export interface AvailabilityDay {
-  date: string;
+export interface AvailabilitiesMonth {
+  month: string;
+  days: AvailabilitiesDay[];
+}
+
+export interface AvailabilitiesDay {
+  day: number;
   timeSlots: AvailabilitySlot[];
 }
 
-export interface MyCalendarState {
-  registrationDate: number;
-  scheduledEvents: CalendarEvent[];
-  myAvailabilities: AvailabilityDay[];
-  calendar?: Month[];
-  calendarHeader?: CalendarHeader;
+export interface AvailabilitySlot {
+  fromTime: number;
+  toTime: number;
+}
+
+export interface ScheduledEvents {
+  year: number;
+  months: ScheduledEventsMonth[];
+}
+
+export interface ScheduledEventsMonth {
+  month: string;
+  days: ScheduledEventsDay[];
+}
+
+export interface ScheduledEventsDay {
+  day: number;
+  scheduledEvents: ScheduledEvent[];
+}
+
+export interface ScheduledEvent {
+  title: string;
+  fromTime: number;
+  toTime: number;
+  description: string;
+  participants: string[];
 }
 
 export interface MyCalendarContextProps {
   state: MyCalendarState;
   dispatch: React.Dispatch<any>;
 }
+
+export interface PreviewingDayEvents {
+  month: string;
+  events: ScheduledEvent[] | undefined;
+}
+
 export interface CalendarHeader {
   month: string;
   year: number;
@@ -45,4 +77,12 @@ export interface Day {
   name: string;
   number: number;
   isLastWeek?: boolean;
+  availabilities?: AvailabilitySlot[];
+  scheduledEvents?: ScheduledEvent[];
+}
+
+export interface Date {
+  year?: number;
+  month?: number;
+  day: number;
 }

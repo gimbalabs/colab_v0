@@ -9,63 +9,63 @@ import {
   MyCalendarState,
 } from "interfaces/myCalendarInterface";
 import { MyCalendarActions, MyCalendarTypes } from "common/types/contextTypes";
+import { getMonth, getSixMonthsWithDays, getYear } from "lib/utils";
+
+import { scheduledEvents } from "../api_data/scheduledEvents";
+import { availabilities } from "../api_data/availabilities";
+import { months } from "common/types/calendarTypes";
 
 export interface ContextProviderProps {
   children: React.ReactNode;
 }
 
-const initialState: MyCalendarState = {
-  // Sat May 02 2020 08:20:22 GMT+0000 unix timestamp - from when display calendar
-  registrationDate: 1588407622,
-  scheduledEvents: [
-    {
-      title: "My Test Event",
-      fromDate: 1621083600000,
-      toDate: 1621087200000,
-      description: "A very important event that I cannot miss!",
-      participants: ["piotr.napierala94@gmail.com", "john@travolta.com"],
-    },
-    {
-      title: "My Test Event 2",
-      fromDate: 1621166400000,
-      toDate: 1621168200000,
-      description: "A very important event that I cannot miss!",
-      participants: ["piotr.napierala94@gmail.com", "john@travolta.com"],
-    },
-  ],
-  myAvailabilities: [
-    {
-      date: "2021/05/04",
-      timeSlots: [
-        {
-          fromTime: "12:20",
-          toTime: "14:00",
-        },
-      ],
-    },
-  ],
+const initialCalendar = [
+  ...getSixMonthsWithDays(false, true),
+  ...getSixMonthsWithDays(true),
+];
+
+export const initialState: MyCalendarState = {
+  registrationDate: 1620165600000,
+  calendar: initialCalendar,
+  previewingDayEvents: {
+    month: "",
+    events: [],
+  },
+  availabilities,
+  scheduledEvents,
+  calendarHeader: {
+    month: months[getMonth()],
+    year: getYear(),
+  },
 };
 
 const reducer = (state: MyCalendarState, action: MyCalendarActions) => {
   switch (action.type) {
     case MyCalendarTypes.AddEvent:
-      // TODO: Sort through the existing events, or send to a server?
-      state.scheduledEvents.push(action.payload.event);
+      // TODO: Sort through existing events, or send to a server?
+      if (state.scheduledEvents != null) {
+        state.scheduledEvents.push(action.payload.event);
+      }
       return {
         ...state,
       };
     case MyCalendarTypes.AddAvailability:
-      // TODO: Check before dispatching if user availability already exists
-      action.payload.availabilities.forEach((availability) => {
-        state.myAvailabilities.push(availability);
-      });
+      // TODO: 1. Check before dispatching if user availability already exists
+      //       2. Figure out how to add availabilities to already existing objects
+      return {
+        ...state,
+        availabilities: action.payload.availabilities,
+      };
+    case MyCalendarTypes.ChangeMonthHeader:
+      state.calendarHeader.month = action.payload.calendarHeader.month;
+      state.calendarHeader.year = action.payload.calendarHeader.year;
       return {
         ...state,
       };
-    case MyCalendarTypes.ChangeMonthHeader:
+    case MyCalendarTypes.PreviewDayEvents:
       return {
         ...state,
-        calendarHeader: action.payload.calendarHeader,
+        previewingDayEvents: action.payload.previewingDayEvents,
       };
     case MyCalendarTypes.LoadMyCalendar:
       return {
