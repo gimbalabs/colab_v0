@@ -8,6 +8,7 @@
     "skipLibCheck": true,
     "noEmit": true,
     "allowSyntheticDefaultImports": true,
+    "suppressImplicitAnyIndexErrors": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "isolatedModules": true,
@@ -23,7 +24,8 @@
       "screens/*": ["./src/screens/*"],
       "styles/*": ["./src/styles/*"],
       "tabs/*": ["./src/tabs/*"],
-      "types/*": ["./src/common/types*"]
+      "types/*": ["./src/common/types*"],
+      "utils/*": ["./src/lib/utils.ts*"]
     }
   },
   "exclude": [

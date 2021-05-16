@@ -1,5 +1,7 @@
 import * as React from "react";
-import { Pressable, View, Text, StyleSheet } from "react-native";
+
+import * as Updates from "expo-updates";
+import { Pressable, View, Text, StyleSheet, SafeAreaView } from "react-native";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 import { Buttons, Typography } from "styles";
 
@@ -13,15 +15,26 @@ export const myErrorHandler = (error: Error) => {
 
 export const ErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
   return (
-    <View style={styles.container}>
-      <Text style={Typography.header.x40}>
-        Hey gimbal, something went wrong...
-      </Text>
-      <Text style={Typography.body.x20}>{error.message}</Text>
-      <Pressable onPress={() => resetErrorBoundary()} style={styles.button}>
-        <Text style={Buttons.barText.transparent}>Try again</Text>
-      </Pressable>
-    </View>
+    <SafeAreaView style={{ flex: 1, alignItems: "center" }}>
+      <View style={styles.container}>
+        <Text style={[Typography.header.x40, { textAlign: "center" }]}>
+          Hey gimbal, something went wrong:
+        </Text>
+        <Text style={[Typography.body.x20, { textAlign: "center" }]}>
+          {error.message}
+        </Text>
+        <Pressable
+          onPress={() => resetErrorBoundary()}
+          style={Buttons.applyOpacity(styles.button)}>
+          <Text style={Buttons.barText.transparent}>Try again</Text>
+        </Pressable>
+        <Pressable
+          onPress={async () => await Updates.reloadAsync()}
+          style={Buttons.applyOpacity(styles.button)}>
+          <Text style={Buttons.barText.transparent}>Restart</Text>
+        </Pressable>
+      </View>
+    </SafeAreaView>
   );
 };
 
@@ -35,6 +48,7 @@ export const ErrorHandler = ({ children }: ErrorHandlerProps) => {
 
 const styles = StyleSheet.create({
   container: {
+    width: "80%",
     alignItems: "center",
     justifyContent: "center",
     flex: 1,

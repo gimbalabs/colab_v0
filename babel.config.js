@@ -20,6 +20,7 @@ module.exports = function (api) {
             styles: "./src/styles/index",
             tabs: "./src/tabs",
             types: "./src/common/types",
+            utils: "./src/lib/utils.ts",
           },
           extensions: [".js", ".jsx", ".tsx", ".ts", ".ios.js", ".android.js"],
         },
