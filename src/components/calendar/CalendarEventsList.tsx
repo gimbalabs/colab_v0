@@ -8,56 +8,94 @@ import {
 } from "react-native";
 
 import { Sizing, Colors, Outlines } from "styles";
-import { MyCalendarContext } from "contexts/myCalendarContext";
+import { myCalendarContext } from "contexts/contextApi";
 import { CalendarEventsDetail } from ".";
-import { CalendarEvent } from "interfaces/myCalendarInterface";
-import { getDigitalTime } from "lib/utils";
-
-// last updated: date -> scrollToRefresh
+import { getDigitalTime, getDay, month } from "utils";
+import { getYear } from "lib/utils";
+import { ScheduledEvent } from "common/interfaces/myCalendarInterface";
 
 export const CalendarEventsList = () => {
-  const { state } = React.useContext(MyCalendarContext);
+  const {
+    previewingDayEvents,
+    scheduledEvents,
+    calendarHeader,
+  } = myCalendarContext();
   const [refreshing, setRefreshing] = React.useState<boolean>(false);
   const [lastUpdated, setLastUpdated] = React.useState<number>(
     new Date().getTime()
   );
 
-  const renderItem = ({ item }: any): JSX.Element => {
-    const { title, fromDate, toDate, participants } = item;
+  const renderItem = ({ item }: any) => {
+    const { title, description, fromTime, toTime, participants } = item;
 
     return (
       <CalendarEventsDetail
         title={title}
-        fromDate={fromDate}
-        toDate={toDate}
+        description={description}
+        fromTime={fromTime}
+        toTime={toTime}
         participants={participants}
       />
     );
   };
 
-  const keyExtractor = (item: any) => `${item.fromDate}_${item.toDate}`;
+  const keyExtractor = (item: any) => `${item.fromTime}_${item.toTime}`;
 
-  function wait(ms: number): Promise<void> {
+  const wait = (ms: number): Promise<void> => {
     return new Promise((res) => setTimeout(res, ms));
-  }
+  };
 
   // fetch new events, update calendar state
   const onRefresh = React.useCallback(async () => {
     setRefreshing(true);
     await wait(2500);
-    console.log("refreshed");
     setRefreshing(false);
     setLastUpdated(new Date().getTime());
   }, [refreshing]);
 
-  const title = `Last updated ${getDigitalTime(lastUpdated)}`;
+  // @TODO: Store lastUpdated value inside context store for future reference
+  const lastUpdatedDay =
+    getDay(lastUpdated) - getDay() === -1
+      ? `Yestarday ${getDigitalTime(lastUpdated)}`
+      : getDay(lastUpdated) - getDay() < -1
+      ? `${getDay(lastUpdated)}/${month(lastUpdated)}`
+      : `Today ${getDigitalTime(lastUpdated)}`;
+
+  const title = `Last updated: ${lastUpdatedDay}`;
+
+  const data = React.useMemo(() => {
+    if (previewingDayEvents) return previewingDayEvents;
+    var monthlyEvents: ScheduledEvent[] = [];
+
+    for (let scheduledYear of scheduledEvents) {
+      if (scheduledYear.year === getYear()) {
+        if (scheduledYear.months) {
+          var monthObj = scheduledYear.months.find(
+            (obj) => obj.month === calendarHeader.month
+          );
+
+          if (monthObj != null) {
+            monthObj.days.forEach((day) =>
+              day.scheduledEvents.forEach((evt) => monthlyEvents.push(evt))
+            );
+          }
+        }
+      }
+    }
+    return monthlyEvents;
+  }, [
+    calendarHeader.month,
+    calendarHeader.year,
+    scheduledEvents,
+    previewingDayEvents,
+  ]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
         <View style={styles.eventsHolder}>
           <FlatList
-            data={state.scheduledEvents}
+            data={data}
             renderItem={renderItem}
             keyExtractor={keyExtractor}
             scrollEventThrottle={500}
@@ -66,6 +104,7 @@ export const CalendarEventsList = () => {
             progressViewOffset={15}
             refreshControl={
               <RefreshControl
+                size={1}
                 title={title}
                 refreshing={refreshing}
                 onRefresh={onRefresh}

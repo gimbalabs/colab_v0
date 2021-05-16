@@ -10,37 +10,28 @@ import {
   NativeScrollEvent,
 } from "react-native";
 
-import { MyCalendarContext } from "contexts/myCalendarContext";
+import { myCalendarContext } from "contexts/contextApi";
 import { Colors, Outlines, Typography, Buttons } from "styles";
-import { getSixMonthsWithDays } from "lib/utils";
 import { MonthItem } from "./MonthItem";
 import { Month } from "interfaces/myCalendarInterface";
 import { months } from "common/types/calendarTypes";
 
 export const MonthlyWrapper = () => {
-  const { state, dispatch } = React.useContext(MyCalendarContext);
+  const { calendar, changeMonthHeader } = myCalendarContext();
   const [dimensions, setDimensions] = React.useState<LayoutRectangle | null>(
     null
   );
-  React.useEffect(() => {
-    setCalendar();
-  }, []);
 
-  const setCalendar = () => {
-    const nextSixMonths = getSixMonthsWithDays(true);
-    const previousSixMonths = getSixMonthsWithDays(false, true);
-
-    dispatch({
-      type: "LOAD_MY_CALENDAR",
-      payload: { calendar: [...previousSixMonths, ...nextSixMonths] },
-    });
-  };
+  const data = React.useMemo(() => {
+    return calendar;
+  }, [calendar]);
 
   const renderItem = ({ item }: any) => {
     return (
       <MonthItem
         days={item.days}
         year={item.year}
+        month={item.name}
         firstDayName={item.firstDayName}
         numOfDays={item.numOfDays}
         name={item.name}
@@ -68,16 +59,12 @@ export const MonthlyWrapper = () => {
     const layoutWidth = e.nativeEvent.layoutMeasurement.width;
     const offsetX = e.nativeEvent.contentOffset.x;
     const listItemIndex = offsetX / layoutWidth;
-    if (state.calendar != null && listItemIndex % 1 === 0) {
-      dispatch({
-        type: "CHANGE_MONTH_HEADER",
-        payload: {
-          calendarHeader: {
-            month: state.calendar[listItemIndex].name,
-            year: state.calendar[listItemIndex].year,
-          },
-        },
-      });
+    if (calendar != null && listItemIndex % 1 === 0) {
+      const calendarHeader = {
+        month: calendar[listItemIndex].name,
+        year: calendar[listItemIndex].year,
+      };
+      changeMonthHeader(calendarHeader);
     }
   };
 
@@ -87,11 +74,11 @@ export const MonthlyWrapper = () => {
     <View style={styles.container} onLayout={onLayout}>
       {dimensions ? (
         <FlatList
-          data={state.calendar}
+          data={data}
           renderItem={renderItem}
           keyExtractor={keyExtractor}
           getItemLayout={getItemLayout}
-          initialScrollIndex={state.calendar?.findIndex(
+          initialScrollIndex={calendar?.findIndex(
             (month) => month.name === months[new Date().getMonth()]
           )}
           onScroll={onScroll}

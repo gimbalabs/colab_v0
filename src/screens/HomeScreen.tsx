@@ -9,14 +9,14 @@ import {
 } from "react-native";
 import { AppStackParamList } from "common/types/navigationTypes";
 import { StackScreenProps } from "@react-navigation/stack";
-import { AppContext } from "contexts/appContext";
 import { Colors, Buttons, Typography, Sizing, Outlines } from "styles";
+import { appContext } from "contexts/contextApi";
 
 export interface HomeProps
   extends StackScreenProps<AppStackParamList, "Home"> {}
 
 export const HomeScreen = ({ navigation }: HomeProps) => {
-  const { state, dispatch } = React.useContext(AppContext);
+  const { toggleAuth, auth } = appContext();
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -26,12 +26,10 @@ export const HomeScreen = ({ navigation }: HomeProps) => {
             trackColor={{ false: "#3e3e3e", true: "#37a524" }}
             thumbColor="#f4f3f4"
             ios_backgroundColor="#3e3e3e"
-            onValueChange={() => dispatch({ type: "TOGGLE_AUTH" })}
-            value={state.authentication}
+            onValueChange={() => toggleAuth()}
+            value={auth}
           />
-          <Text style={styles.switchText}>
-            {state.authentication ? "AUTH" : "NO-AUTH"}
-          </Text>
+          <Text style={styles.switchText}>{auth ? "AUTH" : "NO-AUTH"}</Text>
         </View>
       </View>
       <View style={styles.header}>

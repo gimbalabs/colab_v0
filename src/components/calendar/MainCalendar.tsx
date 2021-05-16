@@ -17,8 +17,9 @@ export const MainCalendar = () => {
 
 const styles = StyleSheet.create({
   container: {
-    height: "40%",
-    margin: Sizing.x20,
+    height: "42.5%",
+    marginTop: Sizing.x20,
+    marginHorizontal: Sizing.x20,
   },
   calendar: {
     height: "100%",

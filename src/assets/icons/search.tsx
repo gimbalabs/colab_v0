@@ -9,7 +9,6 @@ export const SearchIcon = (props: SvgProps) => {
       strokeWidth={3}
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="prefix__feather prefix__feather-search"
       {...props}>
       <Circle cx={11} cy={11} r={8} />
       <Path d="M21 21l-4.35-4.35" />

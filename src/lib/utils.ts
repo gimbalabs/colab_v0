@@ -1,7 +1,19 @@
 import * as yup from "yup";
-
+import {
+  AvailabilitiesDay,
+  Day,
+  Month,
+  ScheduledEventsDay,
+} from "interfaces/myCalendarInterface";
 import { months, weekDays } from "common/types/calendarTypes";
-import { Day, Month } from "interfaces/myCalendarInterface";
+
+/**
+ *  In the future we would want to fetch the scheduled events and user
+ *  availabilities from an API and build our calendar base on the data
+ *  received. For now, we'll be using a dummy object data.
+ */
+import { scheduledEvents } from "../api_data/scheduledEvents.js";
+import { availabilities } from "../api_data/availabilities.js";
 
 /**
  * @description Use this function to validate form input that
@@ -40,6 +52,50 @@ export function formValidationSchema() {
 }
 
 /**
+ * @description A bunch of helpers to use across the app for working with Date
+ * @name day, month, year, time
+ * @param val (any valid value for Date js object)
+ */
+export function getDay(val?: any): number {
+  if (val != null) return new Date(val).getDay();
+  return new Date().getDay();
+}
+
+export function getDate(val?: any): number {
+  if (val != null) return new Date(val).getDate();
+  return new Date().getDate();
+}
+
+export function getMonth(val?: any): number {
+  if (val != null) return new Date(val).getMonth();
+  return new Date().getMonth();
+}
+
+export function getYear(val?: any): number {
+  if (val != null) return new Date(val).getFullYear();
+  return new Date().getFullYear();
+}
+
+export function getTime(year?: number, month?: number, day?: number): number {
+  if (day != null && month != null && year != null)
+    return new Date(year, month, day).getTime();
+  if (month != null && year != null) return new Date(year, month).getTime();
+  return new Date().getTime();
+}
+
+/**
+ * @description Check whether two given timestamps are the same date.
+ * @param val1, val2
+ */
+export function areEqualDates(val1: number, val2: number): boolean {
+  const sameYear = getYear(val1) === getYear(val2);
+  const sameMonth = getMonth(val1) === getMonth(val2);
+  const sameDay = getDate(val1) === getDate(val2);
+
+  return sameYear && sameMonth && sameDay;
+}
+
+/**
  *   @description This will return an array with next/previous 6 months with
  *    number of total days, name of the first day (eg. 'Monday'), and
  *    names of the months.
@@ -69,19 +125,58 @@ export function getSixMonthsWithDays(
   var currMonthIndex = month;
   var currDayIndex = firstDayIndex;
   var numOfDays = 0;
+  var scheduledYear = scheduledEvents.find(
+    (schedEvts) => schedEvts.year === currYear
+  );
+  var availableYear = availabilities.find((avail) => avail.year === currYear);
 
   if (nextMonths) {
     for (let i = currMonthIndex; i <= month + 6; i++) {
       let days: Day[] = [];
+      let events: ScheduledEventsDay[] = [];
+      let availableSlots: AvailabilitiesDay[] = [];
+
+      if (availableYear != null) {
+        var availableDays = availableYear.months.find(
+          (month) => month.month === months[i]
+        );
+        availableDays?.days.map((availDay: AvailabilitiesDay) =>
+          availableSlots.push(availDay)
+        );
+      }
+
+      if (scheduledYear != null) {
+        var scheduledDays = scheduledYear.months.find(
+          (month) => month.month === months[i]
+        );
+        scheduledDays?.days.map((schedDay: ScheduledEventsDay) =>
+          events.push(schedDay)
+        );
+      }
+      console.log(availableYear, scheduledYear);
+
       const firstDay = new Date(currYear, currMonthIndex).getDay();
       const firstDayName = weekDays[firstDay];
 
       for (let j = 1; isValidDate(j, currMonthIndex, currYear); j++) {
-        days.push({
+        let dayAvailabilities = availableSlots.find((s) => s.day === j)
+          ?.timeSlots;
+        let dayEvents = events.find((e) => e.day === j)?.scheduledEvents;
+
+        let day: Day = {
           name: weekDays[currDayIndex],
           number: j,
-          isLastWeek: isLastWeek(j, firstDay),
-        });
+        };
+
+        if (isLastWeek(j, firstDay)) {
+          day.isLastWeek = true;
+        }
+        if (dayAvailabilities != null) {
+          day.availabilities = [...dayAvailabilities];
+        }
+        if (dayEvents != null) {
+          day.scheduledEvents = [...dayEvents];
+        }
 
         /* Check the day of the week, if it's Sunday -
          * set the next one to Monday
@@ -92,6 +187,7 @@ export function getSixMonthsWithDays(
           currDayIndex++;
         }
         numOfDays++;
+        days.push(day);
       }
       days = insertFirstWeekPlaceholders(firstDay, days);
 
@@ -109,18 +205,56 @@ export function getSixMonthsWithDays(
         currYear += 1;
       }
     }
+
+    // If we want to get previous months - starting from the current month
   } else if (previousMonths) {
     for (let i = currMonthIndex - 7; i < month; i++) {
-      let days: Day[] = [];
       const firstDay = new Date(currYear, currMonthIndex).getDay();
       const firstDayName = weekDays[firstDay];
 
+      let days: Day[] = [];
+      let events: ScheduledEventsDay[] = [];
+      let availableSlots: AvailabilitiesDay[] = [];
+
+      if (availableYear != null) {
+        var availableDays = availableYear.months.find(
+          (month) => month.month === months[i]
+        );
+        availableDays?.days.map((availDay: AvailabilitiesDay) =>
+          availableSlots.push(availDay)
+        );
+      }
+
+      if (scheduledYear != null) {
+        var scheduledDays = scheduledYear.months.find(
+          (month) => month.month === months[i]
+        );
+        scheduledDays?.days.map((schedDay: ScheduledEventsDay) =>
+          events.push(schedDay)
+        );
+      }
+
       for (let j = 1; isValidDate(j, currMonthIndex, currYear); j++) {
-        days.push({
+        let dayAvailabilities = availableSlots.find((s) => s.day === j)
+          ?.timeSlots;
+        let dayEvents = events.find((e) => e.day === j)?.scheduledEvents;
+
+        let day: Day = {
           name: weekDays[currDayIndex],
           number: j,
-          isLastWeek: isLastWeek(j, firstDay),
-        });
+        };
+
+        if (isLastWeek(j, firstDay)) {
+          day.isLastWeek = true;
+        }
+        if (dayAvailabilities != null) {
+          day.availabilities = [...dayAvailabilities];
+          console.log(day);
+        }
+        if (dayEvents != null) {
+          day.scheduledEvents = [...dayEvents];
+          console.log(day);
+        }
 
         /* Check the day of the week, if it's Sunday -
          * set the next one to Monday
@@ -131,6 +265,7 @@ export function getSixMonthsWithDays(
           currDayIndex++;
         }
         numOfDays++;
+        days.push(day);
       }
       days = insertFirstWeekPlaceholders(firstDay, days);
       monthsWithDays.push({

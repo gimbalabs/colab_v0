@@ -11,9 +11,9 @@ import {
   LayoutAnimation,
 } from "react-native";
 
-import { MyCalendarContext } from "contexts/myCalendarContext";
 import { Buttons, Colors, Sizing, Outline, Typography } from "styles";
 import { SearchIcon } from "icons";
+import { myCalendarContext } from "contexts/contextApi";
 
 // This will enable LayoutAnimation on Android too.
 if (Platform.OS === "android") {
@@ -23,7 +23,7 @@ if (Platform.OS === "android") {
 }
 
 export const CalendarHeader = () => {
-  const { state } = React.useContext(MyCalendarContext);
+  const { calendarHeader } = myCalendarContext();
 
   const [activeSearch, setActiveSearch] = React.useState<boolean>(false);
   const [nodeTag, setNodeTag] = React.useState<number | null>(null);
@@ -62,9 +62,9 @@ export const CalendarHeader = () => {
     }
   };
 
-  const calendarYear = state.calendarHeader ? state.calendarHeader.year : "";
+  const calendarYear = calendarHeader ? calendarHeader.year : "";
 
-  const calendarMonth = state.calendarHeader ? state.calendarHeader.month : "";
+  const calendarMonth = calendarHeader ? calendarHeader.month : "";
 
   return (
     <View
@@ -109,7 +109,7 @@ export const CalendarHeader = () => {
 const styles = StyleSheet.create({
   container: {
     marginTop: Sizing.x15,
-    height: "10%",
+    height: "8%",
     flexDirection: "row",
   },
   header: {

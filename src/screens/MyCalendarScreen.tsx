@@ -10,7 +10,7 @@ export interface MyCalendarProps
 export const MyCalendarScreen = ({ navigation }: MyCalendarProps) => {
   return (
     <ErrorHandler>
-      <MyCalendar></MyCalendar>
+      <MyCalendar />
     </ErrorHandler>
   );
 };

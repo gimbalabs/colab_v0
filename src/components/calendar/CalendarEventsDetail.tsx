@@ -2,25 +2,32 @@ import * as React from "react";
 import { View, Pressable, Text, StyleSheet } from "react-native";
 
 import { Colors, Buttons, Outlines, Sizing, Typography } from "styles";
-import { CalendarEvent } from "interfaces/myCalendarInterface";
+import { ScheduledEvent } from "interfaces/myCalendarInterface";
 import { getDigitalTime } from "lib/utils";
 import { months } from "types/calendarTypes";
+import { myCalendarContext } from "contexts/contextApi";
 
 export const CalendarEventsDetail = ({
   title,
-  fromDate,
-  toDate,
+  fromTime,
+  toTime,
   participants,
   description,
-}: CalendarEvent) => {
-  const fromTime = getDigitalTime(fromDate);
-  const toTime = getDigitalTime(toDate);
+}: ScheduledEvent) => {
+  const { previewingDayEvents } = myCalendarContext();
+  const fromTimeDigit = getDigitalTime(fromTime);
+  const toTimeDigit = getDigitalTime(toTime);
 
-  const eventDay = new Date(fromDate).getDate();
-  const eventMonth = months[new Date(fromDate).getMonth()];
+  const eventDay = new Date(fromTime).getDate();
+  const eventMonth = months[new Date(fromTime).getMonth()];
 
   return (
     <View style={styles.container}>
+      {previewingDayEvents && (
+        <View style={styles.dayPreviewBar}>
+          <Text style={styles.dayPreviewBarText}>Upcoming events on </Text>
+        </View>
+      )}
       <View style={styles.dateHolder}>
         <Text style={styles.dateDay}>{eventDay}</Text>
         <Text style={styles.dateMonth}>{eventMonth}</Text>
@@ -28,14 +35,14 @@ export const CalendarEventsDetail = ({
       <View style={styles.eventDetail}>
         <Text style={styles.eventDetailText}>{title}</Text>
         <Text style={styles.eventDetailText}>
-          {fromTime} - {toTime} UTC
+          {fromTimeDigit} - {toTimeDigit} UTC
         </Text>
         {description ? (
           <Text style={styles.eventDetailText}>{description}</Text>
         ) : (
           <></>
         )}
-        {participants.map((p) => (
+        {participants.map((p: string) => (
           <Text style={styles.eventDetailText}>{p}</Text>
         ))}
       </View>
