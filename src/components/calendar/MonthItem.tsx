@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { View, StyleSheet, LayoutRectangle } from "react-native";
-import { Colors, Outlines, Typography, Buttons, Sizing } from "styles";
+import { Colors, Outlines, Typography, Buttons, Sizing } from "../../styles";
 import { PlaceholderDay, MonthlyDay, MonthlyWeek } from "./";
 import { Month } from "interfaces/myCalendarInterface";
 
@@ -12,13 +12,13 @@ export interface MonthProps extends Month {
 export const MonthItem = React.memo(({ days, dimensions }: MonthProps) => {
   return (
     <View
-      style={[
-        styles.container,
-        {
+      style={{
+        ...styles.container,
+        ...{
           width: dimensions ? dimensions.width : 0,
           height: dimensions ? dimensions.height : 0,
-        },
-      ]}>
+        }
+      }}>
       {days.map((day) =>
         day.number === 0 ? (
           <PlaceholderDay key={day.name} />
@@ -36,7 +36,6 @@ export const MonthItem = React.memo(({ days, dimensions }: MonthProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: Sizing.x20,
     flexWrap: "wrap",
     alignItems: "center",
     flexDirection: "row",
