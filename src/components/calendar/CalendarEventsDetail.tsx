@@ -23,11 +23,6 @@ export const CalendarEventsDetail = ({
 
   return (
     <View style={styles.container}>
-      {previewingDayEvents && (
-        <View style={styles.dayPreviewBar}>
-          <Text style={styles.dayPreviewBarText}>Upcoming events on </Text>
-        </View>
-      )}
       <View style={styles.dateHolder}>
         <Text style={styles.dateDay}>{eventDay}</Text>
         <Text style={styles.dateMonth}>{eventMonth}</Text>
@@ -42,8 +37,10 @@ export const CalendarEventsDetail = ({
         ) : (
           <></>
         )}
-        {participants.map((p: string) => (
-          <Text style={styles.eventDetailText}>{p}</Text>
+        {participants.map((p: string, index: number) => (
+          <Text key={`${index + p}`} style={styles.eventDetailText}>
+            {p}
+          </Text>
         ))}
       </View>
     </View>

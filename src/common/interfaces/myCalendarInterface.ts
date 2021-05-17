@@ -4,7 +4,7 @@ export interface MyCalendarState {
   availabilities: Availabilities[];
   scheduledEvents: ScheduledEvents[];
   calendarHeader: CalendarHeader;
-  previewingDayEvents: PreviewingDayEvents;
+  previewingDayEvents?: PreviewingDayEvents;
 }
 
 export interface Availabilities {
@@ -57,6 +57,7 @@ export interface MyCalendarContextProps {
 
 export interface PreviewingDayEvents {
   month: string;
+  day: number;
   events: ScheduledEvent[] | undefined;
 }
 

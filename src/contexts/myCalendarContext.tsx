@@ -27,10 +27,6 @@ const initialCalendar = [
 export const initialState: MyCalendarState = {
   registrationDate: 1620165600000,
   calendar: initialCalendar,
-  previewingDayEvents: {
-    month: "",
-    events: [],
-  },
   availabilities,
   scheduledEvents,
   calendarHeader: {
@@ -59,6 +55,7 @@ const reducer = (state: MyCalendarState, action: MyCalendarActions) => {
     case MyCalendarTypes.ChangeMonthHeader:
       state.calendarHeader.month = action.payload.calendarHeader.month;
       state.calendarHeader.year = action.payload.calendarHeader.year;
+
       return {
         ...state,
       };
@@ -66,6 +63,11 @@ const reducer = (state: MyCalendarState, action: MyCalendarActions) => {
       return {
         ...state,
         previewingDayEvents: action.payload.previewingDayEvents,
+      };
+    case MyCalendarTypes.ClearDayPreview:
+      delete state.previewingDayEvents;
+      return {
+        ...state,
       };
     case MyCalendarTypes.LoadMyCalendar:
       return {

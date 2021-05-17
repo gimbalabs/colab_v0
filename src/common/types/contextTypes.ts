@@ -21,6 +21,7 @@ export enum MyCalendarTypes {
   LoadMyCalendar = "LOAD_MY_CALENDAR",
   ChangeMonthHeader = "CHANGE_MONTH_HEADER",
   PreviewDayEvents = "PREVIEW_DAY_EVENTS",
+  ClearDayPreview = "CLEAR_DAY_PREVIEW",
 }
 
 /**
@@ -64,6 +65,7 @@ export type MyCalendarPaylaod = {
   [MyCalendarTypes.ResetState]: {
     calendarState?: MyCalendarState;
   };
+  [MyCalendarTypes.ClearDayPreview]: {};
 };
 
 export type MyCalendarActions = ActionMap<MyCalendarPaylaod>[keyof ActionMap<MyCalendarPaylaod>];

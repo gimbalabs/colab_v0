@@ -11,7 +11,7 @@ import * as Colors from "./colors";
 type FontSize = "x5" | "x10" | "x20" | "x30" | "x40" | "x50" | "x60" | "x70";
 export const fontSize: Record<FontSize, TextStyle> = {
   x5: {
-    fontSize: 12,
+    fontSize: 10,
   },
   x10: {
     fontSize: 13,
@@ -62,8 +62,11 @@ export const letterSpacing: Record<LetterSpacing, number> = {
   x40: 3,
 };
 
-type LineHeight = "x10" | "x20" | "x30" | "x40" | "x50" | "x60" | "x70";
+type LineHeight = "x5" | "x10" | "x20" | "x30" | "x40" | "x50" | "x60" | "x70";
 export const lineHeight: Record<LineHeight, TextStyle> = {
+  x5: {
+    lineHeight: 10,
+  },
   x10: {
     lineHeight: 20,
   },
@@ -126,8 +129,13 @@ export const header: Record<Header, TextStyle> = {
   },
 };
 
-type SubHeader = "x10" | "x20" | "x30" | "x40" | "x50";
+type SubHeader = "x5" | "x10" | "x20" | "x30" | "x40" | "x50";
 export const subHeader: Record<SubHeader, TextStyle> = {
+  x5: {
+    ...fontSize.x5,
+    ...lineHeight.x5,
+    ...fontWeight.semibold,
+  },
   x10: {
     ...fontSize.x10,
     ...lineHeight.x10,

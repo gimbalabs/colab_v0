@@ -1,3 +1,4 @@
+export { CalendarBottomNav } from "./CalendarBottomNav";
 export { CalendarEventsList } from "./CalendarEventsList";
 export { CalendarEventsDetail } from "./CalendarEventsDetail";
 export { CalendarHeader } from "./CalendarHeader";

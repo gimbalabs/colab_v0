@@ -2,7 +2,8 @@ import * as React from "react";
 
 import { View, StyleSheet, LayoutRectangle } from "react-native";
 import { Colors, Outlines, Typography, Buttons, Sizing } from "styles";
-import { PlaceholderDay, MonthlyDay, MonthlyWeek } from "./";
+import { PlaceholderDay } from "./PlaceholderDay";
+import { MonthlyDay } from "./MonthlyDay";
 import { Month } from "interfaces/myCalendarInterface";
 
 export interface MonthProps extends Month {
@@ -29,7 +30,7 @@ export const MonthItem = React.memo(
               year={year}
               month={month}
               name={day.name}
-              key={`${day.name}-${day.number}`}
+              key={`${day.name}-${day.number}-${year}`}
               number={day.number}
               availabilities={day.availabilities}
               scheduledEvents={day.scheduledEvents}

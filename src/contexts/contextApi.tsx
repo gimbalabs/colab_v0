@@ -49,5 +49,10 @@ export const myCalendarContext = () => {
         payload: { previewingDayEvents },
       });
     },
+    clearPreviewDayEvents: () => {
+      dispatch({
+        type: "CLEAR_DAY_PREVIEW",
+      });
+    },
   };
 };

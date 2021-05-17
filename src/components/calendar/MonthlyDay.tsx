@@ -23,9 +23,10 @@ export const MonthlyDay = ({
   const onPress = () => {
     const previewingDayEvents = {
       month,
+      day: number,
       events: scheduledEvents,
     };
-    scheduledEvents != null && previewDayEvents(previewingDayEvents);
+    previewDayEvents(previewingDayEvents);
   };
 
   return (

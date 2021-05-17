@@ -5,18 +5,21 @@ import {
   StyleSheet,
   SafeAreaView,
   RefreshControl,
+  Text,
+  Pressable,
 } from "react-native";
+import { CalendarEventsDetail } from "./CalendarEventsDetail";
 
-import { Sizing, Colors, Outlines } from "styles";
 import { myCalendarContext } from "contexts/contextApi";
-import { CalendarEventsDetail } from ".";
-import { getDigitalTime, getDay, month } from "utils";
-import { getYear } from "lib/utils";
+import { getDigitalTime, getDay, getYear, month } from "utils";
+import { Buttons, Sizing, Colors, Outlines, Typography } from "styles";
 import { ScheduledEvent } from "common/interfaces/myCalendarInterface";
+import { RemoveIcon } from "assets/icons";
 
 export const CalendarEventsList = () => {
   const {
     previewingDayEvents,
+    clearPreviewDayEvents,
     scheduledEvents,
     calendarHeader,
   } = myCalendarContext();
@@ -30,6 +33,7 @@ export const CalendarEventsList = () => {
 
     return (
       <CalendarEventsDetail
+        key={`${item.fromTime}_${item.toTime}`}
         title={title}
         description={description}
         fromTime={fromTime}
@@ -39,19 +43,24 @@ export const CalendarEventsList = () => {
     );
   };
 
-  const keyExtractor = (item: any) => `${item.fromTime}_${item.toTime}`;
-
-  const wait = (ms: number): Promise<void> => {
-    return new Promise((res) => setTimeout(res, ms));
-  };
+  const keyExtractor = (item: any, index: number) =>
+    `${index}_${item.fromTime}_${item.toTime}`;
 
   // fetch new events, update calendar state
   const onRefresh = React.useCallback(async () => {
+    const wait = (ms: number): Promise<void> => {
+      return new Promise((res) => setTimeout(res, ms));
+    };
+
     setRefreshing(true);
     await wait(2500);
     setRefreshing(false);
     setLastUpdated(new Date().getTime());
   }, [refreshing]);
+
+  const onClosePress = () => {
+    clearPreviewDayEvents();
+  };
 
   // @TODO: Store lastUpdated value inside context store for future reference
   const lastUpdatedDay =
@@ -64,7 +73,10 @@ export const CalendarEventsList = () => {
   const title = `Last updated: ${lastUpdatedDay}`;
 
   const data = React.useMemo(() => {
-    if (previewingDayEvents) return previewingDayEvents;
+    // When user clicks on a day to preview the events on a specific day
+    // just return those events.
+    if (previewingDayEvents != undefined) return previewingDayEvents.events;
+
     var monthlyEvents: ScheduledEvent[] = [];
 
     for (let scheduledYear of scheduledEvents) {
@@ -83,17 +95,27 @@ export const CalendarEventsList = () => {
       }
     }
     return monthlyEvents;
-  }, [
-    calendarHeader.month,
-    calendarHeader.year,
-    scheduledEvents,
-    previewingDayEvents,
-  ]);
+  }, [previewingDayEvents, calendarHeader.month, scheduledEvents]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
         <View style={styles.eventsHolder}>
+          {previewingDayEvents && (
+            <View style={styles.dayPreviewBar}>
+              <Text style={styles.dayPreviewBarText}>
+                Upcoming events on:{" "}
+                <Text style={{ fontWeight: "600" }}>
+                  {previewingDayEvents.month} {previewingDayEvents.day}
+                </Text>
+              </Text>
+              <Pressable
+                onPress={onClosePress}
+                style={Buttons.applyOpacity(styles.dayPreviewBarButton)}>
+                <RemoveIcon height={18} width={18} stroke="#000" />
+              </Pressable>
+            </View>
+          )}
           <FlatList
             data={data}
             renderItem={renderItem}
@@ -135,4 +157,17 @@ const styles = StyleSheet.create({
     borderWidth: Outlines.borderWidth.base,
     borderColor: Colors.neutral.s400,
   },
+  dayPreviewBar: {
+    width: "95%",
+    marginTop: "2%",
+    padding: "1%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: Colors.neutral.s100,
+  },
+  dayPreviewBarText: {
+    ...Typography.body.x10,
+  },
+  dayPreviewBarButton: {},
 });

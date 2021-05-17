@@ -153,7 +153,6 @@ export function getSixMonthsWithDays(
           events.push(schedDay)
         );
       }
-      console.log(availableYear, scheduledYear);
 
       const firstDay = new Date(currYear, currMonthIndex).getDay();
       const firstDayName = weekDays[firstDay];
@@ -249,11 +248,9 @@ export function getSixMonthsWithDays(
         }
         if (dayAvailabilities != null) {
           day.availabilities = [...dayAvailabilities];
-          console.log(day);
         }
         if (dayEvents != null) {
           day.scheduledEvents = [...dayEvents];
-          console.log(day);
         }
 
         /* Check the day of the week, if it's Sunday -
