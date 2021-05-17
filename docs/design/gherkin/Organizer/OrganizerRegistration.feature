@@ -6,7 +6,9 @@ Feature: Organizer Onboarding & Registration
 Feature: Organizer Identity
 
     Scenario: Organizer creates an Organizer Profile
-        Given I have an Authentication token
-        When I view Organizer screen
-        Then I am prompted to create an Organizer Profile
-        # is allowing URL field ok?
+        Given User has an Organizer Authentication token
+        When Organizer views Organizer screen
+        Then Organizer is prompted to create an Organizer Profile
+
+    Scenario: Organizer edits Organizer Profile
+        When 
