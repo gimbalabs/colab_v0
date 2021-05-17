@@ -2,7 +2,9 @@
   "compilerOptions": {
     "jsx": "react-native",
     "target": "esnext",
-    "lib": ["esnext"],
+    "lib": [
+      "esnext"
+    ],
     "strict": true,
     "allowJs": true,
     "skipLibCheck": true,
@@ -14,18 +16,42 @@
     "isolatedModules": true,
     "moduleResolution": "node",
     "paths": {
-      "common/*": ["./src/common/*"],
-      "components/*": ["./src/components/*"],
-      "containers/*": ["./src/containers/*"],
-      "contexts/*": ["./src/contexts/*"],
-      "lib/*": ["./src/lib/*"],
-      "icons/*": ["./src/assets/icons/index"],
-      "interfaces/*": ["./src/common/interfaces/*"],
-      "screens/*": ["./src/screens/*"],
-      "styles/*": ["./src/styles/*"],
-      "tabs/*": ["./src/tabs/*"],
-      "types/*": ["./src/common/types*"],
-      "utils/*": ["./src/lib/utils.ts*"]
+      "common/*": [
+        "./src/common/*"
+      ],
+      "components/*": [
+        "./src/components/*"
+      ],
+      "containers/*": [
+        "./src/containers/*"
+      ],
+      "contexts/*": [
+        "./src/contexts/*"
+      ],
+      "lib/*": [
+        "./src/lib/*"
+      ],
+      "icons/*": [
+        "./src/assets/icons/index"
+      ],
+      "interfaces/*": [
+        "./src/common/interfaces/*"
+      ],
+      "screens/*": [
+        "./src/screens/*"
+      ],
+      "styles/*": [
+        "./src/styles/*"
+      ],
+      "tabs/*": [
+        "./src/tabs/*"
+      ],
+      "types/*": [
+        "./src/common/types*"
+      ],
+      "utils/*": [
+        "./src/lib/utils.ts*"
+      ]
     }
   },
   "exclude": [
@@ -33,5 +59,6 @@
     "babel.config.js",
     "metro.config.js",
     "jest.config.js"
-  ]
+  ],
+  "extends": "expo/tsconfig.base"
 }
