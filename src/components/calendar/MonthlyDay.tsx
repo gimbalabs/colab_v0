@@ -6,12 +6,11 @@ import { Day } from "interfaces/myCalendarInterface";
 import { myCalendarContext } from "contexts/contextApi";
 
 export interface MonthlyDayProps extends Day {
-  year: number;
+  year?: number;
   month: string;
 }
 
 export const MonthlyDay = ({
-  year,
   month,
   number,
   isLastWeek,

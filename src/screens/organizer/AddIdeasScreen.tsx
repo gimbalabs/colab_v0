@@ -7,8 +7,8 @@ import {
   SafeAreaView,
   Pressable,
 } from "react-native";
-import { AddIdea } from "components/ideas/AddIdea";
-import { IdeaList } from "components/ideas/IdeaList";
+import { AddIdea } from "components/Ideas/AddIdea";
+import { IdeaList } from "components/Ideas/IdeaList";
 import { StackScreenProps } from "@react-navigation/stack";
 import { OrganizerTabParamList } from "common/types/navigationTypes";
 import { Buttons, Colors, Outlines, Typography, Sizing, Forms } from "styles";

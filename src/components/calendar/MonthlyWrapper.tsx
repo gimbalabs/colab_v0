@@ -58,13 +58,15 @@ export const MonthlyWrapper = () => {
   const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const layoutWidth = e.nativeEvent.layoutMeasurement.width;
     const offsetX = e.nativeEvent.contentOffset.x;
-    const listItemIndex = offsetX / layoutWidth;
+    
+    const listItemIndex = Math.round(offsetX / layoutWidth);
     if (calendar != null && listItemIndex % 1 === 0) {
       const calendarHeader = {
         month: calendar[listItemIndex].name,
         year: calendar[listItemIndex].year,
       };
       changeMonthHeader(calendarHeader);
+
     }
   };
 

@@ -15,19 +15,18 @@ export const MonthItem = React.memo(
   ({ year, month, days, dimensions }: MonthProps) => {
     return (
       <View
-        style={[
-          styles.container,
-          {
-            width: dimensions ? dimensions.width : 0,
-            height: dimensions ? dimensions.height : 0,
-          },
-        ]}>
+      style={{
+        ...styles.container,
+        ...{
+          width: dimensions ? dimensions.width : 0,
+          height: dimensions ? dimensions.height : 0,
+        }
+      }}>
         {days.map((day) =>
           day.number === 0 ? (
             <PlaceholderDay key={day.name} />
           ) : (
             <MonthlyDay
-              year={year}
               month={month}
               name={day.name}
               key={`${day.name}-${day.number}-${year}`}
@@ -45,8 +44,8 @@ export const MonthItem = React.memo(
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: Sizing.x20,
-    paddingVertical: Sizing.x5,
+    // paddingHorizontal: Sizing.x20,
+    // paddingVertical: Sizing.x5,
     flexWrap: "wrap",
     alignItems: "center",
     flexDirection: "row",
