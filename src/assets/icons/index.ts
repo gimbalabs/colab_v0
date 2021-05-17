@@ -1,6 +1,21 @@
-import { RemoveIcon } from "./remove";
-import { EditIcon } from "./edit";
-import { SearchIcon } from "./search";
+import { CalendarIcon } from "./calendar";
+import { CashStackIcon } from "./cashStack";
 import { DotIcon } from "./dot";
+import { EditIcon } from "./edit";
+import { HearthIcon } from "./hearth";
+import { RemoveIcon } from "./remove";
+import { SearchIcon } from "./search";
+import { UserIcon } from "./user";
+import { WalletIcon } from "./wallet";
 
-export { DotIcon, SearchIcon, RemoveIcon, EditIcon };
+export {
+  CalendarIcon,
+  CashStackIcon,
+  DotIcon,
+  EditIcon,
+  HearthIcon,
+  RemoveIcon,
+  SearchIcon,
+  UserIcon,
+  WalletIcon,
+};
