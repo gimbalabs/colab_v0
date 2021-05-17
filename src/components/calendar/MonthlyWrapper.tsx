@@ -90,7 +90,7 @@ export const MonthlyWrapper = () => {
           data={state.calendar}
           renderItem={renderItem}
           keyExtractor={keyExtractor}
-          // getItemLayout={getItemLayout}
+          getItemLayout={getItemLayout}
           initialScrollIndex={state.calendar?.findIndex(
             (month) => month.name === months[new Date().getMonth()]
           )}
