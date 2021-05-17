@@ -67,8 +67,8 @@ export const MonthlyWrapper = () => {
   const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const layoutWidth = e.nativeEvent.layoutMeasurement.width;
     const offsetX = e.nativeEvent.contentOffset.x;
-    const listItemIndex = offsetX / layoutWidth;
-    if (state.calendar != null && listItemIndex % 1 === 0) {
+    const listItemIndex = Math.round(offsetX / layoutWidth);
+    if (state.calendar != null) {
       dispatch({
         type: "CHANGE_MONTH_HEADER",
         payload: {
@@ -90,7 +90,7 @@ export const MonthlyWrapper = () => {
           data={state.calendar}
           renderItem={renderItem}
           keyExtractor={keyExtractor}
-          getItemLayout={getItemLayout}
+          // getItemLayout={getItemLayout}
           initialScrollIndex={state.calendar?.findIndex(
             (month) => month.name === months[new Date().getMonth()]
           )}
