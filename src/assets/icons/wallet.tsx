@@ -3,8 +3,13 @@ import Svg, { SvgProps, Path } from "react-native-svg";
 
 export const WalletIcon = (props: SvgProps) => {
   return (
-    <Svg fill="currentColor" viewBox="0 0 16 16" {...props}>
-      <Path d="M12.136.326A1.5 1.5 0 0114 1.78V3h.5A1.5 1.5 0 0116 4.5v9a1.5 1.5 0 01-1.5 1.5h-13A1.5 1.5 0 010 13.5v-9a1.5 1.5 0 011.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 00-.621-.484L5.562 3zM1.5 4a.5.5 0 00-.5.5v9a.5.5 0 00.5.5h13a.5.5 0 00.5-.5v-9a.5.5 0 00-.5-.5h-13z" />
+    <Svg fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
+      <Path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
+      />
     </Svg>
   );
 };
