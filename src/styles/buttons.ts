@@ -12,7 +12,7 @@ export const bar: Record<Bar, ViewStyle> = {
     justifyContent: "center",
     padding: Sizing.x15,
     borderRadius: Outlines.borderRadius.base,
-    backgroundColor: Colors.primary.brand,
+    backgroundColor: Colors.primary.neutral,
   },
   secondary: {
     alignItems: "center",
@@ -45,7 +45,7 @@ export const barText: Record<BarText, TextStyle> = {
   primary: {
     ...Typography.fontSize.x30,
     ...Typography.fontWeight.semibold,
-    color: Colors.neutral.white,
+    color: Colors.primary.s600,
   },
   transparent: {
     ...Typography.fontSize.x30,
