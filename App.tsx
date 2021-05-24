@@ -5,13 +5,10 @@ LogBox.ignoreAllLogs();
 
 import "react-native-gesture-handler";
 import * as React from "react";
-import {
-  AttendeesScreen,
-  BrowseScreen,
-  HomeScreen,
-  MyCalendarScreen,
-} from "screens/index";
-import { OrganizerTabs } from "tabs/OrganizerTabs";
+import AppLoading from "expo-app-loading";
+import { useFonts } from "expo-font";
+import { HomeScreen } from "screens/index";
+import { NavigationScreens } from "tabs/NavigationScreens";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { AppContextProvider } from "contexts/appContext";
@@ -26,27 +23,33 @@ setJSExceptionHandler(jsErrorHandler, true); // true - enables the error in dev 
 const Stack = createStackNavigator<AppStackParamList>();
 
 function App() {
-  return (
-    <AppContextProvider>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home" headerMode="screen">
-          <Stack.Screen
-            name="Home"
-            options={{ title: "Home" }}
-            component={HomeScreen}
-          />
-          <Stack.Screen name="My Calendar" component={MyCalendarScreen} />
-          <Stack.Screen name="Attendees" component={AttendeesScreen} />
-          <Stack.Screen name="Browse" component={BrowseScreen} />
-          <Stack.Screen
-            name="Organizer"
-            options={{ title: "Organizer", headerShown: false }}
-            component={OrganizerTabs}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </AppContextProvider>
-  );
+  let [fontsLoadaed] = useFonts({
+    Roboto: require("./assets/fonts/Roboto-Regular.ttf"),
+    "Roboto-Black": require("./assets/fonts/Roboto-Black.ttf"),
+    "Roboto-Bold": require("./assets/fonts/Roboto-Bold.ttf"),
+  });
+
+  if (!fontsLoadaed) {
+    return <AppLoading />;
+  } else {
+    return (
+      <AppContextProvider>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Home" headerMode="screen">
+            <Stack.Screen
+              name="Home"
+              options={{ title: "Home" }}
+              component={HomeScreen}
+            />
+            <Stack.Screen
+              name="Navigation Screens"
+              component={NavigationScreens}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </AppContextProvider>
+    );
+  }
 }
 
 export default App;
