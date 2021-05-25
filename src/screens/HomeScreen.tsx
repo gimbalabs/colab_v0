@@ -7,9 +7,10 @@ import {
   StyleSheet,
   Switch,
 } from "react-native";
+
 import { AppStackParamList } from "common/types/navigationTypes";
 import { StackScreenProps } from "@react-navigation/stack";
-import { Colors, Buttons, Typography, Sizing, Outlines } from "styles";
+import { Colors, Buttons, Typography, Sizing, Outlines } from "styles/index";
 import { appContext } from "contexts/contextApi";
 
 export interface HomeProps
@@ -33,28 +34,13 @@ export const HomeScreen = ({ navigation }: HomeProps) => {
         </View>
       </View>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Colab Home Screen</Text>
+        <Text style={styles.headerText}>1 on 1 scheduling Dapp</Text>
       </View>
       <View style={styles.body}>
         <Pressable
           style={Buttons.applyOpacity(styles.button)}
-          onPress={() => navigation.navigate("Organizer")}>
-          <Text style={styles.buttonText}>Organizer</Text>
-        </Pressable>
-        <Pressable
-          style={Buttons.applyOpacity(styles.button)}
-          onPress={() => navigation.navigate("Attendees")}>
-          <Text style={styles.buttonText}>Attendees</Text>
-        </Pressable>
-        <Pressable
-          style={Buttons.applyOpacity(styles.button)}
-          onPress={() => navigation.navigate("Browse")}>
-          <Text style={styles.buttonText}>Browse</Text>
-        </Pressable>
-        <Pressable
-          style={Buttons.applyOpacity(styles.button)}
-          onPress={() => navigation.navigate("My Calendar")}>
-          <Text style={styles.buttonText}>My Calendar</Text>
+          onPress={() => navigation.navigate("Navigation Screens")}>
+          <Text style={styles.buttonText}>Dapp navigation layout</Text>
         </Pressable>
       </View>
     </SafeAreaView>
@@ -64,6 +50,7 @@ export const HomeScreen = ({ navigation }: HomeProps) => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
+    backgroundColor: Colors.primary.s600,
   },
   top: {
     margin: Sizing.x10,
@@ -75,6 +62,7 @@ const styles = StyleSheet.create({
   },
   switchText: {
     ...Typography.monospace.base,
+    color: Colors.primary.neutral,
     marginRight: Sizing.x1,
   },
   header: {
@@ -83,11 +71,12 @@ const styles = StyleSheet.create({
     padding: Sizing.x20,
   },
   headerText: {
-    ...Typography.header.x60,
     letterSpacing: Typography.letterSpacing.x20,
     marginHorizontal: Sizing.x5,
     marginTop: Sizing.x40,
     alignSelf: "center",
+    color: Colors.primary.neutral,
+    ...Typography.header.x50,
   },
   body: {
     alignItems: "center",
@@ -99,6 +88,7 @@ const styles = StyleSheet.create({
     margin: Sizing.x10,
   },
   buttonText: {
+    textAlign: "center",
     ...Buttons.barText.primary,
   },
 });

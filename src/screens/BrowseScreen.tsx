@@ -1,18 +1,11 @@
 import * as React from "react";
-import {
-  View,
-  Button,
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  Pressable,
-} from "react-native";
+import { View, Text, StyleSheet, SafeAreaView, Pressable } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
-import { AppStackParamList } from "common/types/navigationTypes";
-import { Colors, Buttons, Typography, Sizing, Outlines } from "styles";
+import { Colors, Buttons, Typography, Sizing, Outlines } from "styles/index";
+import { OrganizerTabParamList } from "common/types/navigationTypes";
 
 export interface BrowseProps
-  extends StackScreenProps<AppStackParamList, "Browse"> {
+  extends StackScreenProps<OrganizerTabParamList, "Browse"> {
   children: React.ReactNode;
 }
 
@@ -20,7 +13,7 @@ export const BrowseScreen = ({ navigation }: BrowseProps) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Browse</Text>
+        <Text style={styles.headerText}>Browse Screen</Text>
       </View>
       <View style={styles.body}>
         <View>
@@ -48,6 +41,7 @@ export const BrowseScreen = ({ navigation }: BrowseProps) => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
+    backgroundColor: Colors.primary.s600,
   },
   top: {
     margin: Sizing.x10,
@@ -58,7 +52,8 @@ const styles = StyleSheet.create({
     padding: Sizing.x20,
   },
   headerText: {
-    ...Typography.header.x60,
+    ...Typography.header.x40,
+    color: Colors.primary.neutral,
     marginHorizontal: Sizing.x5,
     marginTop: Sizing.x40,
     alignSelf: "center",
@@ -74,5 +69,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     ...Buttons.barText.primary,
+    color: Colors.primary.s600,
   },
 });

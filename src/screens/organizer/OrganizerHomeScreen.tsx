@@ -3,10 +3,10 @@ import { View, Text, Pressable, StyleSheet, SafeAreaView } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
 import { OrganizerTabParamList } from "common/types/navigationTypes";
 import { AppContext } from "contexts/appContext";
-import { Buttons, Outlines, Typography, Sizing, Colors } from "styles";
+import { Buttons, Outlines, Typography, Sizing, Colors } from "styles/index";
 
 export interface OrganizerHomeProps
-  extends StackScreenProps<OrganizerTabParamList, "Organizer"> {}
+  extends StackScreenProps<OrganizerTabParamList, "Home"> {}
 
 export const OrganizerHomeScreen = ({ navigation }: OrganizerHomeProps) => {
   const { state } = React.useContext(AppContext);
@@ -14,47 +14,21 @@ export const OrganizerHomeScreen = ({ navigation }: OrganizerHomeProps) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Organizer</Text>
-        <Text style={styles.headerText}>Cºl⍺b</Text>
-
-        {state.authentication ? (
-          <>
-            <View style={styles.body}>
-              <Pressable
-                style={Buttons.applyOpacity(styles.button)}
-                onPress={() => navigation.navigate("Add Bio")}>
-                <Text style={styles.buttonText}>Add Bio</Text>
-              </Pressable>
-
-              <Pressable
-                style={Buttons.applyOpacity(styles.button)}
-                onPress={() => navigation.navigate("Add Ideas")}>
-                <Text style={styles.buttonText}>Add Ideas</Text>
-              </Pressable>
-            </View>
-          </>
-        ) : (
-          <View style={styles.body}>
-            <Pressable
-              style={Buttons.applyOpacity(styles.button)}
-              onPress={() => navigation.push("Register Id")}>
-              <Text style={styles.buttonText}>Register as Organizer</Text>
-            </Pressable>
-          </View>
-        )}
+        <Text style={styles.headerText}>Organizer Home Screen</Text>
       </View>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1 },
+  safeArea: { flex: 1, backgroundColor: Colors.primary.s600 },
   header: {
     alignItems: "center",
     marginVertical: Sizing.x100,
   },
   headerText: {
-    ...Typography.header.x50,
+    ...Typography.header.x40,
+    color: Colors.primary.neutral,
   },
   body: {
     marginTop: Sizing.x40,
