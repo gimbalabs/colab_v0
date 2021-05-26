@@ -5,7 +5,7 @@ import {
   Month,
   ScheduledEventsDay,
 } from "interfaces/myCalendarInterface";
-import { months, weekDays } from "common/types/calendarTypes";
+import { months, monthsByName, weekDays } from "common/types/calendarTypes";
 
 /**
  *  In the future we would want to fetch the scheduled events and user
@@ -71,6 +71,26 @@ export function getMonth(val?: any): number {
   return new Date().getMonth();
 }
 
+export function getMonthByIndex(val?: any): string {
+  var month;
+  if (val != null) {
+    month = months[new Date(val).getMonth()];
+  } else {
+    month = months[new Date().getMonth()];
+  }
+  return month;
+}
+
+export function getMonthByName(val?: any): number {
+  var month;
+  if (val != null) {
+    month = monthsByName[new Date(val).getMonth()];
+  } else {
+    month = monthsByName[new Date().getMonth()];
+  }
+  return month;
+}
+
 export function getYear(val?: any): number {
   if (val != null) return new Date(val).getFullYear();
   return new Date().getFullYear();
@@ -122,7 +142,7 @@ export function getSixMonthsWithDays(
   const monthsWithDays: Month[] = [];
 
   var currYear = year;
-  var currMonthIndex = month;
+  var currMonthIndex = fromMonth != null ? month + 1 : month;
   var currDayIndex = firstDayIndex;
   var numOfDays = 0;
   var scheduledYear = scheduledEvents.find(
@@ -131,7 +151,7 @@ export function getSixMonthsWithDays(
   var availableYear = availabilities.find((avail) => avail.year === currYear);
 
   if (nextMonths) {
-    for (let i = currMonthIndex; i <= month + 6; i++) {
+    for (let i = currMonthIndex; i <= month + 2; i++) {
       let days: Day[] = [];
       let events: ScheduledEventsDay[] = [];
       let availableSlots: AvailabilitiesDay[] = [];
@@ -156,6 +176,8 @@ export function getSixMonthsWithDays(
 
       const firstDay = new Date(currYear, currMonthIndex).getDay();
       const firstDayName = weekDays[firstDay];
+      // console.log("next");
+      // console.log(firstDay, firstDayName, months[currMonthIndex]);
 
       for (let j = 1; isValidDate(j, currMonthIndex, currYear); j++) {
         let dayAvailabilities = availableSlots.find((s) => s.day === j)
@@ -180,8 +202,8 @@ export function getSixMonthsWithDays(
         /* Check the day of the week, if it's Sunday -
          * set the next one to Monday
          */
-        if (currDayIndex === 7) {
-          currDayIndex = 1;
+        if (currDayIndex === 6) {
+          currDayIndex = 0;
         } else {
           currDayIndex++;
         }
@@ -204,12 +226,21 @@ export function getSixMonthsWithDays(
         currYear += 1;
       }
     }
-
-    // If we want to get previous months - starting from the current month
   } else if (previousMonths) {
-    for (let i = currMonthIndex - 7; i < month; i++) {
+    // this will give us 2 previous months, starting at given currMonthIndex
+    currMonthIndex = currMonthIndex - 1;
+    for (let i = currMonthIndex - 1; i < month; i++) {
       const firstDay = new Date(currYear, currMonthIndex).getDay();
       const firstDayName = weekDays[firstDay];
+
+      // console.log("previous");
+      // console.log(
+      //   firstDay,
+      //   firstDayName,
+      //   currMonthIndex,
+      //   months[currMonthIndex]
+      // );
+      // console.log("month", month);
 
       let days: Day[] = [];
       let events: ScheduledEventsDay[] = [];
@@ -256,8 +287,8 @@ export function getSixMonthsWithDays(
         /* Check the day of the week, if it's Sunday -
          * set the next one to Monday
          */
-        if (currDayIndex === 7) {
-          currDayIndex = 1;
+        if (currDayIndex === 6) {
+          currDayIndex = 0;
         } else {
           currDayIndex++;
         }
@@ -279,7 +310,7 @@ export function getSixMonthsWithDays(
         currYear -= 1;
       }
     }
-    monthsWithDays.reverse().pop();
+    monthsWithDays.reverse();
     return monthsWithDays;
   }
   return monthsWithDays;
