@@ -4,7 +4,6 @@
 import {
   Availabilities,
   CalendarHeader,
-  Month,
   MyCalendarState,
   PreviewingDayEvents,
   ScheduledEvents,
@@ -54,13 +53,13 @@ export type MyCalendarPaylaod = {
     availabilities: Availabilities[];
   };
   [MyCalendarTypes.LoadMyCalendar]: {
-    calendar: Month[];
+    calendarArgs: NewCalendarMonths;
   };
   [MyCalendarTypes.ChangeMonthHeader]: {
     calendarHeader: CalendarHeader;
   };
   [MyCalendarTypes.PreviewDayEvents]: {
-    previewingDayEvents: PreviewingDayEvents;
+    newPreviewingDayEvents: PreviewingDayEvents;
   };
   [MyCalendarTypes.ResetState]: {
     calendarState?: MyCalendarState;

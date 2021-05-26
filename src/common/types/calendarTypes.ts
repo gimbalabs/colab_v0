@@ -52,11 +52,11 @@ type WeekDays =
   | "Sunday";
 // days aren't indexed from 0, as months are
 export const weekDays: Record<number, WeekDays> = {
+  0: "Sunday",
   1: "Monday",
   2: "Tuesday",
   3: "Wednesday",
   4: "Thursday",
   5: "Friday",
   6: "Saturday",
-  7: "Sunday",
 };

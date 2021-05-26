@@ -55,10 +55,16 @@ export interface MyCalendarContextProps {
   dispatch: React.Dispatch<any>;
 }
 
+export interface NewCalendarMonths {
+  nextMonths: boolean;
+  month: number;
+  year?: number;
+}
+
 export interface PreviewingDayEvents {
-  month: string;
-  day: number;
-  events: ScheduledEvent[] | undefined;
+  month: string | undefined;
+  day: number | undefined;
+  events: ScheduledEvent[] | undefined | [];
 }
 
 export interface CalendarHeader {
