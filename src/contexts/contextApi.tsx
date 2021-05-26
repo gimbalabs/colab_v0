@@ -6,6 +6,7 @@ import {
   Availabilities,
   CalendarHeader,
   Month,
+  NewCalendarMonths,
   PreviewingDayEvents,
   ScheduledEvent,
 } from "interfaces/myCalendarInterface";
@@ -40,13 +41,13 @@ export const myCalendarContext = () => {
     changeMonthHeader: (calendarHeader: CalendarHeader) => {
       dispatch({ type: "CHANGE_MONTH_HEADER", payload: { calendarHeader } });
     },
-    loadMyCalendar: (calendar: Month[]) => {
-      dispatch({ type: "LOAD_CALENDAR", payload: calendar });
+    loadMyCalendar: (calendarArgs: NewCalendarMonths) => {
+      dispatch({ type: "LOAD_MY_CALENDAR", payload: { calendarArgs } });
     },
-    previewDayEvents: (previewingDayEvents: PreviewingDayEvents) => {
+    previewDayEvents: (newPreviewingDayEvents: PreviewingDayEvents) => {
       dispatch({
         type: "PREVIEW_DAY_EVENTS",
-        payload: { previewingDayEvents },
+        payload: { newPreviewingDayEvents },
       });
     },
     clearPreviewDayEvents: () => {

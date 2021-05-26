@@ -1,11 +1,13 @@
 import * as React from "react";
-import { View, Pressable, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, LayoutRectangle } from "react-native";
 
-import { Colors, Buttons, Outlines, Sizing, Typography } from "styles";
+import { Colors, Outlines, Sizing, Typography } from "styles/index";
 import { ScheduledEvent } from "interfaces/myCalendarInterface";
 import { getDigitalTime } from "lib/utils";
-import { months } from "types/calendarTypes";
+import { months } from "common/types/calendarTypes";
 import { myCalendarContext } from "contexts/contextApi";
+
+export interface CalendarEventsDetailProps extends ScheduledEvent {}
 
 export const CalendarEventsDetail = ({
   title,
@@ -13,7 +15,7 @@ export const CalendarEventsDetail = ({
   toTime,
   participants,
   description,
-}: ScheduledEvent) => {
+}: CalendarEventsDetailProps) => {
   const { previewingDayEvents } = myCalendarContext();
   const fromTimeDigit = getDigitalTime(fromTime);
   const toTimeDigit = getDigitalTime(toTime);
@@ -32,11 +34,6 @@ export const CalendarEventsDetail = ({
         <Text style={styles.eventDetailText}>
           {fromTimeDigit} - {toTimeDigit} UTC
         </Text>
-        {description ? (
-          <Text style={styles.eventDetailText}>{description}</Text>
-        ) : (
-          <></>
-        )}
         {participants.map((p: string, index: number) => (
           <Text key={`${index + p}`} style={styles.eventDetailText}>
             {p}
@@ -50,16 +47,14 @@ export const CalendarEventsDetail = ({
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    minWidth: "90%",
-    paddingVertical: "2%",
-    borderRadius: Outlines.borderRadius.small,
     borderBottomWidth: Outlines.borderWidth.base,
     borderColor: Colors.neutral.s200,
+    justifyContent: "space-between",
   },
   dateHolder: {
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    width: "25%",
   },
   dateDay: {
     ...Typography.subHeader.x40,
@@ -67,7 +62,9 @@ const styles = StyleSheet.create({
   dateMonth: {
     ...Typography.subHeader.x30,
   },
-  eventDetail: {},
+  eventDetail: {
+    flex: 3,
+  },
   eventDetailText: {
     ...Typography.body.x20,
   },
