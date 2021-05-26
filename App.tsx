@@ -25,7 +25,7 @@ const Stack = createStackNavigator<AppStackParamList>();
 
 function App() {
   let [fontsLoadaed] = useFonts({
-    "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
+    Roboto: require("./assets/fonts/Roboto-Regular.ttf"),
     "Roboto-Black": require("./assets/fonts/Roboto-Black.ttf"),
     "Roboto-Bold": require("./assets/fonts/Roboto-Bold.ttf"),
   });

@@ -183,37 +183,37 @@ export const body: Record<Body, TextStyle> = {
     ...fontSize.x5,
     ...lineHeight.x10,
     color: Colors.neutral.s800,
-    fontFamily: "Roboto-Regular",
+    fontFamily: "Roboto",
   },
   x10: {
     ...fontSize.x10,
     ...lineHeight.x10,
     color: Colors.neutral.s800,
-    fontFamily: "Roboto-Regular",
+    fontFamily: "Roboto",
   },
   x20: {
     ...fontSize.x20,
     ...lineHeight.x20,
     color: Colors.neutral.s800,
-    fontFamily: "Roboto-Regular",
+    fontFamily: "Roboto",
   },
   x30: {
     ...fontSize.x30,
     ...lineHeight.x40,
     color: Colors.neutral.s800,
-    fontFamily: "Roboto-Regular",
+    fontFamily: "Roboto",
   },
   x40: {
     ...fontSize.x40,
     ...lineHeight.x40,
     color: Colors.neutral.s800,
-    fontFamily: "Roboto-Regular",
+    fontFamily: "Roboto",
   },
   x50: {
     ...fontSize.x50,
     ...lineHeight.x50,
     color: Colors.neutral.s800,
-    fontFamily: "Roboto-Regular",
+    fontFamily: "Roboto",
   },
 };
 
@@ -234,7 +234,7 @@ export const monospace: Record<Monospace, TextStyle> = {
 type Roboto = "regular" | "bold" | "black";
 export const roboto: Record<Roboto, TextStyle> = {
   regular: {
-    fontFamily: "Roboto-Regular",
+    fontFamily: "Roboto",
     letterSpacing: letterSpacing.x20,
   },
   bold: {
