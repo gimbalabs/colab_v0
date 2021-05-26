@@ -1,5 +1,6 @@
 import * as React from "react";
 import { SafeAreaView, StyleSheet } from "react-native";
+import { Colors } from "styles/index";
 import { MyCalendarProvider } from "contexts/myCalendarContext";
 
 export interface CalendarWrapperProps {
@@ -15,5 +16,8 @@ export const CalendarWrapper = ({ children }: CalendarWrapperProps) => {
 };
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1 },
+  safeArea: {
+    flex: 1,
+    backgroundColor: Colors.primary.s600,
+  },
 });

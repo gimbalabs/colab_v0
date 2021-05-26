@@ -27,11 +27,12 @@ const styles = StyleSheet.create({
   },
   weekDays: {
     flexDirection: "row",
+    paddingHorizontal: "2%",
     justifyContent: "space-evenly",
   },
   dayLetter: {
     ...Typography.body.x5,
     paddingLeft: "6%",
-    paddingRight: "6%"
+    paddingRight: "6%",
   },
 });

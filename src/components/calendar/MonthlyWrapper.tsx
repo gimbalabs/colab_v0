@@ -11,20 +11,26 @@ import {
 } from "react-native";
 
 import { myCalendarContext } from "contexts/contextApi";
-import { Colors, Outlines, Typography, Buttons } from "styles";
+import { Colors } from "styles/index";
 import { MonthItem } from "./MonthItem";
-import { Month } from "interfaces/myCalendarInterface";
-import { months } from "common/types/calendarTypes";
+import { Month, NewCalendarMonths } from "interfaces/myCalendarInterface";
+import { monthsByName } from "common/types/calendarTypes";
+import { getMonth, getSixMonthsWithDays } from "lib/utils";
 
 export const MonthlyWrapper = () => {
-  const { calendar, changeMonthHeader } = myCalendarContext();
+  const { calendar, changeMonthHeader, loadMyCalendar } = myCalendarContext();
   const [dimensions, setDimensions] = React.useState<LayoutRectangle | null>(
     null
   );
+  const [index, setIndex] = React.useState<number>(getMonth());
+  const [contentOffset, setContentOffset] = React.useState<number>(0);
+  const [direction, setDirection] = React.useState<"previous" | "next" | null>(
+    null
+  );
 
-  const data = React.useMemo(() => {
+  var data = React.useMemo(() => {
     return calendar;
-  }, [calendar]);
+  }, [calendar, index]);
 
   const renderItem = ({ item }: any) => {
     return (
@@ -55,23 +61,67 @@ export const MonthlyWrapper = () => {
     setDimensions(event.nativeEvent.layout);
   };
 
-  const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+  const getLayoutParams = (e: any) => {
     const layoutWidth = e.nativeEvent.layoutMeasurement.width;
     const offsetX = e.nativeEvent.contentOffset.x;
-    
     const listItemIndex = Math.round(offsetX / layoutWidth);
+
+    return { layoutWidth, offsetX, listItemIndex };
+  };
+
+  const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const { listItemIndex } = getLayoutParams(e);
+
     if (calendar != null && listItemIndex % 1 === 0) {
+      if (listItemIndex < index) {
+        setIndex((prev) => prev--);
+      }
+
+      if (listItemIndex > index) {
+        setIndex((prev) => prev++);
+      }
+
       const calendarHeader = {
         month: calendar[listItemIndex].name,
         year: calendar[listItemIndex].year,
       };
       changeMonthHeader(calendarHeader);
-
     }
   };
 
-  // Do not pass inline functions as props, as they will be reacreated
-  // on each component re-render (slowing down the app)
+  const loadNewMonths = (nextMonths: boolean, month: number, year?: number) => {
+    loadMyCalendar({ nextMonths, month, year });
+
+    setDirection(null);
+  };
+
+  const onScrollBeginDrag = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const { offsetX } = getLayoutParams(e);
+    setContentOffset(offsetX);
+  };
+
+  const onMomentumScrollEnd = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const { listItemIndex } = getLayoutParams(e);
+
+    // Check whether user has swapped to right or left (next or previous)
+    if (contentOffset < e.nativeEvent.contentOffset.x) {
+      if (direction === "next") {
+        var month = calendar[listItemIndex].name;
+        loadNewMonths(true, monthsByName[month]);
+      }
+      setDirection("next");
+    }
+    if (contentOffset > e.nativeEvent.contentOffset.x) {
+      if (direction === "previous") {
+        var month = calendar[listItemIndex].name;
+        loadNewMonths(false, monthsByName[month]);
+      }
+      setDirection("previous");
+    }
+  };
+
+  // Do not pass inline functions as props, as they will be recreated
+  // on each component re-render (and slowing down the app)
   return (
     <View style={styles.container} onLayout={onLayout}>
       {dimensions ? (
@@ -80,15 +130,16 @@ export const MonthlyWrapper = () => {
           renderItem={renderItem}
           keyExtractor={keyExtractor}
           getItemLayout={getItemLayout}
-          initialScrollIndex={calendar?.findIndex(
-            (month) => month.name === months[new Date().getMonth()]
-          )}
           onScroll={onScroll}
+          onScrollBeginDrag={onScrollBeginDrag}
+          onMomentumScrollEnd={onMomentumScrollEnd}
           scrollEventThrottle={500}
+          initialScrollIndex={2}
           initialNumToRender={5}
           maxToRenderPerBatch={5}
           updateCellsBatchingPeriod={10}
           showsHorizontalScrollIndicator={false}
+          keyboardDismissMode={"on-drag"}
           horizontal
           pagingEnabled
           removeClippedSubviews

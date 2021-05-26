@@ -4,7 +4,6 @@ import {
   Text,
   TextInput,
   StyleSheet,
-  Pressable,
   Keyboard,
   Platform,
   UIManager,
@@ -12,7 +11,6 @@ import {
 } from "react-native";
 
 import { Buttons, Colors, Sizing, Outline, Typography } from "styles";
-import { SearchIcon } from "icons";
 import { myCalendarContext } from "contexts/contextApi";
 
 // This will enable LayoutAnimation on Android too.
@@ -71,10 +69,11 @@ export const CalendarHeader = () => {
       onStartShouldSetResponder={(event) => handleResponderEvent(event)}
       style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>{calendarMonth}</Text>
         <Text style={styles.headerText}>{calendarYear}</Text>
+        <Text style={styles.headerText}>{"/"}</Text>
+        <Text style={styles.headerText}>{calendarMonth}</Text>
       </View>
-      <View
+      {/* <View
         style={styles.searchBarView}
         ref={(component) => setChildNodes(component)}>
         <View style={styles.searchBar}>
@@ -101,24 +100,27 @@ export const CalendarHeader = () => {
               ]}></TextInput>
           </Pressable>
         </View>
-      </View>
+      </View> */}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: Sizing.x15,
-    height: "8%",
+    width: "90%",
     flexDirection: "row",
   },
   header: {
     width: "50%",
-    paddingLeft: Sizing.x40,
+    flexDirection: "row",
+    marginHorizontal: Sizing.x15,
+    marginVertical: Sizing.x5,
     alignSelf: "flex-end",
   },
   headerText: {
-    ...Typography.header.x50,
+    ...Typography.header.x40,
+    color: "white",
+    paddingRight: 5,
   },
   searchBarView: {
     marginLeft: Sizing.x15,
