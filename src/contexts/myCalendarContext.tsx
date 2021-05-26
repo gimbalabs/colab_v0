@@ -5,6 +5,7 @@
  */
 import * as React from "react";
 import {
+  Month,
   MyCalendarContextProps,
   MyCalendarState,
 } from "interfaces/myCalendarInterface";
@@ -62,7 +63,7 @@ const reducer = (state: MyCalendarState, action: MyCalendarActions) => {
     case MyCalendarTypes.PreviewDayEvents:
       return {
         ...state,
-        previewingDayEvents: action.payload.previewingDayEvents,
+        previewingDayEvents: action.payload.newPreviewingDayEvents,
       };
     case MyCalendarTypes.ClearDayPreview:
       delete state.previewingDayEvents;
@@ -70,9 +71,35 @@ const reducer = (state: MyCalendarState, action: MyCalendarActions) => {
         ...state,
       };
     case MyCalendarTypes.LoadMyCalendar:
+      const nextMonths = action.payload.calendarArgs.nextMonths;
+      const year = action.payload.calendarArgs.year;
+      const month = action.payload.calendarArgs.month;
+      const newCalendar: Month[] = [...state.calendar];
+
+      if (year === undefined) {
+        if (nextMonths) {
+          newCalendar.push(...getSixMonthsWithDays(true, false, month));
+          // newCalendar.splice(0, 2);
+        } else {
+          newCalendar.splice(0, 0, ...getSixMonthsWithDays(false, true, month));
+          newCalendar.splice(state.calendar.length - 2, 2);
+        }
+      } else {
+        if (nextMonths) {
+          newCalendar.push(...getSixMonthsWithDays(true, false, month, year));
+          newCalendar.splice(0, 2);
+        } else {
+          newCalendar.splice(
+            0,
+            0,
+            ...getSixMonthsWithDays(false, true, month, year)
+          );
+          newCalendar.splice(state.calendar.length - 2, 2);
+        }
+      }
       return {
         ...state,
-        calendar: action.payload.calendar,
+        calendar: newCalendar,
       };
     default:
       throw Error(`Unknown type of action: ${action.type}`);
