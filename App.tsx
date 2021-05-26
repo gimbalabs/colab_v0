@@ -17,6 +17,7 @@ import { AppStackParamList } from "common/types/navigationTypes";
 // Error Handlers
 import { setJSExceptionHandler } from "react-native-exception-handler";
 import { jsErrorHandler } from "lib/errors";
+import { OnboardingScreens } from "tabs/OnboardingScreens";
 
 setJSExceptionHandler(jsErrorHandler, true); // true - enables the error in dev mode
 
@@ -44,6 +45,10 @@ function App() {
             <Stack.Screen
               name="Navigation Screens"
               component={NavigationScreens}
+            />
+            <Stack.Screen
+              name="Onboarding Screens"
+              component={OnboardingScreens}
             />
           </Stack.Navigator>
         </NavigationContainer>

@@ -39,6 +39,13 @@ export const HomeScreen = ({ navigation }: HomeProps) => {
       <View style={styles.body}>
         <Pressable
           style={Buttons.applyOpacity(styles.button)}
+          onPress={() => navigation.navigate("Onboarding Screens")}>
+          <Text style={styles.buttonText}>Onboarding Screens</Text>
+        </Pressable>
+      </View>
+      <View style={styles.body}>
+        <Pressable
+          style={Buttons.applyOpacity(styles.button)}
           onPress={() => navigation.navigate("Navigation Screens")}>
           <Text style={styles.buttonText}>Dapp navigation layout</Text>
         </Pressable>

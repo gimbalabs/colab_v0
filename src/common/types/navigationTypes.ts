@@ -3,15 +3,14 @@
 export type AppStackParamList = {
   // 'undefined' means that no parameters are specified
   Home: undefined;
-  "My Calendar": undefined;
-  Attendees: undefined;
-  Browse: undefined;
-  Organizer: undefined;
+  "Navigation Screens": undefined;
+  "Onboarding Screens": undefined;
 };
 
 export type OrganizerTabParamList = {
-  Organizer: undefined;
-  "Register Id": undefined;
-  "Add Bio": undefined;
-  "Add Ideas": undefined;
+  Home: undefined;
+  Browse: undefined;
+  Wallet: undefined;
+  Availability: undefined;
+  Profile: undefined;
 };
