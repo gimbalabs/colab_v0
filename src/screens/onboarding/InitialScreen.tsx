@@ -7,31 +7,29 @@ export interface InitialScreenProps {}
 
 export const InitialScreen = () => {
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.primary.s600 }}>
-      <View style={styles.container}>
-        <View style={styles.main}>
-          <Text style={styles.header}>Lorem ipsum dolor sit amet</Text>
-          <Text style={styles.subHeader}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
-            venenatis quam sem, eget bibendum lorem convallis et. Donec velit
-            ante, efficitur at ante eu, consequat hendrerit augue. Vivamus quis
-            eros ex
-          </Text>
-        </View>
-        <View style={styles.buttons}>
-          <Pressable
-            onPress={() => {}}
-            style={Buttons.applyOpacity(styles.buttonTop)}>
-            <Text style={styles.buttonTopText}>Learn more</Text>
-          </Pressable>
-          <Pressable
-            onPress={() => {}}
-            style={Buttons.applyOpacity(styles.buttonBottom)}>
-            <Text style={styles.buttonBottomText}>Next</Text>
-          </Pressable>
-        </View>
+    <View style={styles.container}>
+      <View style={styles.main}>
+        <Text style={styles.header}>Lorem ipsum dolor sit amet</Text>
+        <Text style={styles.subHeader}>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
+          venenatis quam sem, eget bibendum lorem convallis et. Donec velit
+          ante, efficitur at ante eu, consequat hendrerit augue. Vivamus quis
+          eros ex
+        </Text>
       </View>
-    </SafeAreaView>
+      <View style={styles.buttons}>
+        <Pressable
+          onPress={() => {}}
+          style={Buttons.applyOpacity(styles.buttonTop)}>
+          <Text style={styles.buttonTopText}>Learn more</Text>
+        </Pressable>
+        <Pressable
+          onPress={() => {}}
+          style={Buttons.applyOpacity(styles.buttonBottom)}>
+          <Text style={styles.buttonBottomText}>Next</Text>
+        </Pressable>
+      </View>
+    </View>
   );
 };
 
