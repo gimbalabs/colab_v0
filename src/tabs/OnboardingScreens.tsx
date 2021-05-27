@@ -1,4 +1,11 @@
 import * as React from "react";
+import {
+  View,
+  Animated,
+  SafeAreaView,
+  StyleSheet,
+  Dimensions,
+} from "react-native";
 
 import {
   CreateAccountScreen,
@@ -7,55 +14,87 @@ import {
   PricingScreen,
   WalletSetUpScreen,
 } from "screens/onboarding/index";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { AppContextProvider } from "contexts/appContext";
-import { OnboardingPager } from "components/OnboardingPager";
 import PagerView from "react-native-pager-view";
-import { View } from "react-native";
+import { ScalingDot } from "react-native-animated-pagination-dots";
+import { Colors, Outlines, Sizing } from "styles/index";
 
-const OnboardingTabs = createMaterialTopTabNavigator();
+const AnimatedPagerView = Animated.createAnimatedComponent(PagerView);
+
+const SCREENS = [
+  { key: 1, component: <InitialScreen /> },
+  { key: 2, component: <PricingScreen /> },
+  { key: 3, component: <CreateAccountScreen /> },
+  { key: 4, component: <OrganizerDetailsScreen /> },
+  { key: 5, component: <WalletSetUpScreen /> },
+];
 
 export const OnboardingScreens = () => {
-  return (
-    <PagerView showPageIndicator style={{ flex: 1 }}>
-      <View key="1">
-        <InitialScreen />
-      </View>
-      <View key="2">
-        <PricingScreen />
-      </View>
-      <View key="3">
-        <CreateAccountScreen />
-      </View>
-      <View key="4">
-        <OrganizerDetailsScreen />
-      </View>
-      <View key="5">
-        <WalletSetUpScreen />
-      </View>
-    </PagerView>
+  const screenWidth = Dimensions.get("window").width;
+  const scrollOffsetAnimatedValue = React.useRef(new Animated.Value(0)).current;
+  const positionAnimatedValue = React.useRef(new Animated.Value(0)).current;
+  const inputRange = [0, SCREENS.length];
+  const scrollX = Animated.add(
+    scrollOffsetAnimatedValue,
+    positionAnimatedValue
+  ).interpolate({
+    inputRange,
+    outputRange: [0, SCREENS.length * screenWidth],
+  });
+
+  // This is only working with useMemo/useCallback
+  const onPageScroll = React.useMemo(
+    () =>
+      Animated.event(
+        [
+          {
+            nativeEvent: {
+              offset: scrollOffsetAnimatedValue,
+              position: positionAnimatedValue,
+            },
+          },
+        ],
+        { useNativeDriver: false }
+      ),
+    []
   );
-  // return (
-  //   <AppContextProvider>
-  //     <OnboardingTabs.Navigator
-  //       tabBarPosition="bottom"
-  //       initialRouteName="Initial"
-  //       tabBar={(props) => <OnboardingPager {...props} />}>
-  //       <OnboardingTabs.Screen name="Intitial" component={InitialScreen} />
-  //       <OnboardingTabs.Screen name="Pricing" component={PricingScreen} />
-  //       <OnboardingTabs.Screen
-  //         name="Create Account"
-  //         component={CreateAccountScreen}
-  //       />
-  //       <OnboardingTabs.Screen
-  //         name="Organizer Details"
-  //         component={OrganizerDetailsScreen}
-  //       />
-  //       <OnboardingTabs.Screen
-  //         name="Wallet Setup"
-  //         component={WalletSetUpScreen}
-  //       />
-  //     </OnboardingTabs.Navigator>
-  //   </AppContextProvider>
-  // );
+
+  const renderScreens = ({ key, component }: any) => {
+    return <View key={key}>{component}</View>;
+  };
+
+  return (
+    <SafeAreaView style={styles.safeArea}>
+      <AnimatedPagerView
+        onPageScroll={onPageScroll}
+        initialPage={0}
+        style={{ flex: 1 }}>
+        {SCREENS.map(renderScreens)}
+      </AnimatedPagerView>
+      <View style={styles.dotContainer}>
+        <ScalingDot
+          data={SCREENS}
+          //@ts-ignore
+          scrollX={scrollX}
+          inActiveDotColor={Colors.transparent.clear}
+          activeDotScale={0.95}
+          activeDotColor={Colors.primary.neutral}
+          dotStyle={styles.dot}
+        />
+      </View>
+    </SafeAreaView>
+  );
 };
+
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: Colors.primary.s600,
+  },
+  dotContainer: {},
+  dot: {
+    borderRadius: Outlines.borderRadius.max,
+    borderWidth: Outlines.borderWidth.base,
+    borderColor: Colors.primary.brand,
+    padding: 8,
+  },
+});
