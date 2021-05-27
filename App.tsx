@@ -13,6 +13,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { AppContextProvider } from "contexts/appContext";
 import { AppStackParamList } from "common/types/navigationTypes";
+import { appContext } from "contexts/contextApi";
 
 // Error Handlers
 import { setJSExceptionHandler } from "react-native-exception-handler";
@@ -24,6 +25,8 @@ setJSExceptionHandler(jsErrorHandler, true); // true - enables the error in dev 
 const Stack = createStackNavigator<AppStackParamList>();
 
 function App() {
+  const { auth } = appContext();
+
   let [fontsLoadaed] = useFonts({
     Roboto: require("./assets/fonts/Roboto-Regular.ttf"),
     "Roboto-Black": require("./assets/fonts/Roboto-Black.ttf"),
@@ -37,19 +40,27 @@ function App() {
       <AppContextProvider>
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Home" headerMode="screen">
-            <Stack.Screen
-              name="Home"
-              options={{ title: "Home" }}
-              component={HomeScreen}
-            />
-            <Stack.Screen
-              name="Navigation Screens"
-              component={NavigationScreens}
-            />
-            <Stack.Screen
-              name="Onboarding Screens"
-              component={OnboardingScreens}
-            />
+            {!auth ? (
+              <>
+                <Stack.Screen
+                  name="Home"
+                  options={{ title: "Home" }}
+                  component={HomeScreen}
+                />
+                <Stack.Screen
+                  name="Navigation Screens"
+                  component={NavigationScreens}
+                />
+              </>
+            ) : (
+              <Stack.Screen
+                name="Onboarding Screens"
+                component={OnboardingScreens}
+                options={{
+                  headerShown: false,
+                }}
+              />
+            )}
           </Stack.Navigator>
         </NavigationContainer>
       </AppContextProvider>
