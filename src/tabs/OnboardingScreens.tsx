@@ -16,19 +16,20 @@ import {
 } from "screens/onboarding/index";
 import PagerView from "react-native-pager-view";
 import { ScalingDot } from "react-native-animated-pagination-dots";
-import { Colors, Outlines, Sizing } from "styles/index";
+import { Colors, Outlines, Typography } from "styles/index";
 
 const AnimatedPagerView = Animated.createAnimatedComponent(PagerView);
 
 const SCREENS = [
-  { key: 1, component: <InitialScreen /> },
-  { key: 2, component: <PricingScreen /> },
-  { key: 3, component: <CreateAccountScreen /> },
-  { key: 4, component: <OrganizerDetailsScreen /> },
-  { key: 5, component: <WalletSetUpScreen /> },
+  { component: InitialScreen },
+  { component: PricingScreen },
+  { component: CreateAccountScreen },
+  { component: OrganizerDetailsScreen },
+  { component: WalletSetUpScreen },
 ];
 
 export const OnboardingScreens = () => {
+  const ref = React.useRef<PagerView>(null);
   const screenWidth = Dimensions.get("window").width;
   const scrollOffsetAnimatedValue = React.useRef(new Animated.Value(0)).current;
   const positionAnimatedValue = React.useRef(new Animated.Value(0)).current;
@@ -58,16 +59,22 @@ export const OnboardingScreens = () => {
     []
   );
 
-  const renderScreens = ({ key, component }: any) => {
-    return <View key={key}>{component}</View>;
+  const renderScreens = ({ component }: any, i: number) => {
+    const ScreenComponent = component;
+    return (
+      <View style={styles.pagerViewItem} key={i}>
+        <ScreenComponent pagerRef={ref} />
+      </View>
+    );
   };
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <AnimatedPagerView
+        ref={ref}
         onPageScroll={onPageScroll}
         initialPage={0}
-        style={{ flex: 1 }}>
+        style={styles.animatedPager}>
         {SCREENS.map(renderScreens)}
       </AnimatedPagerView>
       <View style={styles.dotContainer}>
@@ -89,8 +96,20 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: Colors.primary.s600,
+    marginHorizontal: "auto",
   },
-  dotContainer: {},
+  animatedPager: {
+    // so that dots doesn't overlay the content
+    flex: 12,
+  },
+  pagerViewItem: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  dotContainer: {
+    flex: 1,
+  },
   dot: {
     borderRadius: Outlines.borderRadius.max,
     borderWidth: Outlines.borderWidth.base,
