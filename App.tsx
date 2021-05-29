@@ -19,6 +19,7 @@ import { appContext } from "contexts/contextApi";
 import { setJSExceptionHandler } from "react-native-exception-handler";
 import { jsErrorHandler } from "lib/errors";
 import { OnboardingScreens } from "tabs/OnboardingScreens";
+import { LearnMoreModal } from "components/modals/learnMoreModal";
 
 setJSExceptionHandler(jsErrorHandler, true); // true - enables the error in dev mode
 
@@ -28,9 +29,12 @@ function App() {
   const { auth } = appContext();
 
   let [fontsLoadaed] = useFonts({
-    Roboto: require("./assets/fonts/Roboto-Regular.ttf"),
-    "Roboto-Black": require("./assets/fonts/Roboto-Black.ttf"),
+    "Roboto-Thin": require("./assets/fonts/Roboto-Thin.ttf"),
+    "Roboto-Light": require("./assets/fonts/Roboto-Light.ttf"),
+    "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
+    "Roboto-Medium": require("./assets/fonts/Roboto-Medium.ttf"),
     "Roboto-Bold": require("./assets/fonts/Roboto-Bold.ttf"),
+    "Roboto-Black": require("./assets/fonts/Roboto-Black.ttf"),
   });
 
   if (!fontsLoadaed) {
@@ -39,7 +43,10 @@ function App() {
     return (
       <AppContextProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Home" headerMode="screen">
+          <Stack.Navigator
+            initialRouteName="Home"
+            mode="modal"
+            headerMode="screen">
             {!auth ? (
               <>
                 <Stack.Screen
@@ -51,15 +58,24 @@ function App() {
                   name="Navigation Screens"
                   component={NavigationScreens}
                 />
+                <Stack.Screen
+                  name="Modal"
+                  component={LearnMoreModal}
+                  options={{
+                    headerShown: false,
+                  }}
+                />
               </>
             ) : (
-              <Stack.Screen
-                name="Onboarding Screens"
-                component={OnboardingScreens}
-                options={{
-                  headerShown: false,
-                }}
-              />
+              <>
+                <Stack.Screen
+                  name="Onboarding Screens"
+                  component={OnboardingScreens}
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+              </>
             )}
           </Stack.Navigator>
         </NavigationContainer>

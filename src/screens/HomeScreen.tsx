@@ -50,6 +50,13 @@ export const HomeScreen = ({ navigation }: HomeProps) => {
           <Text style={styles.buttonText}>Dapp navigation layout</Text>
         </Pressable>
       </View>
+      <View style={styles.body}>
+        <Pressable
+          style={Buttons.applyOpacity(styles.button)}
+          onPress={() => navigation.navigate("Modal")}>
+          <Text style={styles.buttonText}>Modal layout</Text>
+        </Pressable>
+      </View>
     </SafeAreaView>
   );
 };
