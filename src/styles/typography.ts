@@ -96,43 +96,43 @@ export const header: Record<Header, TextStyle> = {
     ...fontSize.x10,
     ...lineHeight.x10,
     ...fontWeight.bold,
-    fontFamily: "Roboto-Bold",
+    fontFamily: "Roboto-Medium",
   },
   x20: {
     ...fontSize.x20,
     ...lineHeight.x20,
     ...fontWeight.bold,
-    fontFamily: "Roboto-Bold",
+    fontFamily: "Roboto-Medium",
   },
   x30: {
     ...fontSize.x30,
     ...lineHeight.x30,
     ...fontWeight.bold,
-    fontFamily: "Roboto-Bold",
+    fontFamily: "Roboto-Medium",
   },
   x40: {
     ...fontSize.x40,
     ...lineHeight.x40,
     ...fontWeight.bold,
-    fontFamily: "Roboto-Bold",
+    fontFamily: "Roboto-Medium",
   },
   x50: {
     ...fontSize.x50,
     ...lineHeight.x50,
     ...fontWeight.bold,
-    fontFamily: "Roboto-Bold",
+    fontFamily: "Roboto-Medium",
   },
   x60: {
     ...fontSize.x60,
     ...lineHeight.x60,
     ...fontWeight.bold,
-    fontFamily: "Roboto-Bold",
+    fontFamily: "Roboto-Medium",
   },
   x70: {
     ...fontSize.x70,
     ...lineHeight.x70,
     ...fontWeight.bold,
-    fontFamily: "Roboto-Bold",
+    fontFamily: "Roboto-Medium",
   },
 };
 
@@ -142,38 +142,38 @@ export const subHeader: Record<SubHeader, TextStyle> = {
     ...fontSize.x5,
     ...lineHeight.x5,
     ...fontWeight.semibold,
-    fontFamily: "Roboto-Bold",
+    fontFamily: "Roboto-Regular",
   },
   x10: {
     ...fontSize.x10,
     ...lineHeight.x10,
     ...fontWeight.semibold,
-    fontFamily: "Roboto-Bold",
+    fontFamily: "Roboto-Regular",
   },
   x20: {
     ...fontSize.x20,
     ...lineHeight.x20,
     ...fontWeight.semibold,
-    fontFamily: "Roboto-Bold",
+    fontFamily: "Roboto-Regular",
   },
   x30: {
     ...fontSize.x30,
     ...lineHeight.x30,
     ...fontWeight.semibold,
 
-    fontFamily: "Roboto-Bold",
+    fontFamily: "Roboto-Regular",
   },
   x40: {
     ...fontSize.x40,
     ...lineHeight.x40,
     ...fontWeight.semibold,
-    fontFamily: "Roboto-Bold",
+    fontFamily: "Roboto-Regular",
   },
   x50: {
     ...fontSize.x50,
     ...lineHeight.x50,
     ...fontWeight.semibold,
-    fontFamily: "Roboto-Bold",
+    fontFamily: "Roboto-Regular",
   },
 };
 
@@ -183,37 +183,37 @@ export const body: Record<Body, TextStyle> = {
     ...fontSize.x5,
     ...lineHeight.x10,
     color: Colors.neutral.s800,
-    fontFamily: "Roboto",
+    fontFamily: "Roboto-Light",
   },
   x10: {
     ...fontSize.x10,
     ...lineHeight.x10,
     color: Colors.neutral.s800,
-    fontFamily: "Roboto",
+    fontFamily: "Roboto-Light",
   },
   x20: {
     ...fontSize.x20,
     ...lineHeight.x20,
     color: Colors.neutral.s800,
-    fontFamily: "Roboto",
+    fontFamily: "Roboto-Light",
   },
   x30: {
     ...fontSize.x30,
     ...lineHeight.x40,
     color: Colors.neutral.s800,
-    fontFamily: "Roboto",
+    fontFamily: "Roboto-Light",
   },
   x40: {
     ...fontSize.x40,
     ...lineHeight.x40,
     color: Colors.neutral.s800,
-    fontFamily: "Roboto",
+    fontFamily: "Roboto-Light",
   },
   x50: {
     ...fontSize.x50,
     ...lineHeight.x50,
     color: Colors.neutral.s800,
-    fontFamily: "Roboto",
+    fontFamily: "Roboto-Light",
   },
 };
 
@@ -231,10 +231,22 @@ export const monospace: Record<Monospace, TextStyle> = {
   },
 };
 
-type Roboto = "regular" | "bold" | "black";
+type Roboto = "thin" | "light" | "regular" | "medium" | "bold" | "black";
 export const roboto: Record<Roboto, TextStyle> = {
+  thin: {
+    fontFamily: "Roboto-Thin",
+    letterSpacing: letterSpacing.x20,
+  },
+  light: {
+    fontFamily: "Roboto-Light",
+    letterSpacing: letterSpacing.x20,
+  },
   regular: {
-    fontFamily: "Roboto",
+    fontFamily: "Roboto-Regular",
+    letterSpacing: letterSpacing.x20,
+  },
+  medium: {
+    fontFamily: "Roboto-Medium",
     letterSpacing: letterSpacing.x20,
   },
   bold: {

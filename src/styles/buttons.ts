@@ -8,26 +8,34 @@ import * as Typography from "./typography";
 type Bar = "primary" | "secondary" | "transparent" | "small";
 export const bar: Record<Bar, ViewStyle> = {
   primary: {
+    width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    padding: Sizing.x15,
-    borderRadius: Outlines.borderRadius.base,
     backgroundColor: Colors.primary.neutral,
+    padding: Sizing.x12,
+    borderRadius: Outlines.borderRadius.base,
+    marginBottom: Sizing.x10,
+    ...Outlines.shadow.lifted,
   },
   secondary: {
     alignItems: "center",
     alignSelf: "center",
     justifyContent: "center",
-    padding: Sizing.x10,
+    padding: Sizing.x12,
     borderRadius: Outlines.borderRadius.base,
     backgroundColor: Colors.secondary.brand,
   },
   transparent: {
+    width: "100%",
     alignItems: "center",
-    alignSelf: "center",
     justifyContent: "center",
-    padding: Sizing.x10,
+    backgroundColor: Colors.primary.s600,
+    padding: Sizing.x8,
     borderRadius: Outlines.borderRadius.base,
+    borderWidth: 4,
+    borderColor: Colors.primary.neutral,
+    marginTop: Sizing.x15,
+    ...Outlines.shadow.lifted,
   },
   small: {
     alignItems: "center",
@@ -43,14 +51,14 @@ export const bar: Record<Bar, ViewStyle> = {
 type BarText = "primary" | "secondary" | "transparent" | "small";
 export const barText: Record<BarText, TextStyle> = {
   primary: {
-    ...Typography.fontSize.x30,
-    ...Typography.fontWeight.semibold,
+    ...Typography.body.x40,
+    fontFamily: "Roboto-Medium",
     color: Colors.primary.s600,
   },
   transparent: {
-    ...Typography.fontSize.x30,
-    ...Typography.fontWeight.semibold,
-    color: Colors.neutral.s800,
+    ...Typography.body.x40,
+    fontFamily: "Roboto-Medium",
+    color: Colors.primary.neutral,
   },
   small: {
     ...Typography.fontSize.x20,

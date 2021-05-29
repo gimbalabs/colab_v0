@@ -30,14 +30,13 @@ export const shadow: Record<Shadow, ViewStyle> = {
     elevation: 6,
   },
   lifted: {
-    shadowColor: Colors.neutral.s800,
+    shadowColor: Colors.neutral.s600,
     shadowOffset: {
       width: 0,
-      height: 10,
+      height: 4,
     },
-    shadowOpacity: 0.36,
-    shadowRadius: 6.68,
-
-    elevation: 11,
+    shadowOpacity: 0.4,
+    shadowRadius: 3,
+    elevation: 4,
   },
 };

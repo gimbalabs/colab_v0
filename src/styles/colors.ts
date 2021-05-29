@@ -25,7 +25,7 @@ export const neutral: Record<Neutral, string> = {
   s250: "#bbbbc2",
   s300: "#9f9ea4",
   s400: "#7c7c82",
-  s500: "#515154",
+  s500: "#6b7280",
   s600: "#38383a",
   s700: "#2d2c2e",
   s800: "#212123",
@@ -33,12 +33,15 @@ export const neutral: Record<Neutral, string> = {
   black: "#000000",
 };
 
-type Primary = "neutral" | "s200" | "brand" | "s600";
+type Primary = "neutral" | "s200" | "s300" | "s400" | "brand" | "s600" | "s800";
 export const primary: Record<Primary, string> = {
   neutral: "#f5f3ff",
   s200: "#ddd6fe",
+  s300: "#c4b5fd",
+  s400: "#eeddee",
   brand: "#8b5cf6",
   s600: "#6d28d9",
+  s800: "#4c1d95",
 };
 
 type Secondary = "brand" | "s200" | "s600";
