@@ -108,7 +108,8 @@ export const PricingScreen = ({ pagerRef }: PricingScreenProps) => {
 const styles = StyleSheet.create({
   scrollContainer: {
     width: "100%",
-    height: "95%",
+    height: "100%",
+    marginTop: Sizing.x10,
   },
   container: {
     width: "90%",
