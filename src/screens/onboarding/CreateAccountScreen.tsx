@@ -1,9 +1,16 @@
 import * as React from "react";
-import { View, Text, StyleSheet, Pressable, Image } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 
 import PagerView from "react-native-pager-view";
 import { CreateAccountForm } from "components/forms/createAccountForm";
-import { Colors, Buttons, Outlines, Sizing, Typography } from "styles/index";
+import { Colors, Sizing, Typography } from "styles/index";
+import { ModernProfessionalIcon } from "icons/index";
 
 export interface CreateAccountScreenProps {
   pagerRef: React.RefObject<PagerView>;
@@ -15,36 +22,36 @@ export const CreateAccountScreen = ({ pagerRef }: CreateAccountScreenProps) => {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}>
       <View style={styles.imageContainer}>
-        <Image
-          source={require("assets/images/create_account.png")}
-          style={styles.image}
-        />
+        <ModernProfessionalIcon width="80%" height="80%" />
       </View>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Create Account</Text>
+        <Text style={styles.headerText}>Create attendee account</Text>
       </View>
-      <View style={styles.createAccountForm}></View>
-      <View style={styles.checkbox}>
-        <CreateAccountForm />
-      </View>
-    </View>
+      <CreateAccountForm />
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    width: "90%",
+    height: "100%",
+  },
+  imageContainer: {
+    flex: 2,
     alignItems: "center",
     justifyContent: "center",
   },
-  image: {
-    height: 200,
-    width: 200,
+  header: {
+    marginBottom: Sizing.x15,
   },
   headerText: {
-    ...Typography.header.x40,
+    width: "100%",
+    ...Typography.header.x70,
     color: Colors.primary.neutral,
   },
 });
