@@ -1,5 +1,5 @@
 export { CreateAccountScreen } from "./CreateAccountScreen";
 export { InitialScreen } from "./InitialScreen";
-export { OrganizerDetailsScreen } from "./OrganizerDetailsScreen";
+export { UserDetailsScreen } from "./UserDetailsScreen";
 export { PricingScreen } from "./PricingScreen";
 export { WalletSetUpScreen } from "./WalletSetUpScreen";

@@ -10,7 +10,7 @@ import {
 import {
   CreateAccountScreen,
   InitialScreen,
-  OrganizerDetailsScreen,
+  UserDetailsScreen,
   PricingScreen,
   WalletSetUpScreen,
 } from "screens/onboarding/index";
@@ -24,7 +24,7 @@ const SCREENS = [
   { component: InitialScreen },
   { component: PricingScreen },
   { component: CreateAccountScreen },
-  { component: OrganizerDetailsScreen },
+  { component: UserDetailsScreen },
   { component: WalletSetUpScreen },
 ];
 

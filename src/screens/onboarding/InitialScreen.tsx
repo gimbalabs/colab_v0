@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
   },
   imageSection: {
     flex: 2,
+    marginVertical: Sizing.x10,
   },
   main: {
     flex: 3,
@@ -74,13 +75,14 @@ const styles = StyleSheet.create({
   header: {
     ...Typography.header.x70,
     color: Colors.primary.neutral,
-    marginBottom: Sizing.x20,
+    marginBottom: Sizing.x15,
   },
   subHeader: {
     ...Typography.body.x40,
     color: Colors.primary.neutral,
   },
   subHeaderWrapper: {
+    marginBottom: Sizing.x20,
     alignItems: "center",
     justifyContent: "center",
   },

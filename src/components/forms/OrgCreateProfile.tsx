@@ -5,7 +5,7 @@ import { CustomInput } from "../forms/CustomInput";
 import { Formik, Field } from "formik";
 import { ProfileContext } from "contexts/profileContext";
 import { OrganizerForm } from "common/interfaces/organizerFormInterface";
-import { Buttons, Typography, Colors, Sizing, Forms } from "styles";
+import { Buttons, Typography, Colors, Sizing, Forms } from "styles/index";
 
 export interface OrgCreateProfileProps {}
 
@@ -114,19 +114,21 @@ const styles = StyleSheet.create({
   /**
    * Styles passed as props to CustomInput
    */
-  inputWrapper: {},
-  inputLabel: {
+  inputContainer: {},
+  labelContainer: {
     ...Forms.inputLabel.primary,
   },
+  label: {},
   input: {
     ...Forms.input.primary,
   },
-  inputError: {
-    ...Forms.inputLabel.error,
-    color: Colors.danger.s400,
-  },
-  inputErrorWrapper: {
+  errorInput: {},
+  errorWrapper: {
     height: 21, // inspect element in expo to see how much pixels it needs
     alignItems: "flex-end",
+  },
+  error: {
+    ...Forms.inputLabel.error,
+    color: Colors.danger.s400,
   },
 });
