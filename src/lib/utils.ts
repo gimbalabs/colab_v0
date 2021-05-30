@@ -52,6 +52,22 @@ export function formValidationSchema() {
 }
 
 /**
+ * @description This will specify validation schema for creating a new
+ * account.
+ */
+export function createAccountValidationScheme() {
+  return yup.object().shape({
+    name: yup.string().required("Name is required"),
+    email: yup.string().email().required("Email address is required"),
+    password: yup
+      .string()
+      .required("Password is required")
+      .min(8, "Password is too short - should be 8 chars minimum.")
+      .matches(/[a-zA-Z]/, "Password can only contain Latin letters."),
+  });
+}
+
+/**
  * @description A bunch of helpers to use across the app for working with Date
  * @name day, month, year, time
  * @param val (any valid value for Date js object)
