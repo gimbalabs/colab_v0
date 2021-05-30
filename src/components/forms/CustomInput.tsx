@@ -7,7 +7,14 @@
  */
 
 import * as React from "react";
-import { TextInput, Text, View } from "react-native";
+import {
+  TextInput,
+  Text,
+  View,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+} from "react-native";
 
 export interface CustomInputProps {}
 
@@ -16,28 +23,37 @@ export const CustomInput = (props: any) => {
     field: { onChange, name, onBlur, value },
     form: { errors, touched, setFieldTouched },
     styles,
+    iconState,
+    customHandler,
     ...inputProps
   } = props;
 
   const hasError = errors[name] && touched[name];
 
   return (
-    <View style={styles.inputWrapper}>
-      <Text style={styles.inputLabel}>{props.label}</Text>
-      <TextInput
-        name={props.name}
-        style={[styles.input, hasError && styles.errorInput]}
-        value={value}
-        onChangeText={(text) => onChange(name)(text)}
-        onBlur={() => {
-          setFieldTouched(name);
-          onBlur(name);
-        }}
-        {...inputProps}
-      />
-      <View style={styles.inputErrorWrapper}>
-        {hasError && <Text style={styles.inputError}>{errors[name]}</Text>}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.inputContainer}>
+      <View style={styles.labelContainer}>
+        <Text style={styles.label}>{props.label}</Text>
       </View>
-    </View>
+      <View style={styles.textInputWrapper}>
+        <TextInput
+          name={props.name}
+          style={[styles.input, hasError && styles.errorInput]}
+          value={value}
+          placeholderTextColor={styles.placeholderText.color}
+          onChangeText={(text) => onChange(name)(text)}
+          onBlur={() => {
+            setFieldTouched(name);
+            onBlur(name);
+          }}
+          {...inputProps}
+        />
+      </View>
+      <View style={styles.errorWrapper}>
+        {hasError && <Text style={styles.error}>{errors[name]}</Text>}
+      </View>
+    </KeyboardAvoidingView>
   );
 };
