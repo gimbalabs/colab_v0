@@ -8,18 +8,27 @@ import * as Typography from "./typography";
 type Input = "primary";
 export const input: Record<Input, TextStyle> = {
   primary: {
+    ...Typography.subHeader.x30,
     lineHeight: 0,
-    padding: Sizing.x15,
+    paddingVertical: Sizing.x14,
+    paddingHorizontal: Sizing.x12,
+    backgroundColor: Colors.primary.neutral,
     borderColor: Colors.neutral.s300,
     borderWidth: Outlines.borderWidth.hairline,
-    borderRadius: Outlines.borderRadius.small,
+    borderRadius: Outlines.borderRadius.base,
+    fontSize: Sizing.x20,
+    fontFamily: "Roboto-Regular",
+    color: Colors.primary.s600,
   },
 };
 
 type InputLabel = "primary" | "error";
 export const inputLabel: Record<InputLabel, TextStyle> = {
   primary: {
-    ...Typography.subHeader.x20,
+    ...Typography.subHeader.x30,
+    fontFamily: "Roboto-Medium",
+    fontSize: Sizing.x20,
+    color: Colors.primary.neutral,
     marginBottom: Sizing.x5,
   },
   error: {
