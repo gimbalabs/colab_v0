@@ -2,6 +2,7 @@ import * as React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 
 import PagerView from "react-native-pager-view";
+import { LiveCollaborationIcon } from "icons/index";
 import { LearnMoreModal } from "components/modals/learnMoreModal";
 import { Colors, Typography, Buttons, Sizing } from "styles/index";
 
@@ -22,6 +23,9 @@ export const InitialScreen = ({ pagerRef }: InitialScreenProps) => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.imageSection}>
+        <LiveCollaborationIcon width="100%" height="100%" />
+      </View>
       <View style={styles.main}>
         <Text style={styles.header}>Lorem ipsum dolor sit amet</Text>
         <View style={styles.subHeaderWrapper}>
@@ -55,15 +59,17 @@ export const InitialScreen = ({ pagerRef }: InitialScreenProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     width: "90%",
+    height: "100%",
+  },
+  imageSection: {
+    flex: 2,
   },
   main: {
     flex: 3,
     marginTop: Sizing.x20,
-    marginBottom: Sizing.x40,
+    justifyContent: "center",
     alignItems: "flex-start",
-    justifyContent: "flex-end",
   },
   header: {
     ...Typography.header.x70,
@@ -82,7 +88,7 @@ const styles = StyleSheet.create({
     flex: 2,
     width: "100%",
     alignItems: "center",
-    marginTop: Sizing.x40,
+    justifyContent: "center",
   },
   buttonTop: {
     ...Buttons.bar.primary,
