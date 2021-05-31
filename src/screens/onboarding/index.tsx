@@ -3,3 +3,4 @@ export { InitialScreen } from "./InitialScreen";
 export { UserDetailsScreen } from "./UserDetailsScreen";
 export { PricingScreen } from "./PricingScreen";
 export { WalletSetUpScreen } from "./WalletSetUpScreen";
+export { PaymentConfirmationScreen } from "./PaymentConfirmationScreen";

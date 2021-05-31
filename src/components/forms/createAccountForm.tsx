@@ -19,14 +19,14 @@ export const CreateAccountForm = ({}: CreateAccountFormProps) => {
   const fadeIn = () => {
     Animated.timing(animatedOpacity, {
       toValue: 1,
-      duration: 50,
+      duration: 0,
       useNativeDriver: true,
     }).start();
   };
   const fadeOut = () => {
     Animated.timing(animatedOpacity, {
       toValue: 0,
-      duration: 50,
+      duration: 0,
       useNativeDriver: true,
     }).start();
   };
@@ -127,8 +127,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   pressableCheckbox: {
-    width: 30,
-    height: 30,
+    width: 35,
+    height: 35,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primary.neutral,
   },
   checkboxText: {
-    marginLeft: Sizing.x10,
+    marginLeft: Sizing.x2,
     marginRight: Sizing.x5,
     ...Typography.body.x30,
     fontFamily: "Roboto-Regular",
