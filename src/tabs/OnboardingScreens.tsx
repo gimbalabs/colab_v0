@@ -13,10 +13,11 @@ import {
   UserDetailsScreen,
   PricingScreen,
   WalletSetUpScreen,
+  PaymentConfirmationScreen,
 } from "screens/onboarding/index";
 import PagerView from "react-native-pager-view";
 import { ScalingDot } from "react-native-animated-pagination-dots";
-import { Colors, Outlines, Typography } from "styles/index";
+import { Colors, Outlines } from "styles/index";
 
 const AnimatedPagerView = Animated.createAnimatedComponent(PagerView);
 
@@ -26,6 +27,7 @@ const SCREENS = [
   { component: CreateAccountScreen },
   { component: UserDetailsScreen },
   { component: WalletSetUpScreen },
+  { component: PaymentConfirmationScreen },
 ];
 
 export const OnboardingScreens = () => {
