@@ -1,13 +1,29 @@
 import * as React from "react";
-import { View, StyleSheet, Text, Pressable, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  Pressable,
+  TextInput,
+  ViewStyle,
+  TextStyle,
+  ImageStyle,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 
-import { Colors, Outlines, Typography, Forms } from "styles/index";
+import { Colors } from "styles/index";
+
+type NamedStyles<T> = { [P in keyof T]: ViewStyle | TextStyle | ImageStyle };
 
 export interface CustomPlainInputProps {
   label: string;
   placeholder: string;
+  styles: NamedStyles<any>;
   onPressHandler?: () => void;
   icon?: any;
+  multiline?: boolean;
+  numberOfLines?: number;
+  keyboardType?: string;
 }
 
 export const CustomPlainInput = (props: CustomPlainInputProps) => {
@@ -16,30 +32,36 @@ export const CustomPlainInput = (props: CustomPlainInputProps) => {
     placeholder,
     label,
     onPressHandler,
+    styles,
+    multiline,
+    numberOfLines,
+    keyboardType,
   }: CustomPlainInputProps = props;
 
   const Icon = icon;
 
   return (
     <View style={styles.inputContainer}>
-      <View style={styles.label}>
-        <Text style={styles.labelText}>{label}</Text>
+      <View style={styles.labelContainer}>
+        <Text style={styles.label}>{label}</Text>
       </View>
-      <View style={styles.inputWrapper}>
-        <TextInput placeholder={placeholder} />
-        <Pressable onPress={onPressHandler} style={styles.iconButton}>
+      <View style={styles.textInputWrapper}>
+        <TextInput
+          //@ts-ignore
+          keyboardType={keyboardType != null ? keyboardType : "default"}
+          style={[styles.input, multiline != null ? { height: 80 } : {}]}
+          multiline={multiline != null ? multiline : false}
+          numberOfLines={numberOfLines != null ? numberOfLines : 1}
+          placeholder={placeholder}
+          //@ts-ignore
+          placeholderTextColor={styles.placeholderText.color}
+        />
+        <Pressable onPress={onPressHandler} style={styles.iconWrapper}>
           {Icon != null && (
-            <Icon
-              width="15"
-              height="15"
-              strokeWidth="3.5"
-              stroke={Colors.primary.s600}
-            />
+            <Icon style={styles.icon} stroke={Colors.primary.s350} />
           )}
         </Pressable>
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({});
