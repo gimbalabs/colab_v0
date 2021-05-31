@@ -13,7 +13,7 @@ export const DownIcon = React.forwardRef((props: SvgProps, ref) => {
       <Path
         strokeLinecap="round"
         strokeLinejoin="round"
-        strokeWidth={2}
+        strokeWidth={1.8}
         d="M19 9l-7 7-7-7"
       />
     </Svg>
