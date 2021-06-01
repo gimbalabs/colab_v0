@@ -157,7 +157,8 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     alignItems: "center",
-    marginTop: Sizing.x15,
+    marginTop: Sizing.x10,
+    paddingBottom: Sizing.x5,
   },
   appendixText: {
     marginLeft: Sizing.x10,

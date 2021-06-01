@@ -36,9 +36,7 @@ export const renderPasswordInput = (props: any) => {
   //@TODO: Fix form validation
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.inputContainer}>
+    <View style={styles.inputContainer}>
       <View style={styles.labelContainer}>
         <Text style={styles.label}>Password</Text>
       </View>
@@ -66,7 +64,7 @@ export const renderPasswordInput = (props: any) => {
       <View style={styles.errorWrapper}>
         {hasError && <Text style={styles.error}>{errors[name]}</Text>}
       </View>
-    </KeyboardAvoidingView>
+    </View>
   );
 };
 

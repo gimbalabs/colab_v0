@@ -28,7 +28,7 @@ const SCREEN_WIDTH = Dimensions.get("screen").width;
 export const WalletSetUpScreen = () => {
   return (
     <KeyboardAvoidingView
-      keyboardVerticalOffset={40}
+      keyboardVerticalOffset={60}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}>
       <ScrollView keyboardShouldPersistTaps="handled" style={styles.scrollView}>
