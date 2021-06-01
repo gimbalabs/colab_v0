@@ -11,16 +11,33 @@ import {
 } from "react-native";
 
 import { CreditCardIcon, PencilAltIcon } from "icons/index";
-import { Typography, Colors, Sizing, Outlines, Buttons } from "styles/index";
+import {
+  Tags,
+  Typography,
+  Colors,
+  Sizing,
+  Outlines,
+  Buttons,
+} from "styles/index";
 
 export interface PaymentConfirmationScreenProps {}
 
 const SCREEN_WIDTH = Dimensions.get("screen").width;
 
+const USER_TAGS = [
+  { tagName: "Teach", tagBackgroundColor: "#FEF3C7", tagTextColor: "#92400E" },
+  { tagName: "Code", tagBackgroundColor: "#E0E7FF", tagTextColor: "#3730A3" },
+  {
+    tagName: "Innovation",
+    tagBackgroundColor: "#FEE2E2",
+    tagTextColor: "#92400E",
+  },
+];
+
 export const PaymentConfirmationScreen = () => {
   return (
     <KeyboardAvoidingView
-      keyboardVerticalOffset={40}
+      keyboardVerticalOffset={60}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}>
       <ScrollView
@@ -39,7 +56,36 @@ export const PaymentConfirmationScreen = () => {
           </Text>
         </View>
         <View style={styles.userDetails}>
-          <PencilAltIcon style={styles.userDetailsIcon} />
+          <PencilAltIcon
+            stroke={Colors.primary.s350}
+            style={styles.userDetailsIcon}
+          />
+          <Text style={styles.userDetailsHeader}>Profession</Text>
+          <Text style={styles.userDetailsText}>Software engineer</Text>
+          <Text style={styles.userDetailsHeader}>Job title</Text>
+          <Text style={styles.userDetailsText}>Fullstack engineer</Text>
+          <Text style={styles.userDetailsHeader}>About yourself</Text>
+          <Text style={styles.userDetailsText}>
+            Fluent in Java, Javascipt, HTML5 and CSS. Experienced in mentoring
+            students, developing and mastering their skills.
+          </Text>
+          <Text style={styles.userDetailsHeader}>Hourly rate</Text>
+          <Text style={styles.userDetailsText}>50 ₳ an hour</Text>
+          <Text style={styles.userDetailsHeader}>Skills</Text>
+          <View style={styles.skillTags}>
+            {USER_TAGS.map((tag, i) => (
+              <View
+                key={i}
+                style={[
+                  styles.skillTag,
+                  { backgroundColor: tag.tagBackgroundColor },
+                ]}>
+                <Text style={[styles.skillName, { color: tag.tagTextColor }]}>
+                  {tag.tagName}
+                </Text>
+              </View>
+            ))}
+          </View>
         </View>
         <Pressable
           onPress={() => {}}
@@ -58,7 +104,7 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   header: {
-    marginVertical: Sizing.x10,
+    marginBottom: Sizing.x10,
   },
   scrollView: {
     alignItems: "center",
@@ -72,7 +118,8 @@ const styles = StyleSheet.create({
   headerImage: {
     width: SCREEN_WIDTH * 0.7,
     height: SCREEN_WIDTH * 0.7,
-    marginVertical: -Sizing.x10,
+    marginTop: -Sizing.x20,
+    marginBottom: -Sizing.x30,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -82,8 +129,42 @@ const styles = StyleSheet.create({
     fontFamily: "Roboto-Regular",
     color: Colors.primary.neutral,
   },
-  formContainer: {
-    marginVertical: Sizing.x10,
+  userDetails: {
+    width: "100%",
+    backgroundColor: Colors.primary.neutral,
+    borderRadius: Outlines.borderRadius.base,
+    padding: Sizing.x25,
+  },
+  userDetailsIcon: {
+    right: Sizing.x25,
+    top: Sizing.x25,
+    position: "absolute",
+    width: Sizing.x35,
+    height: Sizing.x35,
+  },
+  userDetailsHeader: {
+    ...Typography.header.x10,
+    color: Colors.primary.s600,
+    marginVertical: Sizing.x2,
+  },
+  userDetailsText: {
+    ...Typography.body.x10,
+    lineHeight: 0,
+    color: Colors.primary.s600,
+  },
+  skillTags: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
+  skillTag: {
+    borderRadius: Outlines.borderRadius.large,
+    paddingHorizontal: Sizing.x10,
+    marginRight: Sizing.x5,
+    textAlign: "center",
+  },
+  skillName: {
+    ...Tags.tagHeader.small,
+    lineHeight: Sizing.x15,
   },
   submitButton: {
     ...Buttons.bar.transparent,
