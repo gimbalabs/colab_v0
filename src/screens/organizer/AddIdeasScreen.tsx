@@ -11,17 +11,24 @@ import { AddIdea } from "components/ideas/AddIdea";
 import { IdeaList } from "components/ideas/IdeaList";
 import { StackScreenProps } from "@react-navigation/stack";
 import { OrganizerTabParamList } from "common/types/navigationTypes";
-import { Buttons, Colors, Outlines, Typography, Sizing, Forms } from "styles";
+import {
+  Buttons,
+  Colors,
+  Outlines,
+  Typography,
+  Sizing,
+  Forms,
+} from "styles/index";
 
-export interface AddIdeasProps
-  extends StackScreenProps<OrganizerTabParamList, "Add Ideas"> {}
+// export interface AddIdeasProps
+//   extends StackScreenProps<OrganizerTabParamList, "Add Ideas"> {}
 
 export interface Todo {
   value: string;
   key: string;
 }
 
-export const AddIdeasScreen = ({ navigation }: AddIdeasProps) => {
+export const AddIdeasScreen = ({ navigation }: any) => {
   const [data, setData] = React.useState<Todo[]>([]);
 
   const submitHandler = (value: string) => {

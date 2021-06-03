@@ -10,6 +10,8 @@ export const tagContainer: Record<TagContainer, ViewStyle> = {
   small: {
     borderRadius: Outlines.borderRadius.large,
   },
+  large: {},
+  medium: {},
 };
 
 type TagHeader = "small" | "medium" | "large";
@@ -18,4 +20,6 @@ export const tagHeader: Record<TagHeader, TextStyle> = {
     ...Typography.header.x10,
     fontSize: Sizing.x12,
   },
+  large: {},
+  medium: {},
 };

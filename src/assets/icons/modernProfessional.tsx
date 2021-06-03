@@ -14,6 +14,7 @@ export const ModernProfessionalIcon = (props: SvgProps) => {
         cy={512.164}
         r={14.92}
         fill="#f0f0f0"
+        //@ts-ignore
         style={{
           isolation: "isolate",
         }}
@@ -23,6 +24,7 @@ export const ModernProfessionalIcon = (props: SvgProps) => {
         cy={519.29}
         r={10.466}
         fill="#f0f0f0"
+        //@ts-ignore
         style={{
           isolation: "isolate",
         }}
@@ -84,6 +86,7 @@ export const ModernProfessionalIcon = (props: SvgProps) => {
       <Path
         d="M248.989 248l22.5 87.991S260.989 259 248.989 248zM316.125 336.991l22.5-87.991c-12 11-22.5 87.991-22.5 87.991z"
         opacity={0.2}
+        //@ts-ignore
         style={{
           isolation: "isolate",
         }}

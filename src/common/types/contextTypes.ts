@@ -5,6 +5,7 @@ import {
   Availabilities,
   CalendarHeader,
   MyCalendarState,
+  NewCalendarMonths,
   PreviewingDayEvents,
   ScheduledEvents,
 } from "interfaces/myCalendarInterface";

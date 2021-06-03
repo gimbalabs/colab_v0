@@ -1,7 +1,7 @@
 import * as React from "react";
 import { WeekDayNames } from "./WeekDayNames";
 import { StyleSheet, View } from "react-native";
-import { Sizing, Colors, Outlines } from "styles";
+import { Sizing, Colors, Outlines } from "styles/index";
 import { MonthlyWrapper } from "./MonthlyWrapper";
 
 export const MainCalendar = () => {

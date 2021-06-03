@@ -1,6 +1,13 @@
 import * as React from "react";
 import { View, TextInput, Text, StyleSheet, Pressable } from "react-native";
-import { Forms, Buttons, Colors, Outlines, Typography, Sizing } from "styles";
+import {
+  Forms,
+  Buttons,
+  Colors,
+  Outlines,
+  Typography,
+  Sizing,
+} from "styles/index";
 
 export interface AddIdeaProps {
   submitHandler: (arg: string) => void;

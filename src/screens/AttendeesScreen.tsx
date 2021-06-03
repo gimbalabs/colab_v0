@@ -2,12 +2,12 @@ import * as React from "react";
 import { View, Text, StyleSheet, SafeAreaView, Pressable } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
 import { AppStackParamList } from "common/types/navigationTypes";
-import { Colors, Buttons, Typography, Sizing, Outlines } from "styles";
+import { Colors, Buttons, Typography, Sizing, Outlines } from "styles/index";
 
-export interface AttendeesProps
-  extends StackScreenProps<AppStackParamList, "Attendees"> {}
+// export interface AttendeesProps
+//   extends StackScreenProps<AppStackParamList, "Attendees"> {}
 
-export const AttendeesScreen = ({ navigation }: AttendeesProps) => {
+export const AttendeesScreen = ({ navigation }: any) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>

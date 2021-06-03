@@ -6,6 +6,8 @@ export type AppStackParamList = {
   "Navigation Screens": undefined;
   "Onboarding Screens": undefined;
   Modal: undefined;
+  Attendees: undefined;
+  Browse: undefined;
 };
 
 export type OrganizerTabParamList = {

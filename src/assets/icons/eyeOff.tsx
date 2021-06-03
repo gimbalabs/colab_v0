@@ -1,7 +1,7 @@
 import * as React from "react";
-import Svg, { Path } from "react-native-svg";
+import Svg, { Path, SvgProps } from "react-native-svg";
 
-export const EyeOffIcon = (props) => {
+export const EyeOffIcon = (props: SvgProps) => {
   return (
     <Svg fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
       <Path

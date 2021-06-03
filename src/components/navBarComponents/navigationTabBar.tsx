@@ -8,11 +8,17 @@ import {
   UserIcon,
   WalletIcon,
 } from "icons/index";
-import { Buttons, Colors, Typography, Outlines } from "styles/index";
+import { Colors, Typography, Outlines } from "styles/index";
+import { OrganizerTabParamList } from "common/types/navigationTypes";
+import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 
-export interface NavigationTabBarProps {}
+type NavigationTabBarProps = BottomTabBarProps<OrganizerTabParamList>;
 
-export const NavigationTabBar = ({ state, descriptors, navigation }) => {
+export const NavigationTabBar = ({
+  state,
+  descriptors,
+  navigation,
+}: NavigationTabBarProps) => {
   const getNavBarIcon = (routeName: string) => {
     switch (routeName) {
       case "Home":
@@ -30,7 +36,7 @@ export const NavigationTabBar = ({ state, descriptors, navigation }) => {
     }
   };
 
-  const label = (options, route) => {
+  const label = (options: any, route: any) => {
     return options.tabBarLabel != null
       ? options.tabBarLable
       : options.title != null
@@ -38,20 +44,23 @@ export const NavigationTabBar = ({ state, descriptors, navigation }) => {
       : route.name;
   };
 
-  const renderTabItem = (route, index) => {
+  const renderTabItem = (route: any, index: any) => {
     const { options } = descriptors[route.key];
 
     const isFocused = state.index === index;
     const Icon = getNavBarIcon(route.name);
 
     const onPress = () => {
-      const event = navigation.emit({
-        type: "tabPress",
-        target: route.key,
-      });
+      if (route.key != null) {
+        //@ts-ignore
+        const event = navigation.emit({
+          type: "tabPress",
+          target: route.key,
+        });
 
-      if (!isFocused && !event.defaultPrevented) {
-        navigation.navigate(route.name);
+        if (!isFocused && !event.defaultPrevented) {
+          navigation.navigate(route.name);
+        }
       }
     };
 

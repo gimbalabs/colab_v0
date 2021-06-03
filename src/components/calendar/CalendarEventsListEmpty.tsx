@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-import { Typography, Colors } from "styles";
+import { Typography, Colors } from "styles/index";
 
 export const CalendarEventsListEmpty = () => {
   return (

@@ -7,10 +7,10 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { OrganizerTabParamList } from "common/types/navigationTypes";
 import { Colors, Buttons, Typography, Outlines, Sizing } from "styles";
 
-export interface AddBioProps
-  extends StackScreenProps<OrganizerTabParamList, "Add Bio"> {}
+// export interface AddBioProps
+//   extends StackScreenProps<OrganizerTabParamList, "Add Bio"> {}
 
-export const AddBioScreen = ({ navigation }: AddBioProps) => {
+export const AddBioScreen = ({ navigation }: any) => {
   const { alias, timeBlockLengthMin } = React.useContext(ProfileContext);
 
   return (

@@ -3,7 +3,7 @@ import * as React from "react";
 import * as Updates from "expo-updates";
 import { Pressable, View, Text, StyleSheet, SafeAreaView } from "react-native";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
-import { Buttons, Typography } from "styles";
+import { Buttons, Typography } from "styles/index";
 
 export interface ErrorHandlerProps {
   children: React.ReactNode;

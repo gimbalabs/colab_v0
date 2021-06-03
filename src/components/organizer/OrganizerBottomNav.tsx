@@ -17,6 +17,8 @@ import {
 } from "screens/index";
 
 import { Colors, Buttons, Sizing, Outlines, Typography } from "styles/index";
+import { OrganizerProfileScreen } from "screens/organizer/OrganizerProfileScreen";
+import { appContext } from "contexts/contextApi";
 
 export interface OrganizerBottomNavProps {}
 
@@ -25,17 +27,17 @@ const Icons = [HomeIcon, SearchIcon, WalletIcon, CalendarIcon, UserIcon];
 const Tab = createBottomTabNavigator();
 
 export const OrganizerBottomNav = () => {
+  const { auth } = appContext();
+
   const tabBarOptions = {
     // change color on click, etc...
   };
 
-  const screenOptions = ({ route }) => {};
+  const screenOptions = ({ route }: any) => {};
 
   return (
     <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={screenOptions}
-        tabBarOptions={tabBarOptions}>
+      <Tab.Navigator tabBarOptions={tabBarOptions}>
         {auth ? (
           <>
             <Tab.Screen name="Home" component={HomeScreen} />
@@ -55,8 +57,6 @@ export const OrganizerBottomNav = () => {
       </Tab.Navigator>
     </NavigationContainer>
   );
-  {
-  }
 };
 
 const styles = StyleSheet.create({

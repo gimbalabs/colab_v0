@@ -1,8 +1,7 @@
 import * as React from "react";
 
-import { Pressable, StyleSheet, SafeAreaView } from "react-native";
+import { Pressable, StyleSheet } from "react-native";
 import PagerView from "react-native-pager-view";
-// import { SafeAreaView } from "react-native-safe-area-context";
 import Animated from "react-native-reanimated";
 
 export const OnboardingPager = ({
@@ -11,7 +10,7 @@ export const OnboardingPager = ({
   state,
   position,
 }) => {
-  const renderScreens = (route, index: number) => {
+  const renderScreens = (route: any, index: number) => {
     // no need to show label for page swiper
 
     const { options } = descriptors[route.route.key];
