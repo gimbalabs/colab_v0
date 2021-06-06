@@ -2,8 +2,11 @@
  * @interfaces for appContext.tsx file.
  */
 
+export type ColorSchemeName = "light" | "dark";
+
 export interface AppState {
   authentication: boolean;
+  colorScheme: ColorSchemeName;
 }
 
 export interface AppContextProviderProps {

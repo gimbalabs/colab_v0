@@ -9,9 +9,11 @@ import {
   PreviewingDayEvents,
   ScheduledEvents,
 } from "interfaces/myCalendarInterface";
+import { ColorSchemeName } from "react-native";
 
 export enum AppTypes {
   ToggleAuth = "TOGGLE_AUTH",
+  SetColorScheme = "SET_COLOR_SCHEME",
 }
 
 export enum MyCalendarTypes {
@@ -42,7 +44,10 @@ export type ActionMap<M extends { [index: string]: any }> = {
 
 export type AppPayload = {
   [AppTypes.ToggleAuth]: {
-    authentication: boolean;
+    auth: boolean;
+  };
+  [AppTypes.SetColorScheme]: {
+    newColorScheme: ColorSchemeName;
   };
 };
 

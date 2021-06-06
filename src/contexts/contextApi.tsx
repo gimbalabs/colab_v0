@@ -5,19 +5,23 @@ import { MyCalendarContext } from "./myCalendarContext";
 import {
   Availabilities,
   CalendarHeader,
-  Month,
   NewCalendarMonths,
   PreviewingDayEvents,
   ScheduledEvent,
 } from "interfaces/myCalendarInterface";
+import { ColorSchemeName } from "react-native";
 
 export const appContext = () => {
   const { state, dispatch } = React.useContext(AppContext);
 
   return {
     auth: state.authentication,
-    toggleAuth: () => {
-      dispatch({ type: "TOGGLE_AUTH" });
+    colorScheme: state.colorScheme,
+    toggleAuth: (auth?: boolean) => {
+      dispatch({ type: "TOGGLE_AUTH", payload: { auth } });
+    },
+    setColorScheme: (newColorScheme: ColorSchemeName) => {
+      dispatch({ type: "SET_COLOR_SCHEME", payload: { newColorScheme } });
     },
   };
 };
