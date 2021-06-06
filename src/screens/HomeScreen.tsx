@@ -17,11 +17,47 @@ export interface HomeProps
   extends StackScreenProps<AppStackParamList, "Home"> {}
 
 export const HomeScreen = ({ navigation }: HomeProps) => {
-  const { toggleAuth, auth } = appContext();
+  const { toggleAuth, auth, setColorScheme, colorScheme } = appContext();
+  const [lightModeToggled, setLightModeToggled] = React.useState<boolean>(
+    colorScheme === "light" ? true : false
+  );
+
+  const setTheme = () => {
+    if (colorScheme === "dark") {
+      setColorScheme("light");
+      setLightModeToggled((prev) => !prev);
+      return;
+    } else if (colorScheme === "light") {
+      setColorScheme("dark");
+      setLightModeToggled((prev) => !prev);
+      return;
+    }
+  };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView
+      style={[
+        styles.safeArea,
+        colorScheme == "light" ? styles.safeAreaLight : styles.safeAreaDark,
+      ]}>
       <View style={styles.top}>
+        <View style={styles.switch}>
+          <Switch
+            trackColor={{ false: "#3e3e3e", true: "#37a524" }}
+            thumbColor="#f4f3f4"
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={() => setTheme()}
+            value={lightModeToggled}
+          />
+          <Text
+            style={[
+              colorScheme == "light"
+                ? styles.switchTextLight
+                : styles.switchTextDark,
+            ]}>
+            {colorScheme}
+          </Text>
+        </View>
         <View style={styles.switch}>
           <Switch
             trackColor={{ false: "#3e3e3e", true: "#37a524" }}
@@ -30,31 +66,55 @@ export const HomeScreen = ({ navigation }: HomeProps) => {
             onValueChange={() => toggleAuth()}
             value={auth}
           />
-          <Text style={styles.switchText}>{auth ? "AUTH" : "NO-AUTH"}</Text>
+          <Text
+            style={[
+              colorScheme == "light"
+                ? styles.switchTextLight
+                : styles.switchTextDark,
+            ]}>
+            {auth ? "AUTH" : "NO-AUTH"}
+          </Text>
         </View>
       </View>
       <View style={styles.header}>
-        <Text style={styles.headerText}>1 on 1 scheduling Dapp</Text>
+        <Text
+          style={[
+            styles.headerText,
+            colorScheme == "light"
+              ? styles.headerTextLight
+              : styles.headerTextDark,
+          ]}>
+          1 on 1 scheduling Dapp
+        </Text>
       </View>
       <View style={styles.body}>
         <Pressable
-          style={Buttons.applyOpacity(styles.button)}
+          style={Buttons.applyOpacity(
+            colorScheme == "light" ? styles.buttonLight : styles.buttonDark
+          )}
           onPress={() => navigation.navigate("Onboarding Screens")}>
-          <Text style={styles.buttonText}>Onboarding Screens</Text>
+          <Text
+            style={[
+              colorScheme == "light"
+                ? styles.buttonTextLight
+                : styles.buttonTextDark,
+            ]}>
+            Onboarding Screens
+          </Text>
         </Pressable>
-      </View>
-      <View style={styles.body}>
         <Pressable
-          style={Buttons.applyOpacity(styles.button)}
+          style={Buttons.applyOpacity(
+            colorScheme == "light" ? styles.buttonLight : styles.buttonDark
+          )}
           onPress={() => navigation.navigate("Navigation Screens")}>
-          <Text style={styles.buttonText}>Dapp navigation layout</Text>
-        </Pressable>
-      </View>
-      <View style={styles.body}>
-        <Pressable
-          style={Buttons.applyOpacity(styles.button)}
-          onPress={() => navigation.navigate("Modal")}>
-          <Text style={styles.buttonText}>Modal layout</Text>
+          <Text
+            style={[
+              colorScheme == "light"
+                ? styles.buttonTextLight
+                : styles.buttonTextDark,
+            ]}>
+            Dapp navigation layout
+          </Text>
         </Pressable>
       </View>
     </SafeAreaView>
@@ -64,9 +124,16 @@ export const HomeScreen = ({ navigation }: HomeProps) => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
+  },
+  safeAreaLight: {
+    backgroundColor: Colors.primary.neutral,
+  },
+  safeAreaDark: {
     backgroundColor: Colors.primary.s600,
   },
   top: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     margin: Sizing.x10,
   },
   switch: {
@@ -74,7 +141,12 @@ const styles = StyleSheet.create({
     flexDirection: "row-reverse",
     alignContent: "center",
   },
-  switchText: {
+  switchTextLight: {
+    ...Typography.monospace.base,
+    color: Colors.primary.s600,
+    marginRight: Sizing.x1,
+  },
+  switchTextDark: {
     ...Typography.monospace.base,
     color: Colors.primary.neutral,
     marginRight: Sizing.x1,
@@ -89,20 +161,39 @@ const styles = StyleSheet.create({
     marginHorizontal: Sizing.x5,
     marginTop: Sizing.x40,
     alignSelf: "center",
-    color: Colors.primary.neutral,
     ...Typography.header.x50,
+  },
+  headerTextLight: {
+    color: Colors.primary.s600,
+  },
+  headerTextDark: {
+    color: Colors.primary.neutral,
   },
   body: {
     alignItems: "center",
   },
-  button: {
+  buttonLight: {
+    backgroundColor: Colors.primary.s600,
     ...Buttons.bar.primary,
     ...Outlines.shadow.base,
     width: Sizing.x130,
     margin: Sizing.x10,
   },
-  buttonText: {
-    textAlign: "center",
+  buttonDark: {
+    backgroundColor: Colors.primary.neutral,
+    ...Buttons.bar.primary,
+    ...Outlines.shadow.base,
+    width: Sizing.x130,
+    margin: Sizing.x10,
+  },
+  buttonTextLight: {
     ...Buttons.barText.primary,
+    textAlign: "center",
+    color: Colors.primary.neutral,
+  },
+  buttonTextDark: {
+    ...Buttons.barText.primary,
+    textAlign: "center",
+    color: Colors.primary.s600,
   },
 });

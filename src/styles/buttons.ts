@@ -11,7 +11,6 @@ export const bar: Record<Bar, ViewStyle> = {
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: Colors.primary.neutral,
     padding: Sizing.x12,
     borderRadius: Outlines.borderRadius.base,
     marginBottom: Sizing.x10,
@@ -53,7 +52,6 @@ export const barText: Record<BarText, TextStyle> = {
   primary: {
     ...Typography.body.x40,
     fontFamily: "Roboto-Medium",
-    color: Colors.primary.s600,
   },
   transparent: {
     ...Typography.body.x40,

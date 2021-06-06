@@ -2,31 +2,52 @@ import * as React from "react";
 import { View, Text, Pressable, StyleSheet, SafeAreaView } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
 import { OrganizerTabParamList } from "common/types/navigationTypes";
-import { AppContext } from "contexts/appContext";
+import { appContext } from "contexts/contextApi";
 import { Buttons, Outlines, Typography, Sizing, Colors } from "styles/index";
 
 export interface OrganizerHomeProps
   extends StackScreenProps<OrganizerTabParamList, "Home"> {}
 
 export const OrganizerHomeScreen = ({ navigation }: OrganizerHomeProps) => {
-  const { state } = React.useContext(AppContext);
+  const { colorScheme } = appContext();
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView
+      style={[
+        colorScheme == "light" ? styles.safeArea_light : styles.safeaArea_dark,
+      ]}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Organizer Home Screen</Text>
+        <Text
+          style={[
+            colorScheme == "light"
+              ? styles.headerText_ligth
+              : styles.headerText_dark,
+          ]}>
+          Organizer Home Screen
+        </Text>
       </View>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: Colors.primary.s600 },
+  safeArea_light: {
+    flex: 1,
+    backgroundColor: Colors.primary.neutral,
+  },
+  safeaArea_dark: {
+    flex: 1,
+    backgroundColor: Colors.primary.s600,
+  },
   header: {
     alignItems: "center",
     marginVertical: Sizing.x100,
   },
-  headerText: {
+  headerText_ligth: {
+    ...Typography.header.x40,
+    color: Colors.primary.s600,
+  },
+  headerText_dark: {
     ...Typography.header.x40,
     color: Colors.primary.neutral,
   },
@@ -35,13 +56,26 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  button: {
+  button_light: {
     ...Buttons.bar.secondary,
     width: Sizing.x120,
     marginVertical: Sizing.x15,
+    backgroundColor: Colors.primary.s600,
   },
-  buttonText: {
+  button_dark: {
+    ...Buttons.bar.secondary,
+    width: Sizing.x120,
+    marginVertical: Sizing.x15,
+    backgroundColor: Colors.primary.neutral,
+  },
+  buttonText_light: {
     ...Buttons.barText.primary,
     textAlign: "center",
+    color: Colors.primary.neutral,
+  },
+  buttonText_dark: {
+    ...Buttons.barText.primary,
+    textAlign: "center",
+    color: Colors.primary.s600,
   },
 });

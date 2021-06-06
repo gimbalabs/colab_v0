@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, SafeAreaView, Pressable } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
 import { Colors, Buttons, Typography, Sizing, Outlines } from "styles/index";
 import { OrganizerTabParamList } from "common/types/navigationTypes";
+import { appContext } from "contexts/contextApi";
 
 export interface BrowseProps
   extends StackScreenProps<OrganizerTabParamList, "Browse"> {
@@ -10,65 +11,73 @@ export interface BrowseProps
 }
 
 export const BrowseScreen = ({ navigation }: BrowseProps) => {
+  const { colorScheme } = appContext();
+
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView
+      style={[
+        colorScheme == "light" ? styles.safeArea_light : styles.safeaArea_dark,
+      ]}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Browse Screen</Text>
-      </View>
-      <View style={styles.body}>
-        <View>
-          <Pressable
-            style={Buttons.applyOpacity(styles.button)}
-            onPress={() => {}}>
-            <Text style={styles.buttonText}>By Time</Text>
-          </Pressable>
-          <Pressable
-            style={Buttons.applyOpacity(styles.button)}
-            onPress={() => {}}>
-            <Text style={styles.buttonText}>By Idea</Text>
-          </Pressable>
-          <Pressable
-            style={Buttons.applyOpacity(styles.button)}
-            onPress={() => {}}>
-            <Text style={styles.buttonText}>By Organizer</Text>
-          </Pressable>
-        </View>
+        <Text
+          style={[
+            colorScheme == "light"
+              ? styles.headerText_ligth
+              : styles.headerText_dark,
+          ]}>
+          Browse Screen
+        </Text>
       </View>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
+  safeArea_light: {
+    flex: 1,
+    backgroundColor: Colors.primary.neutral,
+  },
+  safeaArea_dark: {
     flex: 1,
     backgroundColor: Colors.primary.s600,
   },
-  top: {
-    margin: Sizing.x10,
-  },
   header: {
-    marginTop: Sizing.x20,
-    marginBottom: Sizing.x60,
-    padding: Sizing.x20,
+    alignItems: "center",
+    marginVertical: Sizing.x100,
   },
-  headerText: {
+  headerText_ligth: {
+    ...Typography.header.x40,
+    color: Colors.primary.s600,
+  },
+  headerText_dark: {
     ...Typography.header.x40,
     color: Colors.primary.neutral,
-    marginHorizontal: Sizing.x5,
-    marginTop: Sizing.x40,
-    alignSelf: "center",
   },
   body: {
+    marginTop: Sizing.x40,
     alignItems: "center",
+    justifyContent: "center",
   },
-  button: {
-    ...Buttons.bar.primary,
-    ...Outlines.shadow.base,
-    width: Sizing.x130,
-    margin: Sizing.x10,
+  button_light: {
+    ...Buttons.bar.secondary,
+    width: Sizing.x120,
+    marginVertical: Sizing.x15,
+    backgroundColor: Colors.primary.s600,
   },
-  buttonText: {
+  button_dark: {
+    ...Buttons.bar.secondary,
+    width: Sizing.x120,
+    marginVertical: Sizing.x15,
+    backgroundColor: Colors.primary.neutral,
+  },
+  buttonText_light: {
     ...Buttons.barText.primary,
+    textAlign: "center",
+    color: Colors.primary.neutral,
+  },
+  buttonText_dark: {
+    ...Buttons.barText.primary,
+    textAlign: "center",
     color: Colors.primary.s600,
   },
 });

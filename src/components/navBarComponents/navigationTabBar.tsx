@@ -11,6 +11,7 @@ import {
 import { Colors, Typography, Outlines } from "styles/index";
 import { OrganizerTabParamList } from "common/types/navigationTypes";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
+import { appContext } from "contexts/contextApi";
 
 type NavigationTabBarProps = BottomTabBarProps<OrganizerTabParamList>;
 
@@ -19,6 +20,8 @@ export const NavigationTabBar = ({
   descriptors,
   navigation,
 }: NavigationTabBarProps) => {
+  const { colorScheme } = appContext();
+
   const getNavBarIcon = (routeName: string) => {
     switch (routeName) {
       case "Home":
@@ -71,6 +74,48 @@ export const NavigationTabBar = ({
       });
     };
 
+    const navBarButtonStyle = () => {
+      if (colorScheme == "light" && isFocused) {
+        return [
+          styles.navBarButton_light,
+          { backgroundColor: Colors.primary.s600 },
+        ];
+      }
+      if (colorScheme == "light" && !isFocused) {
+        return [
+          styles.navBarButton_light,
+          { backgroundColor: Colors.primary.s200 },
+        ];
+      }
+      if (colorScheme == "dark" && isFocused) {
+        return [
+          styles.navBarButton_dark,
+          { backgroundColor: Colors.primary.neutral },
+        ];
+      }
+      if (colorScheme == "dark" && !isFocused) {
+        return [
+          styles.navBarButton_dark,
+          { backgroundColor: Colors.primary.brand },
+        ];
+      }
+    };
+
+    const iconStyle = () => {
+      if (colorScheme == "light" && isFocused) {
+        return Colors.primary.s200;
+      }
+      if (colorScheme == "light" && !isFocused) {
+        return Colors.primary.s600;
+      }
+      if (colorScheme == "dark" && isFocused) {
+        return Colors.primary.s600;
+      }
+      if (colorScheme == "dark" && !isFocused) {
+        return Colors.primary.s200;
+      }
+    };
+
     return (
       <View style={styles.navBarButtonWrapper} key={index}>
         <Pressable
@@ -82,35 +127,33 @@ export const NavigationTabBar = ({
           onLongPress={onLongPress}
           key={route.key}
           style={[
-            styles.navBarButton,
-            {
-              backgroundColor: isFocused
-                ? Colors.primary.neutral
-                : Colors.primary.brand,
-            },
+            navBarButtonStyle(),
             isFocused ? { ...Outlines.shadow.lifted } : {},
           ]}>
-          <Icon
-            width={24}
-            height={24}
-            stroke={isFocused ? Colors.primary.s600 : Colors.primary.neutral}
-          />
+          <Icon width={24} height={24} stroke={iconStyle()} />
         </Pressable>
         <Text style={styles.navBarButtonLabel}>{label(options, route)}</Text>
       </View>
     );
   };
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[
+        colorScheme == "light" ? styles.container_light : styles.container_dark,
+      ]}>
       {state.routes.map(renderTabItem)}
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  container_light: {
     flexDirection: "row",
-    borderTopWidth: Outlines.borderWidth.thin,
+    backgroundColor: Colors.primary.neutral,
+  },
+  container_dark: {
+    flexDirection: "row",
+    borderTopWidth: Outlines.borderWidth.hairline,
     borderTopColor: Colors.primary.brand,
     backgroundColor: Colors.primary.s600,
   },
@@ -119,10 +162,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginVertical: 5,
   },
-  navBarButton: {
+  navBarButton_light: {
     alignItems: "center",
     justifyContent: "center",
-    borderWidth: Outlines.borderWidth.thin,
+    borderWidth: 0.8,
+    borderColor: Colors.primary.neutral,
+    borderRadius: 10,
+    width: 44,
+    height: 44,
+    margin: 5,
+  },
+  navBarButton_dark: {
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 0.8,
     borderColor: Colors.primary.brand,
     borderRadius: 10,
     width: 44,
@@ -130,7 +183,7 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   navBarButtonLabel: {
-    color: Colors.primary.neutral,
+    color: Colors.primary.s400,
     ...Typography.subHeader.x5,
   },
 });
