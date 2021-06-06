@@ -43,11 +43,8 @@ function App() {
     return (
       <AppContextProvider>
         <NavigationContainer>
-          <Stack.Navigator
-            initialRouteName="Home"
-            mode="modal"
-            headerMode="screen">
-            {!auth ? (
+          <Stack.Navigator initialRouteName="Home" headerMode="screen">
+            {auth ? (
               <>
                 <Stack.Screen
                   name="Home"
@@ -57,13 +54,6 @@ function App() {
                 <Stack.Screen
                   name="Navigation Screens"
                   component={NavigationScreens}
-                />
-                <Stack.Screen
-                  name="Modal"
-                  component={LearnMoreModal}
-                  options={{
-                    headerShown: false,
-                  }}
                 />
               </>
             ) : (
