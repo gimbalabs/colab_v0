@@ -2,7 +2,7 @@ import * as React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Sizing, Typography, Colors, Outlines } from "../../styles";
 
-const weekDays: string[] = ["S", "M", "T", "W", "T", "F", "S"];
+const weekDays: string[] = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
 export const WeekDayNames = () => {
   return (
