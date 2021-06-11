@@ -132,7 +132,14 @@ export const NavigationTabBar = ({
           ]}>
           <Icon width={24} height={24} stroke={iconStyle()} />
         </Pressable>
-        <Text style={styles.navBarButtonLabel}>{label(options, route)}</Text>
+        <Text
+          style={
+            colorScheme === "light"
+              ? styles.navBarButtonLabel_light
+              : styles.navBarButtonLabel_dark
+          }>
+          {label(options, route)}
+        </Text>
       </View>
     );
   };
@@ -182,7 +189,11 @@ const styles = StyleSheet.create({
     height: 44,
     margin: 5,
   },
-  navBarButtonLabel: {
+  navBarButtonLabel_light: {
+    color: Colors.primary.s600,
+    ...Typography.subHeader.x5,
+  },
+  navBarButtonLabel_dark: {
     color: Colors.primary.s400,
     ...Typography.subHeader.x5,
   },

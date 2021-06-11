@@ -94,9 +94,11 @@ const styles = StyleSheet.create({
   },
   buttonTop: {
     ...Buttons.bar.primary,
+    backgroundColor: Colors.primary.neutral,
   },
   buttonTopText: {
     ...Buttons.barText.primary,
+    color: Colors.primary.s600,
   },
   buttonBottom: {
     ...Buttons.bar.transparent,
