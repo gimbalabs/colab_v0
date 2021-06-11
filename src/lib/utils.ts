@@ -132,7 +132,7 @@ export function areEqualDates(val1: number, val2: number): boolean {
 }
 
 /**
- *   @description This will return an array with next/previous 6 months with
+ *   @description This will return an array with next/previous months with
  *    number of total days, name of the first day (eg. 'Monday'), and
  *    names of the months.
  *
@@ -144,21 +144,48 @@ export function areEqualDates(val1: number, val2: number): boolean {
  *          fromMonth
  *          fromYear
  */
-export function getSixMonthsWithDays(
+export function getCalendarMonths(
   nextMonths = false,
   previousMonths = false,
   fromMonth?: number,
   fromYear?: number
 ): Month[] {
-  const year = fromYear ? fromYear : new Date().getFullYear();
-  const month = fromMonth ? fromMonth : new Date().getMonth();
-  const day = new Date().getDay();
-
-  const firstDayIndex = new Date(year, month, day).getDay();
-  const monthsWithDays: Month[] = [];
-
-  var currYear = year;
+  var month = fromMonth != null ? fromMonth : new Date().getMonth();
+  var year = fromYear != null ? fromYear : new Date().getFullYear();
   var currMonthIndex = fromMonth != null ? month + 1 : month;
+
+  // console.log(`
+  //                 nextMonths: ${nextMonths}
+  //                 previousMonths: ${previousMonths}
+  //                 currentMonthIndex: ${currMonthIndex}
+  //                 fromMonth: ${fromMonth}
+  //                 fromYear: ${fromYear}
+  //                 month: ${month}
+  //                 year: ${year}
+  //       `);
+
+  // if the month is December and fromYear isn't specified, meaning
+  // we are at last month of the current year
+  if (previousMonths && month === 11 && fromYear === undefined) {
+    year++;
+    // set the first month to January (is index 0)
+    currMonthIndex = 0;
+  }
+
+  // ...and if the month is January and fromYear isn't specified, meaning
+  // we are at first month of the current year
+  if (!nextMonths && month === 0 && fromYear === undefined) {
+    year--;
+
+    // set the first month to December (is index 11)
+    currMonthIndex = 11;
+  }
+
+  // get the first day of the month: eg. 1 (Monday)
+  var firstDayIndex = new Date(year, month).getDay();
+
+  var monthsWithDays: Month[] = [];
+  var currYear = year;
   var currDayIndex = firstDayIndex;
   var numOfDays = 0;
   var scheduledYear = scheduledEvents.find(
@@ -167,7 +194,12 @@ export function getSixMonthsWithDays(
   var availableYear = availabilities.find((avail) => avail.year === currYear);
 
   if (nextMonths) {
-    for (let i = currMonthIndex; i <= month + 2; i++) {
+    if (month === 11) {
+      currMonthIndex = 0;
+      currYear++;
+    }
+
+    for (let i = currMonthIndex; month === 11 ? i < 1 : i <= month + 1; i++) {
       let days: Day[] = [];
       let events: ScheduledEventsDay[] = [];
       let availableSlots: AvailabilitiesDay[] = [];
@@ -192,8 +224,10 @@ export function getSixMonthsWithDays(
 
       const firstDay = new Date(currYear, currMonthIndex).getDay();
       const firstDayName = weekDays[firstDay];
-      // console.log("next");
-      // console.log(firstDay, firstDayName, months[currMonthIndex]);
+
+      // We want to start iterating on months days starting at the first
+      // day of the current month
+      currDayIndex = firstDay;
 
       for (let j = 1; isValidDate(j, currMonthIndex, currYear); j++) {
         let dayAvailabilities = availableSlots.find((s) => s.day === j)
@@ -243,28 +277,37 @@ export function getSixMonthsWithDays(
       }
     }
   } else if (previousMonths) {
-    // this will give us 2 previous months, starting at given currMonthIndex
-    currMonthIndex = currMonthIndex - 1;
+    // Previous months need to omit the current, so we substract these values:
+    --month;
+    --currMonthIndex;
+
+    // If we have passed a fromMonth value but haven't specified fromYear:
+    if (fromMonth != null) --currMonthIndex;
+
+    // if the fromMonth is January, start iterating from month December
+    if (fromMonth === 0) {
+      month = 11;
+      currMonthIndex = 11;
+
+      // If we need to go a year back
+      if (fromYear != null) --currYear;
+    }
+
+    if (fromMonth === 11 && !fromYear) {
+      currYear = getYear();
+      currMonthIndex = 10;
+    }
+
     for (let i = currMonthIndex - 1; i < month; i++) {
       const firstDay = new Date(currYear, currMonthIndex).getDay();
       const firstDayName = weekDays[firstDay];
-
-      // console.log("previous");
-      // console.log(
-      //   firstDay,
-      //   firstDayName,
-      //   currMonthIndex,
-      //   months[currMonthIndex]
-      // );
-      // console.log("month", month);
-
       let days: Day[] = [];
       let events: ScheduledEventsDay[] = [];
       let availableSlots: AvailabilitiesDay[] = [];
 
       if (availableYear != null) {
         var availableDays = availableYear.months.find(
-          (month) => month.month === months[i]
+          (month) => month.month === months[i + 1]
         );
         availableDays?.days.map((availDay: AvailabilitiesDay) =>
           availableSlots.push(availDay)
@@ -273,12 +316,16 @@ export function getSixMonthsWithDays(
 
       if (scheduledYear != null) {
         var scheduledDays = scheduledYear.months.find(
-          (month) => month.month === months[i]
+          (month) => month.month === months[i + 1]
         );
         scheduledDays?.days.map((schedDay: ScheduledEventsDay) =>
           events.push(schedDay)
         );
       }
+
+      // We want to start iterating on months days starting at the first
+      // day of the current month
+      currDayIndex = firstDay;
 
       for (let j = 1; isValidDate(j, currMonthIndex, currYear); j++) {
         let dayAvailabilities = availableSlots.find((s) => s.day === j)
@@ -327,6 +374,7 @@ export function getSixMonthsWithDays(
       }
     }
     monthsWithDays.reverse();
+
     return monthsWithDays;
   }
   return monthsWithDays;
