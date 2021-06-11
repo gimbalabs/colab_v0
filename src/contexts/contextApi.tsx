@@ -36,6 +36,7 @@ export const myCalendarContext = () => {
     scheduledEvents: state.scheduledEvents,
     registrationDate: state.registrationDate,
     previewingDayEvents: state.previewingDayEvents,
+    direction: state.direction,
     addEvent: (event: ScheduledEvent) => {
       dispatch({ type: "ADD_EVENT", payload: event });
     },
@@ -44,6 +45,9 @@ export const myCalendarContext = () => {
     },
     changeMonthHeader: (calendarHeader: CalendarHeader) => {
       dispatch({ type: "CHANGE_MONTH_HEADER", payload: { calendarHeader } });
+    },
+    setCalendarDirection: (direction: null | "previous" | "next") => {
+      dispatch({ type: "SET_CALENDAR_DIRECTION", payload: { direction } });
     },
     loadMyCalendar: (calendarArgs: NewCalendarMonths) => {
       dispatch({ type: "LOAD_MY_CALENDAR", payload: { calendarArgs } });

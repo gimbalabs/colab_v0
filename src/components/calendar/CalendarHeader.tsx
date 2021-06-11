@@ -8,6 +8,7 @@ import {
   Platform,
   UIManager,
   LayoutAnimation,
+  Pressable,
 } from "react-native";
 
 import { Buttons, Colors, Sizing, Outline, Typography } from "styles/index";
@@ -21,7 +22,12 @@ if (Platform.OS === "android") {
 }
 
 export const CalendarHeader = () => {
-  const { calendarHeader } = myCalendarContext();
+  const {
+    calendarHeader,
+    changeMonthHeader,
+    setCalendarDirection,
+    calendar,
+  } = myCalendarContext();
 
   const [activeSearch, setActiveSearch] = React.useState<boolean>(false);
   const [nodeTag, setNodeTag] = React.useState<number | null>(null);
@@ -60,20 +66,13 @@ export const CalendarHeader = () => {
     }
   };
 
-  const calendarYear = calendarHeader ? calendarHeader.year : "";
+  return <></>;
+  {
+    /* 
+        
+      This is a custom search bar with a search icon.
 
-  const calendarMonth = calendarHeader ? calendarHeader.month : "";
-
-  return (
-    <View
-      onStartShouldSetResponder={(event) => handleResponderEvent(event)}
-      style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>{calendarYear}</Text>
-        <Text style={styles.headerText}>{"/"}</Text>
-        <Text style={styles.headerText}>{calendarMonth}</Text>
-      </View>
-      {/* <View
+      <View
         style={styles.searchBarView}
         ref={(component) => setChildNodes(component)}>
         <View style={styles.searchBar}>
@@ -100,58 +99,41 @@ export const CalendarHeader = () => {
               ]}></TextInput>
           </Pressable>
         </View>
-      </View> */}
-    </View>
-  );
+      </View> */
+  }
 };
 
 const styles = StyleSheet.create({
-  container: {
-    width: "90%",
-    flexDirection: "row",
-  },
-  header: {
-    width: "50%",
-    flexDirection: "row",
-    marginHorizontal: Sizing.x15,
-    marginVertical: Sizing.x5,
-    alignSelf: "flex-end",
-  },
-  headerText: {
-    ...Typography.header.x40,
-    color: "white",
-    paddingRight: 5,
-  },
-  searchBarView: {
-    marginLeft: Sizing.x15,
-    width: "100%",
-    flexDirection: "row",
-    alignItems: "center",
-    alignSelf: "flex-start",
-  },
-  searchBar: {
-    flexDirection: "row-reverse",
-    width: "50%",
-  },
-  searchBarButton: {
-    ...Buttons.circular.primary,
-    backgroundColor: Colors.neutral.s200,
-    width: Sizing.x100,
-    height: Sizing.x40,
-    flexDirection: "row",
-    marginRight: Sizing.x40,
-    justifyContent: "flex-start",
-  },
-  searchAnimated: {
-    ...Buttons.circular.primary,
-    width: Sizing.x100,
-    height: Sizing.x40,
-  },
-  searchIcon: {
-    marginLeft: Sizing.x10,
-  },
-  searchBarText: {
-    marginLeft: Sizing.x5,
-    ...Typography.fontSize.x30,
-  },
+  // searchBarView: {
+  //   marginLeft: Sizing.x15,
+  //   width: "100%",
+  //   flexDirection: "row",
+  //   alignItems: "center",
+  //   alignSelf: "flex-start",
+  // },
+  // searchBar: {
+  //   flexDirection: "row-reverse",
+  //   width: "50%",
+  // },
+  // searchBarButton: {
+  //   ...Buttons.circular.primary,
+  //   backgroundColor: Colors.neutral.s200,
+  //   width: Sizing.x100,
+  //   height: Sizing.x40,
+  //   flexDirection: "row",
+  //   marginRight: Sizing.x40,
+  //   justifyContent: "flex-start",
+  // },
+  // searchAnimated: {
+  //   ...Buttons.circular.primary,
+  //   width: Sizing.x100,
+  //   height: Sizing.x40,
+  // },
+  // searchIcon: {
+  //   marginLeft: Sizing.x10,
+  // },
+  // searchBarText: {
+  //   marginLeft: Sizing.x5,
+  //   ...Typography.fontSize.x30,
+  // },
 });

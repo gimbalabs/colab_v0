@@ -24,6 +24,7 @@ export enum MyCalendarTypes {
   ChangeMonthHeader = "CHANGE_MONTH_HEADER",
   PreviewDayEvents = "PREVIEW_DAY_EVENTS",
   ClearDayPreview = "CLEAR_DAY_PREVIEW",
+  CalendarDirection = "SET_CALENDAR_DIRECTION",
 }
 
 /**
@@ -69,6 +70,9 @@ export type MyCalendarPaylaod = {
   };
   [MyCalendarTypes.ResetState]: {
     calendarState?: MyCalendarState;
+  };
+  [MyCalendarTypes.CalendarDirection]: {
+    direction: null | "previous" | "next";
   };
   [MyCalendarTypes.ClearDayPreview]: {};
 };

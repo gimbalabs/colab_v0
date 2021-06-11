@@ -5,6 +5,7 @@ export interface MyCalendarState {
   scheduledEvents: ScheduledEvents[];
   calendarHeader: CalendarHeader;
   previewingDayEvents?: PreviewingDayEvents;
+  direction: null | "previous" | "next";
 }
 
 export interface Availabilities {

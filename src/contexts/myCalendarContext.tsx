@@ -10,7 +10,7 @@ import {
   MyCalendarState,
 } from "interfaces/myCalendarInterface";
 import { MyCalendarActions, MyCalendarTypes } from "common/types/contextTypes";
-import { getMonth, getSixMonthsWithDays, getYear } from "lib/utils";
+import { getMonth, getCalendarMonths, getYear } from "lib/utils";
 
 import { scheduledEvents } from "../api_data/scheduledEvents";
 import { availabilities } from "../api_data/availabilities";
@@ -21,8 +21,8 @@ export interface ContextProviderProps {
 }
 
 const initialCalendar = [
-  ...getSixMonthsWithDays(false, true),
-  ...getSixMonthsWithDays(true),
+  ...getCalendarMonths(false, true),
+  ...getCalendarMonths(true),
 ];
 
 export const initialState: MyCalendarState = {
@@ -30,6 +30,7 @@ export const initialState: MyCalendarState = {
   calendar: initialCalendar,
   availabilities,
   scheduledEvents,
+  direction: null,
   calendarHeader: {
     month: months[getMonth()],
     year: getYear(),
@@ -70,33 +71,29 @@ const reducer = (state: MyCalendarState, action: MyCalendarActions) => {
       return {
         ...state,
       };
+    case MyCalendarTypes.CalendarDirection:
+      return {
+        ...state,
+        direction: action.payload.direction,
+      };
     case MyCalendarTypes.LoadMyCalendar:
       const nextMonths = action.payload.calendarArgs.nextMonths;
       const year = action.payload.calendarArgs.year;
       const month = action.payload.calendarArgs.month;
       const newCalendar: Month[] = [...state.calendar];
 
-      if (year === undefined) {
-        if (nextMonths) {
-          newCalendar.push(...getSixMonthsWithDays(true, false, month));
-          // newCalendar.splice(0, 2);
-        } else {
-          newCalendar.splice(0, 0, ...getSixMonthsWithDays(false, true, month));
-          newCalendar.splice(state.calendar.length - 2, 2);
-        }
+      if (nextMonths) {
+        newCalendar.push(...getCalendarMonths(true, false, month, year));
+        newCalendar.splice(0, 1);
       } else {
-        if (nextMonths) {
-          newCalendar.push(...getSixMonthsWithDays(true, false, month, year));
-          newCalendar.splice(0, 2);
-        } else {
-          newCalendar.splice(
-            0,
-            0,
-            ...getSixMonthsWithDays(false, true, month, year)
-          );
-          newCalendar.splice(state.calendar.length - 2, 2);
-        }
+        newCalendar.splice(
+          0,
+          0,
+          ...getCalendarMonths(false, true, month, year)
+        );
+        newCalendar.splice(newCalendar.length - 1, 1);
       }
+
       return {
         ...state,
         calendar: newCalendar,
