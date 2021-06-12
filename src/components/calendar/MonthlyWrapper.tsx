@@ -2,12 +2,9 @@ import * as React from "react";
 import {
   View,
   StyleSheet,
-  FlatList,
   LayoutRectangle,
   ActivityIndicator,
   LayoutChangeEvent,
-  NativeSyntheticEvent,
-  NativeScrollEvent,
   Text,
   Pressable,
 } from "react-native";
@@ -15,9 +12,8 @@ import {
 import { myCalendarContext } from "contexts/contextApi";
 import { Colors, Typography, Sizing, Outlines } from "styles/index";
 import { MonthItem } from "./MonthItem";
-import { Month, NewCalendarMonths } from "interfaces/myCalendarInterface";
+import { Month } from "interfaces/myCalendarInterface";
 import { monthsByName } from "common/types/calendarTypes";
-import { getMonth, getCalendarMonths } from "lib/utils";
 import { WeekDayNames } from ".";
 
 export const MonthlyWrapper = () => {
@@ -26,88 +22,20 @@ export const MonthlyWrapper = () => {
     changeMonthHeader,
     calendarHeader,
     loadMyCalendar,
-    direction,
   } = myCalendarContext();
   const [dimensions, setDimensions] = React.useState<LayoutRectangle | null>(
     null
   );
   const [currIndex, setCurrIndex] = React.useState<number>(1);
-  const [contentOffset, setContentOffset] = React.useState<number>(0);
   const [monthsArray, setMonthsArray] = React.useState(calendar);
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
-
-  const keyExtractor = React.useCallback(
-    (item: Month, index: number) => `${item.name}_${index}`,
-    []
-  );
-
-  const getItemLayout = (data: any[] | null | undefined, index: number) => ({
-    length: dimensions!.width,
-    offset: dimensions!.width * index,
-    index,
-  });
 
   const onLayout = (event: LayoutChangeEvent) => {
     setDimensions(event.nativeEvent.layout);
   };
 
-  const getLayoutParams = (e: any) => {
-    const layoutWidth = e.nativeEvent.layoutMeasurement.width;
-    const offsetX = e.nativeEvent.contentOffset.x;
-    const listItemIndex = Math.round(offsetX / layoutWidth);
-
-    return { layoutWidth, offsetX, listItemIndex };
-  };
-
-  // const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-  //   const { listItemIndex } = getLayoutParams(e);
-
-  //   if (calendar != null && listItemIndex % 1 === 0) {
-  //     if (listItemIndex < index) {
-  //       setIndex((prev) => prev--);
-  //     }
-
-  //     if (listItemIndex > index) {
-  //       setIndex((prev) => prev++);
-  //     }
-
-  //     const calendarHeader = {
-  //       month: calendar[listItemIndex].name,
-  //       year: calendar[listItemIndex].year,
-  //     };
-  //     changeMonthHeader(calendarHeader);
-  //   }
-  // };
-
   const loadNewMonths = (nextMonths: boolean, month: number, year?: number) => {
     loadMyCalendar({ nextMonths, month, year });
   };
-
-  // const onScrollBeginDrag = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-  //   const { offsetX } = getLayoutParams(e);
-  //   setContentOffset(offsetX);
-  // };
-
-  // const onMomentumScrollEnd = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-  //   const { listItemIndex } = getLayoutParams(e);
-
-  //   // Check whether user has swapped to right or left (next or previous)
-  //   if (contentOffset < e.nativeEvent.contentOffset.x) {
-  //     // if (direction === "next") {
-  //     var month = calendar[listItemIndex].name;
-  //     loadNewMonths(true, monthsByName[month]);
-  //     // }
-  //     // setDirection("next");
-  //   }
-
-  // // if (contentOffset > e.nativeEvent.contentOffset.x) {
-  // //   if (direction === "previous") {
-  // //     var month = calendar[listItemIndex].name;
-  // //     loadNewMonths(false, monthsByName[month]);
-  // //   }
-  // //   setDirection("previous");
-  // // }
-  // };
 
   const CurrMonth = React.memo(({ item }: { item: Month }) => {
     return (
