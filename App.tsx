@@ -46,14 +46,15 @@ function App() {
           <Stack.Navigator initialRouteName="Home" headerMode="screen">
             {auth ? (
               <>
-                <Stack.Screen
+                {/*<Stack.Screen
                   name="Home"
                   options={{ title: "Home" }}
                   component={HomeScreen}
-                />
+                />*/}
                 <Stack.Screen
                   name="Navigation Screens"
                   component={NavigationScreens}
+                  options={{ headerShown: false }}
                 />
               </>
             ) : (

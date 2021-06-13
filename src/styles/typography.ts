@@ -8,7 +8,16 @@ import { systemWeights } from "react-native-typography";
 
 import * as Colors from "./colors";
 
-type FontSize = "x5" | "x10" | "x20" | "x30" | "x40" | "x50" | "x60" | "x70";
+type FontSize =
+  | "x5"
+  | "x10"
+  | "x20"
+  | "x30"
+  | "x35"
+  | "x40"
+  | "x50"
+  | "x60"
+  | "x70";
 export const fontSize: Record<FontSize, TextStyle> = {
   x5: {
     fontSize: 10,
@@ -21,6 +30,9 @@ export const fontSize: Record<FontSize, TextStyle> = {
   },
   x30: {
     fontSize: 16,
+  },
+  x35: {
+    fontSize: 18,
   },
   x40: {
     fontSize: 20,
@@ -62,7 +74,16 @@ export const letterSpacing: Record<LetterSpacing, number> = {
   x40: 3,
 };
 
-type LineHeight = "x5" | "x10" | "x20" | "x30" | "x40" | "x50" | "x60" | "x70";
+type LineHeight =
+  | "x5"
+  | "x10"
+  | "x20"
+  | "x30"
+  | "x35"
+  | "x40"
+  | "x50"
+  | "x60"
+  | "x70";
 export const lineHeight: Record<LineHeight, TextStyle> = {
   x5: {
     lineHeight: 10,
@@ -74,6 +95,9 @@ export const lineHeight: Record<LineHeight, TextStyle> = {
     lineHeight: 22,
   },
   x30: {
+    lineHeight: 24,
+  },
+  x35: {
     lineHeight: 24,
   },
   x40: {
@@ -136,7 +160,7 @@ export const header: Record<Header, TextStyle> = {
   },
 };
 
-type SubHeader = "x5" | "x10" | "x20" | "x30" | "x40" | "x50";
+type SubHeader = "x5" | "x10" | "x20" | "x30" | "x35" | "x40" | "x50";
 export const subHeader: Record<SubHeader, TextStyle> = {
   x5: {
     ...fontSize.x5,
@@ -157,10 +181,15 @@ export const subHeader: Record<SubHeader, TextStyle> = {
     fontFamily: "Roboto-Regular",
   },
   x30: {
+    ...fontSize.x35,
+    ...lineHeight.x30,
+    ...fontWeight.semibold,
+    fontFamily: "Roboto-Regular",
+  },
+  x35: {
     ...fontSize.x30,
     ...lineHeight.x30,
     ...fontWeight.semibold,
-
     fontFamily: "Roboto-Regular",
   },
   x40: {

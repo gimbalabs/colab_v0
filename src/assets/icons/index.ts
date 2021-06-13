@@ -8,6 +8,8 @@ import { LiveCollaborationIcon } from "./liveCollaboration";
 import { CheckIcon } from "./check";
 import { DotIcon } from "./dot";
 import { DownIcon } from "./down";
+import { RightArrowIcon } from "./rightArrow";
+import { LeftArrowIcon } from "./leftArrow";
 import { EditIcon } from "./edit";
 import { EyeIcon } from "./eye";
 import { EyeOffIcon } from "./eyeOff";
@@ -30,6 +32,8 @@ export {
   DotIcon,
   DuplicateIcon,
   DownIcon,
+  LeftArrowIcon,
+  RightArrowIcon,
   EditIcon,
   EyeIcon,
   EyeOffIcon,
