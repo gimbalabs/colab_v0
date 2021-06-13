@@ -48,17 +48,7 @@ export const MonthlyDay = ({
   };
 
   return (
-    <Pressable
-      style={[
-        styles.dayContainer,
-        {
-          borderBottomWidth:
-            isLastWeek !== undefined && isLastWeek
-              ? 0
-              : Outlines.borderWidth.thin,
-        },
-      ]}
-      onPress={onPress}>
+    <Pressable style={[styles.dayContainer]} onPress={onPress}>
       <View
         style={[
           styles.dayButton,
@@ -94,10 +84,8 @@ const styles = StyleSheet.create({
   dayContainer: {
     width: `${100 / 7}%`,
     height: `${100 / 6}%`,
-    marginTop: 1,
     justifyContent: "center",
     alignItems: "center",
-    borderBottomColor: Colors.neutral.s200,
   },
   dayButtonWrapper: {
     flexDirection: "column",

@@ -11,12 +11,13 @@ import {
   Easing,
 } from "react-native";
 
-import { myCalendarContext } from "contexts/contextApi";
-import { Colors, Typography, Sizing, Outlines } from "styles/index";
+import { appContext, myCalendarContext } from "contexts/contextApi";
+import { Colors, Typography, Sizing, Outlines, Buttons } from "styles/index";
 import { MonthItem } from "./MonthItem";
 import { Month } from "interfaces/myCalendarInterface";
 import { monthsByName } from "common/types/calendarTypes";
 import { WeekDayNames } from "./WeekDayNames";
+import { LeftArrowIcon, RightArrowIcon } from "icons/index";
 
 export const MonthlyWrapper = () => {
   const {
@@ -25,6 +26,7 @@ export const MonthlyWrapper = () => {
     calendarHeader,
     loadMyCalendar,
   } = myCalendarContext();
+  const { colorScheme } = appContext();
   const [dimensions, setDimensions] = React.useState<LayoutRectangle | null>(
     null
   );
@@ -226,24 +228,44 @@ export const MonthlyWrapper = () => {
           <Text style={styles.headerMonth_light}>{calendarHeader.month}</Text>
           <Text style={styles.headerYear_light}>{calendarHeader.year}</Text>
         </View>
-        <View style={styles.header}>
+        <View style={styles.headerMonthNavigation}>
           <Pressable
-            style={{
-              padding: 12,
-              margin: 5,
-              backgroundColor: Colors.primary.s400,
-            }}
+            style={Buttons.applyOpacity(
+              colorScheme === "light"
+                ? styles.monthSwitchButton_light
+                : styles.monthSwitchButton_dark
+            )}
+            hitSlop={25}
+            pressRetentionOffset={25}
             onPress={onPreviousStartAnimation}>
-            <Text>Prev</Text>
+            <LeftArrowIcon
+              width="24"
+              height="24"
+              color={
+                colorScheme === "light"
+                  ? Colors.primary.s350
+                  : Colors.primary.s200
+              }
+            />
           </Pressable>
           <Pressable
-            style={{
-              padding: 12,
-              margin: 5,
-              backgroundColor: Colors.primary.s400,
-            }}
+            hitSlop={25}
+            pressRetentionOffset={25}
+            style={Buttons.applyOpacity(
+              colorScheme === "light"
+                ? styles.monthSwitchButton_light
+                : styles.monthSwitchButton_dark
+            )}
             onPress={onNextStartAnimation}>
-            <Text>Next</Text>
+            <RightArrowIcon
+              width="24"
+              height="24"
+              color={
+                colorScheme === "light"
+                  ? Colors.primary.s350
+                  : Colors.primary.s200
+              }
+            />
           </Pressable>
         </View>
       </View>
@@ -265,6 +287,12 @@ export const MonthlyWrapper = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    maxHeight: 350,
+    marginHorizontal: Sizing.x10,
+    marginVertical: "auto",
+    alignItems: "center",
+  },
   calendarContainer: {
     flex: 1,
     width: "100%",
@@ -273,37 +301,43 @@ const styles = StyleSheet.create({
   loadingIndicator: {
     flex: 1,
   },
-  container: {
-    flex: 6,
-    marginHorizontal: Sizing.x10,
-  },
   calendar: {
     height: "100%",
-    width: "100%",
+    width: "95%",
     alignItems: "center",
     backgroundColor: "white",
     borderRadius: Outlines.borderRadius.small,
-    borderWidth: Outlines.borderWidth.base,
-    borderColor: Colors.neutral.s400,
+    marginVertical: "auto",
   },
   headerContainer: {
-    width: "90%",
+    width: "100%",
+    paddingHorizontal: Sizing.x10,
     flexDirection: "row",
+    justifyContent: "space-between",
   },
   header: {
     width: "50%",
     flexDirection: "row",
     marginHorizontal: Sizing.x15,
-    marginVertical: Sizing.x5,
-    alignSelf: "flex-end",
+    marginVertical: Sizing.x10,
+    alignItems: "baseline",
+  },
+  headerMonthNavigation: {
+    flexDirection: "row",
+    width: "25%",
+    height: "100%",
+    marginRight: Sizing.x20,
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   headerMonth_light: {
-    ...Typography.header.x40,
+    ...Typography.header.x60,
     color: Colors.primary.s600,
     paddingRight: 5,
+    lineHeight: 0,
   },
   headerMonth_dark: {
-    ...Typography.header.x40,
+    ...Typography.header.x60,
     color: Colors.primary.neutral,
     paddingRight: 5,
   },
@@ -311,11 +345,30 @@ const styles = StyleSheet.create({
     ...Typography.header.x40,
     color: Colors.primary.s300,
     paddingRight: 5,
+    lineHeight: 0,
   },
   headerYear_dark: {
     ...Typography.header.x40,
     color: Colors.primary.neutral,
     paddingRight: 5,
+  },
+  monthSwitchButton_light: {
+    padding: 5,
+    width: 35,
+    height: 35,
+    borderRadius: 999,
+    backgroundColor: Colors.primary.s200,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  monthSwitchButton_dark: {
+    padding: 5,
+    width: 35,
+    height: 35,
+    borderRadius: 999,
+    backgroundColor: Colors.primary.s200,
+    justifyContent: "center",
+    alignItems: "center",
   },
   monthContainer: {
     paddingHorizontal: "2%",

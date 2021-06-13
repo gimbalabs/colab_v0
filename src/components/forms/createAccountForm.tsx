@@ -76,6 +76,7 @@ export const CreateAccountForm = ({}: CreateAccountFormProps) => {
             <Pressable
               onPress={onCheckBoxPress}
               style={styles.pressableCheckbox}>
+              hitSlop={10}
               <View style={styles.checkbox}>
                 <AnimatedCheckIcon
                   opacity={animatedOpacity}

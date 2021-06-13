@@ -6,6 +6,7 @@ import {
   LayoutChangeEvent,
   LayoutRectangle,
   StyleSheet,
+  ScrollView,
 } from "react-native";
 import { CalendarEventsDetail } from "./CalendarEventsDetail";
 
@@ -80,40 +81,43 @@ export const CalendarEventsList = () => {
 
   return (
     <View style={styles.eventsHolder} onLayout={onLayout}>
-      {previewingDayEvents && (
-        <CalendarEventsListHeader onClosePress={onClosePress} />
-      )}
-      {data ? (
-        <FlatList
-          data={data}
-          style={[
-            styles.flatList,
-            { width: dimensions ? dimensions.width : "100%" },
-          ]}
-          renderItem={renderItem}
-          keyExtractor={keyExtractor}
-          scrollEventThrottle={500}
-          maxToRenderPerBatch={10}
-          updateCellsBatchingPeriod={10}
-          progressViewOffset={15}
-          removeClippedSubviews
-        />
-      ) : (
-        <CalendarEventsListEmpty />
-      )}
+      <ScrollView style={styles.scrollableView}>
+        {previewingDayEvents && (
+          <CalendarEventsListHeader onClosePress={onClosePress} />
+        )}
+        {data ? (
+          <FlatList
+            data={data}
+            style={[
+              styles.flatList,
+              { width: dimensions ? dimensions.width : "100%" },
+            ]}
+            renderItem={renderItem}
+            keyExtractor={keyExtractor}
+            scrollEventThrottle={500}
+            maxToRenderPerBatch={10}
+            updateCellsBatchingPeriod={10}
+            progressViewOffset={15}
+            removeClippedSubviews
+          />
+        ) : (
+          <CalendarEventsListEmpty />
+        )}
+      </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   eventsHolder: {
-    flex: 4,
-    margin: Sizing.x10,
+    flex: 1,
+    width: "95%",
     alignItems: "center",
     backgroundColor: "white",
     borderRadius: Outlines.borderRadius.small,
-    borderWidth: Outlines.borderWidth.base,
-    borderColor: Colors.neutral.s400,
+  },
+  scrollableView: {
+    flex: 1,
   },
   flatList: {
     maxWidth: "95%",
