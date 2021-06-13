@@ -7,6 +7,8 @@ import {
   LayoutChangeEvent,
   Text,
   Pressable,
+  Animated,
+  Easing,
 } from "react-native";
 
 import { myCalendarContext } from "contexts/contextApi";
@@ -14,7 +16,7 @@ import { Colors, Typography, Sizing, Outlines } from "styles/index";
 import { MonthItem } from "./MonthItem";
 import { Month } from "interfaces/myCalendarInterface";
 import { monthsByName } from "common/types/calendarTypes";
-import { WeekDayNames } from ".";
+import { WeekDayNames } from "./WeekDayNames";
 
 export const MonthlyWrapper = () => {
   const {
@@ -28,6 +30,75 @@ export const MonthlyWrapper = () => {
   );
   const [currIndex, setCurrIndex] = React.useState<number>(1);
   const [monthsArray, setMonthsArray] = React.useState(calendar);
+  const [direction, setDirection] = React.useState<"left" | "right" | null>(
+    null
+  );
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+
+  var animatedOpacity = React.useRef(new Animated.Value(1)).current;
+  var animatedTranslateX = React.useRef(new Animated.Value(0)).current;
+
+  const startCalendarAnimation = (
+    direction: "left" | "right" | null,
+    fadeOut: boolean
+  ) => {
+    const fadeOutPrevious = direction === "left" && fadeOut;
+    const fadeOutNext = direction === "right" && fadeOut;
+
+    Animated.parallel([
+      Animated.timing(animatedOpacity, {
+        toValue: fadeOut ? 0 : 1,
+        duration: 100,
+        useNativeDriver: true,
+        easing: Easing.sin,
+      }),
+      Animated.timing(animatedTranslateX, {
+        toValue: fadeOutPrevious ? 20 : fadeOutNext ? -20 : 0,
+        duration: 100,
+        useNativeDriver: true,
+        easing: Easing.sin,
+      }),
+    ]).start(({ finished }) => {
+      if (fadeOutPrevious) {
+        setCurrIndex(0);
+        animatedTranslateX.setValue(-20);
+        Animated.parallel([
+          Animated.timing(animatedOpacity, {
+            toValue: 1,
+            duration: 100,
+            useNativeDriver: true,
+            easing: Easing.sin,
+          }),
+          Animated.timing(animatedTranslateX, {
+            toValue: 0,
+            duration: 100,
+            useNativeDriver: true,
+            easing: Easing.sin,
+          }),
+        ]).start();
+        onPreviousLoadCalendar();
+      }
+      if (fadeOutNext) {
+        setCurrIndex(2);
+        animatedTranslateX.setValue(20);
+        Animated.parallel([
+          Animated.timing(animatedOpacity, {
+            toValue: 1,
+            duration: 100,
+            useNativeDriver: true,
+            easing: Easing.sin,
+          }),
+          Animated.timing(animatedTranslateX, {
+            toValue: 0,
+            duration: 100,
+            useNativeDriver: true,
+            easing: Easing.sin,
+          }),
+        ]).start();
+        onNextLoadCalendar();
+      }
+    });
+  };
 
   const onLayout = (event: LayoutChangeEvent) => {
     setDimensions(event.nativeEvent.layout);
@@ -39,27 +110,46 @@ export const MonthlyWrapper = () => {
 
   const CurrMonth = React.memo(({ item }: { item: Month }) => {
     return (
-      <MonthItem
-        days={item.days}
-        year={item.year}
-        month={item.name}
-        firstDayName={item.firstDayName}
-        numOfDays={item.numOfDays}
-        name={item.name}
-        dimensions={dimensions}
-      />
+      <Animated.View
+        style={{
+          ...styles.monthContainer,
+          ...{
+            opacity: animatedOpacity,
+            transform: [{ translateX: animatedTranslateX }],
+            width: dimensions ? dimensions.width : 0,
+            height: dimensions ? dimensions.height : 0,
+          },
+        }}>
+        <MonthItem
+          days={item.days}
+          year={item.year}
+          month={item.name}
+          firstDayName={item.firstDayName}
+          numOfDays={item.numOfDays}
+          name={item.name}
+          dimensions={dimensions}
+        />
+      </Animated.View>
     );
   });
 
-  const onPreviousPress = async () => {
-    const isNotCurrentYear =
-      calendar[currIndex - 1].year !== new Date().getFullYear();
+  const onPreviousStartAnimation = () => {
+    if (isLoading) return;
+    setIsLoading(true);
+    setDirection("left");
+
     const calendarHeader = {
       month: calendar[currIndex - 1].name,
       year: calendar[currIndex - 1].year,
     };
+
     changeMonthHeader(calendarHeader);
-    setCurrIndex((prev) => --prev);
+    startCalendarAnimation("left", true);
+  };
+
+  const onPreviousLoadCalendar = () => {
+    const isNotCurrentYear =
+      calendar[currIndex - 1].year !== new Date().getFullYear();
 
     // For the last month of current year
     if (calendarHeader.month === "January") {
@@ -78,18 +168,25 @@ export const MonthlyWrapper = () => {
     } else {
       loadNewMonths(false, monthsByName[monthsArray[currIndex - 1].name]);
     }
-    setCurrIndex(1);
   };
 
-  const onNextPress = async () => {
-    const isNotCurrentYear =
-      calendar[currIndex + 1].year !== new Date().getFullYear();
+  const onNextStartAnimation = () => {
+    if (isLoading) return;
+    setIsLoading(true);
+    setDirection("right");
+
     const calendarHeader = {
       month: calendar[currIndex + 1].name,
       year: calendar[currIndex + 1].year,
     };
+
     changeMonthHeader(calendarHeader);
-    setCurrIndex((prev) => ++prev);
+    startCalendarAnimation("right", true);
+  };
+
+  const onNextLoadCalendar = () => {
+    const isNotCurrentYear =
+      calendar[currIndex + 1].year !== new Date().getFullYear();
 
     // if the month is the first month of the next year, pass the next year
     // as last parameter
@@ -109,11 +206,15 @@ export const MonthlyWrapper = () => {
     } else {
       loadNewMonths(true, monthsByName[monthsArray[currIndex + 1].name]);
     }
-    setCurrIndex(1);
   };
 
   React.useEffect(() => {
-    setMonthsArray(calendar);
+    if (direction) {
+      setDirection(null);
+      setMonthsArray(calendar);
+      setCurrIndex(1);
+      setIsLoading(false);
+    }
   }, [calendar]);
 
   // Do not pass inline functions as props, as they will be recreated
@@ -132,7 +233,7 @@ export const MonthlyWrapper = () => {
               margin: 5,
               backgroundColor: Colors.primary.s400,
             }}
-            onPress={onPreviousPress}>
+            onPress={onPreviousStartAnimation}>
             <Text>Prev</Text>
           </Pressable>
           <Pressable
@@ -141,7 +242,7 @@ export const MonthlyWrapper = () => {
               margin: 5,
               backgroundColor: Colors.primary.s400,
             }}
-            onPress={onNextPress}>
+            onPress={onNextStartAnimation}>
             <Text>Next</Text>
           </Pressable>
         </View>
@@ -215,5 +316,18 @@ const styles = StyleSheet.create({
     ...Typography.header.x40,
     color: Colors.primary.neutral,
     paddingRight: 5,
+  },
+  monthContainer: {
+    paddingHorizontal: "2%",
+    flexWrap: "wrap",
+    alignItems: "center",
+    flexDirection: "row",
+    height: "100%",
+    top: 0,
+    left: 0,
+  },
+  daysList: {
+    flexWrap: "wrap",
+    flexDirection: "row",
   },
 });

@@ -107,7 +107,7 @@ export const CalendarEventsList = () => {
 
 const styles = StyleSheet.create({
   eventsHolder: {
-    flex: 5,
+    flex: 4,
     margin: Sizing.x10,
     alignItems: "center",
     backgroundColor: "white",

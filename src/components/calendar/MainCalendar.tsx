@@ -49,7 +49,7 @@ export const MainCalendar = () => {
               backgroundColor: Colors.primary.s400,
             }}
             onPress={onNextPress}>
-            <Text>Next</Text>
+            <Text>N</Text>
           </Pressable>
         </View>
       </View>

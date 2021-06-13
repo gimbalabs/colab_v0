@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { View, StyleSheet, LayoutRectangle } from "react-native";
+import { LayoutRectangle } from "react-native";
 import { PlaceholderDay } from "./PlaceholderDay";
 import { MonthlyDay } from "./MonthlyDay";
 import { Month } from "interfaces/myCalendarInterface";
@@ -14,47 +14,22 @@ export const MonthItem = React.memo(
   ({ year, month, days, dimensions }: MonthProps) => {
     const [activeDay, setActiveDay] = React.useState<number | null>(null);
 
-    return (
-      <View
-        style={{
-          ...styles.container,
-          ...{
-            width: dimensions ? dimensions.width : 0,
-            height: dimensions ? dimensions.height : 0,
-          },
-        }}>
-        {days.map((day) =>
-          day.number === 0 ? (
-            <PlaceholderDay key={day.name} />
-          ) : (
-            <MonthlyDay
-              month={month}
-              name={day.name}
-              key={`${day.name}-${day.number}-${year}`}
-              number={day.number}
-              availabilities={day.availabilities}
-              activeDay={activeDay}
-              setActiveDay={setActiveDay}
-              scheduledEvents={day.scheduledEvents}
-              isLastWeek={day.isLastWeek || false}
-            />
-          )
-        )}
-      </View>
+    return days.map((day) =>
+      day.number === 0 ? (
+        <PlaceholderDay key={day.name} />
+      ) : (
+        <MonthlyDay
+          month={month}
+          name={day.name}
+          key={`${day.name}-${day.number}-${year}`}
+          number={day.number}
+          availabilities={day.availabilities}
+          activeDay={activeDay}
+          setActiveDay={setActiveDay}
+          scheduledEvents={day.scheduledEvents}
+          isLastWeek={day.isLastWeek || false}
+        />
+      )
     );
   }
 );
-
-const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: "2%",
-    flexWrap: "wrap",
-    alignItems: "center",
-    flexDirection: "row",
-    height: "100%",
-  },
-  daysList: {
-    flexWrap: "wrap",
-    flexDirection: "row",
-  },
-});
