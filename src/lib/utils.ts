@@ -260,7 +260,13 @@ export function getCalendarMonths(
         numOfDays++;
         days.push(day);
       }
-      days = insertFirstWeekPlaceholders(firstDay, days);
+      days = insertFirstWeekPlaceholders(
+        firstDay,
+        days,
+        currMonthIndex,
+        currYear
+      );
+      days = insertLastWeekPlaceholders(days, currMonthIndex, currYear);
 
       monthsWithDays.push({
         name: months[currMonthIndex],
@@ -358,7 +364,10 @@ export function getCalendarMonths(
         numOfDays++;
         days.push(day);
       }
-      days = insertFirstWeekPlaceholders(firstDay, days);
+
+      days = insertFirstWeekPlaceholders(firstDay, days, currMonthIndex, year);
+      days = insertLastWeekPlaceholders(days, currMonthIndex, currYear);
+
       monthsWithDays.push({
         name: months[currMonthIndex],
         firstDayName,
@@ -388,17 +397,47 @@ export function isValidDate(day: number, month: number, year: number): boolean {
  * @description Check whether the first week should have placeholder
  * displayed on a week
  */
-export function insertFirstWeekPlaceholders(
-  firstDay: number,
-  days: Day[]
+export function insertLastWeekPlaceholders(
+  days: Day[],
+  month: number,
+  year: number
 ): Day[] {
   var placeholdersDays = [];
 
-  for (let i = 0; i < firstDay; i++) {
-    placeholdersDays.push({
-      name: `placeholder-${i}`,
-      number: 0,
+  // get the last day of the month, and add placeholders until we reach Sunday
+  var lastDayOfMonth = new Date(year, month + 1, 0).getDay();
+  console.log(month, lastDayOfMonth);
+
+  for (let i = lastDayOfMonth; i < 7; i++) {
+    placeholdersDays.unshift({
+      name: "placeholder",
+      number: i,
     });
+  }
+  return [...days, ...placeholdersDays];
+}
+
+/**
+ * @description Check whether the first week should have placeholder
+ * displayed on a week
+ */
+export function insertFirstWeekPlaceholders(
+  firstDay: number,
+  days: Day[],
+  month: number,
+  year: number
+): Day[] {
+  var placeholdersDays = [];
+
+  // total number of days at previous month
+  var numOfDays = new Date(year, month, 0).getDate();
+
+  for (let i = 0; i < firstDay; i++) {
+    placeholdersDays.unshift({
+      name: "placeholder",
+      number: numOfDays,
+    });
+    numOfDays--;
   }
   return [...placeholdersDays, ...days];
 }
