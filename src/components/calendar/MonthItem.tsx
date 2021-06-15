@@ -15,8 +15,8 @@ export const MonthItem = React.memo(
     const [activeDay, setActiveDay] = React.useState<number | null>(null);
 
     return days.map((day) =>
-      day.number === 0 ? (
-        <PlaceholderDay key={day.name} />
+      day.name === "placeholder" ? (
+        <PlaceholderDay key={`${day.name}-${day.number}`} number={day.number} />
       ) : (
         <MonthlyDay
           month={month}
