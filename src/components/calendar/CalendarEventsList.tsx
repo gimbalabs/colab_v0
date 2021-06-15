@@ -1,17 +1,15 @@
 import * as React from "react";
 import {
   View,
-  FlatList,
-  RefreshControl,
   LayoutChangeEvent,
   LayoutRectangle,
   StyleSheet,
-  ScrollView,
+  SectionList,
 } from "react-native";
 import { CalendarEventsDetail } from "./CalendarEventsDetail";
 
 import { myCalendarContext } from "contexts/contextApi";
-import { getDigitalTime, getDay, getYear, getMonth } from "lib/utils";
+import { getDay, getYear } from "lib/utils";
 import { Sizing, Colors, Outlines } from "styles/index";
 import { ScheduledEvent } from "common/interfaces/myCalendarInterface";
 import { CalendarEventsListHeader } from "./CalendarEventsListHeader";
@@ -54,12 +52,13 @@ export const CalendarEventsList = () => {
     setDimensions(event.nativeEvent.layout);
   };
 
-  const data = React.useMemo(() => {
+  const data = React.useMemo((): { title: string; data: any }[] => {
     // When user clicks on a day to preview the events
     // just return those events.
-    if (previewingDayEvents != undefined) return previewingDayEvents.events;
+    // if (previewingDayEvents != undefined){ return previewingDayEvents.events;
 
     var monthlyEvents: ScheduledEvent[] = [];
+    var dayEvents: ScheduledEvent[] = [];
 
     for (let scheduledYear of scheduledEvents) {
       if (scheduledYear.year === getYear()) {
@@ -70,40 +69,44 @@ export const CalendarEventsList = () => {
 
           if (monthObj != null) {
             monthObj.days.forEach((day) =>
-              day.scheduledEvents.forEach((evt) => monthlyEvents.push(evt))
+              day.scheduledEvents.forEach((evt) => {
+                monthlyEvents.push(evt);
+                if (day.day === getDay()) dayEvents.push(evt);
+              })
             );
           }
         }
       }
     }
-    return monthlyEvents;
+
+    const sections = [{ title: "This month", data: [...monthlyEvents] }];
+
+    return sections;
   }, [previewingDayEvents, calendarHeader.month, scheduledEvents]);
 
   return (
     <View style={styles.eventsHolder} onLayout={onLayout}>
-      <ScrollView style={styles.scrollableView}>
-        {previewingDayEvents && (
-          <CalendarEventsListHeader onClosePress={onClosePress} />
-        )}
-        {data ? (
-          <FlatList
-            data={data}
-            style={[
-              styles.flatList,
-              { width: dimensions ? dimensions.width : "100%" },
-            ]}
-            renderItem={renderItem}
-            keyExtractor={keyExtractor}
-            scrollEventThrottle={500}
-            maxToRenderPerBatch={10}
-            updateCellsBatchingPeriod={10}
-            progressViewOffset={15}
-            removeClippedSubviews
-          />
-        ) : (
-          <CalendarEventsListEmpty />
-        )}
-      </ScrollView>
+      {previewingDayEvents && (
+        <CalendarEventsListHeader onClosePress={onClosePress} />
+      )}
+      {data ? (
+        <SectionList
+          style={[
+            styles.flatList,
+            { width: dimensions ? dimensions.width : "95%" },
+          ]}
+          renderItem={renderItem}
+          keyExtractor={keyExtractor}
+          scrollEventThrottle={500}
+          maxToRenderPerBatch={5}
+          updateCellsBatchingPeriod={5}
+          progressViewOffset={15}
+          sections={data}
+          removeClippedSubviews
+        />
+      ) : (
+        <CalendarEventsListEmpty />
+      )}
     </View>
   );
 };
@@ -121,6 +124,6 @@ const styles = StyleSheet.create({
   },
   flatList: {
     maxWidth: "95%",
-    marginTop: "2%",
+    margin: "auto",
   },
 });
