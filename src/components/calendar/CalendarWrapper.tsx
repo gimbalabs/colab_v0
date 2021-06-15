@@ -24,9 +24,11 @@ const styles = StyleSheet.create({
   safeArea_light: {
     flex: 1,
     backgroundColor: Colors.primary.neutral,
+    alignItems: "center",
   },
   safeArea_dark: {
     flex: 1,
     backgroundColor: Colors.primary.s600,
+    alignItems: "center",
   },
 });

@@ -25,22 +25,19 @@ export const WeekDayNames = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-    justifyContent: "center",
-  },
+  container: {},
   weekDays: {
     flexDirection: "row",
     justifyContent: "space-evenly",
   },
   dayLetter_light: {
-    ...Typography.subHeader.x30,
+    ...Typography.subHeader.x25,
     color: Colors.primary.s350,
     width: `${100 / 7}%`,
     textAlign: "center",
   },
   dayLetter_dark: {
-    ...Typography.subHeader.x30,
+    ...Typography.subHeader.x25,
     color: Colors.primary.s350,
     width: `${100 / 7}%`,
     textAlign: "center",

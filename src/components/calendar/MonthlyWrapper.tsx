@@ -235,8 +235,8 @@ export const MonthlyWrapper = () => {
                 ? styles.monthSwitchButton_light
                 : styles.monthSwitchButton_dark
             )}
-            hitSlop={25}
-            pressRetentionOffset={25}
+            hitSlop={10}
+            pressRetentionOffset={10}
             onPress={onPreviousStartAnimation}>
             <LeftArrowIcon
               width="24"
@@ -249,8 +249,8 @@ export const MonthlyWrapper = () => {
             />
           </Pressable>
           <Pressable
-            hitSlop={25}
-            pressRetentionOffset={25}
+            hitSlop={10}
+            pressRetentionOffset={10}
             style={Buttons.applyOpacity(
               colorScheme === "light"
                 ? styles.monthSwitchButton_light
@@ -288,8 +288,10 @@ export const MonthlyWrapper = () => {
 
 const styles = StyleSheet.create({
   container: {
-    maxHeight: 350,
-    marginHorizontal: Sizing.x10,
+    flex: 1,
+    width: "90%",
+    marginTop: Sizing.x10,
+    marginBottom: Sizing.x30,
     marginVertical: "auto",
     alignItems: "center",
   },
@@ -304,10 +306,9 @@ const styles = StyleSheet.create({
   calendar: {
     height: "100%",
     width: "95%",
-    alignItems: "center",
+    flex: 1,
     backgroundColor: "white",
-    borderRadius: Outlines.borderRadius.small,
-    marginVertical: "auto",
+    borderRadius: Outlines.borderRadius.base,
   },
   headerContainer: {
     width: "100%",
@@ -371,13 +372,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   monthContainer: {
-    paddingHorizontal: "2%",
     flexWrap: "wrap",
-    alignItems: "center",
     flexDirection: "row",
-    height: "100%",
-    top: 0,
-    left: 0,
   },
   daysList: {
     flexWrap: "wrap",

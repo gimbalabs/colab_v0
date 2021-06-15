@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Pressable, Text, View, StyleSheet } from "react-native";
-import { Buttons, Colors, Outlines, Typography } from "styles/index";
+import { Buttons, Colors, Outlines, Sizing, Typography } from "styles/index";
 import { DotIcon } from "icons/index";
 import { Day } from "interfaces/myCalendarInterface";
 import { myCalendarContext } from "contexts/contextApi";
@@ -53,7 +53,6 @@ export const MonthlyDay = ({
         style={[
           styles.dayButton,
           {
-            marginBottom: scheduledEvents ? 2 : 12,
             backgroundColor:
               isActiveDay && !availabilities
                 ? Colors.neutral.s150
@@ -95,10 +94,13 @@ const styles = StyleSheet.create({
     ...Buttons.circular.primary,
   },
   scheduledDay: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
     ...Buttons.circular.primary,
     backgroundColor: "transparent",
     flex: 1,
-    height: 10,
-    width: 10,
+    height: Sizing.x8,
+    width: Sizing.x8,
   },
 });
