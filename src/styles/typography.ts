@@ -12,6 +12,7 @@ type FontSize =
   | "x5"
   | "x10"
   | "x20"
+  | "x25"
   | "x30"
   | "x35"
   | "x40"
@@ -27,6 +28,9 @@ export const fontSize: Record<FontSize, TextStyle> = {
   },
   x20: {
     fontSize: 14,
+  },
+  x25: {
+    fontSize: 15,
   },
   x30: {
     fontSize: 16,
@@ -78,6 +82,7 @@ type LineHeight =
   | "x5"
   | "x10"
   | "x20"
+  | "x25"
   | "x30"
   | "x35"
   | "x40"
@@ -93,6 +98,9 @@ export const lineHeight: Record<LineHeight, TextStyle> = {
   },
   x20: {
     lineHeight: 22,
+  },
+  x25: {
+    lineHeight: 23,
   },
   x30: {
     lineHeight: 24,
@@ -160,7 +168,7 @@ export const header: Record<Header, TextStyle> = {
   },
 };
 
-type SubHeader = "x5" | "x10" | "x20" | "x30" | "x35" | "x40" | "x50";
+type SubHeader = "x5" | "x10" | "x20" | "x25" | "x30" | "x35" | "x40" | "x50";
 export const subHeader: Record<SubHeader, TextStyle> = {
   x5: {
     ...fontSize.x5,
@@ -177,6 +185,12 @@ export const subHeader: Record<SubHeader, TextStyle> = {
   x20: {
     ...fontSize.x20,
     ...lineHeight.x20,
+    ...fontWeight.semibold,
+    fontFamily: "Roboto-Regular",
+  },
+  x25: {
+    ...fontSize.x25,
+    ...lineHeight.x25,
     ...fontWeight.semibold,
     fontFamily: "Roboto-Regular",
   },
