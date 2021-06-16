@@ -87,6 +87,7 @@ export interface Day {
   isLastWeek?: boolean;
   availabilities?: AvailabilitySlot[];
   scheduledEvents?: ScheduledEvent[];
+  direction?: "previous" | "next" | undefined;
 }
 
 export interface Date {
