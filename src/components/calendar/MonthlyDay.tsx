@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Pressable, Text, View, StyleSheet } from "react-native";
-import { Buttons, Colors, Outlines, Sizing, Typography } from "styles/index";
+import { Buttons, Colors, Sizing, Typography } from "styles/index";
 import { DotIcon } from "icons/index";
 import { Day } from "interfaces/myCalendarInterface";
 import { myCalendarContext } from "contexts/contextApi";
@@ -16,7 +16,6 @@ export interface MonthlyDayProps extends Day {
 export const MonthlyDay = ({
   month,
   number,
-  isLastWeek,
   availabilities,
   activeDay,
   setActiveDay,
@@ -32,75 +31,98 @@ export const MonthlyDay = ({
   const onPress = () => {
     setActiveDay(number);
 
-    if (
-      scheduledEvents == undefined &&
-      previewingDayEvents != null &&
-      previewingDayEvents.events === undefined
-    )
-      return;
+    // if (
+    //   scheduledEvents == undefined &&
+    //   previewingDayEvents != null &&
+    //   previewingDayEvents.events === undefined
+    // ) {
+    //   return;
+    // }
 
-    const newPreviewingDayEvents = {
-      month,
-      day: number,
-      events: scheduledEvents,
-    };
-    previewDayEvents(newPreviewingDayEvents);
+    // const newPreviewingDayEvents = {
+    //   month,
+    //   day: number,
+    //   events: scheduledEvents,
+    // };
+    // previewDayEvents(newPreviewingDayEvents);
+    // setActiveDay(number);
   };
 
   return (
-    <Pressable style={[styles.dayContainer]} onPress={onPress}>
+    <Pressable style={[styles.dayContainer]} hitSlop={5} onPress={onPress}>
       <View
         style={[
           styles.dayButton,
           {
             backgroundColor:
-              isActiveDay && !availabilities
-                ? Colors.neutral.s150
-                : availabilities && isActiveDay
-                ? "#7fc7ff"
-                : availabilities
-                ? "#addcff"
+              (isCurrentDay && !activeDay) || isActiveDay
+                ? Colors.primary.s600
+                : availabilities && !isActiveDay
+                ? Colors.primary.s180
                 : "transparent",
           },
         ]}>
         <Text
-          style={[styles.dayNumber, { color: isCurrentDay ? "red" : "black" }]}>
+          style={[
+            styles.dayNumber,
+            {
+              color:
+                isActiveDay || (isCurrentDay && !activeDay)
+                  ? "#fff"
+                  : Colors.primary.s600,
+            },
+          ]}>
           {number}
         </Text>
       </View>
-      {scheduledEvents && (
-        <DotIcon style={styles.scheduledDay} fill="#F4DF1E" stroke="none" />
-      )}
+      <View style={styles.dotsWrapper}>
+        {scheduledEvents && (
+          <DotIcon style={styles.scheduledDay} fill="#FCD34D" stroke="none" />
+        )}
+        {availabilities && (
+          <DotIcon style={styles.availableDay} fill="#60A5FA" stroke="none" />
+        )}
+      </View>
     </Pressable>
   );
 };
 
 const styles = StyleSheet.create({
   dayNumber: {
-    ...Typography.body.x20,
-    ...Typography.roboto.regular,
+    ...Typography.body.x30,
+    ...Typography.roboto.medium,
+  },
+  dotsWrapper: {
+    flexDirection: "row",
+    marginTop: 2,
+    width: "50%",
+    justifyContent: "space-evenly",
   },
   dayContainer: {
     width: `${100 / 7}%`,
     height: `${100 / 6}%`,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  dayButtonWrapper: {
-    flexDirection: "column",
+    justifyContent: "flex-start",
     alignItems: "center",
   },
   dayButton: {
-    ...Buttons.circular.primary,
+    borderRadius: 999,
+    width: 33,
+    height: 33,
+    alignItems: "center",
+    justifyContent: "center",
   },
   scheduledDay: {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
     ...Buttons.circular.primary,
     backgroundColor: "transparent",
     flex: 1,
-    height: Sizing.x8,
-    width: Sizing.x8,
+    height: Sizing.x7,
+    width: Sizing.x7,
+  },
+  availableDay: {
+    ...Buttons.circular.primary,
+    backgroundColor: "transparent",
+    flex: 1,
+    height: Sizing.x7,
+    width: Sizing.x7,
   },
 });

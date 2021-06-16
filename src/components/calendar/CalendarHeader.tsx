@@ -1,17 +1,14 @@
 import * as React from "react";
 import {
-  View,
-  Text,
   TextInput,
   StyleSheet,
   Keyboard,
   Platform,
   UIManager,
   LayoutAnimation,
-  Pressable,
 } from "react-native";
 
-import { Buttons, Colors, Sizing, Outline, Typography } from "styles/index";
+import { Buttons, Colors, Sizing, Outlines, Typography } from "styles/index";
 import { myCalendarContext } from "contexts/contextApi";
 
 // This will enable LayoutAnimation on Android too.

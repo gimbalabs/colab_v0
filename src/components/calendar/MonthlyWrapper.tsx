@@ -9,6 +9,7 @@ import {
   Pressable,
   Animated,
   Easing,
+  Dimensions,
 } from "react-native";
 
 import { appContext, myCalendarContext } from "contexts/contextApi";
@@ -110,6 +111,11 @@ export const MonthlyWrapper = () => {
     loadMyCalendar({ nextMonths, month, year });
   };
 
+  const onPlaceholderPress = (direction: string) => {
+    if (direction === "previous") onPreviousStartAnimation();
+    if (direction === "next") onNextStartAnimation();
+  };
+
   const CurrMonth = React.memo(({ item }: { item: Month }) => {
     return (
       <Animated.View
@@ -130,6 +136,7 @@ export const MonthlyWrapper = () => {
           numOfDays={item.numOfDays}
           name={item.name}
           dimensions={dimensions}
+          onPlaceholderPress={onPlaceholderPress}
         />
       </Animated.View>
     );
@@ -289,9 +296,9 @@ export const MonthlyWrapper = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    minHeight: 140,
     width: "90%",
-    marginTop: Sizing.x10,
-    marginBottom: Sizing.x30,
+    marginBottom: Sizing.x10,
     marginVertical: "auto",
     alignItems: "center",
   },
@@ -299,14 +306,18 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     height: "100%",
+    marginTop: Sizing.x7,
   },
   loadingIndicator: {
     flex: 1,
   },
   calendar: {
     height: "100%",
-    width: "95%",
+    minHeight: 200,
+    width: "100%",
     flex: 1,
+    paddingVertical: Sizing.x5,
+    paddingHorizontal: Sizing.x10,
     backgroundColor: "white",
     borderRadius: Outlines.borderRadius.base,
   },
@@ -317,9 +328,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   header: {
-    width: "50%",
+    width: "60%",
     flexDirection: "row",
-    marginHorizontal: Sizing.x15,
+    marginLeft: Sizing.x10,
     marginVertical: Sizing.x10,
     alignItems: "baseline",
   },
@@ -327,7 +338,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "25%",
     height: "100%",
-    marginRight: Sizing.x20,
+    marginRight: Sizing.x10,
     justifyContent: "space-between",
     alignItems: "center",
   },

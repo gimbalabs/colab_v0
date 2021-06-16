@@ -7,19 +7,28 @@ import { Month } from "interfaces/myCalendarInterface";
 
 export interface MonthProps extends Month {
   dimensions: LayoutRectangle | null;
+  onPlaceholderPress: (direction: string) => void;
   month: string;
 }
 
 export const MonthItem = React.memo(
-  ({ year, month, days, dimensions }: MonthProps) => {
+  // just ignore it for now...
+  //@ts-ignore
+  ({ year, month, days, onPlaceholderPress }: MonthProps) => {
     const [activeDay, setActiveDay] = React.useState<number | null>(null);
 
     return days.map((day) =>
       day.name === "placeholder" ? (
-        <PlaceholderDay key={`${day.name}-${day.number}`} number={day.number} />
+        <PlaceholderDay
+          onPlaceholderPress={onPlaceholderPress}
+          direction={day.direction != null ? day.direction : ""}
+          key={`${day.name}-${day.number}`}
+          number={day.number}
+        />
       ) : (
         <MonthlyDay
           month={month}
+          year={year}
           name={day.name}
           key={`${day.name}-${day.number}-${year}`}
           number={day.number}
