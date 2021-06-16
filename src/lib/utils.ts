@@ -3,6 +3,7 @@ import {
   AvailabilitiesDay,
   Day,
   Month,
+  PlaceholderDay,
   ScheduledEventsDay,
 } from "interfaces/myCalendarInterface";
 import { months, monthsByName, weekDays } from "common/types/calendarTypes";
@@ -266,7 +267,12 @@ export function getCalendarMonths(
         currMonthIndex,
         currYear
       );
-      days = insertLastWeekPlaceholders(days, currMonthIndex, currYear);
+      days = insertLastWeekPlaceholders(
+        firstDay,
+        days,
+        currMonthIndex,
+        currYear
+      );
 
       monthsWithDays.push({
         name: months[currMonthIndex],
@@ -366,7 +372,12 @@ export function getCalendarMonths(
       }
 
       days = insertFirstWeekPlaceholders(firstDay, days, currMonthIndex, year);
-      days = insertLastWeekPlaceholders(days, currMonthIndex, currYear);
+      days = insertLastWeekPlaceholders(
+        firstDay,
+        days,
+        currMonthIndex,
+        currYear
+      );
 
       monthsWithDays.push({
         name: months[currMonthIndex],
@@ -398,20 +409,22 @@ export function isValidDate(day: number, month: number, year: number): boolean {
  * displayed on a week
  */
 export function insertLastWeekPlaceholders(
+  firstDay: number,
   days: Day[],
   month: number,
   year: number
 ): Day[] {
-  var placeholdersDays = [];
+  var placeholdersDays: Day[] = [];
 
-  // get the last day of the month, and add placeholders until we reach Sunday
-  var lastDayOfMonth = new Date(year, month + 1, 0).getDay();
-  console.log(month, lastDayOfMonth);
+  // Calculate how many days remain untill the end of full calendar view (42 days)
+  const totalNumOfPlaceholders =
+    42 - firstDay - new Date(year, month + 1, -1).getDate() - 1;
 
-  for (let i = lastDayOfMonth; i < 7; i++) {
+  for (let i = totalNumOfPlaceholders; i > 0; i--) {
     placeholdersDays.unshift({
       name: "placeholder",
       number: i,
+      direction: "next",
     });
   }
   return [...days, ...placeholdersDays];
@@ -427,7 +440,7 @@ export function insertFirstWeekPlaceholders(
   month: number,
   year: number
 ): Day[] {
-  var placeholdersDays = [];
+  var placeholdersDays: Day[] = [];
 
   // total number of days at previous month
   var numOfDays = new Date(year, month, 0).getDate();
@@ -436,6 +449,7 @@ export function insertFirstWeekPlaceholders(
     placeholdersDays.unshift({
       name: "placeholder",
       number: numOfDays,
+      direction: "previous",
     });
     numOfDays--;
   }
