@@ -45,10 +45,12 @@ export interface ScheduledEventsDay {
 
 export interface ScheduledEvent {
   title: string;
+  index: number;
   fromTime: number;
   toTime: number;
   description: string;
   participants: string[];
+  organizer: string;
 }
 
 export interface MyCalendarContextProps {
@@ -71,12 +73,15 @@ export interface PreviewingDayEvents {
 export interface CalendarHeader {
   month: string;
   year: number;
+  numOfEvents: number | undefined;
 }
 
 export interface Month {
   name: string;
   firstDayName: string;
   year: number;
+  numOfEvents?: number;
+  numOfAvailabilities?: number;
   numOfDays: number;
   days: Day[];
 }

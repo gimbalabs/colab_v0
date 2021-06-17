@@ -276,6 +276,8 @@ export function getCalendarMonths(
 
       monthsWithDays.push({
         name: months[currMonthIndex],
+        numOfEvents: events.length,
+        numOfAvailabilities: availabilities.length,
         firstDayName,
         numOfDays,
         year: currYear,
@@ -382,6 +384,8 @@ export function getCalendarMonths(
       monthsWithDays.push({
         name: months[currMonthIndex],
         firstDayName,
+        numOfEvents: events.length,
+        numOfAvailabilities: availabilities.length,
         numOfDays,
         year: currYear,
         days,
