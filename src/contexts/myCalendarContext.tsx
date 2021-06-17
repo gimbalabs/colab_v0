@@ -55,11 +55,13 @@ const reducer = (state: MyCalendarState, action: MyCalendarActions) => {
         availabilities: action.payload.availabilities,
       };
     case MyCalendarTypes.ChangeMonthHeader:
-      state.calendarHeader.month = action.payload.calendarHeader.month;
-      state.calendarHeader.year = action.payload.calendarHeader.year;
-
       return {
         ...state,
+        calendarHeader: {
+          month: action.payload.calendarHeader.month,
+          year: action.payload.calendarHeader.year,
+          numOfEvents: action.payload.calendarHeader.numOfEvents,
+        },
       };
     case MyCalendarTypes.PreviewDayEvents:
       return {

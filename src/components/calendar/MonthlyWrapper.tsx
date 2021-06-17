@@ -9,13 +9,12 @@ import {
   Pressable,
   Animated,
   Easing,
-  Dimensions,
 } from "react-native";
 
 import { appContext, myCalendarContext } from "contexts/contextApi";
 import { Colors, Typography, Sizing, Outlines, Buttons } from "styles/index";
 import { MonthItem } from "./MonthItem";
-import { Month } from "interfaces/myCalendarInterface";
+import { CalendarHeader, Month } from "interfaces/myCalendarInterface";
 import { monthsByName } from "common/types/calendarTypes";
 import { WeekDayNames } from "./WeekDayNames";
 import { LeftArrowIcon, RightArrowIcon } from "icons/index";
@@ -147,9 +146,10 @@ export const MonthlyWrapper = () => {
     setIsLoading(true);
     setDirection("left");
 
-    const calendarHeader = {
+    const calendarHeader: CalendarHeader = {
       month: calendar[currIndex - 1].name,
       year: calendar[currIndex - 1].year,
+      numOfEvents: calendar[currIndex - 1]?.numOfEvents,
     };
 
     changeMonthHeader(calendarHeader);
@@ -187,6 +187,7 @@ export const MonthlyWrapper = () => {
     const calendarHeader = {
       month: calendar[currIndex + 1].name,
       year: calendar[currIndex + 1].year,
+      numOfEvents: calendar[currIndex + 1]?.numOfEvents,
     };
 
     changeMonthHeader(calendarHeader);
@@ -320,6 +321,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Sizing.x10,
     backgroundColor: "white",
     borderRadius: Outlines.borderRadius.base,
+    ...Outlines.shadow.lifted,
   },
   headerContainer: {
     width: "100%",

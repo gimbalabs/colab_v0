@@ -24,12 +24,18 @@ export const MonthlyDay = ({
 }: MonthlyDayProps) => {
   const { previewDayEvents, previewingDayEvents } = myCalendarContext();
 
-  const isActiveDay = activeDay != null && activeDay === number;
   const isCurrentDay =
     year === getYear() && month === getMonthByIndex() && number === getDate();
 
+  const isActiveDay =
+    (activeDay && activeDay === number) ||
+    (!activeDay && previewingDayEvents && previewingDayEvents.day === number) ||
+    (!activeDay && isCurrentDay);
+
   const onPress = () => {
     setActiveDay(number);
+
+    //@TODO Decide whether to change events list based on the day number click.
 
     // if (
     //   scheduledEvents == undefined &&
@@ -45,7 +51,7 @@ export const MonthlyDay = ({
     //   events: scheduledEvents,
     // };
     // previewDayEvents(newPreviewingDayEvents);
-    // setActiveDay(number);
+    // setActiveDay(null);
   };
 
   return (
@@ -54,12 +60,11 @@ export const MonthlyDay = ({
         style={[
           styles.dayButton,
           {
-            backgroundColor:
-              (isCurrentDay && !activeDay) || isActiveDay
-                ? Colors.primary.s600
-                : availabilities && !isActiveDay
-                ? Colors.primary.s180
-                : "transparent",
+            backgroundColor: isActiveDay
+              ? Colors.primary.s600
+              : availabilities && !isActiveDay
+              ? Colors.primary.s180
+              : "transparent",
           },
         ]}>
         <Text
