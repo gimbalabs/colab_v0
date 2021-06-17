@@ -5,12 +5,13 @@ import {
   LayoutRectangle,
   StyleSheet,
   SectionList,
+  Text,
 } from "react-native";
 import { CalendarEventsDetail } from "./CalendarEventsDetail";
 
-import { myCalendarContext } from "contexts/contextApi";
-import { getDay, getYear } from "lib/utils";
-import { Sizing, Colors, Outlines } from "styles/index";
+import { appContext, myCalendarContext } from "contexts/contextApi";
+import { getDate, getDay, getYear } from "lib/utils";
+import { Sizing, Colors, Outlines, Typography } from "styles/index";
 import { ScheduledEvent } from "common/interfaces/myCalendarInterface";
 import { CalendarEventsListHeader } from "./CalendarEventsListHeader";
 import { CalendarEventsListEmpty } from "./CalendarEventsListEmpty";
@@ -18,35 +19,44 @@ import { CalendarEventsListEmpty } from "./CalendarEventsListEmpty";
 export const CalendarEventsList = () => {
   const {
     previewingDayEvents,
-    clearPreviewDayEvents,
     scheduledEvents,
     calendarHeader,
   } = myCalendarContext();
+  const { colorScheme } = appContext();
   const [dimensions, setDimensions] = React.useState<LayoutRectangle | null>(
     null
   );
+  const [highlightedDay, setHighlightedDay] = React.useState<any>(null);
 
   const renderItem = ({ item }: any) => {
-    const { title, description, fromTime, toTime, participants } = item;
+    const {
+      title,
+      description,
+      fromTime,
+      toTime,
+      participants,
+      organizer,
+      index,
+    } = item;
 
     return (
       <CalendarEventsDetail
         key={`${item.fromTime}_${item.toTime}`}
+        index={index}
         title={title}
         description={description}
         fromTime={fromTime}
         toTime={toTime}
         participants={participants}
+        organizer={organizer}
+        highlightedDay={highlightedDay}
+        setHighlightedDay={setHighlightedDay}
       />
     );
   };
 
   const keyExtractor = (item: any, index: number) =>
     `${index}_${item.fromTime}_${item.toTime}`;
-
-  const onClosePress = () => {
-    clearPreviewDayEvents();
-  };
 
   const onLayout = (event: LayoutChangeEvent) => {
     setDimensions(event.nativeEvent.layout);
@@ -70,43 +80,77 @@ export const CalendarEventsList = () => {
           if (monthObj != null) {
             monthObj.days.forEach((day) =>
               day.scheduledEvents.forEach((evt) => {
-                monthlyEvents.push(evt);
-                if (day.day === getDay()) dayEvents.push(evt);
+                if (day.day === getDate()) {
+                  dayEvents.push(evt);
+                } else {
+                  monthlyEvents.push(evt);
+                }
               })
             );
           }
         }
       }
     }
+    var sections;
+    console.log(monthlyEvents);
 
-    const sections = [{ title: "This month", data: [...monthlyEvents] }];
+    if (!!dayEvents.length) {
+      sections = [
+        { title: "Today", data: [...dayEvents] },
+        { title: "This month", data: [...monthlyEvents] },
+      ];
+    } else {
+      sections = [{ title: "This month", data: [...monthlyEvents] }];
+    }
 
     return sections;
   }, [previewingDayEvents, calendarHeader.month, scheduledEvents]);
 
+  const sectionHeader = ({ section }: any) => {
+    const { title } = section;
+
+    return (
+      <View style={styles.sectionHeaderWrapper}>
+        <Text
+          style={
+            colorScheme === "light"
+              ? styles.sectionHeader_light
+              : styles.sectionHeader_dark
+          }>
+          {title}
+        </Text>
+      </View>
+    );
+  };
+
   return (
     <View style={styles.eventsHolder} onLayout={onLayout}>
-      {previewingDayEvents && (
-        <CalendarEventsListHeader onClosePress={onClosePress} />
-      )}
-      {data ? (
-        <SectionList
-          style={[
-            styles.flatList,
-            { width: dimensions ? dimensions.width : "95%" },
-          ]}
-          renderItem={renderItem}
-          keyExtractor={keyExtractor}
-          scrollEventThrottle={500}
-          maxToRenderPerBatch={5}
-          updateCellsBatchingPeriod={5}
-          progressViewOffset={15}
-          sections={data}
-          removeClippedSubviews
-        />
-      ) : (
-        <CalendarEventsListEmpty />
-      )}
+      {calendarHeader.numOfEvents ? (
+        <>
+          <CalendarEventsListHeader />
+          {data ? (
+            <SectionList
+              style={[
+                {
+                  width: dimensions ? dimensions.width : "100%",
+                },
+              ]}
+              renderItem={renderItem}
+              keyExtractor={keyExtractor}
+              scrollEventThrottle={500}
+              maxToRenderPerBatch={5}
+              updateCellsBatchingPeriod={5}
+              progressViewOffset={15}
+              sections={data}
+              renderSectionHeader={sectionHeader}
+              stickySectionHeadersEnabled={false}
+              showsVerticalScrollIndicator={false}
+            />
+          ) : (
+            <CalendarEventsListEmpty />
+          )}
+        </>
+      ) : null}
     </View>
   );
 };
@@ -116,14 +160,24 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "95%",
     alignItems: "center",
-    backgroundColor: "white",
     borderRadius: Outlines.borderRadius.small,
   },
-  scrollableView: {
-    flex: 1,
+  sectionHeaderWrapper: {
+    marginVertical: Sizing.x7,
   },
-  flatList: {
-    maxWidth: "95%",
-    margin: "auto",
+  sectionHeader_light: {
+    width: "50%",
+    alignSelf: "baseline",
+    marginLeft: Sizing.x20,
+    ...Typography.subHeader.x35,
+    fontSize: 17,
+    color: Colors.primary.s600,
+  },
+  sectionHeader_dark: {
+    width: "50%",
+    marginLeft: Sizing.x20,
+    ...Typography.subHeader.x35,
+    fontSize: 17,
+    color: Colors.primary.s600,
   },
 });
