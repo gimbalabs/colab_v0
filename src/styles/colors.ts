@@ -56,6 +56,12 @@ export const primary: Record<Primary, string> = {
   s800: "#4c1d95",
 };
 
+type CalendarCard = "blue" | "yellow";
+export const calendarCard: Record<CalendarCard, string> = {
+  blue: "#DBEAFE",
+  yellow: "#FEF3C7",
+};
+
 type Secondary = "brand" | "s200" | "s600";
 export const secondary: Record<Secondary, string> = {
   s200: "#b968e8",

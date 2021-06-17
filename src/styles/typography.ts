@@ -122,7 +122,7 @@ export const lineHeight: Record<LineHeight, TextStyle> = {
   },
 };
 
-type Header = "x10" | "x20" | "x30" | "x40" | "x50" | "x60" | "x70";
+type Header = "x10" | "x20" | "x30" | "x35" | "x40" | "x50" | "x60" | "x70";
 export const header: Record<Header, TextStyle> = {
   x10: {
     ...fontSize.x10,
@@ -139,6 +139,12 @@ export const header: Record<Header, TextStyle> = {
   x30: {
     ...fontSize.x30,
     ...lineHeight.x30,
+    ...fontWeight.bold,
+    fontFamily: "Roboto-Medium",
+  },
+  x35: {
+    ...fontSize.x35,
+    ...lineHeight.x35,
     ...fontWeight.bold,
     fontFamily: "Roboto-Medium",
   },
@@ -195,14 +201,14 @@ export const subHeader: Record<SubHeader, TextStyle> = {
     fontFamily: "Roboto-Regular",
   },
   x30: {
-    ...fontSize.x35,
+    ...fontSize.x30,
     ...lineHeight.x30,
     ...fontWeight.semibold,
     fontFamily: "Roboto-Regular",
   },
   x35: {
-    ...fontSize.x30,
-    ...lineHeight.x30,
+    ...fontSize.x35,
+    ...lineHeight.x35,
     ...fontWeight.semibold,
     fontFamily: "Roboto-Regular",
   },
@@ -220,7 +226,7 @@ export const subHeader: Record<SubHeader, TextStyle> = {
   },
 };
 
-type Body = "x5" | "x10" | "x20" | "x30" | "x40" | "x50";
+type Body = "x5" | "x10" | "x20" | "x25" | "x30" | "x40" | "x50";
 export const body: Record<Body, TextStyle> = {
   x5: {
     ...fontSize.x5,
@@ -238,6 +244,12 @@ export const body: Record<Body, TextStyle> = {
     ...fontSize.x20,
     ...lineHeight.x20,
     color: Colors.neutral.s800,
+    fontFamily: "Roboto-Light",
+  },
+  x25: {
+    ...fontSize.x25,
+    ...lineHeight.x25,
+    ...fontWeight.semibold,
     fontFamily: "Roboto-Light",
   },
   x30: {
