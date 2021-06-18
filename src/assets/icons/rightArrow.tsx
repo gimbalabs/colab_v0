@@ -7,7 +7,7 @@ export const RightArrowIcon = (props: SvgProps) => {
       <Path
         strokeLinecap="round"
         strokeLinejoin="round"
-        strokeWidth={2}
+        strokeWidth={1.5}
         d="M9 5l7 7-7 7"
       />
     </Svg>
