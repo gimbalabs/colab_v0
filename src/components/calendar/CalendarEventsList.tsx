@@ -92,7 +92,6 @@ export const CalendarEventsList = () => {
       }
     }
     var sections;
-    console.log(monthlyEvents);
 
     if (!!dayEvents.length) {
       sections = [

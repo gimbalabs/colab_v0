@@ -34,6 +34,7 @@ export const initialState: MyCalendarState = {
   calendarHeader: {
     month: months[getMonth()],
     year: getYear(),
+    numOfEvents: 0,
   },
 };
 

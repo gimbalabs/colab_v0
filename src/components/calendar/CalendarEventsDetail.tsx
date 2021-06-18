@@ -5,6 +5,7 @@ import {
   StyleSheet,
   LayoutRectangle,
   Pressable,
+  Animated,
 } from "react-native";
 
 import { Colors, Outlines, Sizing, Typography } from "styles/index";
@@ -29,6 +30,8 @@ export const CalendarEventsDetail = ({
   setHighlightedDay,
   highlightedDay,
 }: CalendarEventsDetailProps) => {
+  const animatedMargin = React.useRef(new Animated.Value(-60)).current;
+
   const { previewingDayEvents } = myCalendarContext();
   const fromTimeDigit = getDigitalTime(fromTime);
   const toTimeDigit = getDigitalTime(toTime);
@@ -38,15 +41,31 @@ export const CalendarEventsDetail = ({
 
   const even = index === 0 || index % 2 === 0;
 
+  // on press, set the index of card bellow the one that was clicked,
+  // because that's the one that needs to move down
   const onDateCardPress = () => {
-    console.log(highlightedDay);
-    setHighlightedDay(index);
-    console.log("press ", index);
+    setHighlightedDay(index + 1);
   };
+
+  React.useEffect(() => {
+    if (index === highlightedDay) {
+      Animated.timing(animatedMargin, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: false,
+      }).start();
+    } else if (Number(animatedMargin) !== 0) {
+      Animated.timing(animatedMargin, {
+        toValue: -60,
+        duration: 200,
+        useNativeDriver: false,
+      }).start();
+    }
+  }, [highlightedDay]);
 
   return (
     <Pressable onPress={onDateCardPress}>
-      <View
+      <Animated.View
         style={[
           styles.container,
           {
@@ -54,12 +73,8 @@ export const CalendarEventsDetail = ({
               ? Colors.calendarCard.blue
               : Colors.calendarCard.yellow,
             zIndex: index,
-            top:
-              index === 0
-                ? 0
-                : highlightedDay === index
-                ? 0
-                : `${index * -60}%`,
+            marginBottom: highlightedDay - 1 === index ? 5 : 0,
+            marginTop: index === 0 ? 0 : animatedMargin,
           },
         ]}>
         <View style={styles.upperContainer}>
@@ -88,7 +103,7 @@ export const CalendarEventsDetail = ({
             />
           </View>
         </View>
-      </View>
+      </Animated.View>
     </Pressable>
   );
 };
@@ -97,6 +112,7 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: Outlines.borderRadius.base,
     backgroundColor: Colors.calendarCard.blue,
+    ...Outlines.shadow.lifted,
     padding: Sizing.x14,
     alignSelf: "center",
     width: "90%",
