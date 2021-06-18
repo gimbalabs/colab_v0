@@ -27,8 +27,10 @@ export const CalendarEventsList = () => {
     null
   );
   const [highlightedDay, setHighlightedDay] = React.useState<any>(null);
+  const [monthEventsLenght, setMonthEventsLength] = React.useState<number>(0);
+  const [dayEventsLenght, setDayEventsLength] = React.useState<number>(0);
 
-  const renderItem = ({ item }: any) => {
+  const renderItem = ({ item, section }: any) => {
     const {
       title,
       description,
@@ -49,6 +51,7 @@ export const CalendarEventsList = () => {
         toTime={toTime}
         participants={participants}
         organizer={organizer}
+        listLength={section.data.length}
         highlightedDay={highlightedDay}
         setHighlightedDay={setHighlightedDay}
       />
@@ -91,7 +94,7 @@ export const CalendarEventsList = () => {
         }
       }
     }
-    var sections;
+    var sections: SectionListRenderItem[];
 
     if (!!dayEvents.length) {
       sections = [
@@ -101,6 +104,9 @@ export const CalendarEventsList = () => {
     } else {
       sections = [{ title: "This month", data: [...monthlyEvents] }];
     }
+
+    setMonthEventsLength(monthlyEvents.length);
+    setDayEventsLength(dayEvents.length);
 
     return sections;
   }, [previewingDayEvents, calendarHeader.month, scheduledEvents]);
@@ -168,14 +174,14 @@ const styles = StyleSheet.create({
     width: "50%",
     alignSelf: "baseline",
     marginLeft: Sizing.x20,
-    ...Typography.subHeader.x35,
+    ...Typography.header.x35,
     fontSize: 17,
     color: Colors.primary.s600,
   },
   sectionHeader_dark: {
     width: "50%",
     marginLeft: Sizing.x20,
-    ...Typography.subHeader.x35,
+    ...Typography.header.x35,
     fontSize: 17,
     color: Colors.primary.s600,
   },

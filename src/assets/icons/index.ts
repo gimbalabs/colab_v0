@@ -1,6 +1,7 @@
 import { CalendarIcon } from "./calendar";
 import { CashStackIcon } from "./cashStack";
 import { CreditCardIcon } from "./creditCard";
+import { CogIcon } from "./cog";
 import { DuplicateIcon } from "./duplicate";
 import { ModernProfessionalIcon } from "./modernProfessional";
 import { BusinessDecisionsIcon } from "./businessDecisions";
@@ -28,6 +29,7 @@ export {
   CalendarIcon,
   CashStackIcon,
   CheckIcon,
+  CogIcon,
   CreditCardIcon,
   DotIcon,
   DuplicateIcon,

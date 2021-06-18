@@ -1,23 +1,16 @@
 import * as React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  LayoutRectangle,
-  Pressable,
-  Animated,
-} from "react-native";
+import { View, Text, StyleSheet, Pressable, Animated } from "react-native";
 
 import { Colors, Outlines, Sizing, Typography } from "styles/index";
 import { ScheduledEvent } from "interfaces/myCalendarInterface";
 import { getDigitalTime } from "lib/utils";
 import { months } from "common/types/calendarTypes";
-import { myCalendarContext } from "contexts/contextApi";
 import { RightArrowIcon } from "icons/index";
 
 export interface CalendarEventsDetailProps extends ScheduledEvent {
   setHighlightedDay: React.Dispatch<any>;
   highlightedDay: any;
+  listLength: number;
 }
 
 export const CalendarEventsDetail = ({
@@ -25,14 +18,14 @@ export const CalendarEventsDetail = ({
   index,
   fromTime,
   toTime,
-  participants,
+  listLength,
   organizer,
   setHighlightedDay,
   highlightedDay,
 }: CalendarEventsDetailProps) => {
   const animatedMargin = React.useRef(new Animated.Value(-60)).current;
+  const animatedValue = parseInt(JSON.stringify(animatedMargin));
 
-  const { previewingDayEvents } = myCalendarContext();
   const fromTimeDigit = getDigitalTime(fromTime);
   const toTimeDigit = getDigitalTime(toTime);
 
@@ -41,25 +34,41 @@ export const CalendarEventsDetail = ({
 
   const even = index === 0 || index % 2 === 0;
 
-  // on press, set the index of card bellow the one that was clicked,
-  // because that's the one that needs to move down
   const onDateCardPress = () => {
-    setHighlightedDay(index + 1);
+    // when we click on the last card, return
+    if (index === listLength - 1) return;
+
+    if (highlightedDay - 1 === index && animatedValue === -60) {
+      // when someone clicks on the same card, just pull it back to top
+      setHighlightedDay(null);
+    } else {
+      // on press, set the index of card bellow the one that was clicked,
+      // because that's the one that needs to move down
+      setHighlightedDay(index + 1);
+    }
+  };
+
+  const animateToTop = () => {
+    Animated.timing(animatedMargin, {
+      toValue: -60,
+      duration: 200,
+      useNativeDriver: false,
+    }).start();
+  };
+
+  const animateToBottom = () => {
+    Animated.timing(animatedMargin, {
+      toValue: 0,
+      duration: 200,
+      useNativeDriver: false,
+    }).start();
   };
 
   React.useEffect(() => {
     if (index === highlightedDay) {
-      Animated.timing(animatedMargin, {
-        toValue: 0,
-        duration: 200,
-        useNativeDriver: false,
-      }).start();
+      animateToBottom();
     } else if (Number(animatedMargin) !== 0) {
-      Animated.timing(animatedMargin, {
-        toValue: -60,
-        duration: 200,
-        useNativeDriver: false,
-      }).start();
+      animateToTop();
     }
   }, [highlightedDay]);
 
