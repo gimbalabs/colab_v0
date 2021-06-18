@@ -165,7 +165,7 @@ export const MonthlyWrapper = () => {
       loadNewMonths(
         false,
         monthsByName[monthsArray[currIndex - 1].name],
-        isNotCurrentYear ? calendarHeader.year : undefined
+        isNotCurrentYear ? calendar[currIndex - 1].year : undefined
       );
     } else if (isNotCurrentYear) {
       // for when the year isnt' the current one
@@ -200,11 +200,11 @@ export const MonthlyWrapper = () => {
 
     // if the month is the first month of the next year, pass the next year
     // as last parameter
-    if (calendarHeader.month === "January") {
+    if (calendarHeader.month === "December") {
       loadNewMonths(
         true,
         monthsByName[monthsArray[currIndex + 1].name],
-        isNotCurrentYear ? calendarHeader.year : undefined
+        isNotCurrentYear ? calendar[currIndex + 1].year : undefined
       );
     } else if (isNotCurrentYear) {
       // for when the year isnt' the current one

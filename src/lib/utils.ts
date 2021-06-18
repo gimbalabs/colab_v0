@@ -156,13 +156,13 @@ export function getCalendarMonths(
   var currMonthIndex = fromMonth != null ? month + 1 : month;
 
   // console.log(`
-  //                 nextMonths: ${nextMonths}
-  //                 previousMonths: ${previousMonths}
-  //                 currentMonthIndex: ${currMonthIndex}
-  //                 fromMonth: ${fromMonth}
-  //                 fromYear: ${fromYear}
-  //                 month: ${month}
-  //                 year: ${year}
+  //              nextMonths: ${nextMonths}
+  //              previousMonths: ${previousMonths}
+  //              currentMonthIndex: ${currMonthIndex}
+  //              fromMonth: ${fromMonth}
+  //              fromYear: ${fromYear}
+  //              month: ${month}
+  //              year: ${year}
   //       `);
 
   // if the month is December and fromYear isn't specified, meaning
@@ -398,7 +398,6 @@ export function getCalendarMonths(
       }
     }
     monthsWithDays.reverse();
-
     return monthsWithDays;
   }
   return monthsWithDays;
