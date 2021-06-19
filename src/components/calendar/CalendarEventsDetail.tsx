@@ -73,7 +73,7 @@ export const CalendarEventsDetail = ({
   }, [highlightedDay]);
 
   return (
-    <Pressable onPress={onDateCardPress}>
+    <Pressable onPress={onDateCardPress} hitSlop={25}>
       <Animated.View
         style={[
           styles.container,

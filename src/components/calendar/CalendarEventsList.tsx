@@ -6,6 +6,7 @@ import {
   StyleSheet,
   SectionList,
   Text,
+  SectionListRenderItem,
 } from "react-native";
 import { CalendarEventsDetail } from "./CalendarEventsDetail";
 
@@ -94,7 +95,7 @@ export const CalendarEventsList = () => {
         }
       }
     }
-    var sections: SectionListRenderItem[];
+    var sections;
 
     if (!!dayEvents.length) {
       sections = [
