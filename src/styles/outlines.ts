@@ -17,7 +17,7 @@ export const borderRadius: Record<BorderRadius, number> = {
   max: 9999,
 };
 
-type Shadow = "base" | "lifted";
+type Shadow = "base" | "lifted" | "lifted_noElevation";
 export const shadow: Record<Shadow, ViewStyle> = {
   base: {
     shadowColor: Colors.neutral.s400,
@@ -38,5 +38,14 @@ export const shadow: Record<Shadow, ViewStyle> = {
     shadowOpacity: 0.4,
     shadowRadius: 3,
     elevation: 4,
+  },
+  lifted_noElevation: {
+    shadowColor: Colors.neutral.s600,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.4,
+    shadowRadius: 3,
   },
 };
