@@ -17,3 +17,10 @@ export interface AppContextProps {
   state: AppState;
   dispatch: React.Dispatch<any>;
 }
+
+export interface Transaction {
+  withUser: string;
+  oldUtxo: number;
+  newUtxo: number;
+  date: number;
+}
