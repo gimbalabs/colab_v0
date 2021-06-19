@@ -11,6 +11,7 @@ import { DotIcon } from "./dot";
 import { DownIcon } from "./down";
 import { RightArrowIcon } from "./rightArrow";
 import { LeftArrowIcon } from "./leftArrow";
+import { LightBulbIcon } from "./lightBulb";
 import { EditIcon } from "./edit";
 import { EyeIcon } from "./eye";
 import { EyeOffIcon } from "./eyeOff";
@@ -35,6 +36,7 @@ export {
   DuplicateIcon,
   DownIcon,
   LeftArrowIcon,
+  LightBulbIcon,
   RightArrowIcon,
   EditIcon,
   EyeIcon,

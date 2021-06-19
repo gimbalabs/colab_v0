@@ -6,13 +6,19 @@ import {
   SafeAreaView,
   Pressable,
   Image,
+  Switch,
 } from "react-native";
 
 import { Buttons, Outlines, Typography, Sizing, Colors } from "styles/index";
 import { StackScreenProps } from "@react-navigation/stack";
 import { OrganizerTabParamList } from "common/types/navigationTypes";
 import { appContext } from "contexts/contextApi";
-import { CogIcon, HearthIcon, RightArrowIcon } from "icons/index";
+import {
+  CogIcon,
+  HearthIcon,
+  LightBulbIcon,
+  RightArrowIcon,
+} from "icons/index";
 import ProfilePic from "assets/images/profilePic.jpg";
 
 export interface OrganizerProfileScreenProps
@@ -22,6 +28,11 @@ export const OrganizerProfileScreen = ({
   navigation,
 }: OrganizerProfileScreenProps) => {
   const { colorScheme, setColorScheme } = appContext();
+  const darkMode = colorScheme === "dark";
+
+  const setDarkMode = () => {
+    setColorScheme(darkMode ? "light" : "dark");
+  };
 
   return (
     <SafeAreaView
@@ -80,6 +91,7 @@ export const OrganizerProfileScreen = ({
                 ? Colors.primary.brand
                 : Colors.primary.neutral
             }
+            style={styles.navigationItemRightIcon}
           />
         </Pressable>
         <Pressable style={styles.navigationItem} onPress={() => {}}>
@@ -108,9 +120,39 @@ export const OrganizerProfileScreen = ({
                 ? Colors.primary.brand
                 : Colors.primary.neutral
             }
-            style={{ justifyContent: "flex-end" }}
+            style={styles.navigationItemRightIcon}
           />
         </Pressable>
+        <View style={[styles.navigationItem, { marginTop: "auto" }]}>
+          <LightBulbIcon
+            width={32}
+            height={32}
+            color={
+              colorScheme === "light"
+                ? Colors.primary.brand
+                : Colors.primary.neutral
+            }
+          />
+          <Text
+            style={
+              colorScheme === "light"
+                ? styles.navigationItemText_light
+                : styles.navigationItemText_dark
+            }>
+            Dark mode
+          </Text>
+          <Switch
+            trackColor={{
+              false: Colors.primary.brand,
+              true: Colors.primary.neutral,
+            }}
+            thumbColor={darkMode ? Colors.primary.s600 : Colors.primary.neutral}
+            ios_backgroundColor={Colors.primary.brand}
+            onValueChange={setDarkMode}
+            value={darkMode}
+            style={{ marginLeft: "auto" }}
+          />
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -140,6 +182,7 @@ const styles = StyleSheet.create({
     color: Colors.primary.neutral,
   },
   mainNavigation: {
+    flex: 1,
     alignItems: "center",
     marginTop: Sizing.x20,
     width: "100%",
@@ -152,7 +195,8 @@ const styles = StyleSheet.create({
   },
   button_dark: {
     ...Buttons.bar.secondary,
-    marginVertical: Sizing.x15,
+    padding: Sizing.x10,
+    marginVertical: Sizing.x10,
     backgroundColor: Colors.primary.neutral,
   },
   buttonText_light: {
@@ -178,10 +222,17 @@ const styles = StyleSheet.create({
     width: "85%",
     marginBottom: Sizing.x20,
   },
+  navigationItemRightIcon: {
+    marginLeft: "auto",
+  },
   navigationItemText_light: {
     ...Typography.subHeader.x35,
-    color: Colors.primary.s600,
     marginLeft: Sizing.x10,
+    color: Colors.primary.s600,
   },
-  navigationItemText_dark: {},
+  navigationItemText_dark: {
+    ...Typography.subHeader.x35,
+    marginLeft: Sizing.x10,
+    color: Colors.primary.neutral,
+  },
 });
