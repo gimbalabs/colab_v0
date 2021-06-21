@@ -233,8 +233,22 @@ export const MonthlyWrapper = () => {
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <View style={styles.header}>
-          <Text style={styles.headerMonth_light}>{calendarHeader.month}</Text>
-          <Text style={styles.headerYear_light}>{calendarHeader.year}</Text>
+          <Text
+            style={
+              colorScheme === "light"
+                ? styles.headerMonth_light
+                : styles.headerMonth_dark
+            }>
+            {calendarHeader.month}
+          </Text>
+          <Text
+            style={
+              colorScheme === "light"
+                ? styles.headerYear_light
+                : styles.headerYear_dark
+            }>
+            {calendarHeader.year}
+          </Text>
         </View>
         <View style={styles.headerMonthNavigation}>
           <Pressable
@@ -252,7 +266,7 @@ export const MonthlyWrapper = () => {
               color={
                 colorScheme === "light"
                   ? Colors.primary.s350
-                  : Colors.primary.s200
+                  : Colors.primary.s800
               }
             />
           </Pressable>
@@ -271,7 +285,7 @@ export const MonthlyWrapper = () => {
               color={
                 colorScheme === "light"
                   ? Colors.primary.s350
-                  : Colors.primary.s200
+                  : Colors.primary.s800
               }
             />
           </Pressable>

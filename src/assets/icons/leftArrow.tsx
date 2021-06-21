@@ -7,7 +7,7 @@ export const LeftArrowIcon = (props: SvgProps) => {
       <Path
         strokeLinecap="round"
         strokeLinejoin="round"
-        strokeWidth={2.2}
+        strokeWidth={2}
         d="M15 19l-7-7 7-7"
       />
     </Svg>

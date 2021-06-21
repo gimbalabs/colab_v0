@@ -184,6 +184,6 @@ const styles = StyleSheet.create({
     marginLeft: Sizing.x20,
     ...Typography.header.x35,
     fontSize: 17,
-    color: Colors.primary.s600,
+    color: Colors.primary.neutral,
   },
 });
