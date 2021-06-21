@@ -5,8 +5,10 @@ import {
   StyleSheet,
   SafeAreaView,
   Pressable,
-  Image,
   Switch,
+  Platform,
+  Alert,
+  ImageBackground,
 } from "react-native";
 
 import { Buttons, Outlines, Typography, Sizing, Colors } from "styles/index";
@@ -19,6 +21,7 @@ import {
   LightBulbIcon,
   RightArrowIcon,
 } from "icons/index";
+import * as ImagePicker from "expo-image-picker";
 import ProfilePic from "assets/images/profilePic.jpg";
 
 export interface OrganizerProfileScreenProps
@@ -28,11 +31,42 @@ export const OrganizerProfileScreen = ({
   navigation,
 }: OrganizerProfileScreenProps) => {
   const { colorScheme, setColorScheme } = appContext();
+  const [imagePressed, setImagePressed] = React.useState<boolean>(false);
+  const [currImage, setCurrImage] = React.useState<string>("");
   const darkMode = colorScheme === "dark";
 
   const setDarkMode = () => {
     setColorScheme(darkMode ? "light" : "dark");
   };
+
+  /**
+   * in production we want to check for access to camera and media library
+   * and if it's not yet granted, try to get the permission from user
+   */
+  const onImageLongPress = async () => {
+    // don't run it on the browser
+    if (Platform.OS !== "web") {
+      const {
+        status,
+      } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== "granted") {
+        Alert.alert("We need camera roll permission for this to work!");
+      }
+
+      // the access was granted, let user choose the image
+      const result = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        aspect: [4, 4],
+        quality: 1,
+      });
+
+      if (!result.cancelled) setCurrImage(result.uri);
+    }
+  };
+
+  const onImagePress = () => setImagePressed(true);
+
+  const onImagePressOut = () => setImagePressed(false);
 
   return (
     <SafeAreaView
@@ -40,7 +74,22 @@ export const OrganizerProfileScreen = ({
         colorScheme == "light" ? styles.safeArea_light : styles.safeaArea_dark,
       ]}>
       <View style={styles.headerNavigation}>
-        <Image source={ProfilePic} style={styles.profilePic} />
+        <ImageBackground
+          // only for testing purpose render uri conditionally
+          source={currImage ? { uri: currImage } : ProfilePic}
+          imageStyle={[styles.profilePicImage, { backgroundColor: "green" }]}
+          style={[styles.profilePic]}>
+          <Pressable
+            onPressIn={onImagePress}
+            onPressOut={onImagePressOut}
+            onLongPress={onImageLongPress}
+            hitSlop={5}
+            pressRetentionOffset={5}
+            style={[
+              styles.profilePicWrapper,
+              imagePressed ? { backgroundColor: "rgba(0,0,0,0.15)" } : {},
+            ]}></Pressable>
+        </ImageBackground>
         <Text
           style={[
             colorScheme == "light"
@@ -192,6 +241,7 @@ const styles = StyleSheet.create({
     padding: Sizing.x10,
     marginVertical: Sizing.x10,
     backgroundColor: Colors.primary.s800,
+    ...Outlines.shadow.lifted_noElevation,
   },
   button_dark: {
     ...Buttons.bar.secondary,
@@ -213,8 +263,21 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: Colors.primary.s600,
   },
+  profilePicWrapper: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 999,
+    ...Outlines.shadow.lifted_noElevation,
+    marginBottom: Sizing.x10,
+  },
+  profilePicImage: {
+    borderRadius: 999,
+    resizeMode: "cover",
+  },
   profilePic: {
     borderRadius: Outlines.borderRadius.max,
+    width: Sizing.x90,
+    height: Sizing.x90,
   },
   navigationItem: {
     flexDirection: "row",
