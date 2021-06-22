@@ -1,9 +1,13 @@
 import * as React from "react";
 import { View, Text, StyleSheet, SafeAreaView, Pressable } from "react-native";
+
 import { StackScreenProps } from "@react-navigation/stack";
 import { Colors, Buttons, Typography, Sizing, Outlines } from "styles/index";
 import { OrganizerTabParamList } from "common/types/navigationTypes";
 import { appContext } from "contexts/contextApi";
+import { SearchIcon } from "icons/index";
+import { browseFeatured } from "../api_data/browseFeatured";
+import { HorizontalCardsList } from "components/lists/HorizontalCardsList";
 
 export interface BrowseProps
   extends StackScreenProps<OrganizerTabParamList, "Browse"> {
@@ -13,21 +17,32 @@ export interface BrowseProps
 export const BrowseScreen = ({ navigation }: BrowseProps) => {
   const { colorScheme } = appContext();
 
+  const renderFeaturedLists = React.useCallback(() => {
+    //@TODO make more unique key id in production
+    return browseFeatured.map((list, index) => (
+      <HorizontalCardsList key={index} list={list} />
+    ));
+  }, [browseFeatured]);
+
   return (
     <SafeAreaView
       style={[
         colorScheme == "light" ? styles.safeArea_light : styles.safeaArea_dark,
       ]}>
-      <View style={styles.header}>
-        <Text
-          style={[
-            colorScheme == "light"
-              ? styles.headerText_ligth
-              : styles.headerText_dark,
-          ]}>
-          Browse Screen
-        </Text>
+      <View style={styles.container}>
+        <View style={styles.searchToolContainer}>
+          <SearchIcon
+            width={28}
+            height={28}
+            stroke={
+              colorScheme === "light"
+                ? Colors.primary.s800
+                : Colors.primary.neutral
+            }
+          />
+        </View>
       </View>
+      <View style={styles.main}>{renderFeaturedLists()}</View>
     </SafeAreaView>
   );
 };
@@ -36,48 +51,22 @@ const styles = StyleSheet.create({
   safeArea_light: {
     flex: 1,
     backgroundColor: Colors.primary.neutral,
+    alignItems: "center",
   },
   safeaArea_dark: {
     flex: 1,
     backgroundColor: Colors.primary.s600,
-  },
-  header: {
     alignItems: "center",
-    marginVertical: Sizing.x100,
   },
-  headerText_ligth: {
-    ...Typography.header.x40,
-    color: Colors.primary.s600,
+  container: {
+    width: "90%",
   },
-  headerText_dark: {
-    ...Typography.header.x40,
-    color: Colors.primary.neutral,
+  searchToolContainer: {
+    alignItems: "flex-end",
+    marginVertical: Sizing.x10,
   },
-  body: {
-    marginTop: Sizing.x40,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  button_light: {
-    ...Buttons.bar.secondary,
-    width: Sizing.x120,
-    marginVertical: Sizing.x15,
-    backgroundColor: Colors.primary.s600,
-  },
-  button_dark: {
-    ...Buttons.bar.secondary,
-    width: Sizing.x120,
-    marginVertical: Sizing.x15,
-    backgroundColor: Colors.primary.neutral,
-  },
-  buttonText_light: {
-    ...Buttons.barText.primary,
-    textAlign: "center",
-    color: Colors.primary.neutral,
-  },
-  buttonText_dark: {
-    ...Buttons.barText.primary,
-    textAlign: "center",
-    color: Colors.primary.s600,
+  main: {
+    flex: 1,
+    width: "100%",
   },
 });
