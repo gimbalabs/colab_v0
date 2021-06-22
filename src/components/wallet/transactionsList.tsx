@@ -1,5 +1,12 @@
 import * as React from "react";
-import { View, StyleSheet, FlatList, RefreshControl } from "react-native";
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  RefreshControl,
+  LayoutChangeEvent,
+  FlatListProps,
+} from "react-native";
 
 import { appContext } from "contexts/contextApi";
 import { getDigitalTime, getTime } from "lib/utils";
@@ -16,6 +23,7 @@ export const TransactionsList = () => {
   const { colorScheme } = appContext();
   const [refreshing, setRefreshing] = React.useState<boolean>(false);
   const [lastRefreshed, setLastRefreshed] = React.useState<number>(0);
+  const [layoutHeight, setLayoutHeight] = React.useState<any>(null);
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -30,25 +38,32 @@ export const TransactionsList = () => {
   // @TODO needs more scalable solution
   const keyExtractor = ({ date, withUser }: any) => `${date}-${withUser}`;
 
+  const onLayout = (e: LayoutChangeEvent) =>
+    setLayoutHeight(e.nativeEvent.layout.height);
+
+  var flatListProps: FlatListProps<any> = {
+    onLayout: onLayout,
+    data: transactions,
+    renderItem: renderItem,
+    keyExtractor: keyExtractor,
+  };
+
+  if (layoutHeight && layoutHeight >= 300) {
+    flatListProps.refreshControl = (
+      <RefreshControl
+        title={getDigitalTime(lastRefreshed)}
+        tintColor={
+          colorScheme === "light" ? Colors.primary.s600 : Colors.primary.neutral
+        }
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+      />
+    );
+  }
+
   return (
     <View style={styles.container}>
-      <FlatList
-        data={transactions}
-        renderItem={renderItem}
-        keyExtractor={keyExtractor}
-        refreshControl={
-          <RefreshControl
-            title={getDigitalTime(lastRefreshed)}
-            tintColor={
-              colorScheme === "light"
-                ? Colors.primary.s600
-                : Colors.primary.neutral
-            }
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-          />
-        }
-      />
+      <FlatList {...flatListProps} />
     </View>
   );
 };
