@@ -4,6 +4,7 @@ export const scheduledEvents = [
     months: [
       {
         month: "May",
+        totalNumOfEvents: 4,
         days: [
           {
             day: 13,

@@ -36,6 +36,7 @@ export interface ScheduledEvents {
 export interface ScheduledEventsMonth {
   month: string;
   days: ScheduledEventsDay[];
+  numOfTotalEvents: number;
 }
 
 export interface ScheduledEventsDay {

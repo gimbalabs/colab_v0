@@ -4,6 +4,7 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { OrganizerTabParamList } from "common/types/navigationTypes";
 import { appContext } from "contexts/contextApi";
 import { Buttons, Outlines, Typography, Sizing, Colors } from "styles/index";
+import { CalendarEventsList } from "components/calendar";
 
 export interface OrganizerHomeProps
   extends StackScreenProps<OrganizerTabParamList, "Home"> {}
@@ -16,16 +17,7 @@ export const OrganizerHomeScreen = ({ navigation }: OrganizerHomeProps) => {
       style={[
         colorScheme == "light" ? styles.safeArea_light : styles.safeaArea_dark,
       ]}>
-      <View style={styles.header}>
-        <Text
-          style={[
-            colorScheme == "light"
-              ? styles.headerText_ligth
-              : styles.headerText_dark,
-          ]}>
-          Organizer Home Screen
-        </Text>
-      </View>
+      <CalendarEventsList isHomeScreen />
     </SafeAreaView>
   );
 };
@@ -50,32 +42,5 @@ const styles = StyleSheet.create({
   headerText_dark: {
     ...Typography.header.x40,
     color: Colors.primary.neutral,
-  },
-  body: {
-    marginTop: Sizing.x40,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  button_light: {
-    ...Buttons.bar.secondary,
-    width: Sizing.x120,
-    marginVertical: Sizing.x15,
-    backgroundColor: Colors.primary.s600,
-  },
-  button_dark: {
-    ...Buttons.bar.secondary,
-    width: Sizing.x120,
-    marginVertical: Sizing.x15,
-    backgroundColor: Colors.primary.neutral,
-  },
-  buttonText_light: {
-    ...Buttons.barText.primary,
-    textAlign: "center",
-    color: Colors.primary.neutral,
-  },
-  buttonText_dark: {
-    ...Buttons.barText.primary,
-    textAlign: "center",
-    color: Colors.primary.s600,
   },
 });

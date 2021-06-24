@@ -6,18 +6,24 @@ import {
   StyleSheet,
   SectionList,
   Text,
-  SectionListRenderItem,
 } from "react-native";
 import { CalendarEventsDetail } from "./CalendarEventsDetail";
 
 import { appContext, myCalendarContext } from "contexts/contextApi";
-import { getDate, getDay, getYear } from "lib/utils";
+import { getDate, getDay, getMonth, getYear } from "lib/utils";
 import { Sizing, Colors, Outlines, Typography } from "styles/index";
 import { ScheduledEvent } from "common/interfaces/myCalendarInterface";
 import { CalendarEventsListHeader } from "./CalendarEventsListHeader";
 import { CalendarEventsListEmpty } from "./CalendarEventsListEmpty";
+import { months } from "common/types/calendarTypes";
 
-export const CalendarEventsList = () => {
+export interface CalendarEventsListProps {
+  isHomeScreen?: boolean;
+}
+
+export const CalendarEventsList = ({
+  isHomeScreen,
+}: CalendarEventsListProps) => {
   const {
     previewingDayEvents,
     scheduledEvents,
@@ -67,23 +73,28 @@ export const CalendarEventsList = () => {
   };
 
   const data = React.useMemo((): { title: string; data: any }[] => {
-    // When user clicks on a day to preview the events
-    // just return those events.
-    // if (previewingDayEvents != undefined){ return previewingDayEvents.events;
-
     var monthlyEvents: ScheduledEvent[] = [];
     var dayEvents: ScheduledEvent[] = [];
 
     for (let scheduledYear of scheduledEvents) {
       if (scheduledYear.year === getYear()) {
         if (scheduledYear.months) {
-          var monthObj = scheduledYear.months.find(
-            (obj) => obj.month === calendarHeader.month
-          );
+          var monthObj = scheduledYear.months.find((obj) => {
+            //@TODO Change this return value to current month events in prod.
+            if (isHomeScreen) {
+              return obj.month === "May";
+            }
+            return obj.month === calendarHeader.month;
+          });
 
           if (monthObj != null) {
             monthObj.days.forEach((day) =>
               day.scheduledEvents.forEach((evt) => {
+                //@TODO Change this return value to current month events in prod.
+                if (isHomeScreen && day.day === 13) {
+                  dayEvents.push(evt);
+                }
+
                 if (day.day === getDate()) {
                   dayEvents.push(evt);
                 } else {
@@ -131,9 +142,9 @@ export const CalendarEventsList = () => {
 
   return (
     <View style={styles.eventsHolder} onLayout={onLayout}>
-      {calendarHeader.numOfEvents ? (
+      {isHomeScreen || calendarHeader.numOfEvents ? (
         <>
-          <CalendarEventsListHeader />
+          <CalendarEventsListHeader isHomeScreen />
           {data ? (
             <SectionList
               style={[
