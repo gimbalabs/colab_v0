@@ -130,7 +130,7 @@ export const NavigationTabBar = ({
             navBarButtonStyle(),
             isFocused ? { ...Outlines.shadow.lifted } : {},
           ]}>
-          <Icon width={24} height={24} stroke={iconStyle()} />
+          <Icon width={24} height={24} stroke={iconStyle()} strokeWidth={2} />
         </Pressable>
         <Text
           style={
