@@ -1,5 +1,12 @@
 import * as React from "react";
-import { View, Text, StyleSheet, SafeAreaView, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  Pressable,
+  ScrollView,
+} from "react-native";
 
 import { StackScreenProps } from "@react-navigation/stack";
 import { Colors, Buttons, Typography, Sizing, Outlines } from "styles/index";
@@ -39,10 +46,11 @@ export const BrowseScreen = ({ navigation }: BrowseProps) => {
                 ? Colors.primary.s800
                 : Colors.primary.neutral
             }
+            strokeWidth={1.6}
           />
         </View>
       </View>
-      <View style={styles.main}>{renderFeaturedLists()}</View>
+      <ScrollView style={styles.main}>{renderFeaturedLists()}</ScrollView>
     </SafeAreaView>
   );
 };

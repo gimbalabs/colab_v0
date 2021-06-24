@@ -35,6 +35,8 @@ export const TransactionsList = () => {
 
   const renderItem = ({ item }: any) => <TransactionItem item={item} />;
 
+  const refreshControlTitle = `Last updated: ${getDigitalTime(lastRefreshed)}`;
+
   // @TODO needs more scalable solution
   const keyExtractor = ({ date, withUser }: any) => `${date}-${withUser}`;
 
@@ -51,7 +53,7 @@ export const TransactionsList = () => {
   if (layoutHeight && layoutHeight >= 300) {
     flatListProps.refreshControl = (
       <RefreshControl
-        title={getDigitalTime(lastRefreshed)}
+        title={lastRefreshed ? refreshControlTitle : ""}
         tintColor={
           colorScheme === "light" ? Colors.primary.s600 : Colors.primary.neutral
         }

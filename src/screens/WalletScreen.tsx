@@ -52,6 +52,7 @@ export const WalletScreen = ({}: WalletScreenProps) => {
                 ? Colors.primary.s800
                 : Colors.primary.neutral
             }
+            strokeWidth={1.6}
           />
         </View>
         <LinearGradient

@@ -77,8 +77,8 @@ export const OrganizerProfileScreen = ({
         <ImageBackground
           // only for testing purpose render uri conditionally
           source={currImage ? { uri: currImage } : ProfilePic}
-          imageStyle={[styles.profilePicImage, { backgroundColor: "green" }]}
-          style={[styles.profilePic]}>
+          imageStyle={styles.profilePicImage}
+          style={styles.profilePic}>
           <Pressable
             onPressIn={onImagePress}
             onPressOut={onImagePressOut}
