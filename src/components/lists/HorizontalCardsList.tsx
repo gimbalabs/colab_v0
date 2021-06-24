@@ -12,15 +12,15 @@ export interface HorizontalCardsListProps {
 
 export const HorizontalCardsList = ({ list }: HorizontalCardsListProps) => {
   const { colorScheme } = appContext();
+
   const keyExtractor = (item: any, index: number) =>
     `${item.title}-${index}-${item.type}`;
 
   const renderItem = ({ item }: any) => {
-    console.log(item);
-    if (item.type === "categories") {
+    if (list.type === "categories") {
       return <HorizontalCardItem item={item} />;
     }
-    if (item.type === "profiles") {
+    if (list.type === "profiles") {
       return <HorizontalProfileCardItem item={item} />;
     }
     return <></>;
@@ -40,11 +40,13 @@ export const HorizontalCardsList = ({ list }: HorizontalCardsListProps) => {
       </View>
       <View style={styles.listContainer}>
         <FlatList
-          data={list}
+          data={list.items}
           renderItem={renderItem}
           maxToRenderPerBatch={10}
           keyExtractor={keyExtractor}
           horizontal
+          contentContainerStyle={{ paddingLeft: 20 }}
+          showsHorizontalScrollIndicator={false}
         />
       </View>
     </View>
@@ -59,7 +61,8 @@ const styles = StyleSheet.create({
   },
   header: {
     alignSelf: "flex-start",
-    marginLeft: Sizing.x30,
+    marginLeft: Sizing.x35,
+    marginBottom: Sizing.x14,
   },
   headerTitle_light: {
     ...Typography.header.x35,
@@ -72,5 +75,6 @@ const styles = StyleSheet.create({
   listContainer: {
     width: "100%",
     height: "100%",
+    marginLeft: Sizing.x10,
   },
 });
