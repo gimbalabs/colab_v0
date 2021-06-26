@@ -82,7 +82,6 @@ export const CalendarEventsDetail = ({
               ? Colors.calendarCard.blue
               : Colors.calendarCard.yellow,
             zIndex: index,
-            marginBottom: highlightedDay - 1 === index ? 5 : 0,
             marginTop: index === 0 ? 0 : animatedMargin,
           },
         ]}>
