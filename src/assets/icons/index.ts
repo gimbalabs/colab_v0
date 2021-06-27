@@ -10,6 +10,7 @@ import { CheckIcon } from "./check";
 import { DotIcon } from "./dot";
 import { DownIcon } from "./down";
 import { RightArrowIcon } from "./rightArrow";
+import { RefreshIcon } from "./refresh";
 import { LeftArrowIcon } from "./leftArrow";
 import { LightBulbIcon } from "./lightBulb";
 import { EditIcon } from "./edit";
@@ -47,6 +48,7 @@ export {
   ModernProfessionalIcon,
   LiveCollaborationIcon,
   RemoveIcon,
+  RefreshIcon,
   PencilAltIcon,
   QrCodeSampleIcon,
   SearchIcon,
