@@ -30,6 +30,7 @@ type Layout =
   | "x60"
   | "x70"
   | "x80"
+  | "x85"
   | "x90"
   | "x100"
   | "x110"
@@ -58,6 +59,7 @@ export const layout: Record<Layout, number> = {
   x60: 50,
   x70: 64,
   x80: 86,
+  x85: 108,
   x90: 120,
   x100: 130,
   x110: 150,
@@ -87,6 +89,7 @@ export const x50 = layout.x50;
 export const x60 = layout.x60;
 export const x70 = layout.x70;
 export const x80 = layout.x80;
+export const x85 = layout.x85;
 export const x90 = layout.x90;
 export const x100 = layout.x100;
 export const x110 = layout.x110;
