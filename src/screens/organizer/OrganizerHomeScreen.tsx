@@ -17,7 +17,9 @@ export const OrganizerHomeScreen = ({ navigation }: OrganizerHomeProps) => {
       style={[
         colorScheme == "light" ? styles.safeArea_light : styles.safeaArea_dark,
       ]}>
-      <CalendarEventsList isHomeScreen />
+      <View style={styles.main}>
+        <CalendarEventsList isHomeScreen />
+      </View>
     </SafeAreaView>
   );
 };
@@ -31,16 +33,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.primary.s600,
   },
-  header: {
+  main: {
     alignItems: "center",
-    marginVertical: Sizing.x100,
-  },
-  headerText_ligth: {
-    ...Typography.header.x40,
-    color: Colors.primary.s600,
-  },
-  headerText_dark: {
-    ...Typography.header.x40,
-    color: Colors.primary.neutral,
+    flex: 1,
   },
 });
