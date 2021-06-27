@@ -54,6 +54,8 @@ export const browseFeatured = [
         backgroundImage: "assets/images/profilePicTwo.png",
         backgroundColor: "#FCE7F3",
         bodyColor: "#9D174D",
+        tags: ["Fashion", "Style", "Model"],
+        hourlyRate: 50,
       },
       {
         type: "profile",
@@ -64,6 +66,8 @@ export const browseFeatured = [
         backgroundImage: "assets/images/profilePicThree.png",
         backgroundColor: "#E0E7FF",
         bodyColor: "#9D174D",
+        tags: ["Fashion", "Style", "Model"],
+        hourlyRate: 50,
       },
       {
         type: "profile",
@@ -74,6 +78,8 @@ export const browseFeatured = [
         backgroundImage: "assets/images/profilePicFour.png",
         backgroundColor: "#EEDDEE",
         bodyColor: "#065F46",
+        tags: ["Fashion", "Style", "Model"],
+        hourlyRate: 50,
       },
       {
         type: "profile",
@@ -84,6 +90,8 @@ export const browseFeatured = [
         backgroundImage: "assets/images/profilePicTwo.png",
         backgroundColor: "#FCE7F3",
         bodyColor: "#9D174D",
+        tags: ["Fashion", "Style", "Model"],
+        hourlyRate: 50,
       },
       {
         type: "profile",
@@ -94,6 +102,8 @@ export const browseFeatured = [
         backgroundImage: "assets/images/profilePicThree.png",
         backgroundColor: "#E0E7FF",
         bodyColor: "#9D174D",
+        tags: ["Fashion", "Style", "Model"],
+        hourlyRate: 50,
       },
       {
         type: "profile",
@@ -104,6 +114,8 @@ export const browseFeatured = [
         backgroundImage: "assets/images/profilePicFour.png",
         backgroundColor: "#EEDDEE",
         bodyColor: "#065F46",
+        tags: ["Fashion", "Style", "Model"],
+        hourlyRate: 50,
       },
     ],
   },
