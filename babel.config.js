@@ -9,6 +9,7 @@ module.exports = function (api) {
           root: ["./src/"],
           alias: {
             // define aliases to shorten the import paths
+            assets: "./src/assets",
             common: "./src/common",
             components: "./src/components",
             containers: "./src/containers",
@@ -18,6 +19,7 @@ module.exports = function (api) {
             images: "./src/assets/images",
             interfaces: "./src/common/interfaces",
             screens: "./src/screens",
+            stacks: "./src/stacks",
             styles: "./src/styles",
             tabs: "./src/tabs",
             types: "./src/common/types",
