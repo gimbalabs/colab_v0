@@ -28,7 +28,7 @@ function wait(ms: number): Promise<void> {
 export const WalletScreen = ({}: WalletScreenProps) => {
   const { colorScheme } = appContext();
   const [layoutHeight, setLayoutHeight] = React.useState<any>(null);
-  const [isSmallScreen, setIsSmallScreen] = React.useState<boolean>(true);
+  const [isSmallScreen, setIsSmallScreen] = React.useState<boolean>(false);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   const darkGradient: string[] = [Colors.primary.s800, Colors.primary.s600];

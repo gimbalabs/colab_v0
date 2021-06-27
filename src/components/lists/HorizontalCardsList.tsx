@@ -8,9 +8,13 @@ import { HorizontalProfileCardItem } from "./HorizontalProfileCardItem";
 
 export interface HorizontalCardsListProps {
   list: any;
+  navigateTo: any;
 }
 
-export const HorizontalCardsList = ({ list }: HorizontalCardsListProps) => {
+export const HorizontalCardsList = ({
+  list,
+  navigateTo,
+}: HorizontalCardsListProps) => {
   const { colorScheme } = appContext();
 
   const keyExtractor = (item: any, index: number) =>
@@ -18,10 +22,10 @@ export const HorizontalCardsList = ({ list }: HorizontalCardsListProps) => {
 
   const renderItem = ({ item }: any) => {
     if (list.type === "categories") {
-      return <HorizontalCardItem item={item} />;
+      return <HorizontalCardItem navigateTo={navigateTo} item={item} />;
     }
     if (list.type === "profiles") {
-      return <HorizontalProfileCardItem item={item} />;
+      return <HorizontalProfileCardItem navigateTo={navigateTo} item={item} />;
     }
     return <></>;
   };

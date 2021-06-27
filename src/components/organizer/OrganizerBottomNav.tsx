@@ -15,6 +15,7 @@ import {
   MyCalendarScreen,
   BrowseScreen,
 } from "screens/index";
+import { BrowseScreensStack } from "stacks/index";
 
 import { Colors, Buttons, Sizing, Outlines, Typography } from "styles/index";
 import { OrganizerProfileScreen } from "screens/organizer/OrganizerProfileScreen";
@@ -41,7 +42,7 @@ export const OrganizerBottomNav = () => {
         {auth ? (
           <>
             <Tab.Screen name="Home" component={HomeScreen} />
-            <Tab.Screen name="Browse" component={BrowseScreen} />
+            <Tab.Screen name="Available Dates" component={BrowseScreensStack} />
             <Tab.Screen name="Wallet" component={WalletScreen} />
             <Tab.Screen name="Availability" component={MyCalendarScreen} />
             <Tab.Screen name="Profile" component={OrganizerProfileScreen} />

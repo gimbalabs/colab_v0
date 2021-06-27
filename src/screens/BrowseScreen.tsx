@@ -10,14 +10,14 @@ import {
 
 import { StackScreenProps } from "@react-navigation/stack";
 import { Colors, Buttons, Typography, Sizing, Outlines } from "styles/index";
-import { OrganizerTabParamList } from "common/types/navigationTypes";
+import { BookingTabParamList } from "common/types/navigationTypes";
 import { appContext } from "contexts/contextApi";
 import { SearchIcon } from "icons/index";
 import { browseFeatured } from "../api_data/browseFeatured";
 import { HorizontalCardsList } from "components/lists/HorizontalCardsList";
 
 export interface BrowseProps
-  extends StackScreenProps<OrganizerTabParamList, "Browse"> {
+  extends StackScreenProps<BookingTabParamList, "Browse"> {
   children: React.ReactNode;
 }
 
@@ -27,9 +27,13 @@ export const BrowseScreen = ({ navigation }: BrowseProps) => {
   const renderFeaturedLists = React.useCallback(() => {
     //@TODO make more unique key id in production
     return browseFeatured.map((list, index) => (
-      <HorizontalCardsList key={index} list={list} />
+      <HorizontalCardsList navigateTo={navigateTo} key={index} list={list} />
     ));
   }, [browseFeatured]);
+
+  const navigateTo = (params?: { alias: string }) => {
+    navigation.navigate("Available Dates", params);
+  };
 
   return (
     <SafeAreaView

@@ -12,8 +12,17 @@ export type AppStackParamList = {
 
 export type OrganizerTabParamList = {
   Home: undefined;
-  Browse: undefined;
+  Browse: any;
   Wallet: undefined;
   Availability: undefined;
   Profile: undefined;
+};
+
+export type BookingTabParamList = {
+  Browse: any;
+  "Available Dates": any;
+  "Available Times": any;
+  "Duration Choice": any;
+  "Add Funds": any;
+  Confirmation: any;
 };

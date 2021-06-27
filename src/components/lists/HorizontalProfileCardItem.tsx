@@ -1,5 +1,11 @@
 import * as React from "react";
-import { ImageBackground, StyleSheet, Text, View } from "react-native";
+import {
+  ImageBackground,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
 import profilePic_1 from "assets/images/profilePicTwo.png";
 import profilePic_2 from "assets/images/profilePicThree.png";
@@ -8,10 +14,12 @@ import { Sizing, Outlines, Typography, Colors } from "styles/index";
 
 export interface HorizontalProfileCardItemProps {
   item: any;
+  navigateTo: any;
 }
 
 export const HorizontalProfileCardItem = ({
   item,
+  navigateTo,
 }: HorizontalProfileCardItemProps) => {
   const randomPlaceholder = React.useCallback(() => {
     var images = [profilePic_1, profilePic_2, profilePic_3];
@@ -19,32 +27,38 @@ export const HorizontalProfileCardItem = ({
     return images[Math.floor(Math.random() * images.length)];
   }, [item]);
 
+  const onPress = () => {
+    navigateTo({ alias: item.alias });
+  };
+
   return (
     <View style={[styles.container, { backgroundColor: item.backgroundColor }]}>
-      <View style={styles.header}>
-        <ImageBackground
-          source={randomPlaceholder()}
-          imageStyle={styles.image}
-          style={styles.imageView}
-        />
-        <View style={styles.headerContent}>
-          <Text style={styles.headerText}>{item.alias}</Text>
+      <Pressable onPress={onPress} style={styles.cardButton}>
+        <View style={styles.header}>
+          <ImageBackground
+            source={randomPlaceholder()}
+            imageStyle={styles.image}
+            style={styles.imageView}
+          />
+          <View style={styles.headerContent}>
+            <Text style={styles.headerText}>{item.alias}</Text>
+            <Text
+              numberOfLines={1}
+              lineBreakMode="tail"
+              style={styles.headerSubText}>
+              {item.occupation}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.body}>
           <Text
-            numberOfLines={1}
+            numberOfLines={5}
             lineBreakMode="tail"
-            style={styles.headerSubText}>
-            {item.occupation}
+            style={[styles.bodyText, { color: item.bodyColor }]}>
+            {item.description}
           </Text>
         </View>
-      </View>
-      <View style={styles.body}>
-        <Text
-          numberOfLines={5}
-          lineBreakMode="tail"
-          style={[styles.bodyText, { color: item.bodyColor }]}>
-          {item.description}
-        </Text>
-      </View>
+      </Pressable>
     </View>
   );
 };
@@ -59,6 +73,9 @@ const styles = StyleSheet.create({
     padding: Sizing.x15,
     borderRadius: Outlines.borderRadius.base,
     ...Outlines.shadow.lifted,
+  },
+  cardButton: {
+    flex: 1,
   },
   image: {
     borderRadius: Outlines.borderRadius.max,

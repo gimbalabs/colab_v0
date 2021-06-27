@@ -20,9 +20,13 @@ const Images = [
 
 export interface HorizontalCardItemProps {
   item: any;
+  navigateTo: any;
 }
 
-export const HorizontalCardItem = ({ item }: HorizontalCardItemProps) => {
+export const HorizontalCardItem = ({
+  item,
+  navigateTo,
+}: HorizontalCardItemProps) => {
   const placeholder: any = Images[Math.floor(Math.random() * Images.length)];
 
   return (
