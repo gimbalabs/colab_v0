@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   Pressable,
   Alert,
+  LayoutChangeEvent,
 } from "react-native";
 
 import { LinearGradient } from "expo-linear-gradient";
@@ -13,18 +14,27 @@ import { Buttons, Outlines, Typography, Sizing, Colors } from "styles/index";
 import { StackScreenProps } from "@react-navigation/stack";
 import { OrganizerTabParamList } from "common/types/navigationTypes";
 import { appContext } from "contexts/contextApi";
-import { RightArrowIcon, SearchIcon } from "icons/index";
+import { RefreshIcon, RightArrowIcon, SearchIcon } from "icons/index";
 import { TransactionsList } from "components/wallet/transactionsList";
 
 // @TODO: Implement navigationTypes type
 export interface WalletScreenProps
   extends StackScreenProps<OrganizerTabParamList, "Wallet"> {}
 
+function wait(ms: number): Promise<void> {
+  return new Promise((res) => setTimeout(res, ms));
+}
+
 export const WalletScreen = ({}: WalletScreenProps) => {
   const { colorScheme } = appContext();
+  const [layoutHeight, setLayoutHeight] = React.useState<any>(null);
+  const [isSmallScreen, setIsSmallScreen] = React.useState<boolean>(true);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   const darkGradient: string[] = [Colors.primary.s800, Colors.primary.s600];
   const lightGradient: string[] = [Colors.primary.s200, Colors.primary.neutral];
+
+  React.useEffect(() => {}, []);
 
   const addFunds = () => {
     Alert.alert(
@@ -35,6 +45,20 @@ export const WalletScreen = ({}: WalletScreenProps) => {
       // array of buttons
       [{ text: "Return", style: "cancel" }]
     );
+  };
+
+  const onLayout = (e: LayoutChangeEvent) => {
+    setLayoutHeight(e.nativeEvent.layout.height);
+
+    if (layoutHeight && layoutHeight < 300) {
+      setIsSmallScreen(true);
+    }
+  };
+
+  const onRefreshPress = async () => {
+    setIsLoading(true);
+    await wait(2000);
+    setIsLoading(false);
   };
 
   return (
@@ -96,7 +120,7 @@ export const WalletScreen = ({}: WalletScreenProps) => {
             </Text>
           </Pressable>
         </LinearGradient>
-        <View style={styles.transactionsContainer}>
+        <View onLayout={onLayout} style={styles.transactionsContainer}>
           <View style={styles.transactionsHeaderContainer}>
             <View style={styles.transactionsHeader}>
               <Text
@@ -116,18 +140,39 @@ export const WalletScreen = ({}: WalletScreenProps) => {
                 Last 30 days
               </Text>
             </View>
-            <RightArrowIcon
-              width={28}
-              height={28}
-              color={
-                colorScheme === "light"
-                  ? Colors.primary.s600
-                  : Colors.primary.neutral
-              }
-              style={{ marginLeft: "auto" }}
-            />
+            <View style={styles.iconWrapper}>
+              {isSmallScreen && (
+                <Pressable onPress={onRefreshPress} hitSlop={5}>
+                  <RefreshIcon
+                    width={22}
+                    height={22}
+                    stroke={
+                      colorScheme === "light"
+                        ? !isLoading
+                          ? Colors.primary.s600
+                          : Colors.primary.s800
+                        : Colors.primary.neutral
+                    }
+                    strokeWidth={!isLoading ? 1.5 : 1.6}
+                  />
+                </Pressable>
+              )}
+              <RightArrowIcon
+                width={28}
+                height={28}
+                color={
+                  colorScheme === "light"
+                    ? Colors.primary.s600
+                    : Colors.primary.neutral
+                }
+                style={{ marginLeft: "auto" }}
+              />
+            </View>
           </View>
-          <TransactionsList />
+          <TransactionsList
+            isLoading={isLoading}
+            isSmallScreen={isSmallScreen}
+          />
         </View>
       </View>
     </SafeAreaView>
@@ -234,5 +279,11 @@ const styles = StyleSheet.create({
   transactionsSubheaderText_dark: {
     ...Typography.subHeader.x10,
     color: Colors.primary.s180,
+  },
+  iconWrapper: {
+    width: "20%",
+    flexDirection: "row",
+    marginLeft: "auto",
+    alignItems: "center",
   },
 });

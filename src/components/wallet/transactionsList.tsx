@@ -4,8 +4,8 @@ import {
   StyleSheet,
   FlatList,
   RefreshControl,
-  LayoutChangeEvent,
   FlatListProps,
+  ActivityIndicator,
 } from "react-native";
 
 import { appContext } from "contexts/contextApi";
@@ -19,11 +19,18 @@ function wait(ms: number): Promise<void> {
   return new Promise((res) => setTimeout(res, ms));
 }
 
-export const TransactionsList = () => {
+export interface TransactionListProps {
+  isSmallScreen: boolean;
+  isLoading: boolean;
+}
+
+export const TransactionsList = ({
+  isLoading,
+  isSmallScreen,
+}: TransactionListProps) => {
   const { colorScheme } = appContext();
   const [refreshing, setRefreshing] = React.useState<boolean>(false);
   const [lastRefreshed, setLastRefreshed] = React.useState<number>(0);
-  const [layoutHeight, setLayoutHeight] = React.useState<any>(null);
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -40,17 +47,14 @@ export const TransactionsList = () => {
   // @TODO needs more scalable solution
   const keyExtractor = ({ date, withUser }: any) => `${date}-${withUser}`;
 
-  const onLayout = (e: LayoutChangeEvent) =>
-    setLayoutHeight(e.nativeEvent.layout.height);
-
   var flatListProps: FlatListProps<any> = {
-    onLayout: onLayout,
     data: transactions,
     renderItem: renderItem,
     keyExtractor: keyExtractor,
+    contentOffset: { x: 0, y: -25 },
   };
 
-  if (layoutHeight && layoutHeight >= 300) {
+  if (!isSmallScreen) {
     flatListProps.refreshControl = (
       <RefreshControl
         title={lastRefreshed ? refreshControlTitle : ""}
@@ -64,12 +68,28 @@ export const TransactionsList = () => {
   }
 
   return (
-    <View style={styles.container}>
-      <FlatList {...flatListProps} />
+    <View style={[styles.container, isLoading ? { opacity: 0.5 } : {}]}>
+      <FlatList
+        {...flatListProps}
+        scrollEnabled={!isLoading}
+        disableScrollViewPanResponder={isLoading}
+      />
+      {isLoading && (
+        <ActivityIndicator
+          size={isSmallScreen ? "small" : "large"}
+          color={Colors.primary.s800}
+          style={styles.spinner}
+        />
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, marginTop: 25 },
+  container: { flex: 1, marginTop: 10 },
+  spinner: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+  },
 });
