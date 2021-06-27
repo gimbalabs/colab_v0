@@ -18,6 +18,7 @@ const colorScheme: ColorSchemeName = Appearance.getColorScheme();
 const initialAppState: AppState = {
   authentication: true,
   colorScheme: colorScheme == null ? "light" : colorScheme,
+  favoriteOrganizers: [],
 };
 
 const reducer = (state: AppState, action: AppActions) => {
@@ -37,6 +38,21 @@ const reducer = (state: AppState, action: AppActions) => {
           colorScheme: action.payload.newColorScheme,
         };
       }
+    case AppTypes.SetFavoriteOrganizer:
+      if (state.favoriteOrganizers.includes(action.payload.alias)) {
+        const newFavoriteOrganizers = state.favoriteOrganizers.filter(
+          (org) => org !== action.payload.alias
+        );
+        return {
+          ...state,
+          favoriteOrganizers: [...newFavoriteOrganizers],
+        };
+      }
+      const newState = {
+        ...state,
+        favoriteOrganizers: [...state.favoriteOrganizers, action.payload.alias],
+      };
+      return newState;
     default:
       throw Error(`Unknown type of action: ${action.type}`);
   }

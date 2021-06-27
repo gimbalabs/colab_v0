@@ -7,6 +7,7 @@ export type ColorSchemeName = "light" | "dark";
 export interface AppState {
   authentication: boolean;
   colorScheme: ColorSchemeName;
+  favoriteOrganizers: any[];
 }
 
 export interface AppContextProviderProps {

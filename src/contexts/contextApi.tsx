@@ -17,8 +17,12 @@ export const appContext = () => {
   return {
     auth: state.authentication,
     colorScheme: state.colorScheme,
+    favoriteOrganizers: state.favoriteOrganizers,
     toggleAuth: (auth?: boolean) => {
       dispatch({ type: "TOGGLE_AUTH", payload: { auth } });
+    },
+    setFavoriteOrganizer: (alias: string) => {
+      dispatch({ type: "SET_FAVORITE_ORGANIZER", payload: { alias } });
     },
     setColorScheme: (newColorScheme: ColorSchemeName) => {
       dispatch({ type: "SET_COLOR_SCHEME", payload: { newColorScheme } });

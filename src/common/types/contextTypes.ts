@@ -14,6 +14,7 @@ import { ColorSchemeName } from "react-native";
 export enum AppTypes {
   ToggleAuth = "TOGGLE_AUTH",
   SetColorScheme = "SET_COLOR_SCHEME",
+  SetFavoriteOrganizer = "SET_FAVORITE_ORGANIZER",
 }
 
 export enum MyCalendarTypes {
@@ -46,6 +47,9 @@ export type ActionMap<M extends { [index: string]: any }> = {
 export type AppPayload = {
   [AppTypes.ToggleAuth]: {
     auth: boolean;
+  };
+  [AppTypes.SetFavoriteOrganizer]: {
+    alias: string;
   };
   [AppTypes.SetColorScheme]: {
     newColorScheme: ColorSchemeName;
