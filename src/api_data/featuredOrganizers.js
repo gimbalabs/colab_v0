@@ -11,7 +11,23 @@ export const featuredOrganizers = {
       backgroundImage: "assets/images/profilePicTwo.png",
       backgroundColor: "#FCE7F3",
       bodyColor: "#9D174D",
-      tags: ["Fashion", "Style", "Model"],
+      tags: [
+        {
+          tagName: "Teach",
+          tagBackgroundColor: "#FEF3C7",
+          tagTextColor: "#92400E",
+        },
+        {
+          tagName: "Code",
+          tagBackgroundColor: "#E0E7FF",
+          tagTextColor: "#3730A3",
+        },
+        {
+          tagName: "Innovation",
+          tagBackgroundColor: "#FEE2E2",
+          tagTextColor: "#92400E",
+        },
+      ],
       hourlyRate: 50,
     },
     {
@@ -23,7 +39,23 @@ export const featuredOrganizers = {
       backgroundImage: "assets/images/profilePicThree.png",
       backgroundColor: "#E0E7FF",
       bodyColor: "#9D174D",
-      tags: ["Fashion", "Style", "Model"],
+      tags: [
+        {
+          tagName: "Teach",
+          tagBackgroundColor: "#FEF3C7",
+          tagTextColor: "#92400E",
+        },
+        {
+          tagName: "Code",
+          tagBackgroundColor: "#E0E7FF",
+          tagTextColor: "#3730A3",
+        },
+        {
+          tagName: "Innovation",
+          tagBackgroundColor: "#FEE2E2",
+          tagTextColor: "#92400E",
+        },
+      ],
       hourlyRate: 50,
     },
     {
@@ -35,7 +67,23 @@ export const featuredOrganizers = {
       backgroundImage: "assets/images/profilePicFour.png",
       backgroundColor: "#EEDDEE",
       bodyColor: "#065F46",
-      tags: ["Fashion", "Style", "Model"],
+      tags: [
+        {
+          tagName: "Teach",
+          tagBackgroundColor: "#FEF3C7",
+          tagTextColor: "#92400E",
+        },
+        {
+          tagName: "Code",
+          tagBackgroundColor: "#E0E7FF",
+          tagTextColor: "#3730A3",
+        },
+        {
+          tagName: "Innovation",
+          tagBackgroundColor: "#FEE2E2",
+          tagTextColor: "#92400E",
+        },
+      ],
       hourlyRate: 50,
     },
     {
@@ -47,7 +95,23 @@ export const featuredOrganizers = {
       backgroundImage: "assets/images/profilePicTwo.png",
       backgroundColor: "#FCE7F3",
       bodyColor: "#9D174D",
-      tags: ["Fashion", "Style", "Model"],
+      tags: [
+        {
+          tagName: "Teach",
+          tagBackgroundColor: "#FEF3C7",
+          tagTextColor: "#92400E",
+        },
+        {
+          tagName: "Code",
+          tagBackgroundColor: "#E0E7FF",
+          tagTextColor: "#3730A3",
+        },
+        {
+          tagName: "Innovation",
+          tagBackgroundColor: "#FEE2E2",
+          tagTextColor: "#92400E",
+        },
+      ],
       hourlyRate: 50,
     },
     {
@@ -59,7 +123,23 @@ export const featuredOrganizers = {
       backgroundImage: "assets/images/profilePicThree.png",
       backgroundColor: "#E0E7FF",
       bodyColor: "#9D174D",
-      tags: ["Fashion", "Style", "Model"],
+      tags: [
+        {
+          tagName: "Teach",
+          tagBackgroundColor: "#FEF3C7",
+          tagTextColor: "#92400E",
+        },
+        {
+          tagName: "Code",
+          tagBackgroundColor: "#E0E7FF",
+          tagTextColor: "#3730A3",
+        },
+        {
+          tagName: "Innovation",
+          tagBackgroundColor: "#FEE2E2",
+          tagTextColor: "#92400E",
+        },
+      ],
       hourlyRate: 50,
     },
     {
@@ -71,7 +151,23 @@ export const featuredOrganizers = {
       backgroundImage: "assets/images/profilePicFour.png",
       backgroundColor: "#EEDDEE",
       bodyColor: "#065F46",
-      tags: ["Fashion", "Style", "Model"],
+      tags: [
+        {
+          tagName: "Teach",
+          tagBackgroundColor: "#FEF3C7",
+          tagTextColor: "#92400E",
+        },
+        {
+          tagName: "Code",
+          tagBackgroundColor: "#E0E7FF",
+          tagTextColor: "#3730A3",
+        },
+        {
+          tagName: "Innovation",
+          tagBackgroundColor: "#FEE2E2",
+          tagTextColor: "#92400E",
+        },
+      ],
       hourlyRate: 50,
     },
   ],
