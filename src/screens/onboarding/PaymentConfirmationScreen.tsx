@@ -19,6 +19,7 @@ import {
   Outlines,
   Buttons,
 } from "styles/index";
+import { ProfileTag } from "components/profile/profileTag";
 
 export interface PaymentConfirmationScreenProps {}
 
@@ -73,18 +74,13 @@ export const PaymentConfirmationScreen = () => {
           <Text style={styles.userDetailsText}>50 ₳ an hour</Text>
           <Text style={styles.userDetailsHeader}>Skills</Text>
           <View style={styles.skillTags}>
-            {USER_TAGS.map((tag, i) => (
-              <View
-                key={i}
-                style={[
-                  styles.skillTag,
-                  { backgroundColor: tag.tagBackgroundColor },
-                ]}>
-                <Text style={[styles.skillName, { color: tag.tagTextColor }]}>
-                  {tag.tagName}
-                </Text>
-              </View>
-            ))}
+            {USER_TAGS.map((tag, i) => {
+              return (
+                <View key={i}>
+                  <ProfileTag tag={tag} key={i} />
+                </View>
+              );
+            })}
           </View>
         </View>
         <Pressable
@@ -152,24 +148,14 @@ const styles = StyleSheet.create({
     lineHeight: 0,
     color: Colors.primary.s600,
   },
-  skillTags: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-  },
-  skillTag: {
-    borderRadius: Outlines.borderRadius.large,
-    paddingHorizontal: Sizing.x10,
-    marginRight: Sizing.x5,
-    textAlign: "center",
-  },
-  skillName: {
-    ...Tags.tagHeader.small,
-    lineHeight: Sizing.x15,
-  },
   submitButton: {
     ...Buttons.bar.transparent,
   },
   submitButtonText: {
     ...Buttons.barText.transparent,
+  },
+  skillTags: {
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
 });
