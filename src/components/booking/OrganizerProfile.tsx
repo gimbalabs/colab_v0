@@ -11,6 +11,8 @@ import profilePicThree from "assets/images/profilePicThree.png";
 import { Colors, Outlines, Sizing, Typography } from "styles/index";
 import { appContext } from "contexts/contextApi";
 import { HearthIcon } from "assets/icons/index";
+import { ProfileTag } from "components/profile/profileTag";
+import { BodyText } from "components/rnWrappers/bodyText";
 
 export interface OrganizerProfileProps {
   profile: any;
@@ -31,45 +33,99 @@ export const OrganizerProfile = ({ profile }: OrganizerProfileProps) => {
     setFavoriteOrganizer(profile.alias);
   };
 
+  const renderProfileTags = (tag: any, i: number) => {
+    return (
+      <View key={`${tag.tagName}_${i}_${profile.alias}`}>
+        <ProfileTag tag={tag} alias={profile.alias} />
+      </View>
+    );
+  };
+
   return (
     <View style={styles.container}>
       {profile && (
-        <View style={styles.mainContainer}>
-          <ImageBackground
-            source={profilePicThree}
-            imageStyle={styles.imageStyle}
-            style={styles.imageBackground}
-          />
-          <View style={styles.rightContainer}>
-            <View style={styles.headerContainer}>
-              <Text
-                style={
-                  isLightMode
-                    ? styles.headerAlias_light
-                    : styles.headerAlias_dark
-                }>
-                {profile.alias}
-              </Text>
-              <Text
-                style={
-                  isLightMode
-                    ? styles.headerOccupation_light
-                    : styles.headerOccupation_dark
-                }>
-                {profile.occupation}
-              </Text>
+        <>
+          <View style={styles.mainContainer}>
+            <ImageBackground
+              source={profilePicThree}
+              imageStyle={styles.imageStyle}
+              style={styles.imageBackground}
+            />
+            <View style={{ flex: 1 }}>
+              <View style={styles.rightContainer}>
+                <View style={styles.headerContainer}>
+                  <Text
+                    style={
+                      isLightMode
+                        ? styles.headerAlias_light
+                        : styles.headerAlias_dark
+                    }>
+                    {profile.alias}
+                  </Text>
+                  <Text
+                    style={
+                      isLightMode
+                        ? styles.headerOccupation_light
+                        : styles.headerOccupation_dark
+                    }>
+                    {profile.occupation}
+                  </Text>
+                </View>
+                <Pressable
+                  onPress={onFavoritePress}
+                  style={[
+                    styles.favoriteButton,
+                    !isFavorite
+                      ? { ...Outlines.shadow.lifted }
+                      : {
+                          ...Outlines.shadow.base,
+                        },
+                  ]}>
+                  <HearthIcon
+                    width={24}
+                    height={24}
+                    color="#F87171"
+                    strokeWidth={2}
+                    fill={isFavorite ? "#F87171" : "transparent"}
+                  />
+                </Pressable>
+              </View>
+              <View style={styles.rightSubContainer}>
+                <View style={styles.rightSubTop}>
+                  <Text
+                    style={
+                      isLightMode
+                        ? styles.relatedTags_light
+                        : styles.relatedTags_dark
+                    }>
+                    Related tags
+                  </Text>
+                  <Text
+                    style={
+                      isLightMode
+                        ? styles.hourlyRate_light
+                        : styles.hourlyRate_dark
+                    }>
+                    50 ₳/hour
+                  </Text>
+                </View>
+                {profile.tags != null && (
+                  <View style={styles.rightSubBottom}>
+                    {profile.tags.map(renderProfileTags)}
+                  </View>
+                )}
+              </View>
             </View>
-            <Pressable onPress={onFavoritePress} style={styles.favoriteButton}>
-              <HearthIcon
-                width={24}
-                height={24}
-                color="#F87171"
-                strokeWidth={2}
-                fill={isFavorite ? "#F87171" : "transparent"}
-              />
-            </Pressable>
           </View>
-        </View>
+          <View style={styles.descriptionContainer}>
+            <BodyText colors={[Colors.primary.s600, Colors.primary.neutral]}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Vestibulum venenatis quam sem, eget bibendum lorem convallis et.
+              Donec velit ante, efficitur at ante eu, consequat hendrerit augue.
+              Vivamus quis eros ex
+            </BodyText>
+          </View>
+        </>
       )}
     </View>
   );
@@ -103,6 +159,8 @@ const styles = StyleSheet.create({
     marginLeft: Sizing.x15,
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "flex-start",
+    flex: 1,
   },
   headerContainer: {},
   headerAlias_light: {
@@ -130,7 +188,39 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginLeft: "auto",
+    marginRight: Sizing.x5,
     borderRadius: Outlines.borderRadius.base,
-    ...Outlines.shadow.lifted,
+  },
+  rightSubContainer: {},
+  rightSubTop: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginLeft: Sizing.x15,
+    marginBottom: Sizing.x5,
+  },
+  relatedTags_light: {
+    ...Typography.subHeader.x10,
+    color: Colors.primary.s800,
+  },
+  relatedTags_dark: {
+    ...Typography.subHeader.x10,
+    color: Colors.primary.s200,
+  },
+  hourlyRate_light: {
+    ...Typography.subHeader.x30,
+    color: Colors.primary.s800,
+  },
+  hourlyRate_dark: {
+    ...Typography.subHeader.x30,
+    color: Colors.primary.s200,
+  },
+  rightSubBottom: {
+    flexDirection: "row",
+    marginLeft: Sizing.x15,
+  },
+  descriptionContainer: {
+    marginVertical: Sizing.x10,
+    marginHorizontal: Sizing.x5,
   },
 });
