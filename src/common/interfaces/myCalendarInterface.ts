@@ -6,6 +6,8 @@ export interface MyCalendarState {
   calendarHeader: CalendarHeader;
   previewingDayEvents?: PreviewingDayEvents;
   direction: null | "previous" | "next";
+  organizerAvailabilities: any;
+  availabilitiesCalendar: any;
 }
 
 export interface Availabilities {
@@ -36,7 +38,7 @@ export interface ScheduledEvents {
 export interface ScheduledEventsMonth {
   month: string;
   days: ScheduledEventsDay[];
-  numOfTotalEvents: number;
+  totalNumOfEvents: number;
 }
 
 export interface ScheduledEventsDay {

@@ -3,7 +3,6 @@ import {
   AvailabilitiesDay,
   Day,
   Month,
-  PlaceholderDay,
   ScheduledEventsDay,
 } from "interfaces/myCalendarInterface";
 import { months, monthsByName, weekDays } from "common/types/calendarTypes";
@@ -144,12 +143,14 @@ export function areEqualDates(val1: number, val2: number): boolean {
  *          previousMonths
  *          fromMonth
  *          fromYear
+ *          availabilites - organizer availabilities
  */
 export function getCalendarMonths(
   nextMonths = false,
   previousMonths = false,
   fromMonth?: number,
-  fromYear?: number
+  fromYear?: number,
+  customAvailabilities?: any
 ): Month[] {
   var month = fromMonth != null ? fromMonth : new Date().getMonth();
   var year = fromYear != null ? fromYear : new Date().getFullYear();

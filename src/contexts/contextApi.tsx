@@ -37,6 +37,7 @@ export const myCalendarContext = () => {
     calendar: state.calendar,
     calendarHeader: state.calendarHeader,
     availabilities: state.availabilities,
+    organizerAvailabilities: state.organizerAvailabilities,
     scheduledEvents: state.scheduledEvents,
     registrationDate: state.registrationDate,
     previewingDayEvents: state.previewingDayEvents,
@@ -55,6 +56,12 @@ export const myCalendarContext = () => {
     },
     loadMyCalendar: (calendarArgs: NewCalendarMonths) => {
       dispatch({ type: "LOAD_MY_CALENDAR", payload: { calendarArgs } });
+    },
+    setAvailCalendar: (availabilities: any) => {
+      dispatch({ type: "SET_AVAIL_CALENDAR", payload: { availabilities } });
+    },
+    setOrganizerAvail: (availabilities: any) => {
+      dispatch({ type: "SET_ORGANIZER_AVAIL", payload: { availabilities } });
     },
     previewDayEvents: (newPreviewingDayEvents: PreviewingDayEvents) => {
       dispatch({

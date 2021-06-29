@@ -28,6 +28,8 @@ const initialCalendar = [
 export const initialState: MyCalendarState = {
   registrationDate: 1620165600000,
   calendar: initialCalendar,
+  availabilitiesCalendar: null,
+  organizerAvailabilities: null,
   availabilities,
   scheduledEvents,
   direction: null,
@@ -39,6 +41,7 @@ export const initialState: MyCalendarState = {
 };
 
 const reducer = (state: MyCalendarState, action: MyCalendarActions) => {
+  console.log("payload", action.payload);
   switch (action.type) {
     case MyCalendarTypes.AddEvent:
       // TODO: Sort through existing events, or send to a server?
@@ -96,11 +99,24 @@ const reducer = (state: MyCalendarState, action: MyCalendarActions) => {
         );
         newCalendar.splice(newCalendar.length - 1, 1);
       }
-
       return {
         ...state,
         calendar: newCalendar,
       };
+    case MyCalendarTypes.SetAvailCalendar:
+      const availabilities =
+        action.payload.availabilities != null
+          ? action.payload.availabilities
+          : state.organizerAvailabilities;
+      const calendar = [
+        ...getCalendarMonths(false, true, undefined, undefined, availabilities),
+        ...getCalendarMonths(true, false, undefined, undefined, availabilities),
+      ];
+      return {
+        ...state,
+        availabilitiesCalendar: calendar,
+      };
+
     default:
       throw Error(`Unknown type of action: ${action.type}`);
   }

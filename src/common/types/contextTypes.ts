@@ -26,6 +26,7 @@ export enum MyCalendarTypes {
   PreviewDayEvents = "PREVIEW_DAY_EVENTS",
   ClearDayPreview = "CLEAR_DAY_PREVIEW",
   CalendarDirection = "SET_CALENDAR_DIRECTION",
+  SetAvailCalendar = "SET_AVAIL_CALENDAR",
 }
 
 /**
@@ -77,6 +78,9 @@ export type MyCalendarPaylaod = {
   };
   [MyCalendarTypes.CalendarDirection]: {
     direction: null | "previous" | "next";
+  };
+  [MyCalendarTypes.SetAvailCalendar]: {
+    availabilities?: any;
   };
   [MyCalendarTypes.ClearDayPreview]: {};
 };
