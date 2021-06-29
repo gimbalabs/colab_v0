@@ -11,6 +11,7 @@ export const featuredOrganizers = {
       backgroundImage: "assets/images/profilePicTwo.png",
       backgroundColor: "#FCE7F3",
       bodyColor: "#9D174D",
+      timeBlock: 30,
       tags: [
         {
           tagName: "Teach",
@@ -39,6 +40,7 @@ export const featuredOrganizers = {
       backgroundImage: "assets/images/profilePicThree.png",
       backgroundColor: "#E0E7FF",
       bodyColor: "#9D174D",
+      timeBlock: 30,
       tags: [
         {
           tagName: "Teach",
@@ -67,6 +69,7 @@ export const featuredOrganizers = {
       backgroundImage: "assets/images/profilePicFour.png",
       backgroundColor: "#EEDDEE",
       bodyColor: "#065F46",
+      timeBlock: 30,
       tags: [
         {
           tagName: "Teach",
@@ -95,6 +98,7 @@ export const featuredOrganizers = {
       backgroundImage: "assets/images/profilePicTwo.png",
       backgroundColor: "#FCE7F3",
       bodyColor: "#9D174D",
+      timeBlock: 30,
       tags: [
         {
           tagName: "Teach",
@@ -123,6 +127,7 @@ export const featuredOrganizers = {
       backgroundImage: "assets/images/profilePicThree.png",
       backgroundColor: "#E0E7FF",
       bodyColor: "#9D174D",
+      timeBlock: 30,
       tags: [
         {
           tagName: "Teach",
@@ -151,6 +156,7 @@ export const featuredOrganizers = {
       backgroundImage: "assets/images/profilePicFour.png",
       backgroundColor: "#EEDDEE",
       bodyColor: "#065F46",
+      timeBlock: 30,
       tags: [
         {
           tagName: "Teach",
