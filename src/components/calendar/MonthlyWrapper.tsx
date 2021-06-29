@@ -19,12 +19,17 @@ import { monthsByName } from "common/types/calendarTypes";
 import { WeekDayNames } from "./WeekDayNames";
 import { LeftArrowIcon, RightArrowIcon } from "icons/index";
 
-export const MonthlyWrapper = () => {
+export interface MonthlyWrapperProps {
+  isBookingCalendar?: boolean;
+}
+
+export const MonthlyWrapper = ({ isBookingCalendar }: MonthlyWrapperProps) => {
   const {
     calendar,
     changeMonthHeader,
     calendarHeader,
     loadMyCalendar,
+    organizerAvailabilities,
   } = myCalendarContext();
   const { colorScheme } = appContext();
   const [dimensions, setDimensions] = React.useState<LayoutRectangle | null>(

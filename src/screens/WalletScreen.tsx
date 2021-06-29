@@ -129,7 +129,7 @@ export const WalletScreen = ({}: WalletScreenProps) => {
                     ? styles.transactionsHeaderText_light
                     : styles.transactionsHeaderText_dark
                 }>
-                Transaction
+                Transactions
               </Text>
               <Text
                 style={

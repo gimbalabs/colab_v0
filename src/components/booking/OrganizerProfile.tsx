@@ -157,10 +157,8 @@ const styles = StyleSheet.create({
   },
   rightContainer: {
     marginLeft: Sizing.x15,
+    marginBottom: Sizing.x8,
     flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    flex: 1,
   },
   headerContainer: {},
   headerAlias_light: {

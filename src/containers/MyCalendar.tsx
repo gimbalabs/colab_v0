@@ -5,11 +5,15 @@ import {
   MonthlyWrapper,
 } from "components/calendar";
 
-export const MyCalendar = () => {
+export interface CalendarProps {
+  isBookingCalendar?: boolean;
+}
+
+export const Calendar = ({ isBookingCalendar }: CalendarProps) => {
   return (
     <CalendarWrapper>
       <MonthlyWrapper />
-      <CalendarEventsList />
+      {isBookingCalendar == null && <CalendarEventsList />}
     </CalendarWrapper>
   );
 };
