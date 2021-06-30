@@ -21,6 +21,11 @@ export const customAvailabilities = [
             timeSlots: [{ fromTime: 1621238400000, toTime: 1621263600000 }],
             bookedSlots: [1621238400000, 1621263600000],
           },
+          {
+            day: 18,
+            timeSlots: [{ fromTime: 1621332000000, toTime: 1621353600000 }],
+            bookedSlots: [1621238400000, 1621263600000],
+          },
         ],
       },
     ],
