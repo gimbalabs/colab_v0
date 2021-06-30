@@ -12,8 +12,8 @@ import { months, monthsByName, weekDays } from "common/types/calendarTypes";
  *  availabilities from an API and build our calendar base on the data
  *  received. For now, we'll be using a dummy object data.
  */
-import { scheduledEvents } from "../api_data/scheduledEvents.js";
-import { availabilities } from "../api_data/availabilities.js";
+import { customScheduledEvents } from "../api_data/customScheduledEvents.js";
+import { customAvailabilities } from "../api_data/customAvailabilities.js";
 
 /**
  * @description Use this function to validate form input that
@@ -143,18 +143,28 @@ export function areEqualDates(val1: number, val2: number): boolean {
  *          previousMonths
  *          fromMonth
  *          fromYear
- *          availabilites - organizer availabilities
+ *          availabilites (organizer availabilities)
+ *          scheduledEvents
  */
 export function getCalendarMonths(
   nextMonths = false,
   previousMonths = false,
   fromMonth?: number,
   fromYear?: number,
-  customAvailabilities?: any
+  availabilities?: any,
+  scheduledEvents?: any
 ): Month[] {
   var month = fromMonth != null ? fromMonth : new Date().getMonth();
   var year = fromYear != null ? fromYear : new Date().getFullYear();
   var currMonthIndex = fromMonth != null ? month + 1 : month;
+
+  //@TODO Remove this once we have some external data
+  if (availabilities == null) {
+    availabilities = customAvailabilities;
+  }
+  if (scheduledEvents == null) {
+    scheduledEvents = customScheduledEvents;
+  }
 
   // console.log(`
   //              nextMonths: ${nextMonths}

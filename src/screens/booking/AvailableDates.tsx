@@ -11,10 +11,9 @@ import {
 import { Colors, Sizing, Typography } from "styles/index";
 import { OrganizerProfile } from "components/booking/index";
 import { LeftArrowIcon } from "icons/index";
-import { appContext, myCalendarContext } from "contexts/contextApi";
+import { appContext } from "contexts/contextApi";
 
 import { featuredOrganizers } from "../../api_data/featuredOrganizers";
-import { organizerAvailabilities } from "../../api_data/organizerAvailabilities";
 import { MonthlyWrapper } from "components/calendar";
 import { CalendarWrapperSimple } from "components/calendar/CalendarWrapperSimple";
 
@@ -23,20 +22,17 @@ export interface AvailableDatesProps {}
 export const AvailableDates = ({ navigation, route }) => {
   const [profile, setProfile] = React.useState<any>(null);
   const { colorScheme } = appContext();
-  const { setAvailCalendar } = myCalendarContext();
   const { alias } = route.params;
 
   React.useEffect(() => {
     let profile = featuredOrganizers.items.find((org) => org.alias === alias);
-    setAvailCalendar(organizerAvailabilities);
 
     setProfile(profile);
   }, []);
 
   const isLightMode = colorScheme === "light";
 
-  const onPress = () => setAvailCalendar(organizerAvailabilities);
-  // navigation.goBack();
+  const onPress = () => navigation.goBack();
 
   return (
     <SafeAreaView

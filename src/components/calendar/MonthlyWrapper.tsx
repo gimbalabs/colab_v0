@@ -18,6 +18,7 @@ import { CalendarHeader, Month } from "interfaces/myCalendarInterface";
 import { monthsByName } from "common/types/calendarTypes";
 import { WeekDayNames } from "./WeekDayNames";
 import { LeftArrowIcon, RightArrowIcon } from "icons/index";
+import { customAvailabilities } from "../../api_data/customAvailabilities";
 
 export interface MonthlyWrapperProps {
   isBookingCalendar?: boolean;
@@ -29,7 +30,7 @@ export const MonthlyWrapper = ({ isBookingCalendar }: MonthlyWrapperProps) => {
     changeMonthHeader,
     calendarHeader,
     loadMyCalendar,
-    organizerAvailabilities,
+    setAvailCalendar,
   } = myCalendarContext();
   const { colorScheme } = appContext();
   const [dimensions, setDimensions] = React.useState<LayoutRectangle | null>(
@@ -229,6 +230,10 @@ export const MonthlyWrapper = ({ isBookingCalendar }: MonthlyWrapperProps) => {
       setMonthsArray(calendar);
       setCurrIndex(1);
       setIsLoading(false);
+    }
+
+    if (isBookingCalendar) {
+      setAvailCalendar(customAvailabilities);
     }
   }, [calendar]);
 

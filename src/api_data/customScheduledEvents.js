@@ -1,4 +1,4 @@
-export const scheduledEvents = [
+export const customScheduledEvents = [
   {
     year: 2021,
     months: [

@@ -12,8 +12,8 @@ import {
 import { MyCalendarActions, MyCalendarTypes } from "common/types/contextTypes";
 import { getMonth, getCalendarMonths, getYear } from "lib/utils";
 
-import { scheduledEvents } from "../api_data/scheduledEvents";
-import { availabilities } from "../api_data/availabilities";
+import { customScheduledEvents as scheduledEvents } from "../api_data/customScheduledEvents";
+import { customAvailabilities as availabilities } from "../api_data/customAvailabilities";
 import { months } from "common/types/calendarTypes";
 
 export interface ContextProviderProps {
@@ -41,7 +41,6 @@ export const initialState: MyCalendarState = {
 };
 
 const reducer = (state: MyCalendarState, action: MyCalendarActions) => {
-  console.log("payload", action.payload);
   switch (action.type) {
     case MyCalendarTypes.AddEvent:
       // TODO: Sort through existing events, or send to a server?
