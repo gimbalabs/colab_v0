@@ -19,6 +19,7 @@ import { EyeOffIcon } from "./eyeOff";
 import { HearthIcon } from "./hearth";
 import { HomeIcon } from "./home";
 import { PencilAltIcon } from "./pencilAlt";
+import { PartiallyBookedDay } from "./partiallyBookedDay";
 import { RemoveIcon } from "./remove";
 import { QrCodeSampleIcon } from "./qrCodeSample";
 import { SearchIcon } from "./search";
@@ -50,6 +51,7 @@ export {
   RemoveIcon,
   RefreshIcon,
   PencilAltIcon,
+  PartiallyBookedDay,
   QrCodeSampleIcon,
   SearchIcon,
   UserIcon,
