@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Pressable, Text, View, StyleSheet } from "react-native";
-import { Buttons, Colors, Sizing, Typography } from "styles/index";
-import { DotIcon } from "icons/index";
+import { Buttons, Colors, Outlines, Sizing, Typography } from "styles/index";
+import { DotIcon, PartiallyBookedDay } from "icons/index";
 import { Day } from "interfaces/myCalendarInterface";
 import { myCalendarContext } from "contexts/contextApi";
 import { getDate, getMonthByIndex, getYear } from "lib/utils";
@@ -10,6 +10,7 @@ export interface MonthlyDayProps extends Day {
   year?: number;
   month: string;
   activeDay: number | null;
+  isBookingCalendar?: boolean;
   setActiveDay: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
@@ -21,37 +22,41 @@ export const MonthlyDay = ({
   setActiveDay,
   scheduledEvents,
   year,
+  isBookingCalendar,
 }: MonthlyDayProps) => {
   const { previewDayEvents, previewingDayEvents } = myCalendarContext();
 
+  // Today's day
   const isCurrentDay =
     year === getYear() && month === getMonthByIndex() && number === getDate();
 
+  // Whenever someone has pressed a day or it's a current day
   const isActiveDay =
     (activeDay && activeDay === number) ||
     (!activeDay && previewingDayEvents && previewingDayEvents.day === number) ||
     (!activeDay && isCurrentDay);
 
+  // Whenever the first scheduled event starts at first available time,
+  // and the last scheduled event ends at the last available time
+  const isFullyBooked =
+    scheduledEvents != null &&
+    availabilities != null &&
+    scheduledEvents[0].fromTime === availabilities[0].fromTime &&
+    scheduledEvents[scheduledEvents.length - 1].toTime ===
+      availabilities[availabilities.length - 1].toTime;
+
+  const isPartiallyBooked = !isFullyBooked && scheduledEvents != null;
+  const isFullyAvailable =
+    (availabilities != null &&
+      availabilities.length > 0 &&
+      scheduledEvents == null) ||
+    (scheduledEvents != null && scheduledEvents.length === 0);
+
   const onPress = () => {
+    // Dont' highlight a fully booked day
+    if (isFullyBooked) return;
+
     setActiveDay(number);
-
-    //@TODO Decide whether to change events list based on the day number click.
-
-    // if (
-    //   scheduledEvents == undefined &&
-    //   previewingDayEvents != null &&
-    //   previewingDayEvents.events === undefined
-    // ) {
-    //   return;
-    // }
-
-    // const newPreviewingDayEvents = {
-    //   month,
-    //   day: number,
-    //   events: scheduledEvents,
-    // };
-    // previewDayEvents(newPreviewingDayEvents);
-    // setActiveDay(null);
   };
 
   return (
@@ -62,10 +67,15 @@ export const MonthlyDay = ({
           {
             backgroundColor: isActiveDay
               ? Colors.primary.s600
+              : isBookingCalendar && isFullyBooked
+              ? Colors.booked
+              : isBookingCalendar && isFullyAvailable
+              ? Colors.available
               : availabilities && !isActiveDay
               ? Colors.primary.s180
               : "transparent",
           },
+          !isFullyBooked && availabilities && { ...Outlines.shadow.lifted },
         ]}>
         <Text
           style={[
@@ -79,15 +89,24 @@ export const MonthlyDay = ({
           ]}>
           {number}
         </Text>
-      </View>
-      <View style={styles.dotsWrapper}>
-        {scheduledEvents && (
-          <DotIcon style={styles.scheduledDay} fill="#FCD34D" stroke="none" />
+        {isPartiallyBooked && !isActiveDay && (
+          <PartiallyBookedDay
+            width={34}
+            height={34}
+            style={styles.partiallyBookedDay}
+          />
         )}
-        {availabilities && (
-          <DotIcon style={styles.availableDay} fill="#60A5FA" stroke="none" />
-        )}
       </View>
+      {isBookingCalendar != null && !isBookingCalendar && (
+        <View style={styles.dotsWrapper}>
+          {scheduledEvents && (
+            <DotIcon style={styles.scheduledDay} fill="#FCD34D" stroke="none" />
+          )}
+          {availabilities && (
+            <DotIcon style={styles.availableDay} fill="#60A5FA" stroke="none" />
+          )}
+        </View>
+      )}
     </Pressable>
   );
 };
@@ -96,6 +115,7 @@ const styles = StyleSheet.create({
   dayNumber: {
     ...Typography.body.x30,
     ...Typography.roboto.medium,
+    zIndex: 2,
   },
   dotsWrapper: {
     flexDirection: "row",
@@ -115,6 +135,13 @@ const styles = StyleSheet.create({
     height: 33,
     alignItems: "center",
     justifyContent: "center",
+  },
+  partiallyBookedDay: {
+    position: "absolute",
+    bottom: 0,
+    borderRadius: 999,
+    height: 33,
+    width: 33,
   },
   scheduledDay: {
     ...Buttons.circular.primary,

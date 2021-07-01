@@ -8,13 +8,20 @@ import { Month } from "interfaces/myCalendarInterface";
 export interface MonthProps extends Month {
   dimensions: LayoutRectangle | null;
   onPlaceholderPress: (direction: string) => void;
+  isBookingCalendar?: boolean;
   month: string;
 }
 
 export const MonthItem = React.memo(
   // just ignore it for now...
   //@ts-ignore
-  ({ year, month, days, onPlaceholderPress }: MonthProps) => {
+  ({
+    year,
+    month,
+    days,
+    onPlaceholderPress,
+    isBookingCalendar,
+  }: MonthProps) => {
     const [activeDay, setActiveDay] = React.useState<number | null>(null);
 
     return days.map((day) =>
@@ -37,6 +44,7 @@ export const MonthItem = React.memo(
           setActiveDay={setActiveDay}
           scheduledEvents={day.scheduledEvents}
           isLastWeek={day.isLastWeek || false}
+          isBookingCalendar={isBookingCalendar}
         />
       )
     );

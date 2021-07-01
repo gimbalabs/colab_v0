@@ -10,12 +10,11 @@ import {
 import { CalendarEventsDetail } from "./CalendarEventsDetail";
 
 import { appContext, myCalendarContext } from "contexts/contextApi";
-import { getDate, getDay, getMonth, getYear } from "lib/utils";
+import { getDate, getYear } from "lib/utils";
 import { Sizing, Colors, Outlines, Typography } from "styles/index";
 import { ScheduledEvent } from "common/interfaces/myCalendarInterface";
 import { CalendarEventsListHeader } from "./CalendarEventsListHeader";
 import { CalendarEventsListEmpty } from "./CalendarEventsListEmpty";
-import { months } from "common/types/calendarTypes";
 
 export interface CalendarEventsListProps {
   isHomeScreen?: boolean;
@@ -37,7 +36,7 @@ export const CalendarEventsList = ({
   const [monthEventsLenght, setMonthEventsLength] = React.useState<number>(0);
   const [dayEventsLenght, setDayEventsLength] = React.useState<number>(0);
 
-  const renderItem = ({ item, section }: any) => {
+  const renderItem = ({ item, index, section }: any) => {
     const {
       title,
       description,
@@ -45,7 +44,6 @@ export const CalendarEventsList = ({
       toTime,
       participants,
       organizer,
-      index,
     } = item;
 
     return (

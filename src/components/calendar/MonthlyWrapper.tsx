@@ -142,6 +142,7 @@ export const MonthlyWrapper = ({ isBookingCalendar }: MonthlyWrapperProps) => {
           name={item.name}
           dimensions={dimensions}
           onPlaceholderPress={onPlaceholderPress}
+          isBookingCalendar={isBookingCalendar}
         />
       </Animated.View>
     );
