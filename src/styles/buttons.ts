@@ -11,9 +11,10 @@ export const bar: Record<Bar, ViewStyle> = {
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    padding: Sizing.x12,
+    backgroundColor: Colors.primary.s800,
+    paddingVertical: Sizing.x10,
     borderRadius: Outlines.borderRadius.base,
-    marginBottom: Sizing.x10,
+    marginTop: Sizing.x15,
     ...Outlines.shadow.lifted,
   },
   secondary: {
@@ -28,8 +29,8 @@ export const bar: Record<Bar, ViewStyle> = {
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: Colors.primary.s600,
-    padding: Sizing.x8,
+    backgroundColor: "transparent",
+    paddingVertical: Sizing.x10,
     borderRadius: Outlines.borderRadius.base,
     borderWidth: 4,
     borderColor: Colors.primary.neutral,
@@ -50,11 +51,12 @@ export const bar: Record<Bar, ViewStyle> = {
 type BarText = "primary" | "secondary" | "transparent" | "small";
 export const barText: Record<BarText, TextStyle> = {
   primary: {
-    ...Typography.body.x40,
+    ...Typography.subHeader.x35,
     fontFamily: "Roboto-Medium",
+    color: Colors.primary.neutral,
   },
   transparent: {
-    ...Typography.body.x40,
+    ...Typography.subHeader.x35,
     fontFamily: "Roboto-Medium",
     color: Colors.primary.neutral,
   },
