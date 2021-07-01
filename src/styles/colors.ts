@@ -62,6 +62,9 @@ export const calendarCard: Record<CalendarCard, string> = {
   yellow: "#FEF3C7",
 };
 
+export const booked = "#FECACA";
+export const available = "#DBEAFE";
+
 type Secondary = "brand" | "s200" | "s600";
 export const secondary: Record<Secondary, string> = {
   s200: "#b968e8",
