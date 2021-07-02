@@ -15,6 +15,8 @@ import { months, monthsByName, weekDays } from "common/types/calendarTypes";
 import { customScheduledEvents } from "../api_data/customScheduledEvents.js";
 import { customAvailabilities } from "../api_data/customAvailabilities.js";
 
+const SIX_MONTHS = 15634800000;
+
 /**
  * @description Use this function to validate form input that
  * has to contain only numbers
@@ -117,6 +119,26 @@ export function getTime(year?: number, month?: number, day?: number): number {
     return new Date(year, month, day).getTime();
   if (month != null && year != null) return new Date(year, month).getTime();
   return new Date().getTime();
+}
+
+/**
+ * @param time - number in milliseconds of specified year and month
+ */
+export function isSixMonthsLater(time: number) {
+  return (
+    new Date().setMonth(new Date().getMonth() + 6) <= new Date(time).getTime()
+  );
+}
+
+/**
+ * @param time - number in milliseconds of specified year and month
+ */
+export function isSixMonthsBefore(time: number) {
+  console.log(new Date().setMonth(new Date().getMonth() - 6));
+  console.log(new Date(time).getTime());
+  return (
+    new Date().setMonth(new Date().getMonth() - 6) >= new Date(time).getTime()
+  );
 }
 
 /**
