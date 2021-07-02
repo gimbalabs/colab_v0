@@ -6,25 +6,28 @@ import {
   ActivityIndicator,
   LayoutChangeEvent,
   Text,
-  Pressable,
   Animated,
   Easing,
 } from "react-native";
 
 import { appContext, myCalendarContext } from "contexts/contextApi";
-import { Colors, Typography, Sizing, Outlines, Buttons } from "styles/index";
+import { Colors, Typography, Sizing, Outlines } from "styles/index";
 import { MonthItem } from "./MonthItem";
 import { CalendarHeader, Month } from "interfaces/myCalendarInterface";
 import { monthsByName } from "common/types/calendarTypes";
 import { WeekDayNames } from "./WeekDayNames";
-import { LeftArrowIcon, RightArrowIcon } from "icons/index";
 import { customAvailabilities } from "../../api_data/customAvailabilities";
+import { CalendarTopNavigation } from "./navigation/calendarTopNavigation";
 
 export interface MonthlyWrapperProps {
   isBookingCalendar?: boolean;
+  setSelectedDay?: (arg: any) => any;
 }
 
-export const MonthlyWrapper = ({ isBookingCalendar }: MonthlyWrapperProps) => {
+export const MonthlyWrapper = ({
+  isBookingCalendar,
+  setSelectedDay,
+}: MonthlyWrapperProps) => {
   const {
     calendar,
     changeMonthHeader,
@@ -143,12 +146,15 @@ export const MonthlyWrapper = ({ isBookingCalendar }: MonthlyWrapperProps) => {
           dimensions={dimensions}
           onPlaceholderPress={onPlaceholderPress}
           isBookingCalendar={isBookingCalendar}
+          setSelectedDay={setSelectedDay}
         />
       </Animated.View>
     );
   });
 
   const onPreviousStartAnimation = () => {
+    // if(isBookingCalendar && isSixMonthsBefore(calendar
+
     if (isLoading) return;
     setIsLoading(true);
     setDirection("left");
@@ -262,44 +268,12 @@ export const MonthlyWrapper = ({ isBookingCalendar }: MonthlyWrapperProps) => {
           </Text>
         </View>
         <View style={styles.headerMonthNavigation}>
-          <Pressable
-            style={Buttons.applyOpacity(
-              colorScheme === "light"
-                ? styles.monthSwitchButton_light
-                : styles.monthSwitchButton_dark
-            )}
-            hitSlop={10}
-            pressRetentionOffset={10}
-            onPress={onPreviousStartAnimation}>
-            <LeftArrowIcon
-              width="24"
-              height="24"
-              color={
-                colorScheme === "light"
-                  ? Colors.primary.s350
-                  : Colors.primary.s800
-              }
-            />
-          </Pressable>
-          <Pressable
-            hitSlop={10}
-            pressRetentionOffset={10}
-            style={Buttons.applyOpacity(
-              colorScheme === "light"
-                ? styles.monthSwitchButton_light
-                : styles.monthSwitchButton_dark
-            )}
-            onPress={onNextStartAnimation}>
-            <RightArrowIcon
-              width="24"
-              height="24"
-              color={
-                colorScheme === "light"
-                  ? Colors.primary.s350
-                  : Colors.primary.s800
-              }
-            />
-          </Pressable>
+          <CalendarTopNavigation
+            onPreviousPress={onPreviousStartAnimation}
+            onNextPress={onNextStartAnimation}
+            colorScheme={colorScheme}
+            calendarHeader={calendarHeader}
+          />
         </View>
       </View>
       <View style={styles.calendar}>
@@ -390,24 +364,6 @@ const styles = StyleSheet.create({
     ...Typography.header.x40,
     color: Colors.primary.neutral,
     paddingRight: 5,
-  },
-  monthSwitchButton_light: {
-    padding: 5,
-    width: 35,
-    height: 35,
-    borderRadius: 999,
-    backgroundColor: Colors.primary.s200,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  monthSwitchButton_dark: {
-    padding: 5,
-    width: 35,
-    height: 35,
-    borderRadius: 999,
-    backgroundColor: Colors.primary.s200,
-    justifyContent: "center",
-    alignItems: "center",
   },
   monthContainer: {
     flexWrap: "wrap",
