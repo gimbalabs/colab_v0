@@ -122,23 +122,27 @@ export function getTime(year?: number, month?: number, day?: number): number {
 }
 
 /**
- * @param time - number in milliseconds of specified year and month
+ * @param month - month of current previewing calendar
+ * @param year - year of current previewing calendar
  */
-export function isSixMonthsLater(time: number) {
-  return (
-    new Date().setMonth(new Date().getMonth() + 6) <= new Date(time).getTime()
-  );
+export function isSixMonthsLater(year: number, month: number) {
+  const futureDate = new Date().setMonth(new Date().getMonth() + 6);
+  const _year = new Date(futureDate).getFullYear();
+  const _month = new Date(futureDate).getMonth();
+
+  return new Date(_year, _month).getTime() <= new Date(year, month).getTime();
 }
 
 /**
- * @param time - number in milliseconds of specified year and month
+ * @param month - month of current previewing calendar
+ * @param year - year of current previewing calendar
  */
-export function isSixMonthsBefore(time: number) {
-  console.log(new Date().setMonth(new Date().getMonth() - 6));
-  console.log(new Date(time).getTime());
-  return (
-    new Date().setMonth(new Date().getMonth() - 6) >= new Date(time).getTime()
-  );
+export function isSixMonthsBefore(year: number, month: number) {
+  const pastDate = new Date().setMonth(new Date().getMonth() - 6);
+  const _year = new Date(pastDate).getFullYear();
+  const _month = new Date(pastDate).getMonth();
+
+  return new Date(_year, _month).getTime() >= new Date(year, month).getTime();
 }
 
 /**
