@@ -16,6 +16,8 @@ import { appContext } from "contexts/contextApi";
 import { featuredOrganizers } from "../../api_data/featuredOrganizers";
 import { MonthlyWrapper } from "components/calendar";
 import { CalendarWrapperSimple } from "components/calendar/CalendarWrapperSimple";
+import { CalendarLegend } from "components/calendar/booking/CalendarLegend";
+import { FullWidthButton } from "components/buttons/fullWidthButton";
 
 export interface AvailableDatesProps {}
 
@@ -32,7 +34,8 @@ export const AvailableDates = ({ navigation, route }) => {
 
   const isLightMode = colorScheme === "light";
 
-  const onPress = () => navigation.goBack();
+  const onBackNavigationPress = () => navigation.goBack();
+  const onNextPress = () => navigation.navigate("Available Times");
 
   return (
     <SafeAreaView
@@ -48,7 +51,7 @@ export const AvailableDates = ({ navigation, route }) => {
         style={{ flex: 1, width: "100%" }}
         contentContainerStyle={{ alignItems: "center" }}>
         <View style={styles.navigation}>
-          <Pressable onPress={onPress}>
+          <Pressable onPress={onBackNavigationPress} hitSlop={10}>
             <LeftArrowIcon width={24} height={24} color={Colors.primary.s600} />
           </Pressable>
         </View>
@@ -67,6 +70,14 @@ export const AvailableDates = ({ navigation, route }) => {
           <CalendarWrapperSimple>
             <MonthlyWrapper isBookingCalendar={true} />
           </CalendarWrapperSimple>
+        </View>
+        <CalendarLegend colorScheme={colorScheme} />
+        <View style={styles.buttonContainer}>
+          <FullWidthButton
+            onPressCallback={onNextPress}
+            text={"Choose time"}
+            colorScheme={colorScheme}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -100,5 +111,11 @@ const styles = StyleSheet.create({
     height: 380,
     width: "100%",
     alignItems: "center",
+  },
+  buttonContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: "90%",
+    marginVertical: Sizing.x10,
   },
 });
