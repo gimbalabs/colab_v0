@@ -34,7 +34,7 @@ const reducer = (state: InitialState, action: BookingActions) => {
   }
 };
 
-const BookingContext = React.createContext<BookingContextProps>({
+export const BookingContext = React.createContext<BookingContextProps>({
   state: initialState,
   dispatch: () => null,
 });

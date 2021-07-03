@@ -33,6 +33,7 @@ export const initialState: MyCalendarState = {
   availabilities,
   scheduledEvents,
   direction: null,
+  currentSelectedDay: null,
   calendarHeader: {
     month: months[getMonth()],
     year: getYear(),
@@ -81,6 +82,12 @@ const reducer = (state: MyCalendarState, action: MyCalendarActions) => {
         ...state,
         direction: action.payload.direction,
       };
+    case MyCalendarTypes.SetCurrentSelectedDay: {
+      return {
+        ...state,
+        currentSelectedDay: action.payload.selectedDay,
+      };
+    }
     case MyCalendarTypes.LoadMyCalendar:
       const nextMonths = action.payload.calendarArgs.nextMonths;
       const year = action.payload.calendarArgs.year;

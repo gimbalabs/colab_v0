@@ -21,13 +21,9 @@ import { CalendarTopNavigation } from "./navigation/calendarTopNavigation";
 
 export interface MonthlyWrapperProps {
   isBookingCalendar?: boolean;
-  setSelectedDay?: (arg: any) => any;
 }
 
-export const MonthlyWrapper = ({
-  isBookingCalendar,
-  setSelectedDay,
-}: MonthlyWrapperProps) => {
+export const MonthlyWrapper = ({ isBookingCalendar }: MonthlyWrapperProps) => {
   const {
     calendar,
     changeMonthHeader,
@@ -146,7 +142,6 @@ export const MonthlyWrapper = ({
           dimensions={dimensions}
           onPlaceholderPress={onPlaceholderPress}
           isBookingCalendar={isBookingCalendar}
-          setSelectedDay={setSelectedDay}
         />
       </Animated.View>
     );

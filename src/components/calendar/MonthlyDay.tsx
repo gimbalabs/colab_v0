@@ -3,8 +3,9 @@ import { Pressable, Text, View, StyleSheet } from "react-native";
 import { Buttons, Colors, Outlines, Sizing, Typography } from "styles/index";
 import { DotIcon, PartiallyBookedDay } from "icons/index";
 import { Day } from "interfaces/myCalendarInterface";
-import { myCalendarContext } from "contexts/contextApi";
-import { getDate, getMonthByIndex, getYear } from "lib/utils";
+import { bookingContext, myCalendarContext } from "contexts/contextApi";
+import { getDate, getMonthByIndex, getTime, getYear } from "lib/utils";
+import { monthsByName } from "common/types/calendarTypes";
 
 export interface MonthlyDayProps extends Day {
   year?: number;
@@ -12,6 +13,7 @@ export interface MonthlyDayProps extends Day {
   activeDay: number | null;
   isBookingCalendar?: boolean;
   setActiveDay: React.Dispatch<React.SetStateAction<number | null>>;
+  setSelectedDay?: (arg: any) => any;
 }
 
 export const MonthlyDay = ({
@@ -24,7 +26,10 @@ export const MonthlyDay = ({
   year,
   isBookingCalendar,
 }: MonthlyDayProps) => {
-  const { previewDayEvents, previewingDayEvents } = myCalendarContext();
+  const { previewingDayEvents } = myCalendarContext();
+  const { setPickedDate } = bookingContext();
+
+  const hasAvailabilities = availabilities != null && availabilities.length > 0;
 
   // Today's day
   const isCurrentDay =
@@ -55,6 +60,12 @@ export const MonthlyDay = ({
   const onPress = () => {
     // Dont' highlight a fully booked day
     if (isFullyBooked) return;
+
+    // When user is on booking-experience calendar, send the selected day to
+    // parent element.
+    if (isBookingCalendar && hasAvailabilities) {
+      setPickedDate(getTime(year, monthsByName[month], number));
+    }
 
     setActiveDay(number);
   };

@@ -8,6 +8,7 @@ export interface MyCalendarState {
   direction: null | "previous" | "next";
   organizerAvailabilities: any;
   availabilitiesCalendar: any;
+  currentSelectedDay: number | null;
 }
 
 export interface Availabilities {
@@ -48,7 +49,6 @@ export interface ScheduledEventsDay {
 
 export interface ScheduledEvent {
   title: string;
-  index: number;
   fromTime: number;
   toTime: number;
   description: string;

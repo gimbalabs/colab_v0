@@ -7,7 +7,7 @@ import {
 } from "react-native";
 
 import { LeftArrowIcon, RightArrowIcon } from "assets/icons";
-import { getTime, isSixMonthsBefore, isSixMonthsLater } from "lib/utils";
+import { isSixMonthsBefore, isSixMonthsLater } from "lib/utils";
 import { Buttons, Colors } from "styles/index";
 import { CalendarHeader } from "common/interfaces/myCalendarInterface";
 import { monthsByName } from "common/types/calendarTypes";
@@ -26,10 +26,12 @@ export const CalendarTopNavigation = ({
   calendarHeader,
 }: CalendarTopNavigationProps) => {
   const disabledNextButton = isSixMonthsLater(
-    getTime(calendarHeader.year, monthsByName[calendarHeader.month])
+    calendarHeader.year,
+    monthsByName[calendarHeader.month]
   );
   const disabledPreviousButton = isSixMonthsBefore(
-    getTime(calendarHeader.year, monthsByName[calendarHeader.month])
+    calendarHeader.year,
+    monthsByName[calendarHeader.month]
   );
 
   const navigationButtonStyle = (direction: "next" | "prev"): ViewStyle => {
