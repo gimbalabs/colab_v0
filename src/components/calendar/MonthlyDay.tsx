@@ -40,7 +40,7 @@ export const MonthlyDay = ({
     (activeDay && activeDay === number) ||
     (!activeDay && previewingDayEvents && previewingDayEvents.day === number) ||
     (!activeDay && isCurrentDay) ||
-    getTime(year, monthsByName[month], number) === pickedDate;
+    (getTime(year, monthsByName[month], number) === pickedDate && !activeDay);
 
   // Whenever the first scheduled event starts at first available time,
   // and the last scheduled event ends at the last available time

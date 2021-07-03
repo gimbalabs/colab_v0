@@ -11,8 +11,13 @@ import {
 import { Colors, Sizing, Typography } from "styles/index";
 import { OrganizerProfile } from "components/booking/index";
 import { LeftArrowIcon } from "icons/index";
-import { appContext, bookingContext } from "contexts/contextApi";
+import {
+  appContext,
+  bookingContext,
+  myCalendarContext,
+} from "contexts/contextApi";
 
+import { customAvailabilities } from "../../api_data/customAvailabilities";
 import { featuredOrganizers } from "../../api_data/featuredOrganizers";
 import { MonthlyWrapper } from "components/calendar";
 import { CalendarWrapperSimple } from "components/calendar/CalendarWrapperSimple";
@@ -24,12 +29,14 @@ export interface AvailableDatesProps {}
 export const AvailableDates = ({ navigation, route }) => {
   const [profile, setProfile] = React.useState<any>(null);
   const { colorScheme } = appContext();
+  const { setAvailCalendar } = myCalendarContext();
   const { setPreviewingOrganizer, previewingOrganizer } = bookingContext();
   const { alias } = route.params;
 
   React.useEffect(() => {
     let profile = featuredOrganizers.items.find((org) => org.alias === alias);
 
+    setAvailCalendar(customAvailabilities);
     setPreviewingOrganizer(profile);
   }, []);
 

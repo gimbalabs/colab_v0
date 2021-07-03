@@ -8,7 +8,7 @@ import {
   ScrollView,
 } from "react-native";
 
-import { Colors, Sizing, Typography } from "styles/index";
+import { Colors, Outlines, Sizing, Typography } from "styles/index";
 import { OrganizerProfile } from "components/booking/index";
 import { LeftArrowIcon } from "icons/index";
 import {
@@ -18,22 +18,27 @@ import {
 } from "contexts/contextApi";
 
 import { FullWidthButton } from "components/buttons/fullWidthButton";
-import { AvailableTimesList } from "components/lists/availabilitiesScreen/AvailableTimesList";
 import { useAvailabilities } from "lib/hooks/useAvailabilities";
-import { AvailableTimeSlot } from "components/lists/availabilitiesScreen/AvailableTimeSlot";
+import { getDigitalLocaleTime } from "lib/utils";
+import { useScheduledTimes } from "lib/hooks/useScheduledTimes";
 
 export interface AvailableTimesProps {}
 
 export const AvailableTimes = ({ navigation, route }) => {
-  const [dayAvailabilities, setDayAvailabilities] = React.useState<
-    undefined | number[]
-  >(undefined);
+  const [selectedTimeSlot, setSelectedTimeSlot] = React.useState<number | null>(
+    null
+  );
 
   const { previewingOrganizer, pickedDate } = bookingContext();
   const { colorScheme } = appContext();
-  const { availabilities } = myCalendarContext();
+  const { availabilities, scheduledEvents } = myCalendarContext();
   const { currAvailabilities } = useAvailabilities(
     availabilities,
+    pickedDate,
+    previewingOrganizer.timeBlock
+  );
+  const { scheduledTimes, setScheduledTimes } = useScheduledTimes(
+    scheduledEvents,
     pickedDate,
     previewingOrganizer.timeBlock
   );
@@ -41,20 +46,43 @@ export const AvailableTimes = ({ navigation, route }) => {
   const isLightMode = colorScheme === "light";
 
   const onBackNavigationPress = () => navigation.goBack();
-  const onNextPress = () => navigation.navigate();
+  const onNextPress = () => console.log(pickedDate);
 
-  const setSelectedTimeSlot = (time: number) => console.log(time);
+  const onPressCallback = (item: number) => {
+    if (scheduledTimes?.includes(item)) return;
+    setSelectedTimeSlot(item);
+  };
 
-  const renderTimeSlots = React.useCallback(
-    (item, index) => (
-      <AvailableTimeSlot
-        onPressCallback={setSelectedTimeSlot}
-        index={index}
-        time={item}
-      />
-    ),
-    [availabilities]
-  );
+  const renderTimeSlots = (item: number, index: number) => {
+    var _key = `${index}_${item}`;
+    return (
+      <Pressable
+        onPress={() => onPressCallback(item)}
+        hitSlop={5}
+        key={_key}
+        style={[
+          styles.timeSlotButton,
+          scheduledTimes?.includes(item)
+            ? { backgroundColor: Colors.booked }
+            : {
+                ...Outlines.shadow.lifted,
+              },
+          selectedTimeSlot === item && {
+            backgroundColor: Colors.primary.s800,
+          },
+        ]}>
+        <Text
+          style={[
+            styles.timeSlotButtonText,
+            selectedTimeSlot === item && {
+              color: Colors.available,
+            },
+          ]}>
+          {getDigitalLocaleTime(item, "en")}
+        </Text>
+      </Pressable>
+    );
+  };
 
   return (
     <SafeAreaView
@@ -133,5 +161,24 @@ const styles = StyleSheet.create({
     width: "90%",
     marginVertical: Sizing.x10,
   },
-  timeSlotsContainer: {},
+  timeSlotsContainer: {
+    width: "90%",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
+  timeSlotButton: {
+    width: "30%",
+    alignItems: "center",
+    backgroundColor: Colors.available,
+    paddingVertical: Sizing.x5,
+    paddingHorizontal: Sizing.x5,
+    marginVertical: Sizing.x10,
+    borderRadius: Outlines.borderRadius.large,
+  },
+  timeSlotButtonText: {
+    ...Typography.header.x35,
+    color: Colors.primary.s800,
+  },
 });
