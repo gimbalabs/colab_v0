@@ -11,7 +11,7 @@ import {
 import { Colors, Sizing, Typography } from "styles/index";
 import { OrganizerProfile } from "components/booking/index";
 import { LeftArrowIcon } from "icons/index";
-import { appContext } from "contexts/contextApi";
+import { appContext, bookingContext } from "contexts/contextApi";
 
 import { featuredOrganizers } from "../../api_data/featuredOrganizers";
 import { MonthlyWrapper } from "components/calendar";
@@ -24,12 +24,13 @@ export interface AvailableDatesProps {}
 export const AvailableDates = ({ navigation, route }) => {
   const [profile, setProfile] = React.useState<any>(null);
   const { colorScheme } = appContext();
+  const { setPreviewingOrganizer, previewingOrganizer } = bookingContext();
   const { alias } = route.params;
 
   React.useEffect(() => {
     let profile = featuredOrganizers.items.find((org) => org.alias === alias);
 
-    setProfile(profile);
+    setPreviewingOrganizer(profile);
   }, []);
 
   const isLightMode = colorScheme === "light";
@@ -52,10 +53,16 @@ export const AvailableDates = ({ navigation, route }) => {
         contentContainerStyle={{ alignItems: "center" }}>
         <View style={styles.navigation}>
           <Pressable onPress={onBackNavigationPress} hitSlop={10}>
-            <LeftArrowIcon width={24} height={24} color={Colors.primary.s600} />
+            <LeftArrowIcon
+              width={24}
+              height={24}
+              color={isLightMode ? Colors.primary.s600 : Colors.primary.neutral}
+            />
           </Pressable>
         </View>
-        <OrganizerProfile profile={profile} />
+        {previewingOrganizer && (
+          <OrganizerProfile profile={previewingOrganizer} />
+        )}
         <View style={styles.calendarHeader}>
           <Text
             style={
