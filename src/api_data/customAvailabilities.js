@@ -8,8 +8,7 @@ export const customAvailabilities = [
           {
             day: 15,
             timeSlots: [{ fromTime: 1621065600000, toTime: 1621101600000 }],
-
-            bookedSlots: [1621074600000, 1621078200000],
+            bookedSlots: [{ fromTime: 1621074600000, toTime: 1621078200000 }],
           },
           {
             day: 16,
@@ -19,12 +18,12 @@ export const customAvailabilities = [
           {
             day: 17,
             timeSlots: [{ fromTime: 1621238400000, toTime: 1621263600000 }],
-            bookedSlots: [1621238400000, 1621263600000],
+            bookedSlots: [{ fromTime: 1621238400000, toTime: 1621263600000 }],
           },
           {
             day: 18,
             timeSlots: [{ fromTime: 1621332000000, toTime: 1621353600000 }],
-            bookedSlots: [1621238400000, 1621263600000],
+            bookedSlots: [{ fromTime: 1621238400000, toTime: 1621263600000 }],
           },
           {
             day: 19,
