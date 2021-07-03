@@ -1,6 +1,7 @@
 /**
  * @types for appContext & myCalendarContext files.
  */
+import { OrganizerRate } from "common/interfaces/bookingInterface";
 import {
   Availabilities,
   CalendarHeader,
@@ -17,6 +18,12 @@ export enum AppTypes {
   SetFavoriteOrganizer = "SET_FAVORITE_ORGANIZER",
 }
 
+export enum BookingTypes {
+  SetPickedDate = "SET_PICKED_DATE",
+  SetDuration = "SET_DURATION",
+  SetOrganizerRate = "SET_ORGANIZER_RATE",
+}
+
 export enum MyCalendarTypes {
   AddEvent = "ADD_EVENT",
   AddAvailability = "ADD_AVAILABILITY",
@@ -27,6 +34,7 @@ export enum MyCalendarTypes {
   ClearDayPreview = "CLEAR_DAY_PREVIEW",
   CalendarDirection = "SET_CALENDAR_DIRECTION",
   SetAvailCalendar = "SET_AVAIL_CALENDAR",
+  SetCurrentSelectedDay = "SET_CURR_SELECTED_DAY",
 }
 
 /**
@@ -55,6 +63,20 @@ export type AppPayload = {
   [AppTypes.SetColorScheme]: {
     newColorScheme: ColorSchemeName;
   };
+  ["unknown"]: any;
+};
+
+export type BookingPayload = {
+  [BookingTypes.SetDuration]: {
+    duration: number;
+  };
+  [BookingTypes.SetOrganizerRate]: {
+    organizerRate: OrganizerRate;
+  };
+  [BookingTypes.SetPickedDate]: {
+    pickedDate: number;
+  };
+  ["unknown"]: any;
 };
 
 export type MyCalendarPaylaod = {
@@ -82,8 +104,13 @@ export type MyCalendarPaylaod = {
   [MyCalendarTypes.SetAvailCalendar]: {
     availabilities?: any;
   };
+  [MyCalendarTypes.SetCurrentSelectedDay]: {
+    selectedDay: any;
+  };
   [MyCalendarTypes.ClearDayPreview]: {};
+  ["unknown"]: any;
 };
 
 export type MyCalendarActions = ActionMap<MyCalendarPaylaod>[keyof ActionMap<MyCalendarPaylaod>];
 export type AppActions = ActionMap<AppPayload>[keyof ActionMap<AppPayload>];
+export type BookingActions = ActionMap<BookingPayload>[keyof ActionMap<BookingPayload>];

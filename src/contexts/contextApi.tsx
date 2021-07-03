@@ -2,6 +2,7 @@ import * as React from "react";
 
 import { AppContext } from "./appContext";
 import { MyCalendarContext } from "./myCalendarContext";
+import { BookingContext } from "./bookingContext";
 import {
   Availabilities,
   CalendarHeader,
@@ -10,6 +11,7 @@ import {
   ScheduledEvent,
 } from "interfaces/myCalendarInterface";
 import { ColorSchemeName } from "react-native";
+import { OrganizerRate } from "common/interfaces/bookingInterface";
 
 export const appContext = () => {
   const { state, dispatch } = React.useContext(AppContext);
@@ -27,6 +29,22 @@ export const appContext = () => {
     setColorScheme: (newColorScheme: ColorSchemeName) => {
       dispatch({ type: "SET_COLOR_SCHEME", payload: { newColorScheme } });
     },
+  };
+};
+
+export const bookingContext = () => {
+  const { state, dispatch } = React.useContext(BookingContext);
+
+  return {
+    duration: state.duration,
+    pickedDate: state.pickedDate,
+    organizerRate: state.organizerRate,
+    setDuration: (duration: number) =>
+      dispatch({ type: "SET_DURATION", payload: { duration } }),
+    setOrganizerRate: (organizerRate: OrganizerRate) =>
+      dispatch({ type: "SET_ORGANIZER_RATE", payload: { organizerRate } }),
+    setPickedDate: (pickedDate: number) =>
+      dispatch({ type: "SET_PICKED_DATE", payload: { pickedDate } }),
   };
 };
 
@@ -59,6 +77,9 @@ export const myCalendarContext = () => {
     },
     setAvailCalendar: (availabilities: any) => {
       dispatch({ type: "SET_AVAIL_CALENDAR", payload: { availabilities } });
+    },
+    setCurrSelectedDay: (selectedDay: any) => {
+      dispatch({ type: "SET_CURR_SELECTED_DAY", payload: { selectedDay } });
     },
     setOrganizerAvail: (availabilities: any) => {
       dispatch({ type: "SET_ORGANIZER_AVAIL", payload: { availabilities } });
