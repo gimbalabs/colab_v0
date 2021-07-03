@@ -27,7 +27,7 @@ export const MonthlyDay = ({
   isBookingCalendar,
 }: MonthlyDayProps) => {
   const { previewingDayEvents } = myCalendarContext();
-  const { setPickedDate } = bookingContext();
+  const { setPickedDate, pickedDate } = bookingContext();
 
   const hasAvailabilities = availabilities != null && availabilities.length > 0;
 
@@ -39,7 +39,8 @@ export const MonthlyDay = ({
   const isActiveDay =
     (activeDay && activeDay === number) ||
     (!activeDay && previewingDayEvents && previewingDayEvents.day === number) ||
-    (!activeDay && isCurrentDay);
+    (!activeDay && isCurrentDay) ||
+    getTime(year, monthsByName[month], number) === pickedDate;
 
   // Whenever the first scheduled event starts at first available time,
   // and the last scheduled event ends at the last available time
@@ -65,9 +66,9 @@ export const MonthlyDay = ({
     // parent element.
     if (isBookingCalendar && hasAvailabilities) {
       setPickedDate(getTime(year, monthsByName[month], number));
+    } else {
+      setActiveDay(number);
     }
-
-    setActiveDay(number);
   };
 
   return (
