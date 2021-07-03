@@ -530,3 +530,16 @@ export function getDigitalTime(time: number): string {
 
   return `${hours}:${minutes <= 9 ? minutes + "0" : minutes}`;
 }
+
+export function getDigitalLocaleTime(time: number, locale?: string): string {
+  var timeString: any = new Date(time).toLocaleTimeString(locale);
+  timeString = timeString.split(" ");
+  var abbreviation = timeString?.[1].toLocaleLowerCase();
+
+  timeString.pop();
+  timeString = timeString?.[0].split(":");
+  timeString.pop();
+  timeString = timeString.join(":");
+
+  return timeString + abbreviation;
+}
