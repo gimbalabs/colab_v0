@@ -20,15 +20,15 @@ export const useAvailabilities = (
 
       // Calculate how many time slots should we render depending on
       // organizer time block. Eg. organizerTimeBlock 30min = 8:00, 8:30, 9:00...
-      let startingTime = currAvail.fromTime;
+      let startingTime = currAvail?.[0].fromTime;
       let currTimeSlots: number[] = [];
 
-      while (startingTime != currAvail.toTime) {
+      while (startingTime < currAvail?.[0].toTime) {
         currTimeSlots.push(startingTime);
         startingTime = startingTime + organizerTimeBlock * 60 * 1000; // millisedonds
       }
 
-      setCurrentAvailabilities(currAvail);
+      setCurrentAvailabilities(currTimeSlots);
     }
   }, [availabilities]);
 

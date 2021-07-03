@@ -14,7 +14,7 @@ import { BookingTabParamList } from "common/types/navigationTypes";
 import { appContext } from "contexts/contextApi";
 import { SearchIcon } from "icons/index";
 import { browseFeatured } from "../api_data/browseFeatured";
-import { HorizontalCardsList } from "components/lists/HorizontalCardsList";
+import { HorizontalCardsList } from "components/lists/browseScreen/HorizontalCardsList";
 
 export interface BrowseProps
   extends StackScreenProps<BookingTabParamList, "Browse"> {
