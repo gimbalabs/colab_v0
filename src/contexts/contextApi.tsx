@@ -39,12 +39,18 @@ export const bookingContext = () => {
     duration: state.duration,
     pickedDate: state.pickedDate,
     organizerRate: state.organizerRate,
+    previewingOrganizer: state.previewingOrganizer,
     setDuration: (duration: number) =>
       dispatch({ type: "SET_DURATION", payload: { duration } }),
     setOrganizerRate: (organizerRate: OrganizerRate) =>
       dispatch({ type: "SET_ORGANIZER_RATE", payload: { organizerRate } }),
     setPickedDate: (pickedDate: number) =>
       dispatch({ type: "SET_PICKED_DATE", payload: { pickedDate } }),
+    setPreviewingOrganizer: (previewingOrganizer: any) =>
+      dispatch({
+        type: "SET_PREVIEWING_ORGANIZER",
+        payload: { previewingOrganizer },
+      }),
   };
 };
 

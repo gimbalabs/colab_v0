@@ -22,6 +22,7 @@ export enum BookingTypes {
   SetPickedDate = "SET_PICKED_DATE",
   SetDuration = "SET_DURATION",
   SetOrganizerRate = "SET_ORGANIZER_RATE",
+  SetPreviewingOrganizer = "SET_PREVIEWING_ORGANIZER",
 }
 
 export enum MyCalendarTypes {
@@ -75,6 +76,9 @@ export type BookingPayload = {
   };
   [BookingTypes.SetPickedDate]: {
     pickedDate: number;
+  };
+  [BookingTypes.SetPreviewingOrganizer]: {
+    previewingOrganizer: any;
   };
   ["unknown"]: any;
 };

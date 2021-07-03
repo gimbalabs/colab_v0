@@ -10,6 +10,7 @@ const initialState: InitialState = {
   pickedDate: null,
   duration: 0,
   organizerRate: null,
+  previewingOrganizer: null,
 };
 
 const reducer = (state: InitialState, action: BookingActions) => {
@@ -28,6 +29,11 @@ const reducer = (state: InitialState, action: BookingActions) => {
       return {
         ...state,
         pickedDate: action.payload.pickedDate,
+      };
+    case BookingTypes.SetPreviewingOrganizer:
+      return {
+        ...state,
+        previewingOrganizer: action.payload.previewingOrganizer,
       };
     default:
       throw Error(`Unknown type of action: ${action.type}`);

@@ -2,6 +2,7 @@ export interface InitialState {
   pickedDate: number | null;
   duration: number;
   organizerRate: OrganizerRate | null;
+  previewingOrganizer: null | any;
 }
 
 export interface OrganizerRate {
