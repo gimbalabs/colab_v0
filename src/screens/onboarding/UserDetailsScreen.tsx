@@ -48,6 +48,7 @@ export const UserDetailsScreen = ({}) => {
             styles={styles}
             onPressHandler={() => {}}
           />
+          {/* when handling events with multiline, use ref._lastNativeText */}
           <CustomPlainInput
             label="About yourself"
             multiline={true}

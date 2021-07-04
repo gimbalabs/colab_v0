@@ -12,7 +12,7 @@ import {
   InitialScreen,
   UserDetailsScreen,
   PricingScreen,
-  WalletSetUpScreen,
+  WalletTopUpScreen,
   PaymentConfirmationScreen,
 } from "screens/onboarding/index";
 import PagerView from "react-native-pager-view";
@@ -26,7 +26,7 @@ const SCREENS = [
   { component: PricingScreen },
   { component: CreateAccountScreen },
   { component: UserDetailsScreen },
-  { component: WalletSetUpScreen },
+  { component: WalletTopUpScreen },
   { component: PaymentConfirmationScreen },
 ];
 
