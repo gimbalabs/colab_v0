@@ -20,6 +20,7 @@ import { setJSExceptionHandler } from "react-native-exception-handler";
 import { jsErrorHandler } from "lib/errors";
 import { OnboardingScreens } from "tabs/OnboardingScreens";
 import { LearnMoreModal } from "components/modals/learnMoreModal";
+import { ProfileContextProvider } from "contexts/profileContext";
 
 setJSExceptionHandler(jsErrorHandler, true); // true - enables the error in dev mode
 
@@ -42,34 +43,36 @@ function App() {
   } else {
     return (
       <AppContextProvider>
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName="Home" headerMode="screen">
-            {auth ? (
-              <>
-                {/*<Stack.Screen
+        <ProfileContextProvider>
+          <NavigationContainer>
+            <Stack.Navigator initialRouteName="Home" headerMode="screen">
+              {auth ? (
+                <>
+                  {/*<Stack.Screen
                   name="Home"
                   options={{ title: "Home" }}
                   component={HomeScreen}
                 />*/}
-                <Stack.Screen
-                  name="Navigation Screens"
-                  component={NavigationScreens}
-                  options={{ headerShown: false }}
-                />
-              </>
-            ) : (
-              <>
-                <Stack.Screen
-                  name="Onboarding Screens"
-                  component={OnboardingScreens}
-                  options={{
-                    headerShown: false,
-                  }}
-                />
-              </>
-            )}
-          </Stack.Navigator>
-        </NavigationContainer>
+                  <Stack.Screen
+                    name="Navigation Screens"
+                    component={NavigationScreens}
+                    options={{ headerShown: false }}
+                  />
+                </>
+              ) : (
+                <>
+                  <Stack.Screen
+                    name="Onboarding Screens"
+                    component={OnboardingScreens}
+                    options={{
+                      headerShown: false,
+                    }}
+                  />
+                </>
+              )}
+            </Stack.Navigator>
+          </NavigationContainer>
+        </ProfileContextProvider>
       </AppContextProvider>
     );
   }

@@ -11,11 +11,13 @@ export const initialState: BioState = {
   imageURL: "",
   timeBlockLengthMin: "15",
   timeBlockCostADA: "20",
+  walletBalance: 56,
   setAlias: () => {},
   setAboutURL: () => {},
   setImageURL: () => {},
   setTimeBlockLengthMin: () => {},
   setTimeBlockCostADA: () => {},
+  setWalletBalance: () => {},
 };
 
 export interface ContextProviderProps {
@@ -32,11 +34,13 @@ export const ProfileContextProvider = ({ children }: ContextProviderProps) => {
     null
   );
   const [timeBlockCostADA, setTimeBlockCostADA] = useState<string | null>(null);
+  const [walletBalance, setWalletBalance] = useState<number | null>(56);
 
   return (
     <ProfileContext.Provider
       value={{
         alias,
+        walletBalance,
         aboutURL,
         imageURL,
         timeBlockLengthMin,
@@ -44,6 +48,7 @@ export const ProfileContextProvider = ({ children }: ContextProviderProps) => {
         setAlias,
         setAboutURL,
         setImageURL,
+        setWalletBalance,
         setTimeBlockLengthMin,
         setTimeBlockCostADA,
       }}>

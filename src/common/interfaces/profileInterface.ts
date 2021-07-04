@@ -1,5 +1,6 @@
 export interface BioState {
   alias: string;
+  walletBalance: number | null;
   aboutURL?: string | null;
   imageURL?: string | null;
   timeBlockLengthMin: string | null;
@@ -9,4 +10,5 @@ export interface BioState {
   setImageURL: (input: string) => void;
   setTimeBlockLengthMin: (input: string) => void;
   setTimeBlockCostADA: (input: string) => void;
+  setWalletBalance: (input: number) => void;
 }
