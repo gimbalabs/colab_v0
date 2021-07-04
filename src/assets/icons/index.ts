@@ -3,6 +3,7 @@ import { CashStackIcon } from "./cashStack";
 import { CreditCardIcon } from "./creditCard";
 import { CogIcon } from "./cog";
 import { DuplicateIcon } from "./duplicate";
+import { DepositSuccessfulIcon } from "./depositSuccessful";
 import { ModernProfessionalIcon } from "./modernProfessional";
 import { BusinessDecisionsIcon } from "./businessDecisions";
 import { LiveCollaborationIcon } from "./liveCollaboration";
@@ -20,6 +21,7 @@ import { HearthIcon } from "./hearth";
 import { HomeIcon } from "./home";
 import { PencilAltIcon } from "./pencilAlt";
 import { PartiallyBookedDay } from "./partiallyBookedDay";
+import { PaymentSuccessfulIcon } from "./paymentSuccessful";
 import { RemoveIcon } from "./remove";
 import { QrCodeSampleIcon } from "./qrCodeSample";
 import { SearchIcon } from "./search";
@@ -36,6 +38,7 @@ export {
   CreditCardIcon,
   DotIcon,
   DuplicateIcon,
+  DepositSuccessfulIcon,
   DownIcon,
   LeftArrowIcon,
   LightBulbIcon,
@@ -51,6 +54,7 @@ export {
   RemoveIcon,
   RefreshIcon,
   PencilAltIcon,
+  PaymentSuccessfulIcon,
   PartiallyBookedDay,
   QrCodeSampleIcon,
   SearchIcon,
