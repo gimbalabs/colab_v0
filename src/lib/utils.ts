@@ -531,6 +531,9 @@ export function getDigitalTime(time: number): string {
   return `${hours}:${minutes <= 9 ? minutes + "0" : minutes}`;
 }
 
+/**
+ *  @description returns a string of local time based on 'time' and 'locale'
+ */
 export function getDigitalLocaleTime(time: number, locale?: string): string {
   var timeString: any = new Date(time).toLocaleTimeString(locale);
   timeString = timeString.split(" ");
@@ -542,4 +545,23 @@ export function getDigitalLocaleTime(time: number, locale?: string): string {
   timeString = timeString.join(":");
 
   return timeString + abbreviation;
+}
+
+/**
+ *  @description returns a string based on length of time passed as arg
+ */
+export function getTimeSpanLength(time: number): string {
+  // 'getHours' returns 1 even if we pass 1 min as a time to 'Date' object
+  let hours = new Date(time).getHours() - 1;
+  let minutes = new Date(time).getMinutes();
+
+  if (!hours && minutes) {
+    return `${minutes} mins`;
+  } else if (hours === 1 && !minutes) {
+    return `${hours} hour`;
+  } else if (hours > 1 && !minutes) {
+    return `${hours} hours`;
+  } else {
+    return `${hours}${minutes && "." + minutes} hrs`;
+  }
 }
