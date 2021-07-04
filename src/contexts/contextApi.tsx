@@ -44,7 +44,7 @@ export const bookingContext = () => {
       dispatch({ type: "SET_DURATION", payload: { duration } }),
     setOrganizerRate: (organizerRate: OrganizerRate) =>
       dispatch({ type: "SET_ORGANIZER_RATE", payload: { organizerRate } }),
-    setPickedDate: (pickedDate: number) =>
+    setPickedDate: (pickedDate: number | null) =>
       dispatch({ type: "SET_PICKED_DATE", payload: { pickedDate } }),
     setPreviewingOrganizer: (previewingOrganizer: any) =>
       dispatch({

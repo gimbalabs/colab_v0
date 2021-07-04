@@ -37,52 +37,88 @@ export const AvailableTimes = ({ navigation, route }) => {
     pickedDate,
     previewingOrganizer.timeBlock
   );
-  const { scheduledTimes, setScheduledTimes } = useScheduledTimes(
+  const { scheduledTimes } = useScheduledTimes(
     scheduledEvents,
     pickedDate,
     previewingOrganizer.timeBlock
   );
 
   const isLightMode = colorScheme === "light";
+  const isDisabled = selectedTimeSlot === null;
+
+  const maxTimeSlotDuration = () => {
+    if (
+      selectedTimeSlot &&
+      currAvailabilities != null &&
+      scheduledTimes != null
+    ) {
+      // calculate the max time span of organizer availability
+      let timeBlockMilSec = previewingOrganizer?.timeBlock * 60 * 1000;
+      let endOfAvailability =
+        currAvailabilities?.[currAvailabilities.length - 1] + timeBlockMilSec;
+      let upcomingEvent = scheduledTimes?.find(
+        (time) => time > selectedTimeSlot
+      );
+
+      // there aren't any upcoming events at current day
+      if (upcomingEvent == null) {
+        // return the time span between selected time slot and
+        // the end of organizer availability
+        return endOfAvailability - selectedTimeSlot;
+      } else {
+        // else return the time span between selected time slot
+        // and the first already booked event
+        return upcomingEvent - selectedTimeSlot;
+      }
+    }
+  };
 
   const onBackNavigationPress = () => navigation.goBack();
-  const onNextPress = () => console.log(pickedDate);
+  const onNextPress = () =>
+    navigation.navigate("Duration Choice", {
+      maxTimeSlotDuration: maxTimeSlotDuration(),
+      selectedTimeSlot,
+    });
 
   const onPressCallback = (item: number) => {
     if (scheduledTimes?.includes(item)) return;
+    if (selectedTimeSlot === item) return setSelectedTimeSlot(null);
     setSelectedTimeSlot(item);
   };
 
-  const renderTimeSlots = (item: number, index: number) => {
-    var _key = `${index}_${item}`;
-    return (
-      <Pressable
-        onPress={() => onPressCallback(item)}
-        hitSlop={5}
-        key={_key}
-        style={[
-          styles.timeSlotButton,
-          scheduledTimes?.includes(item)
-            ? { backgroundColor: Colors.booked }
-            : {
-                ...Outlines.shadow.lifted,
-              },
-          selectedTimeSlot === item && {
-            backgroundColor: Colors.primary.s800,
-          },
-        ]}>
-        <Text
+  const renderTimeSlots = React.useCallback(
+    (item: number, index: number) => {
+      var _key = `${index}_${item}`;
+      return (
+        <Pressable
+          onPress={() => onPressCallback(item)}
+          hitSlop={5}
+          key={_key}
           style={[
-            styles.timeSlotButtonText,
+            styles.timeSlotButton,
+            scheduledTimes?.includes(item)
+              ? { backgroundColor: Colors.booked }
+              : {
+                  ...Outlines.shadow.lifted,
+                },
             selectedTimeSlot === item && {
-              color: Colors.available,
+              backgroundColor: Colors.primary.s800,
             },
           ]}>
-          {getDigitalLocaleTime(item, "en")}
-        </Text>
-      </Pressable>
-    );
-  };
+          <Text
+            style={[
+              styles.timeSlotButtonText,
+              selectedTimeSlot === item && {
+                color: Colors.available,
+              },
+            ]}>
+            {getDigitalLocaleTime(item, "en")}
+          </Text>
+        </Pressable>
+      );
+    },
+    [scheduledTimes, selectedTimeSlot]
+  );
 
   return (
     <SafeAreaView
@@ -123,8 +159,9 @@ export const AvailableTimes = ({ navigation, route }) => {
         <View style={styles.buttonContainer}>
           <FullWidthButton
             onPressCallback={onNextPress}
-            text={"Choose time"}
+            text={"Choose duration"}
             colorScheme={colorScheme}
+            disabled={isDisabled}
           />
         </View>
       </ScrollView>
@@ -175,6 +212,7 @@ const styles = StyleSheet.create({
     paddingVertical: Sizing.x5,
     paddingHorizontal: Sizing.x5,
     marginVertical: Sizing.x10,
+    marginHorizontal: Sizing.x5,
     borderRadius: Outlines.borderRadius.large,
   },
   timeSlotButtonText: {

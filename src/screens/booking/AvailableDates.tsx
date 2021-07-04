@@ -30,7 +30,11 @@ export const AvailableDates = ({ navigation, route }) => {
   const [profile, setProfile] = React.useState<any>(null);
   const { colorScheme } = appContext();
   const { setAvailCalendar } = myCalendarContext();
-  const { setPreviewingOrganizer, previewingOrganizer } = bookingContext();
+  const {
+    setPreviewingOrganizer,
+    previewingOrganizer,
+    pickedDate,
+  } = bookingContext();
   const { alias } = route.params;
 
   React.useEffect(() => {
@@ -41,6 +45,7 @@ export const AvailableDates = ({ navigation, route }) => {
   }, []);
 
   const isLightMode = colorScheme === "light";
+  const isDisabled = pickedDate === null;
 
   const onBackNavigationPress = () => navigation.goBack();
   const onNextPress = () => navigation.navigate("Available Times");
@@ -91,6 +96,7 @@ export const AvailableDates = ({ navigation, route }) => {
             onPressCallback={onNextPress}
             text={"Choose time"}
             colorScheme={colorScheme}
+            disabled={isDisabled}
           />
         </View>
       </ScrollView>
