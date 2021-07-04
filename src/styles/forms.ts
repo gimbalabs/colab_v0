@@ -5,7 +5,7 @@ import * as Outlines from "./outlines";
 import * as Sizing from "./sizing";
 import * as Typography from "./typography";
 
-type Input = "primary";
+type Input = "primary" | "primary_light" | "primary_dark";
 export const input: Record<Input, TextStyle> = {
   primary: {
     ...Typography.subHeader.x30,
@@ -20,16 +20,51 @@ export const input: Record<Input, TextStyle> = {
     fontFamily: "Roboto-Regular",
     color: Colors.primary.s600,
   },
+  primary_light: {
+    ...Typography.subHeader.x30,
+    lineHeight: 0,
+    paddingVertical: Sizing.x14,
+    paddingHorizontal: Sizing.x12,
+    backgroundColor: Colors.primary.neutral,
+    borderColor: Colors.primary.s800,
+    borderWidth: Outlines.borderWidth.thin,
+    borderRadius: Outlines.borderRadius.base,
+    fontSize: Sizing.x20,
+    fontFamily: "Roboto-Regular",
+    color: Colors.primary.s600,
+  },
+  primary_dark: {
+    ...Typography.subHeader.x30,
+    lineHeight: 0,
+    paddingVertical: Sizing.x14,
+    paddingHorizontal: Sizing.x12,
+    backgroundColor: Colors.primary.neutral,
+    borderRadius: Outlines.borderRadius.base,
+    fontSize: Sizing.x20,
+    fontFamily: "Roboto-Regular",
+    color: Colors.primary.s600,
+  },
 };
 
-type InputLabel = "primary" | "error";
+type InputLabel = "primary" | "error" | "primary_light" | "primary_dark";
 export const inputLabel: Record<InputLabel, TextStyle> = {
   primary: {
     ...Typography.subHeader.x30,
     fontFamily: "Roboto-Medium",
     fontSize: Sizing.x20,
     color: Colors.primary.neutral,
-    marginBottom: Sizing.x5,
+  },
+  primary_light: {
+    ...Typography.subHeader.x30,
+    fontFamily: "Roboto-Medium",
+    fontSize: Sizing.x20,
+    color: Colors.primary.s800,
+  },
+  primary_dark: {
+    ...Typography.subHeader.x30,
+    fontFamily: "Roboto-Medium",
+    fontSize: Sizing.x20,
+    color: Colors.primary.neutral,
   },
   error: {
     ...Typography.body.x10,
