@@ -7,8 +7,6 @@ import {
   ViewStyle,
   TextStyle,
   ImageStyle,
-  KeyboardAvoidingView,
-  Platform,
 } from "react-native";
 
 import { Colors } from "styles/index";
@@ -24,6 +22,7 @@ export interface CustomPlainInputProps {
   multiline?: boolean;
   numberOfLines?: number;
   keyboardType?: string;
+  onChangeCallback?: (e: any) => void;
 }
 
 export const CustomPlainInput = (props: CustomPlainInputProps) => {
@@ -36,9 +35,13 @@ export const CustomPlainInput = (props: CustomPlainInputProps) => {
     multiline,
     numberOfLines,
     keyboardType,
+    onChangeCallback,
   }: CustomPlainInputProps = props;
 
   const Icon = icon;
+  const additionalProps = {
+    keyboardType: `${keyboardType != null ? keyboardType : "default"}`,
+  };
 
   return (
     <View style={styles.inputContainer}>
@@ -46,15 +49,16 @@ export const CustomPlainInput = (props: CustomPlainInputProps) => {
         <Text style={styles.label}>{label}</Text>
       </View>
       <View style={styles.textInputWrapper}>
+        {/*@ts-ignore*/}
         <TextInput
-          //@ts-ignore
-          keyboardType={keyboardType != null ? keyboardType : "default"}
           style={[styles.input, multiline != null ? { height: 80 } : {}]}
           multiline={multiline != null ? multiline : false}
           numberOfLines={numberOfLines != null ? numberOfLines : 1}
           placeholder={placeholder}
+          onChange={onChangeCallback}
           //@ts-ignore
           placeholderTextColor={styles.placeholderText.color}
+          {...additionalProps}
         />
         <Pressable onPress={onPressHandler} style={styles.iconWrapper}>
           {Icon != null && (
