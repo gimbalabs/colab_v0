@@ -29,6 +29,7 @@ export const MonthlyDay = ({
   const { previewingDayEvents } = myCalendarContext();
   const { setPickedDate, pickedDate } = bookingContext();
 
+  const dayInTime = getTime(year, monthsByName[month], number);
   const hasAvailabilities = availabilities != null && availabilities.length > 0;
 
   // Today's day
@@ -39,7 +40,7 @@ export const MonthlyDay = ({
   const isActiveDay =
     (activeDay && activeDay === number) ||
     (!activeDay && previewingDayEvents && previewingDayEvents.day === number) ||
-    (!activeDay && isCurrentDay) ||
+    (!activeDay && isCurrentDay && !isBookingCalendar) ||
     (getTime(year, monthsByName[month], number) === pickedDate && !activeDay);
 
   // Whenever the first scheduled event starts at first available time,
@@ -59,13 +60,18 @@ export const MonthlyDay = ({
     (scheduledEvents != null && scheduledEvents.length === 0);
 
   const onPress = () => {
+    // When already selected, deselect it
+    if (pickedDate === dayInTime) return setPickedDate(null);
+
+    // on booking-experience we want users to be able to highlight only
+    // the day with availabilities
+    if (availabilities == null) return;
+
     // Dont' highlight a fully booked day
     if (isFullyBooked) return;
 
-    // When user is on booking-experience calendar, send the selected day to
-    // parent element.
     if (isBookingCalendar && hasAvailabilities) {
-      setPickedDate(getTime(year, monthsByName[month], number));
+      setPickedDate(dayInTime);
     } else {
       setActiveDay(number);
     }
@@ -77,15 +83,18 @@ export const MonthlyDay = ({
         style={[
           styles.dayButton,
           {
-            backgroundColor: isActiveDay
-              ? Colors.primary.s600
-              : isBookingCalendar && isFullyBooked
-              ? Colors.booked
-              : isBookingCalendar && isFullyAvailable
-              ? Colors.available
-              : availabilities && !isActiveDay
-              ? Colors.primary.s180
-              : "transparent",
+            backgroundColor:
+              isActiveDay && !isBookingCalendar
+                ? Colors.primary.s600
+                : pickedDate === dayInTime
+                ? Colors.primary.s600
+                : isBookingCalendar && isFullyBooked
+                ? Colors.booked
+                : isBookingCalendar && isFullyAvailable
+                ? Colors.available
+                : availabilities && !isActiveDay
+                ? Colors.primary.s180
+                : "transparent",
           },
           !isFullyBooked && availabilities && { ...Outlines.shadow.lifted },
         ]}>
@@ -94,8 +103,9 @@ export const MonthlyDay = ({
             styles.dayNumber,
             {
               color:
-                isActiveDay || (isCurrentDay && !activeDay)
-                  ? "#fff"
+                isActiveDay ||
+                (isCurrentDay && !activeDay && !isBookingCalendar)
+                  ? Colors.primary.neutral
                   : Colors.primary.s600,
             },
           ]}>
