@@ -1,6 +1,8 @@
 export interface InitialState {
   pickedDate: number | null;
   duration: number;
+  durationCost: number;
+  eventTitle: string;
   organizerRate: OrganizerRate | null;
   previewingOrganizer: null | any;
 }

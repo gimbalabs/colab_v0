@@ -21,6 +21,8 @@ export enum AppTypes {
 export enum BookingTypes {
   SetPickedDate = "SET_PICKED_DATE",
   SetDuration = "SET_DURATION",
+  SetEventTitle = "SET_EVENT_TITLE",
+  SetDurationCost = "SET_DURATION_COST",
   SetOrganizerRate = "SET_ORGANIZER_RATE",
   SetPreviewingOrganizer = "SET_PREVIEWING_ORGANIZER",
 }
@@ -70,6 +72,12 @@ export type AppPayload = {
 export type BookingPayload = {
   [BookingTypes.SetDuration]: {
     duration: number;
+  };
+  [BookingTypes.SetDurationCost]: {
+    durationCost: number;
+  };
+  [BookingTypes.SetEventTitle]: {
+    durationCost: number;
   };
   [BookingTypes.SetOrganizerRate]: {
     organizerRate: OrganizerRate;

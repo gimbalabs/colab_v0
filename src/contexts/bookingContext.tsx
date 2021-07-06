@@ -9,6 +9,8 @@ import { BookingActions, BookingTypes } from "common/types/contextTypes";
 const initialState: InitialState = {
   pickedDate: 1621288800000, // @TODO this is just for testing purposes
   duration: 0,
+  durationCost: 0,
+  eventTitle: "What makes us happier?", //@TODO this is just for testing purposes
   organizerRate: null,
   previewingOrganizer: null,
 };
@@ -19,6 +21,16 @@ const reducer = (state: InitialState, action: BookingActions) => {
       return {
         ...state,
         duration: action.payload.duration,
+      };
+    case BookingTypes.SetDurationCost:
+      return {
+        ...state,
+        durationCost: action.payload.durationCost,
+      };
+    case BookingTypes.SetEventTitle:
+      return {
+        ...state,
+        eventTitle: action.payload.title,
       };
     case BookingTypes.SetOrganizerRate:
       return {

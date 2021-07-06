@@ -37,11 +37,17 @@ export const bookingContext = () => {
 
   return {
     duration: state.duration,
+    durationCost: state.durationCost,
+    eventTitle: state.eventTitle,
     pickedDate: state.pickedDate,
     organizerRate: state.organizerRate,
     previewingOrganizer: state.previewingOrganizer,
     setDuration: (duration: number) =>
       dispatch({ type: "SET_DURATION", payload: { duration } }),
+    setDurationCost: (durationCost: number) =>
+      dispatch({ type: "SET_DURATION_COST", payload: { durationCost } }),
+    setEventTitle: (title: string) =>
+      dispatch({ type: "SET_EVENT_TITLE", payload: { title } }),
     setOrganizerRate: (organizerRate: OrganizerRate) =>
       dispatch({ type: "SET_ORGANIZER_RATE", payload: { organizerRate } }),
     setPickedDate: (pickedDate: number | null) =>
