@@ -29,7 +29,12 @@ export const AvailableTimes = ({ navigation, route }) => {
     null
   );
 
-  const { previewingOrganizer, pickedDate } = bookingContext();
+  const {
+    previewingOrganizer,
+    pickedDate,
+    setPickedDate,
+    setMaxTimeSlotDuration,
+  } = bookingContext();
   const { colorScheme } = appContext();
   const { availabilities, scheduledEvents } = myCalendarContext();
   const { currAvailabilities } = useAvailabilities(
@@ -74,11 +79,11 @@ export const AvailableTimes = ({ navigation, route }) => {
   };
 
   const onBackNavigationPress = () => navigation.goBack();
-  const onNextPress = () =>
-    navigation.navigate("Duration Choice", {
-      maxTimeSlotDuration: maxTimeSlotDuration(),
-      selectedTimeSlot,
-    });
+  const onNextPress = () => {
+    setPickedDate(selectedTimeSlot);
+    setMaxTimeSlotDuration(maxTimeSlotDuration());
+    navigation.navigate("Duration Choice");
+  };
 
   const onPressCallback = (item: number) => {
     if (scheduledTimes?.includes(item)) return;

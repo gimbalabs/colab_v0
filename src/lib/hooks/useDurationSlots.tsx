@@ -2,7 +2,7 @@ import * as React from "react";
 
 export const useDurationSlots = (
   timeBlockMilSec: number,
-  maxTimeSlotDuration: number
+  maxTimeSlotDuration: number | undefined
 ) => {
   const [timeSlots, setTimeSlots] = React.useState<number[] | null>(null);
 

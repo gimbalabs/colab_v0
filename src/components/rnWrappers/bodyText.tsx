@@ -5,7 +5,7 @@
  */
 
 import * as React from "react";
-import { View, Text, StyleSheet, ColorSchemeName } from "react-native";
+import { Text, StyleSheet, StyleProp, TextStyle } from "react-native";
 
 import { appContext } from "contexts/contextApi";
 import { Typography } from "styles/index";
@@ -13,9 +13,10 @@ import { Typography } from "styles/index";
 export interface BodyTextProps {
   children?: any;
   colors: string[];
+  customStyle?: StyleProp<TextStyle>;
 }
 
-export const BodyText = ({ children, colors }: BodyTextProps) => {
+export const BodyText = ({ children, colors, customStyle }: BodyTextProps) => {
   const { colorScheme } = appContext();
 
   const textColor =
@@ -23,7 +24,7 @@ export const BodyText = ({ children, colors }: BodyTextProps) => {
       ? { color: colors[0] }
       : { color: colors[1] };
 
-  return <Text style={[styles.text, textColor]}>{children}</Text>;
+  return <Text style={[styles.text, textColor, customStyle]}>{children}</Text>;
 };
 
 const styles = StyleSheet.create({

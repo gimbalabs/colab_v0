@@ -55,7 +55,7 @@ export const CustomPlainInput = (props: CustomPlainInputProps) => {
           multiline={multiline != null ? multiline : false}
           numberOfLines={numberOfLines != null ? numberOfLines : 1}
           placeholder={placeholder}
-          onChange={onChangeCallback}
+          onChangeText={onChangeCallback}
           //@ts-ignore
           placeholderTextColor={styles.placeholderText.color}
           {...additionalProps}

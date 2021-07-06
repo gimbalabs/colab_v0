@@ -32,12 +32,8 @@ export const WalletTopUpScreen = ({ navigation, route }) => {
   const isLightMode = colorScheme === "light";
   const isDisabled = !address || !amount;
 
-  const onTextChangeCallback = ({ nativeEvent }: any) => {
-    setAddress(nativeEvent.text);
-  };
-  const onAmountChangeCallback = ({ nativeEvent }: any) => {
-    setAmount(nativeEvent.text);
-  };
+  const onTextChangeCallback = (value: any) => setAddress(value);
+  const onAmountChangeCallback = (value: any) => setAmount(value);
 
   const onBackNavigationPress = () => navigation.goBack();
 
@@ -47,24 +43,11 @@ export const WalletTopUpScreen = ({ navigation, route }) => {
   const processPayment = async () => {
     setIsLoading(true);
     //@TODO change in production
-    //@ts-ignore
-    setWalletBalance(walletBalance + +amount);
-    await wait(3000);
-    navigation.navigate("Deposit Successful");
+    await wait(2000);
+    setWalletBalance(Number(walletBalance) + Number(amount));
+    setIsLoading(false);
+    navigation.navigate("Deposit Successful", { isBookingWalletTopUp: true });
   };
-
-  const renderButton = React.useCallback(
-    () => (
-      <FullWidthButton
-        onPressCallback={processPayment}
-        text={"Deposit"}
-        colorScheme={colorScheme}
-        disabled={isDisabled}
-        loadingIndicator={isLoading}
-      />
-    ),
-    [isLoading, isDisabled]
-  );
 
   return (
     <SafeAreaView
@@ -80,6 +63,7 @@ export const WalletTopUpScreen = ({ navigation, route }) => {
         style={[isLightMode ? styles.container_light : styles.container_dark]}>
         <ScrollView
           keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
           style={styles.scrollView}>
           <View style={styles.navigation}>
             <Pressable onPress={onBackNavigationPress} hitSlop={10}>
@@ -140,7 +124,7 @@ export const WalletTopUpScreen = ({ navigation, route }) => {
           />
           <CustomPlainInput
             label="Amount"
-            placeholder="$2.00"
+            placeholder="50 ₳"
             styles={Object.assign(
               styles,
               isLightMode ? formStyleLight : formStyleDark
@@ -149,7 +133,15 @@ export const WalletTopUpScreen = ({ navigation, route }) => {
             onChangeCallback={onAmountChangeCallback}
             onPressHandler={() => {}}
           />
-          <View style={styles.buttonWrapper}>{renderButton()}</View>
+          <View style={styles.buttonWrapper}>
+            <FullWidthButton
+              onPressCallback={processPayment}
+              text={"Deposit"}
+              colorScheme={colorScheme}
+              disabled={isDisabled}
+              loadingIndicator={isLoading}
+            />
+          </View>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>

@@ -25,15 +25,13 @@ function wait(ms: number): Promise<void> {
 }
 
 export const DurationChoice = ({ navigation, route }) => {
-  const { maxTimeSlotDuration, selectedTimeSlot } = route.params;
+  const { maxTimeSlotDuration } = bookingContext();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const [selectedDuration, setSelectedDuration] = React.useState<number | null>(
-    null
-  );
+  const [selectedDuration, setSelectedDuration] = React.useState<number>(0);
   const [durationCost, setDurationCost] = React.useState<number>(0);
   const { walletBalance } = React.useContext(ProfileContext);
 
-  const { previewingOrganizer, pickedDate } = bookingContext();
+  const { previewingOrganizer, pickedDate, setDuration } = bookingContext();
   const { colorScheme, auth } = appContext();
 
   const isLightMode = colorScheme === "light";
@@ -51,20 +49,24 @@ export const DurationChoice = ({ navigation, route }) => {
   );
 
   const onBackNavigationPress = () => navigation.goBack();
+
   const onNextPress = async () => {
     if (buttonText === "Sign up") return; // @TODO must navigate to sign up screen
     if (buttonText === "Deposit")
       navigation.navigate("Add Funds", { isBookingScreen: true });
     if (buttonText === "Confirm") {
       setIsLoading(true);
+      setDuration(selectedDuration);
+      setDurationCost(durationCost);
       await wait(1500);
-      navigation.navigate("Confirmation");
+      setIsLoading(false);
+      navigation.navigate("Booking Confirmation");
     }
   };
 
   const onPressCallback = (time: number) => {
     if (selectedDuration === time) {
-      setSelectedDuration(null);
+      setSelectedDuration(0);
       setDurationCost(0);
     } else {
       setSelectedDuration(time);

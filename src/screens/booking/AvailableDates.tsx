@@ -62,6 +62,7 @@ export const AvailableDates = ({ navigation, route }) => {
       ]}>
       <ScrollView
         style={{ flex: 1, width: "100%" }}
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{ alignItems: "center" }}>
         <View style={styles.navigation}>
           <Pressable onPress={onBackNavigationPress} hitSlop={10}>

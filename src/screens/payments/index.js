@@ -1,2 +1,3 @@
 export { DepositSuccessful } from "./DepositSuccessful";
-export { PaymentConfirmation } from "./PaymentConfirmation";
+export { Confirmation } from "./Confirmation";
+export { BookingConfirmation } from "./BookingConfirmation";
