@@ -1,21 +1,34 @@
 import * as React from "react";
-import { View, Text, StyleSheet, SafeAreaView, ScrollView } from "react-native";
+import { View, Text, StyleSheet, SafeAreaView, Pressable } from "react-native";
 
 import { Colors, Sizing, Typography } from "styles/index";
 import { appContext } from "contexts/contextApi";
 
 import { FullWidthButton } from "components/buttons/fullWidthButton";
 import { BodyText } from "components/rnWrappers/bodyText";
-import { PaymentSuccessfulIcon } from "assets/icons";
+import { LeftArrowIcon, PaymentSuccessfulIcon } from "assets/icons";
 
-export interface PaymentConfirmationProps {}
+export interface ConfirmationProps {}
 
-export const PaymentConfirmation = ({ navigation, route }) => {
+export const Confirmation = ({ navigation, route }) => {
   const { colorScheme } = appContext();
 
   const isLightMode = colorScheme === "light";
 
-  const onButtonPress = () => navigation.navigate("Home");
+  const navigateBack = () => {
+    if (route.params?.isBookingWalletTopUp != null) {
+      navigation.navigate("Duration Choice");
+    }
+    if (route.params?.isBookingConfirmation != null) {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Home" }],
+      });
+    }
+  };
+
+  const onButtonPress = () => navigateBack();
+  const onBackNavigationPress = () => navigateBack();
 
   return (
     <SafeAreaView
@@ -27,13 +40,18 @@ export const PaymentConfirmation = ({ navigation, route }) => {
             : Colors.primary.s600,
         },
       ]}>
-      <ScrollView contentContainerStyle={styles.scrollView}>
-        <View style={styles.container}>
-          <PaymentSuccessfulIcon
-            width={250}
-            height={250}
-            style={{ alignSelf: "center" }}
+      <View style={styles.navigation}>
+        <Pressable onPress={onBackNavigationPress} hitSlop={10}>
+          <LeftArrowIcon
+            width={24}
+            height={24}
+            color={isLightMode ? Colors.primary.s600 : Colors.primary.neutral}
           />
+        </Pressable>
+      </View>
+      <View style={styles.container}>
+        <PaymentSuccessfulIcon width={200} height={200} style={styles.icon} />
+        <View style={styles.textContainer}>
           <Text
             style={
               isLightMode ? styles.headerText_light : styles.headerText_dark
@@ -45,15 +63,15 @@ export const PaymentConfirmation = ({ navigation, route }) => {
             venenatis quam sem, eget bibendum lorem convallis et. Donec velit
             ante.
           </BodyText>
-          <View style={styles.buttonContainer}>
-            <FullWidthButton
-              onPressCallback={onButtonPress}
-              text={"Go to dashboard"}
-              colorScheme={colorScheme}
-            />
-          </View>
         </View>
-      </ScrollView>
+        <View style={styles.buttonContainer}>
+          <FullWidthButton
+            onPressCallback={onButtonPress}
+            text={"Go to dashboard"}
+            colorScheme={colorScheme}
+          />
+        </View>
+      </View>
     </SafeAreaView>
   );
 };
@@ -61,15 +79,26 @@ export const PaymentConfirmation = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-  },
-  scrollView: {
     alignItems: "center",
+    justifyContent: "flex-start",
     height: "100%",
   },
   container: {
     width: "90%",
     height: "100%",
-    marginTop: Sizing.x50,
+  },
+  navigation: {
+    flexDirection: "row",
+    width: "90%",
+    marginVertical: Sizing.x15,
+  },
+  icon: {
+    alignSelf: "center",
+    marginTop: "auto",
+    marginBottom: Sizing.x10,
+  },
+  textContainer: {
+    marginBottom: "auto",
   },
   headerText_light: {
     ...Typography.header.x60,
@@ -81,6 +110,7 @@ const styles = StyleSheet.create({
     color: Colors.primary.neutral,
     marginVertical: Sizing.x20,
   },
+  bodyText: {},
   buttonContainer: {
     width: "100%",
     alignItems: "center",

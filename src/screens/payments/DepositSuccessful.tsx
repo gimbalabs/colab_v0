@@ -1,21 +1,31 @@
 import * as React from "react";
-import { View, Text, StyleSheet, SafeAreaView, ScrollView } from "react-native";
+import { View, Text, StyleSheet, SafeAreaView, Pressable } from "react-native";
 
 import { Colors, Sizing, Typography } from "styles/index";
 import { appContext } from "contexts/contextApi";
 
 import { FullWidthButton } from "components/buttons/fullWidthButton";
 import { BodyText } from "components/rnWrappers/bodyText";
-import { DepositSuccessfulIcon } from "assets/icons";
+import { DepositSuccessfulIcon, LeftArrowIcon } from "assets/icons";
 
 export interface DepositSuccessfulProps {}
 
 export const DepositSuccessful = ({ navigation, route }) => {
   const { colorScheme } = appContext();
+  const buttonTitle = route.params?.isBookingWalletTopUp
+    ? "Proceed to booking"
+    : "Go back";
 
   const isLightMode = colorScheme === "light";
 
-  const onButtonPress = () => navigation.navigate("Duration Choice");
+  const navigateBack = () => {
+    if (route.params?.isBookingWalletTopUp != null) {
+      navigation.navigate("Duration Choice");
+    }
+  };
+
+  const onButtonPress = () => navigateBack();
+  const onBackNavigationPress = () => navigateBack();
 
   return (
     <SafeAreaView
@@ -27,33 +37,40 @@ export const DepositSuccessful = ({ navigation, route }) => {
             : Colors.primary.s600,
         },
       ]}>
-      <ScrollView contentContainerStyle={styles.scrollView}>
-        <View style={styles.container}>
-          <DepositSuccessfulIcon
-            width={225}
-            height={225}
-            style={{ marginVertical: Sizing.x15, alignSelf: "center" }}
+      <View style={styles.navigation}>
+        <Pressable onPress={onBackNavigationPress} hitSlop={10}>
+          <LeftArrowIcon
+            width={24}
+            height={24}
+            color={isLightMode ? Colors.primary.s600 : Colors.primary.neutral}
           />
+        </Pressable>
+      </View>
+      <View style={styles.container}>
+        <DepositSuccessfulIcon width={200} height={200} style={styles.icon} />
+        <View style={styles.textContainer}>
           <Text
             style={
               isLightMode ? styles.headerText_light : styles.headerText_dark
             }>
             Deposit successful!
           </Text>
-          <BodyText colors={[Colors.primary.s600, Colors.primary.neutral]}>
+          <BodyText
+            customStyle={styles.bodyText}
+            colors={[Colors.primary.s600, Colors.primary.neutral]}>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
             venenatis quam sem, eget bibendum lorem convallis et. Donec velit
             ante.
           </BodyText>
-          <View style={styles.buttonContainer}>
-            <FullWidthButton
-              onPressCallback={onButtonPress}
-              text={"Proceed to booking"}
-              colorScheme={colorScheme}
-            />
-          </View>
         </View>
-      </ScrollView>
+        <View style={styles.buttonContainer}>
+          <FullWidthButton
+            onPressCallback={onButtonPress}
+            text={buttonTitle}
+            colorScheme={colorScheme}
+          />
+        </View>
+      </View>
     </SafeAreaView>
   );
 };
@@ -61,15 +78,26 @@ export const DepositSuccessful = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-  },
-  scrollView: {
     alignItems: "center",
+    justifyContent: "flex-start",
     height: "100%",
   },
   container: {
     width: "90%",
     height: "100%",
-    marginTop: Sizing.x50,
+  },
+  navigation: {
+    flexDirection: "row",
+    width: "90%",
+    marginVertical: Sizing.x15,
+  },
+  icon: {
+    alignSelf: "center",
+    marginTop: "auto",
+    marginBottom: Sizing.x10,
+  },
+  textContainer: {
+    marginBottom: "auto",
   },
   headerText_light: {
     ...Typography.header.x60,
@@ -81,6 +109,7 @@ const styles = StyleSheet.create({
     color: Colors.primary.neutral,
     marginVertical: Sizing.x20,
   },
+  bodyText: {},
   buttonContainer: {
     width: "100%",
     alignItems: "center",

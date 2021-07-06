@@ -42,6 +42,7 @@ export const bookingContext = () => {
     pickedDate: state.pickedDate,
     organizerRate: state.organizerRate,
     previewingOrganizer: state.previewingOrganizer,
+    maxTimeSlotDuration: state.maxTimeSlotDuration,
     setDuration: (duration: number) =>
       dispatch({ type: "SET_DURATION", payload: { duration } }),
     setDurationCost: (durationCost: number) =>
@@ -52,6 +53,11 @@ export const bookingContext = () => {
       dispatch({ type: "SET_ORGANIZER_RATE", payload: { organizerRate } }),
     setPickedDate: (pickedDate: number | null) =>
       dispatch({ type: "SET_PICKED_DATE", payload: { pickedDate } }),
+    setMaxTimeSlotDuration: (maxTimeSlotDuration: number | undefined) =>
+      dispatch({
+        type: "SET_MAX_TIME_SLOT_DUR",
+        payload: { maxTimeSlotDuration },
+      }),
     setPreviewingOrganizer: (previewingOrganizer: any) =>
       dispatch({
         type: "SET_PREVIEWING_ORGANIZER",
