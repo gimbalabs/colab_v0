@@ -21,6 +21,7 @@ import { jsErrorHandler } from "lib/errors";
 import { OnboardingScreens } from "tabs/OnboardingScreens";
 import { LearnMoreModal } from "components/modals/learnMoreModal";
 import { ProfileContextProvider } from "contexts/profileContext";
+import { DepositSuccessful, Confirmation } from "screens/payments";
 
 setJSExceptionHandler(jsErrorHandler, true); // true - enables the error in dev mode
 
@@ -57,6 +58,16 @@ function App() {
                     name="Navigation Screens"
                     component={NavigationScreens}
                     options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="Deposit Successful"
+                    options={{ headerShown: false, gestureEnabled: false }}
+                    component={DepositSuccessful}
+                  />
+                  <Stack.Screen
+                    name="Confirmation"
+                    options={{ headerShown: false, gestureEnabled: false }}
+                    component={Confirmation}
                   />
                 </>
               ) : (

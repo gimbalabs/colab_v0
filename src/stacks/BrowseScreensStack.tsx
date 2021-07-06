@@ -9,7 +9,7 @@ import {
 } from "screens/booking/index";
 import { BookingContextProvider } from "contexts/bookingContext";
 import { WalletTopUpScreen } from "screens/onboarding";
-import { DepositSuccessful, PaymentConfirmation } from "screens/payments";
+import { BookingConfirmation } from "screens/payments";
 
 const Stack = createStackNavigator();
 
@@ -22,14 +22,8 @@ export const BrowseScreensStack = () => (
       <Stack.Screen name="Duration Choice" component={DurationChoice} />
       <Stack.Screen name="Add Funds" component={WalletTopUpScreen} />
       <Stack.Screen
-        name="Deposit Successful"
-        options={{ gestureEnabled: false }}
-        component={DepositSuccessful}
-      />
-      <Stack.Screen
-        name="Confirmation"
-        options={{ gestureEnabled: false }}
-        component={PaymentConfirmation}
+        name="Booking Confirmation"
+        component={BookingConfirmation}
       />
     </Stack.Navigator>
   </BookingContextProvider>

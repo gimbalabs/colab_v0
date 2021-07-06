@@ -8,6 +8,8 @@ export type AppStackParamList = {
   Modal: undefined;
   Attendees: undefined;
   Browse: undefined;
+  Confirmation: undefined;
+  "Deposit Successful": undefined;
 };
 
 export type OrganizerTabParamList = {

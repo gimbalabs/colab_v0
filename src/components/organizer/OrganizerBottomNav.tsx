@@ -44,6 +44,7 @@ export const OrganizerBottomNav = () => {
             <Tab.Screen name="Home" component={HomeScreen} />
             <Tab.Screen name="Available Dates" component={BrowseScreensStack} />
             <Tab.Screen name="Wallet" component={WalletScreen} />
+            {/* <Tab.Screen name="Wallet Modal" options= component={WalletModal} />*/}
             <Tab.Screen name="Availability" component={MyCalendarScreen} />
             <Tab.Screen name="Profile" component={OrganizerProfileScreen} />
           </>
