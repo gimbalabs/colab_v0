@@ -25,6 +25,7 @@ export enum BookingTypes {
   SetDurationCost = "SET_DURATION_COST",
   SetOrganizerRate = "SET_ORGANIZER_RATE",
   SetPreviewingOrganizer = "SET_PREVIEWING_ORGANIZER",
+  SetMaxTimeSlotDuration = "SET_MAX_TIME_SLOT_DUR",
 }
 
 export enum MyCalendarTypes {
@@ -77,13 +78,16 @@ export type BookingPayload = {
     durationCost: number;
   };
   [BookingTypes.SetEventTitle]: {
-    durationCost: number;
+    title: string;
   };
   [BookingTypes.SetOrganizerRate]: {
     organizerRate: OrganizerRate;
   };
   [BookingTypes.SetPickedDate]: {
     pickedDate: number;
+  };
+  [BookingTypes.SetMaxTimeSlotDuration]: {
+    maxTimeSlotDuration: number;
   };
   [BookingTypes.SetPreviewingOrganizer]: {
     previewingOrganizer: any;

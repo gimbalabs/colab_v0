@@ -12,6 +12,7 @@ const initialState: InitialState = {
   durationCost: 0,
   eventTitle: "What makes us happier?", //@TODO this is just for testing purposes
   organizerRate: null,
+  maxTimeSlotDuration: 0,
   previewingOrganizer: null,
 };
 
@@ -41,6 +42,11 @@ const reducer = (state: InitialState, action: BookingActions) => {
       return {
         ...state,
         pickedDate: action.payload.pickedDate,
+      };
+    case BookingTypes.SetMaxTimeSlotDuration:
+      return {
+        ...state,
+        maxTimeSlotDuration: action.payload.maxTimeSlotDuration,
       };
     case BookingTypes.SetPreviewingOrganizer:
       return {

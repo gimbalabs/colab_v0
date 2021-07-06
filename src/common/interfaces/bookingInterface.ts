@@ -4,7 +4,8 @@ export interface InitialState {
   durationCost: number;
   eventTitle: string;
   organizerRate: OrganizerRate | null;
-  previewingOrganizer: null | any;
+  previewingOrganizer: any;
+  maxTimeSlotDuration: number | undefined;
 }
 
 export interface OrganizerRate {
