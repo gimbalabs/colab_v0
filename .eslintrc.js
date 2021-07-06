@@ -1,5 +1,5 @@
 module.exports = {
-  extends: "universe",
+  extends: ["universe", "plugin:react-hooks/recommended"],
   "sort-imports": [
     "error",
     {
@@ -10,5 +10,6 @@ module.exports = {
       allowSeparatedGroups: false,
     },
   ],
-  plugins: ["react", "react-native"],
+
+  plugins: ["react", "react-native", "react-hooks"],
 };

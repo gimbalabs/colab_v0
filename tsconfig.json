@@ -25,7 +25,7 @@
       "interfaces/*": ["./src/common/interfaces/*"],
       "screens/*": ["./src/screens/*"],
       "stacks/*": ["./src/stacks/*"],
-      "styles/*": ["./src/styles/*"],
+      "styles/*": ["./src/styles/index"],
       "tabs/*": ["./src/tabs/*"],
       "types/*": ["./src/common/types*"],
       "utils/*": ["./src/lib/utils.ts*"]
