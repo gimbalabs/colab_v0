@@ -1,18 +1,12 @@
 import * as React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  ScrollView,
-  Pressable,
-} from "react-native";
+import { View, Text, StyleSheet, SafeAreaView, Pressable } from "react-native";
 
-import { appContext } from "contexts/contextApi";
+import { appContext, bookingContext } from "contexts/contextApi";
 import { LeftArrowIcon } from "assets/icons";
 import { Colors, Sizing, Typography } from "styles/index";
 import { FullWidthButton } from "components/buttons/fullWidthButton";
 import { EventConfirmationDetails } from "components/booking";
+import { ProfileContext } from "contexts/profileContext";
 
 function wait(ms: number): Promise<void> {
   return new Promise((res) => setTimeout(res, ms));
@@ -20,7 +14,9 @@ function wait(ms: number): Promise<void> {
 
 export const BookingConfirmation = ({ navigation }: any) => {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const { setWalletBalance, walletBalance } = React.useContext(ProfileContext);
   const { colorScheme } = appContext();
+  const { durationCost } = bookingContext();
 
   const isLightMode = colorScheme === "light";
 
@@ -29,6 +25,8 @@ export const BookingConfirmation = ({ navigation }: any) => {
   const onButtonPress = async () => {
     setIsLoading(true);
     await wait(1500);
+    //@TODO submit transaction to blockchain
+    setWalletBalance(walletBalance - durationCost);
     navigation.navigate("Confirmation", { isBookingConfirmation: true });
   };
 
@@ -42,9 +40,7 @@ export const BookingConfirmation = ({ navigation }: any) => {
             : Colors.primary.s600,
         },
       ]}>
-      <ScrollView
-        style={{ flex: 1, width: "90%" }}
-        contentContainerStyle={{ alignItems: "center" }}>
+      <View style={styles.container}>
         <View style={styles.navigation}>
           <Pressable onPress={onBackNavigationPress} hitSlop={10}>
             <LeftArrowIcon
@@ -62,9 +58,7 @@ export const BookingConfirmation = ({ navigation }: any) => {
             Confirmation
           </Text>
         </View>
-        <View style={styles.detailsWrapper}>
-          <EventConfirmationDetails />
-        </View>
+        <EventConfirmationDetails />
         <View style={styles.buttonContainer}>
           <FullWidthButton
             onPressCallback={onButtonPress}
@@ -73,7 +67,7 @@ export const BookingConfirmation = ({ navigation }: any) => {
             loadingIndicator={isLoading}
           />
         </View>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };
@@ -82,6 +76,10 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     alignItems: "center",
+  },
+  container: {
+    width: "90%",
+    flex: 1,
   },
   navigation: {
     flexDirection: "row",
@@ -99,9 +97,13 @@ const styles = StyleSheet.create({
     ...Typography.header.x50,
     color: Colors.primary.s600,
   },
-  detailsWrapper: {},
+  detailsWrapper: {
+    flex: 1,
+    height: "100%",
+  },
   buttonContainer: {
     width: "100%",
     marginTop: "auto",
+    marginBottom: Sizing.x15,
   },
 });

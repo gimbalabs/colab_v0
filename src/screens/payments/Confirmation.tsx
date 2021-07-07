@@ -22,7 +22,7 @@ export const Confirmation = ({ navigation, route }) => {
     if (route.params?.isBookingConfirmation != null) {
       navigation.reset({
         index: 0,
-        routes: [{ name: "Home" }],
+        routes: [{ name: "Navigation Screens" }],
       });
     }
   };
