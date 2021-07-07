@@ -534,7 +534,10 @@ export function getDigitalTime(time: number): string {
 /**
  *  @description returns a string of local time based on 'time' and 'locale'
  */
-export function getDigitalLocaleTime(time: number, locale?: string): string {
+export function getDigitalLocaleTime(
+  time: number,
+  locale: string = "en"
+): string {
   var timeString: any = new Date(time).toLocaleTimeString(locale);
   timeString = timeString.split(" ");
   var abbreviation = timeString?.[1].toLocaleLowerCase();
