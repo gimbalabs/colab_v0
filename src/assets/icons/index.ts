@@ -24,6 +24,7 @@ import { PencilAltIcon } from "./pencilAlt";
 import { PartiallyBookedDay } from "./partiallyBookedDay";
 import { PaymentSuccessfulIcon } from "./paymentSuccessful";
 import { PresentationIcon } from "./presentation";
+import { PaymentIcon } from "./payment";
 import { RemoveIcon } from "./remove";
 import { QrCodeSampleIcon } from "./qrCodeSample";
 import { SearchIcon } from "./search";
@@ -58,6 +59,7 @@ export {
   RemoveIcon,
   RefreshIcon,
   PencilAltIcon,
+  PaymentIcon,
   PaymentSuccessfulIcon,
   PresentationIcon,
   PartiallyBookedDay,
