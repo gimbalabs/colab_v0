@@ -1,43 +1,118 @@
-import { SubHeaderText } from "components/rnWrappers/subHeaderText";
 import * as React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { Colors } from "styles/index";
 
-interface EventLine {
-  content: string;
-  icon?: React.ReactNode;
-}
-
-export interface EventConfirmationDetailProps {
-  callbackFn?: (arg: string) => void;
-  label: string;
-  lineContent: EventLine;
-}
+import { Colors, Sizing } from "styles/index";
+import { EventLine, SectionDetail } from "common/interfaces/bookingInterface";
+import { SubHeaderText } from "components/rnWrappers/subHeaderText";
+import { appContext } from "contexts/contextApi";
+import { useNavigation } from "@react-navigation/native";
 
 export const EventConfirmationDetail = ({
-  callbackFn,
   label,
   lineContent,
-}: EventConfirmationDetailProps) => {
-  const Icon = lineContent.icon;
+  isLastItem,
+  callbackFn,
+}: SectionDetail) => {
+  const { colorScheme } = appContext();
+  const navigation = useNavigation();
+  const isLightMode = colorScheme === "light";
+
+  if (lineContent == null) {
+    return <></>;
+  }
+
+  const onTextPress = (screen: string) => {
+    if (callbackFn != null) navigation.navigate(screen);
+  };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.headerContent}>
-        <SubHeaderText
-          children={label}
-          colors={[Colors.primary.s600, Colors.primary.s200]}
-          customStyle={{ marginRight: "auto" }}
-        />
-      </View>
+    <View
+      style={[
+        styles.container,
+        !isLastItem && {
+          borderBottomWidth: 1.5,
+          borderBottomColor: isLightMode
+            ? Colors.primary.s350
+            : Colors.primary.s300,
+        },
+      ]}>
+      {Array.isArray(lineContent) ? (
+        <>
+          <View style={styles.headerContent} key={label}>
+            <SubHeaderText
+              children={label}
+              colors={[Colors.primary.s600, Colors.primary.s200]}
+              customStyle={{ marginRight: "auto" }}
+            />
+            {callbackFn && (
+              <SubHeaderText
+                children={callbackFn.label}
+                colors={[Colors.primary.s350, Colors.primary.s200]}
+                callbackFn={() => onTextPress(callbackFn.callbackFnScreen)}
+              />
+            )}
+          </View>
+          {(lineContent as any).map((line: EventLine, index: number) => (
+            <View
+              style={styles.subHeaderContent}
+              key={`${line.content}_${index}`}>
+              {line.icon}
+              <SubHeaderText
+                children={line.content}
+                colors={[Colors.primary.s800, Colors.primary.neutral]}
+                customStyle={styles.text}
+              />
+            </View>
+          ))}
+        </>
+      ) : (
+        <>
+          <View style={styles.headerContent} key={label}>
+            <SubHeaderText
+              children={label}
+              colors={[Colors.primary.s600, Colors.primary.s200]}
+              customStyle={{ marginRight: "auto" }}
+            />
+            {callbackFn && (
+              <SubHeaderText
+                children={callbackFn.label}
+                colors={[Colors.primary.s350, Colors.primary.s200]}
+                callbackFn={() => onTextPress(callbackFn.callbackFnScreen)}
+              />
+            )}
+          </View>
+          <View style={styles.subHeaderContent}>
+            {lineContent.icon}
+            <SubHeaderText
+              children={lineContent.content}
+              colors={[Colors.primary.s800, Colors.primary.neutral]}
+              customStyle={styles.text}
+            />
+          </View>
+        </>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, alignItems: "center" },
+  container: {
+    marginHorizontal: Sizing.x5,
+    paddingVertical: Sizing.x15,
+  },
   headerContent: {
     flexDirection: "row",
+    justifyContent: "space-between",
     width: "100%",
+    marginBottom: 4,
+  },
+  subHeaderContent: {
+    flexDirection: "row",
+    width: "100%",
+    marginBottom: Sizing.x5,
+  },
+  text: {
+    fontSize: 16,
+    fontFamily: "Roboto-Medium",
   },
 });
