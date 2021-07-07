@@ -2,6 +2,8 @@
  * @description A wrapper around react native Text component
  * @param children - text node
  * @param colors - an array of two colors for light/dark mode
+ * @param customStyle - custom styles for Text component
+ * @param callbackFn - callback function which will be called on onPress
  */
 
 import * as React from "react";
@@ -14,12 +16,14 @@ export interface SubHeaderTextProps {
   children?: any;
   colors: string[];
   customStyle?: StyleProp<TextStyle>;
+  callbackFn?: () => any;
 }
 
 export const SubHeaderText = ({
   children,
   colors,
   customStyle,
+  callbackFn,
 }: SubHeaderTextProps) => {
   const { colorScheme } = appContext();
 
@@ -28,11 +32,17 @@ export const SubHeaderText = ({
       ? { color: colors[0] }
       : { color: colors[1] };
 
-  return <Text style={[styles.text, textColor, customStyle]}>{children}</Text>;
+  const onPress = () => callbackFn && callbackFn();
+
+  return (
+    <Text onPress={onPress} style={[styles.text, textColor, customStyle]}>
+      {children}
+    </Text>
+  );
 };
 
 const styles = StyleSheet.create({
   text: {
-    ...Typography.subHeader.x40,
+    ...Typography.subHeader.x35,
   },
 });
