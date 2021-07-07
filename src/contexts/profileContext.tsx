@@ -34,7 +34,7 @@ export const ProfileContextProvider = ({ children }: ContextProviderProps) => {
     null
   );
   const [timeBlockCostADA, setTimeBlockCostADA] = useState<string | null>(null);
-  const [walletBalance, setWalletBalance] = useState<number | null>(56);
+  const [walletBalance, setWalletBalance] = useState<number>(56);
 
   return (
     <ProfileContext.Provider

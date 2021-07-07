@@ -1,6 +1,6 @@
 export interface BioState {
   alias: string;
-  walletBalance: number | null;
+  walletBalance: number;
   aboutURL?: string | null;
   imageURL?: string | null;
   timeBlockLengthMin: string | null;
