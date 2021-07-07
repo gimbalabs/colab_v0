@@ -12,11 +12,11 @@ import { Colors, Outlines, Sizing, Typography } from "styles/index";
 import { OrganizerProfile } from "components/booking/index";
 import { LeftArrowIcon } from "icons/index";
 import { appContext, bookingContext } from "contexts/contextApi";
-
 import { FullWidthButton } from "components/buttons/fullWidthButton";
 import { getTimeSpanLength } from "lib/utils";
 import { ProfileContext } from "contexts/profileContext";
 import { useDurationSlots } from "lib/hooks/useDurationSlots";
+import AnimatedNumber from "react-native-animated-number";
 
 export interface DurationChoiceProps {}
 
@@ -28,18 +28,23 @@ export const DurationChoice = ({ navigation, route }) => {
   const { maxTimeSlotDuration } = bookingContext();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [selectedDuration, setSelectedDuration] = React.useState<number>(0);
-  const [durationCost, setDurationCost] = React.useState<number>(0);
+  const [cost, setCost] = React.useState<number>(0);
   const { walletBalance } = React.useContext(ProfileContext);
 
-  const { previewingOrganizer, pickedDate, setDuration } = bookingContext();
+  const {
+    previewingOrganizer,
+    pickedDate,
+    setDuration,
+    setDurationCost,
+  } = bookingContext();
   const { colorScheme, auth } = appContext();
 
   const isLightMode = colorScheme === "light";
-  const isDisabled = selectedDuration === null;
+  const isDisabled = selectedDuration === 0;
   const timeBlockMilSec = previewingOrganizer?.timeBlock * 60 * 1000;
   const buttonText = !auth
     ? "Sign up"
-    : walletBalance != null && walletBalance < durationCost
+    : walletBalance != null && walletBalance < cost
     ? "Deposit"
     : "Confirm";
 
@@ -57,7 +62,7 @@ export const DurationChoice = ({ navigation, route }) => {
     if (buttonText === "Confirm") {
       setIsLoading(true);
       setDuration(selectedDuration);
-      setDurationCost(durationCost);
+      setDurationCost(cost);
       await wait(1500);
       setIsLoading(false);
       navigation.navigate("Booking Confirmation");
@@ -67,11 +72,11 @@ export const DurationChoice = ({ navigation, route }) => {
   const onPressCallback = (time: number) => {
     if (selectedDuration === time) {
       setSelectedDuration(0);
-      setDurationCost(0);
+      setCost(0);
     } else {
       setSelectedDuration(time);
       let totalCost = previewingOrganizer?.hourlyRate * (time / 60 / 60 / 1000);
-      setDurationCost(totalCost);
+      setCost(totalCost);
     }
   };
 
@@ -134,11 +139,21 @@ export const DurationChoice = ({ navigation, route }) => {
             Select duration and confirm
           </Text>
         </View>
-        <View style={styles.estimatedCostWrapper}>
-          <Text
-            style={isLightMode ? styles.totalAda_light : styles.totalAda_dark}>
-            {durationCost} ₳
-          </Text>
+        <View style={styles.estimatedCostContainer}>
+          <View style={styles.estimatedCostWrapper}>
+            <AnimatedNumber
+              value={cost}
+              style={[
+                isLightMode ? styles.totalAda_light : styles.totalAda_dark,
+              ]}
+            />
+            <Text
+              style={
+                isLightMode ? styles.totalAda_light : styles.totalAda_dark
+              }>
+              ₳
+            </Text>
+          </View>
           <Text
             style={
               isLightMode
@@ -215,20 +230,22 @@ const styles = StyleSheet.create({
     ...Typography.header.x35,
     color: Colors.primary.s800,
   },
-  estimatedCostWrapper: {
+  estimatedCostContainer: {
     alignItems: "center",
     justifyContent: "center",
     marginVertical: Sizing.x10,
   },
+  estimatedCostWrapper: {
+    flexDirection: "row",
+    textAlign: "auto",
+  },
   totalAda_light: {
     fontSize: 60,
-    lineHeight: 60,
     fontFamily: "Roboto-Medium",
     color: Colors.primary.s600,
   },
   totalAda_dark: {
     fontSize: 60,
-    lineHeight: 60,
     fontFamily: "Roboto-Medium",
     color: Colors.primary.neutral,
   },
