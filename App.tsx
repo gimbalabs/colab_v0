@@ -1,29 +1,31 @@
+import * as React from "react";
 import { LogBox } from "react-native";
 
 // Ignore all log notifications:
 LogBox.ignoreAllLogs();
 
 import "react-native-gesture-handler";
-import * as React from "react";
 import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
-import { HomeScreen } from "screens/index";
-import { NavigationScreens } from "tabs/NavigationScreens";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { AppContextProvider } from "contexts/appContext";
-import { AppStackParamList } from "common/types/navigationTypes";
-import { appContext } from "contexts/contextApi";
+import { enableScreens } from "react-native-screens";
 
 // Error Handlers
 import { setJSExceptionHandler } from "react-native-exception-handler";
 import { jsErrorHandler } from "lib/errors";
+//-----
+
+import { AppContextProvider } from "contexts/appContext";
+import { appContext } from "contexts/contextApi";
 import { OnboardingScreens } from "tabs/OnboardingScreens";
-import { LearnMoreModal } from "components/modals/learnMoreModal";
 import { ProfileContextProvider } from "contexts/profileContext";
 import { DepositSuccessful, Confirmation } from "screens/payments";
+import { AppStackParamList } from "common/types/navigationTypes";
+import { NavigationScreens } from "tabs/NavigationScreens";
 
 setJSExceptionHandler(jsErrorHandler, true); // true - enables the error in dev mode
+enableScreens(); // enable native screens for navigation instead of using Views
 
 const Stack = createStackNavigator<AppStackParamList>();
 
