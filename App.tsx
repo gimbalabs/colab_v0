@@ -23,6 +23,7 @@ import { ProfileContextProvider } from "contexts/profileContext";
 import { DepositSuccessful, Confirmation } from "screens/payments";
 import { AppStackParamList } from "common/types/navigationTypes";
 import { NavigationScreens } from "tabs/NavigationScreens";
+import { WalletTopUpScreen } from "screens/onboarding";
 
 setJSExceptionHandler(jsErrorHandler, true); // true - enables the error in dev mode
 enableScreens(); // enable native screens for navigation instead of using Views
@@ -70,6 +71,11 @@ function App() {
                     name="Confirmation"
                     options={{ headerShown: false, gestureEnabled: false }}
                     component={Confirmation}
+                  />
+                  <Stack.Screen
+                    name="Add Funds"
+                    options={{ headerShown: false, gestureEnabled: false }}
+                    component={WalletTopUpScreen}
                   />
                 </>
               ) : (
