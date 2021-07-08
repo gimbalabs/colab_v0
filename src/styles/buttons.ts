@@ -5,13 +5,29 @@ import * as Outlines from "./outlines";
 import * as Sizing from "./sizing";
 import * as Typography from "./typography";
 
-type Bar = "primary" | "secondary" | "transparent" | "small";
+type Bar =
+  | "primary_light"
+  | "primary_dark"
+  | "secondary"
+  | "transparent_light"
+  | "transparent_dark"
+  | "small";
 export const bar: Record<Bar, ViewStyle> = {
-  primary: {
+  primary_light: {
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: Colors.primary.s800,
+    paddingVertical: Sizing.x10,
+    borderRadius: Outlines.borderRadius.base,
+    marginTop: Sizing.x15,
+    ...Outlines.shadow.lifted,
+  },
+  primary_dark: {
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: Colors.primary.neutral,
     paddingVertical: Sizing.x10,
     borderRadius: Outlines.borderRadius.base,
     marginTop: Sizing.x15,
@@ -25,12 +41,24 @@ export const bar: Record<Bar, ViewStyle> = {
     borderRadius: Outlines.borderRadius.base,
     backgroundColor: Colors.secondary.brand,
   },
-  transparent: {
+  transparent_light: {
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "transparent",
-    paddingVertical: Sizing.x10,
+    paddingVertical: Sizing.x7,
+    borderRadius: Outlines.borderRadius.base,
+    borderWidth: 4,
+    borderColor: Colors.primary.s800,
+    marginTop: Sizing.x15,
+    ...Outlines.shadow.lifted,
+  },
+  transparent_dark: {
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "transparent",
+    paddingVertical: Sizing.x7,
     borderRadius: Outlines.borderRadius.base,
     borderWidth: 4,
     borderColor: Colors.primary.neutral,
@@ -48,14 +76,30 @@ export const bar: Record<Bar, ViewStyle> = {
 };
 
 // text style for each bar (button) type above
-type BarText = "primary" | "secondary" | "transparent" | "small";
+type BarText =
+  | "primary_light"
+  | "primary_dark"
+  | "secondary"
+  | "transparent_light"
+  | "transparent_dark"
+  | "small";
 export const barText: Record<BarText, TextStyle> = {
-  primary: {
+  primary_light: {
     ...Typography.subHeader.x35,
     fontFamily: "Roboto-Medium",
     color: Colors.primary.neutral,
   },
-  transparent: {
+  primary_dark: {
+    ...Typography.subHeader.x35,
+    fontFamily: "Roboto-Medium",
+    color: Colors.primary.s800,
+  },
+  transparent_light: {
+    ...Typography.subHeader.x35,
+    fontFamily: "Roboto-Medium",
+    color: Colors.primary.s800,
+  },
+  transparent_dark: {
     ...Typography.subHeader.x35,
     fontFamily: "Roboto-Medium",
     color: Colors.primary.neutral,
