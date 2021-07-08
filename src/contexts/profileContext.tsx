@@ -9,6 +9,7 @@ export const initialState: BioState = {
   alias: "Batman",
   aboutURL: "",
   imageURL: "",
+  hasSyncedWallet: false,
   timeBlockLengthMin: "15",
   timeBlockCostADA: "20",
   walletBalance: 56,
@@ -17,6 +18,7 @@ export const initialState: BioState = {
   setImageURL: () => {},
   setTimeBlockLengthMin: () => {},
   setTimeBlockCostADA: () => {},
+  setHasSyncedWallet: () => {},
   setWalletBalance: () => {},
 };
 
@@ -34,6 +36,7 @@ export const ProfileContextProvider = ({ children }: ContextProviderProps) => {
     null
   );
   const [timeBlockCostADA, setTimeBlockCostADA] = useState<string | null>(null);
+  const [hasSyncedWallet, setHasSyncedWallet] = useState<boolean>(false);
   const [walletBalance, setWalletBalance] = useState<number>(56);
 
   return (
@@ -43,12 +46,14 @@ export const ProfileContextProvider = ({ children }: ContextProviderProps) => {
         walletBalance,
         aboutURL,
         imageURL,
+        hasSyncedWallet,
         timeBlockLengthMin,
         timeBlockCostADA,
         setAlias,
         setAboutURL,
         setImageURL,
         setWalletBalance,
+        setHasSyncedWallet,
         setTimeBlockLengthMin,
         setTimeBlockCostADA,
       }}>
