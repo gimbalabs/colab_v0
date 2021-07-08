@@ -58,7 +58,7 @@ export const DurationChoice = ({ navigation, route }) => {
   const onNextPress = async () => {
     if (buttonText === "Sign up") return; // @TODO must navigate to sign up screen
     if (buttonText === "Deposit")
-      navigation.navigate("Add Funds", { isBookingScreen: true });
+      navigation.navigate("Add Funds", { fromScreen: "Duration Choice" });
     if (buttonText === "Confirm") {
       setIsLoading(true);
       setDuration(selectedDuration);

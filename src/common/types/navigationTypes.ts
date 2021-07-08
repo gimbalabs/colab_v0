@@ -3,6 +3,7 @@
 export type AppStackParamList = {
   // 'undefined' means that no parameters are specified
   Home: undefined;
+  "Add Funds": { fromScreen: string };
   "Navigation Screens": undefined;
   "Onboarding Screens": undefined;
   Modal: undefined;
@@ -16,11 +17,12 @@ export type OrganizerTabParamList = {
   Home: undefined;
   Browse: any;
   Wallet: undefined;
+  "Add Funds": { fromScreen: string };
   Availability: undefined;
   Profile: undefined;
 };
 
-export type BookingTabParamList = {
+export type BookingStackParamList = {
   Browse: any;
   "Available Dates": any;
   "Available Times": any;

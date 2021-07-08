@@ -10,14 +10,14 @@ import {
 
 import { StackScreenProps } from "@react-navigation/stack";
 import { Colors, Buttons, Typography, Sizing, Outlines } from "styles/index";
-import { BookingTabParamList } from "common/types/navigationTypes";
+import { BookingStackParamList } from "common/types/navigationTypes";
 import { appContext } from "contexts/contextApi";
 import { SearchIcon } from "icons/index";
 import { browseFeatured } from "../api_data/browseFeatured";
 import { HorizontalCardsList } from "components/lists/browseScreen/HorizontalCardsList";
 
 export interface BrowseProps
-  extends StackScreenProps<BookingTabParamList, "Browse"> {
+  extends StackScreenProps<BookingStackParamList, "Browse"> {
   children: React.ReactNode;
 }
 

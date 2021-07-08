@@ -20,10 +20,9 @@ import { BrowseScreensStack } from "stacks/index";
 import { Colors, Buttons, Sizing, Outlines, Typography } from "styles/index";
 import { OrganizerProfileScreen } from "screens/organizer/OrganizerProfileScreen";
 import { appContext } from "contexts/contextApi";
+import { WalletTopUpScreen } from "screens/onboarding";
 
 export interface OrganizerBottomNavProps {}
-
-const Icons = [HomeIcon, SearchIcon, WalletIcon, CalendarIcon, UserIcon];
 
 const Tab = createBottomTabNavigator();
 
@@ -34,17 +33,15 @@ export const OrganizerBottomNav = () => {
     // change color on click, etc...
   };
 
-  const screenOptions = ({ route }: any) => {};
-
   return (
     <NavigationContainer>
       <Tab.Navigator tabBarOptions={tabBarOptions}>
         {auth ? (
           <>
             <Tab.Screen name="Home" component={HomeScreen} />
-            <Tab.Screen name="Available Dates" component={BrowseScreensStack} />
+            <Tab.Screen name="Browse" component={BrowseScreensStack} />
             <Tab.Screen name="Wallet" component={WalletScreen} />
-            {/* <Tab.Screen name="Wallet Modal" options= component={WalletModal} />*/}
+            <Tab.Screen name="Wallet/Add Funds" component={WalletTopUpScreen} />
             <Tab.Screen name="Availability" component={MyCalendarScreen} />
             <Tab.Screen name="Profile" component={OrganizerProfileScreen} />
           </>
@@ -60,30 +57,3 @@ export const OrganizerBottomNav = () => {
     </NavigationContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-evenly",
-    flex: 1,
-  },
-  navButtonWrapper: {
-    width: "20%",
-    height: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  navButton: {
-    width: "50%",
-    height: "50%",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: Colors.neutral.s200,
-    borderRadius: Sizing.x5,
-    alignSelf: "center",
-  },
-  navButtonSubTitle: {
-    ...Typography.body.x5,
-  },
-});

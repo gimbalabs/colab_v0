@@ -19,8 +19,8 @@ export const DepositSuccessful = ({ navigation, route }) => {
   const isLightMode = colorScheme === "light";
 
   const navigateBack = () => {
-    if (route.params?.isBookingWalletTopUp != null) {
-      navigation.navigate("Duration Choice");
+    if (route.params?.fromScreen != null) {
+      navigation.navigate(route.params.fromScreen);
     }
   };
 

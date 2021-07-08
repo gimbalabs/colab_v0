@@ -19,7 +19,7 @@ module.exports = function (api) {
             images: "./src/assets/images",
             interfaces: "./src/common/interfaces",
             screens: "./src/screens",
-            stacks: "./src/stacks/index",
+            stacks: "./src/stacks",
             styles: "./src/styles",
             tabs: "./src/tabs",
             types: "./src/common/types",
