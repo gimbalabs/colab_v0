@@ -5,6 +5,7 @@
 
 import { TextStyle, Platform } from "react-native";
 import { systemWeights } from "react-native-typography";
+import { scale } from "lib/utils";
 
 import * as Colors from "./colors";
 
@@ -17,38 +18,46 @@ type FontSize =
   | "x35"
   | "x40"
   | "x50"
+  | "x55"
   | "x60"
+  | "x65"
   | "x70";
 export const fontSize: Record<FontSize, TextStyle> = {
   x5: {
-    fontSize: 10,
+    fontSize: scale(10),
   },
   x10: {
-    fontSize: 13,
+    fontSize: scale(13),
   },
   x20: {
-    fontSize: 14,
+    fontSize: scale(14),
   },
   x25: {
-    fontSize: 15,
+    fontSize: scale(15),
   },
   x30: {
-    fontSize: 16,
+    fontSize: scale(16),
   },
   x35: {
-    fontSize: 18,
+    fontSize: scale(18),
   },
   x40: {
-    fontSize: 20,
+    fontSize: scale(20),
   },
   x50: {
-    fontSize: 24,
+    fontSize: scale(24),
+  },
+  x55: {
+    fontSize: scale(28),
   },
   x60: {
-    fontSize: 32,
+    fontSize: scale(32),
+  },
+  x65: {
+    fontSize: scale(34),
   },
   x70: {
-    fontSize: 38,
+    fontSize: scale(38),
   },
 };
 
@@ -87,42 +96,60 @@ type LineHeight =
   | "x35"
   | "x40"
   | "x50"
+  | "x55"
   | "x60"
+  | "x65"
   | "x70";
 export const lineHeight: Record<LineHeight, TextStyle> = {
   x5: {
-    lineHeight: 10,
+    lineHeight: scale(10),
   },
   x10: {
-    lineHeight: 20,
+    lineHeight: scale(20),
   },
   x20: {
-    lineHeight: 22,
+    lineHeight: scale(22),
   },
   x25: {
-    lineHeight: 23,
+    lineHeight: scale(23),
   },
   x30: {
-    lineHeight: 24,
+    lineHeight: scale(24),
   },
   x35: {
-    lineHeight: 24,
+    lineHeight: scale(25),
   },
   x40: {
-    lineHeight: 26,
+    lineHeight: scale(26),
   },
   x50: {
-    lineHeight: 32,
+    lineHeight: scale(32),
+  },
+  x55: {
+    lineHeight: scale(34),
   },
   x60: {
-    lineHeight: 38,
+    lineHeight: scale(38),
+  },
+  x65: {
+    lineHeight: scale(40),
   },
   x70: {
-    lineHeight: 44,
+    lineHeight: scale(44),
   },
 };
 
-type Header = "x10" | "x20" | "x30" | "x35" | "x40" | "x50" | "x60" | "x70";
+type Header =
+  | "x10"
+  | "x20"
+  | "x30"
+  | "x35"
+  | "x40"
+  | "x50"
+  | "x55"
+  | "x60"
+  | "x65"
+  | "x70";
 export const header: Record<Header, TextStyle> = {
   x10: {
     ...fontSize.x10,
@@ -160,9 +187,21 @@ export const header: Record<Header, TextStyle> = {
     ...fontWeight.bold,
     fontFamily: "Roboto-Medium",
   },
+  x55: {
+    ...fontSize.x55,
+    ...lineHeight.x55,
+    ...fontWeight.bold,
+    fontFamily: "Roboto-Medium",
+  },
   x60: {
     ...fontSize.x60,
     ...lineHeight.x60,
+    ...fontWeight.bold,
+    fontFamily: "Roboto-Medium",
+  },
+  x65: {
+    ...fontSize.x65,
+    ...lineHeight.x65,
     ...fontWeight.bold,
     fontFamily: "Roboto-Medium",
   },
@@ -226,7 +265,7 @@ export const subHeader: Record<SubHeader, TextStyle> = {
   },
 };
 
-type Body = "x5" | "x10" | "x20" | "x25" | "x30" | "x40" | "x50";
+type Body = "x5" | "x10" | "x20" | "x25" | "x30" | "x35" | "x40" | "x50";
 export const body: Record<Body, TextStyle> = {
   x5: {
     ...fontSize.x5,
@@ -254,7 +293,13 @@ export const body: Record<Body, TextStyle> = {
   },
   x30: {
     ...fontSize.x30,
-    ...lineHeight.x40,
+    ...lineHeight.x30,
+    color: Colors.neutral.s800,
+    fontFamily: "Roboto-Light",
+  },
+  x35: {
+    ...fontSize.x35,
+    ...lineHeight.x35,
     color: Colors.neutral.s800,
     fontFamily: "Roboto-Light",
   },
