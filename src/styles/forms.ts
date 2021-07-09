@@ -10,13 +10,12 @@ export const input: Record<Input, TextStyle> = {
   primary: {
     ...Typography.subHeader.x30,
     lineHeight: 0,
-    paddingVertical: Sizing.x14,
-    paddingHorizontal: Sizing.x12,
+    paddingVertical: Sizing.x12,
+    paddingHorizontal: Sizing.x14,
     backgroundColor: Colors.primary.neutral,
-    borderColor: Colors.neutral.s300,
-    borderWidth: Outlines.borderWidth.hairline,
+    borderWidth: Outlines.borderWidth.thin,
     borderRadius: Outlines.borderRadius.base,
-    fontSize: Sizing.x20,
+    borderColor: "transparent",
     fontFamily: "Roboto-Regular",
     color: Colors.primary.s600,
   },
@@ -51,23 +50,21 @@ export const inputLabel: Record<InputLabel, TextStyle> = {
   primary: {
     ...Typography.subHeader.x30,
     fontFamily: "Roboto-Medium",
-    fontSize: Sizing.x20,
     color: Colors.primary.neutral,
+    marginLeft: Sizing.x15,
   },
   primary_light: {
     ...Typography.subHeader.x30,
     fontFamily: "Roboto-Medium",
-    fontSize: Sizing.x20,
     color: Colors.primary.s800,
   },
   primary_dark: {
     ...Typography.subHeader.x30,
     fontFamily: "Roboto-Medium",
-    fontSize: Sizing.x20,
     color: Colors.primary.neutral,
   },
   error: {
     ...Typography.body.x10,
-    marginTop: Sizing.x5,
+    fontFamily: "Roboto-Medium",
   },
 };
