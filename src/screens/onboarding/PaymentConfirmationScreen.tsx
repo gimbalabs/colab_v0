@@ -38,11 +38,12 @@ const USER_TAGS = [
 export const PaymentConfirmationScreen = () => {
   return (
     <KeyboardAvoidingView
-      keyboardVerticalOffset={60}
+      keyboardVerticalOffset={40}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}>
       <ScrollView
         keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollView}>
         <View style={styles.headerImage}>
           <CreditCardIcon style={styles.image} />
@@ -149,7 +150,7 @@ const styles = StyleSheet.create({
     color: Colors.primary.s600,
   },
   submitButton: {
-    ...Buttons.bar.transparent,
+    ...Buttons.bar.transparent_,
   },
   submitButtonText: {
     ...Buttons.barText.transparent,

@@ -27,11 +27,12 @@ export const CreateAccountScreen = ({ pagerRef }: CreateAccountScreenProps) => {
 
   return (
     <KeyboardAvoidingView
-      keyboardVerticalOffset={60}
+      keyboardVerticalOffset={20}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}>
       <ScrollView
         keyboardShouldPersistTaps="handled"
+        scrollEnabled={false}
         contentContainerStyle={styles.scrollView}>
         <View style={styles.imageContainer}>
           <ModernProfessionalIcon
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     width: "100%",
-    ...Typography.header.x70,
+    ...Typography.header.x65,
     color: Colors.primary.neutral,
   },
 });

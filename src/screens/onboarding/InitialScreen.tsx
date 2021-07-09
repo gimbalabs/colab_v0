@@ -1,10 +1,12 @@
 import * as React from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 
 import PagerView from "react-native-pager-view";
 import { LiveCollaborationIcon } from "icons/index";
 import { LearnMoreModal } from "components/modals/learnMoreModal";
 import { Colors, Typography, Buttons, Sizing } from "styles/index";
+import { FullWidthButton } from "components/buttons/fullWidthButton";
+import { scale } from "lib/utils";
 
 export interface InitialScreenProps {
   pagerRef: React.RefObject<PagerView>;
@@ -38,16 +40,17 @@ export const InitialScreen = ({ pagerRef }: InitialScreenProps) => {
         </View>
       </View>
       <View style={styles.buttons}>
-        <Pressable
-          onPress={onPressLearnMore}
-          style={Buttons.applyOpacity(styles.buttonTop)}>
-          <Text style={styles.buttonTopText}>Learn more</Text>
-        </Pressable>
-        <Pressable
-          onPress={navigateToNextScreen}
-          style={Buttons.applyOpacity(styles.buttonBottom)}>
-          <Text style={styles.buttonBottomText}>Next</Text>
-        </Pressable>
+        <FullWidthButton
+          colorScheme="dark"
+          onPressCallback={onPressLearnMore}
+          text="Learn more"
+        />
+        <FullWidthButton
+          colorScheme="dark"
+          onPressCallback={navigateToNextScreen}
+          buttonType="transparent"
+          text="Next"
+        />
       </View>
       <LearnMoreModal
         setIsVisibleModal={setIsVisibleModal}
@@ -64,7 +67,8 @@ const styles = StyleSheet.create({
   },
   imageSection: {
     flex: 2,
-    marginVertical: Sizing.x10,
+    marginTop: Sizing.x20,
+    marginBottom: Sizing.x10,
   },
   main: {
     flex: 3,
@@ -73,12 +77,13 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
   },
   header: {
-    ...Typography.header.x70,
+    ...Typography.header.x65,
     color: Colors.primary.neutral,
-    marginBottom: Sizing.x15,
+    marginBottom: scale(Sizing.x15),
   },
   subHeader: {
-    ...Typography.body.x40,
+    ...Typography.body.x35,
+    fontFamily: "Roboto-Regular",
     color: Colors.primary.neutral,
   },
   subHeaderWrapper: {
@@ -91,19 +96,5 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-  },
-  buttonTop: {
-    ...Buttons.bar.primary,
-    backgroundColor: Colors.primary.neutral,
-  },
-  buttonTopText: {
-    ...Buttons.barText.primary,
-    color: Colors.primary.s600,
-  },
-  buttonBottom: {
-    ...Buttons.bar.transparent,
-  },
-  buttonBottomText: {
-    ...Buttons.barText.transparent,
   },
 });
