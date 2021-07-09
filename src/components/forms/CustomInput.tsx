@@ -13,8 +13,8 @@ import {
   View,
   KeyboardAvoidingView,
   Platform,
-  Pressable,
 } from "react-native";
+import { Colors, Sizing } from "styles/index";
 
 export interface CustomInputProps {}
 
@@ -25,6 +25,7 @@ export const CustomInput = (props: any) => {
     styles,
     iconState,
     customHandler,
+    validateForm,
     ...inputProps
   } = props;
 
@@ -43,7 +44,11 @@ export const CustomInput = (props: any) => {
           style={[styles.input, hasError && styles.errorInput]}
           value={value}
           placeholderTextColor={styles.placeholderText.color}
-          onChangeText={(text) => onChange(name)(text)}
+          onEndEditing={() => validateForm()}
+          onChange={() => validateForm()}
+          onChangeText={(text) => {
+            onChange(name)(text);
+          }}
           onBlur={() => {
             setFieldTouched(name);
             onBlur(name);
@@ -51,7 +56,13 @@ export const CustomInput = (props: any) => {
           {...inputProps}
         />
       </View>
-      <View style={styles.errorWrapper}>
+      <View
+        style={[
+          styles.errorWrapper,
+          {
+            backgroundColor: !hasError ? "transparent" : Colors.primary.neutral,
+          },
+        ]}>
         {hasError && <Text style={styles.error}>{errors[name]}</Text>}
       </View>
     </KeyboardAvoidingView>

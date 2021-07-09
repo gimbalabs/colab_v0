@@ -1,19 +1,10 @@
 import * as React from "react";
-import {
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
-import {} from "formik";
 import { EyeIcon, EyeOffIcon } from "icons/index";
-import { Sizing, Forms, Colors } from "styles/index";
+import { Sizing, Forms, Colors, Outlines } from "styles/index";
 
-export const renderPasswordInput = (props: any) => {
+export const CustomPasswordInput = (props: any) => {
   const [isVisiblePassword, setIsVisiblePassword] = React.useState<boolean>(
     true
   );
@@ -23,6 +14,8 @@ export const renderPasswordInput = (props: any) => {
     form: { errors, touched, setFieldTouched },
     iconState,
     customHandler,
+    submitted,
+    validateForm,
     ...inputProps
   } = props;
 
@@ -49,6 +42,8 @@ export const renderPasswordInput = (props: any) => {
           placeholder="Enter your password"
           placeholderTextColor={styles.placeholderText.color}
           onChangeText={(text) => onChange(name)(text)}
+          onEndEditing={() => validateForm()}
+          onChange={() => validateForm()}
           secureTextEntry={isVisiblePassword}
           textContentType="newPassword"
           onBlur={() => {
@@ -61,7 +56,13 @@ export const renderPasswordInput = (props: any) => {
           <PasswordEyeIcon stroke={Colors.primary.s350} style={styles.icon} />
         </Pressable>
       </View>
-      <View style={styles.errorWrapper}>
+      <View
+        style={[
+          styles.errorWrapper,
+          {
+            backgroundColor: !hasError ? "transparent" : Colors.primary.neutral,
+          },
+        ]}>
         {hasError && <Text style={styles.error}>{errors[name]}</Text>}
       </View>
     </View>
@@ -75,7 +76,6 @@ const styles = StyleSheet.create({
   },
   labelContainer: {
     width: "100%",
-    paddingHorizontal: Sizing.x12,
   },
   label: {
     ...Forms.inputLabel.primary,
@@ -88,23 +88,31 @@ const styles = StyleSheet.create({
   input: {
     width: "100%",
     ...Forms.input.primary,
+    borderColor: "transparent",
   },
   placeholderText: {
     color: Colors.primary.s300,
   },
   iconWrapper: {
-    left: -45,
-    width: Sizing.x40,
-    height: Sizing.x40,
+    left: -40,
+    alignItems: "center",
+    justifyContent: "center",
   },
   icon: {
-    width: Sizing.x35,
-    height: Sizing.x35,
+    width: Sizing.x30,
+    height: Sizing.x30,
   },
-  errorInput: {},
+  errorInput: {
+    borderColor: Colors.danger.s400,
+  },
   errorWrapper: {
-    height: 21, // inspect element in expo to see how much pixels it needs
-    alignItems: "flex-end",
+    height: 22, // inspect element in expo to see how much pixels it needs
+    alignItems: "center",
+    paddingHorizontal: Sizing.x8,
+    marginTop: Sizing.x5,
+    justifyContent: "center",
+    backgroundColor: Colors.primary.neutral,
+    borderRadius: Outlines.borderRadius.base,
   },
   error: {
     ...Forms.inputLabel.error,

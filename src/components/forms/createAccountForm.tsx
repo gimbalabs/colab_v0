@@ -1,12 +1,19 @@
 import * as React from "react";
 import { Animated, Pressable, StyleSheet, Text, View } from "react-native";
 
-import { Formik, Field, FieldProps } from "formik";
-import { Buttons, Typography, Colors, Sizing, Forms } from "styles/index";
+import { Formik, Field } from "formik";
+import {
+  Buttons,
+  Typography,
+  Colors,
+  Sizing,
+  Forms,
+  Outlines,
+} from "styles/index";
 import { createAccountValidationScheme } from "lib/utils";
 import { CustomInput } from "../forms/CustomInput";
 import { CheckIcon } from "icons/index";
-import { renderPasswordInput } from "./CustomPasswordInput";
+import { CustomPasswordInput } from "./CustomPasswordInput";
 
 export interface CreateAccountFormProps {}
 
@@ -14,6 +21,7 @@ const AnimatedCheckIcon = Animated.createAnimatedComponent(CheckIcon);
 
 export const CreateAccountForm = ({}: CreateAccountFormProps) => {
   const [acceptedCheckbox, setAcceptedChecbox] = React.useState<boolean>(false);
+  const [submitted, setSubmitted] = React.useState<boolean>(false);
   const animatedOpacity = React.useRef(new Animated.Value(0)).current;
 
   const fadeIn = () => {
@@ -36,16 +44,21 @@ export const CreateAccountForm = ({}: CreateAccountFormProps) => {
     acceptedCheckbox ? fadeIn() : fadeOut();
   };
 
+  const onSubmit = (values: { name: string; password: string }) => {
+    setSubmitted(true);
+  };
+
   return (
     <Formik
       validationSchema={createAccountValidationScheme()}
+      validateOnChange={submitted}
+      validateOnBlur={submitted}
       initialValues={{
         name: "",
-        email: "",
         password: "",
       }}
-      onSubmit={(values) => console.log(values)}>
-      {({ handleSubmit, isValid }) => (
+      onSubmit={onSubmit}>
+      {({ handleSubmit, isValid, validateForm }) => (
         <>
           <Field
             key="name"
@@ -56,9 +69,11 @@ export const CreateAccountForm = ({}: CreateAccountFormProps) => {
             keyboardType="default"
             textContentType="name"
             autoCompleteType="name"
+            validateForm={validateForm}
+            submitted={submitted}
             styles={styles}
           />
-          <Field
+          {/*<Field
             key="email"
             name="email"
             label="Email"
@@ -68,9 +83,11 @@ export const CreateAccountForm = ({}: CreateAccountFormProps) => {
             textContentType="emailAddress"
             autoCompleteType="email"
             styles={styles}
-          />
+          />*/}
           <Field key="password" name="password" styles={styles}>
-            {renderPasswordInput}
+            {(props: any) => (
+              <CustomPasswordInput validateForm={validateForm} {...props} />
+            )}
           </Field>
           <View style={styles.checkboxWrapper}>
             <Pressable
@@ -92,17 +109,17 @@ export const CreateAccountForm = ({}: CreateAccountFormProps) => {
               Privacy Policy + Terms of Use
             </Text>
           </View>
-          <Pressable
-            onPress={handleSubmit}
-            accessibilityLabel="Create new account."
-            disabled={!isValid}
-            style={Buttons.applyOpacity(styles.submitButton)}>
-            <Text style={styles.submitButtonText}>Create account</Text>
-          </Pressable>
           <View style={styles.appendix}>
             <Text style={styles.appendixText}>Already have an account?</Text>
             <Text style={styles.appendixTextLink}>Sign in</Text>
           </View>
+          <Pressable
+            disabled={!isValid}
+            onPress={handleSubmit}
+            accessibilityLabel="Create new account."
+            style={Buttons.applyOpacity(styles.submitButton)}>
+            <Text style={styles.submitButtonText}>Create account</Text>
+          </Pressable>
         </>
       )}
     </Formik>
@@ -117,10 +134,10 @@ const styles = StyleSheet.create({
     ...Forms.inputLabel.primary,
   },
   submitButton: {
-    ...Buttons.bar.transparent,
+    ...Buttons.bar.transparent_dark,
   },
   submitButtonText: {
-    ...Buttons.barText.transparent,
+    ...Buttons.barText.transparent_dark,
   },
   checkboxWrapper: {
     width: "100%",
@@ -128,8 +145,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   pressableCheckbox: {
-    width: 35,
-    height: 35,
+    width: 32,
+    height: 32,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -182,7 +199,6 @@ const styles = StyleSheet.create({
   },
   labelContainer: {
     width: "100%",
-    paddingHorizontal: Sizing.x12,
   },
   label: {
     ...Forms.inputLabel.primary,
@@ -199,19 +215,17 @@ const styles = StyleSheet.create({
   placeholderText: {
     color: Colors.primary.s300,
   },
-  iconWrapper: {
-    left: -45,
-    width: Sizing.x40,
-    height: Sizing.x40,
+  errorInput: {
+    borderColor: Colors.danger.s400,
   },
-  icon: {
-    width: Sizing.x35,
-    height: Sizing.x35,
-  },
-  errorInput: {},
   errorWrapper: {
-    height: 21, // inspect element in expo to see how much pixels it needs
-    alignItems: "flex-end",
+    alignSelf: "center",
+    height: 22, // inspect element in expo to see how much pixels it needs
+    paddingHorizontal: Sizing.x8,
+    marginTop: Sizing.x5,
+    justifyContent: "center",
+    backgroundColor: Colors.primary.neutral,
+    borderRadius: Outlines.borderRadius.base,
   },
   error: {
     ...Forms.inputLabel.error,
