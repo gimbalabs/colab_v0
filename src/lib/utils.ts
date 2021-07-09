@@ -1,3 +1,4 @@
+import { Dimensions } from "react-native";
 import * as yup from "yup";
 import {
   AvailabilitiesDay,
@@ -15,7 +16,9 @@ import { months, monthsByName, weekDays } from "common/types/calendarTypes";
 import { customScheduledEvents } from "../api_data/customScheduledEvents.js";
 import { customAvailabilities } from "../api_data/customAvailabilities.js";
 
-const SIX_MONTHS = 15634800000;
+export function scale(size: number, factor = 1) {
+  return +((Dimensions.get("window").width / 390) * size * factor).toFixed(2);
+}
 
 /**
  * @description Use this function to validate form input that
@@ -60,7 +63,7 @@ export function formValidationSchema() {
 export function createAccountValidationScheme() {
   return yup.object().shape({
     name: yup.string().required("Name is required"),
-    email: yup.string().email().required("Email address is required"),
+    // email: yup.string().email().required("Email address is required"),
     password: yup
       .string()
       .required("Password is required")
