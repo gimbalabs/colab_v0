@@ -20,18 +20,24 @@ import {
   Buttons,
   Forms,
 } from "styles/index";
+import { FullWidthButton } from "components/buttons/fullWidthButton";
 
 export interface UserDetailScreenProps {}
 
 export const UserDetailsScreen = ({}) => {
   return (
     <KeyboardAvoidingView
-      keyboardVerticalOffset={60}
+      keyboardVerticalOffset={40}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}>
-      <ScrollView keyboardShouldPersistTaps="handled" style={styles.scrollView}>
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+        style={styles.scrollView}>
         <View style={styles.header}>
-          <Text style={styles.headerText}>Tell us a little bit about you</Text>
+          <Text style={styles.headerText}>
+            Tell us a little bit{"\n"}about you
+          </Text>
         </View>
         <View style={styles.formContainer}>
           <CustomPlainInput
@@ -89,12 +95,12 @@ export const UserDetailsScreen = ({}) => {
             onPressHandler={() => {}}
           />
         </View>
-        <Pressable
-          onPress={() => {}}
-          accessibilityLabel="Next"
-          style={Buttons.applyOpacity(styles.submitButton)}>
-          <Text style={styles.submitButtonText}>Next</Text>
-        </Pressable>
+        <FullWidthButton
+          onPressCallback={() => {}}
+          text="Next"
+          buttonType="transparent"
+          colorScheme="dark"
+        />
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -107,23 +113,18 @@ const styles = StyleSheet.create({
   scrollView: {
     width: "100%",
     height: "100%",
+    marginTop: Sizing.x20,
   },
   header: {
     marginVertical: Sizing.x10,
   },
   headerText: {
-    ...Typography.header.x70,
+    ...Typography.header.x65,
     color: Colors.primary.neutral,
   },
   formContainer: {
     flex: 1,
     marginVertical: Sizing.x10,
-  },
-  submitButton: {
-    ...Buttons.bar.transparent,
-  },
-  submitButtonText: {
-    ...Buttons.barText.transparent,
   },
   /**
    * styles passed as prop to CustomPlainInput
@@ -136,7 +137,6 @@ const styles = StyleSheet.create({
   },
   labelContainer: {
     width: "100%",
-    paddingHorizontal: Sizing.x12,
   },
   label: {
     ...Forms.inputLabel.primary,
@@ -154,12 +154,14 @@ const styles = StyleSheet.create({
     color: Colors.primary.s300,
   },
   iconWrapper: {
-    left: -45,
-    width: Sizing.x40,
-    height: Sizing.x40,
-  },
-  icon: {
+    left: -40,
     width: Sizing.x35,
     height: Sizing.x35,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  icon: {
+    width: Sizing.x30,
+    height: Sizing.x30,
   },
 });

@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
 import PagerView from "react-native-pager-view";
 import { CheckIcon } from "icons/index";
 import { Colors, Sizing, Typography, Outlines, Buttons } from "styles/index";
+import { FullWidthButton } from "components/buttons/fullWidthButton";
 
 export interface PricingScreenProps {
   pagerRef: React.RefObject<PagerView>;
@@ -48,11 +49,9 @@ export const PricingScreen = ({ pagerRef }: PricingScreenProps) => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={styles.scrollContainer}>
-        <View style={[styles.section, { marginBottom: Sizing.x50 }]}>
-          <View style={styles.labelContainer}>
-            <View style={styles.label}>
-              <Text style={styles.labelText}>Attendee</Text>
-            </View>
+        <View style={[styles.section, { marginBottom: Sizing.x40 }]}>
+          <View style={styles.label}>
+            <Text style={styles.labelText}>Attendee</Text>
           </View>
           <View style={styles.card}>
             <View style={styles.cardHeader}>
@@ -68,17 +67,16 @@ export const PricingScreen = ({ pagerRef }: PricingScreenProps) => {
               {ATTENDEE_BENEFITS.map(renderCheckBoxes)}
             </View>
           </View>
-          <Pressable
-            onPress={onAttendeePress}
-            style={Buttons.applyOpacity(styles.cardButton)}>
-            <Text style={styles.cardButtonText}>Continue as attendee</Text>
-          </Pressable>
+          <FullWidthButton
+            colorScheme="dark"
+            onPressCallback={onAttendeePress}
+            text="Sign up as attendee"
+            buttonType="transparent"
+          />
         </View>
-        <View style={[styles.section, { marginBottom: Sizing.x25 }]}>
-          <View style={styles.labelContainer}>
-            <View style={styles.label}>
-              <Text style={styles.labelText}>Organizer</Text>
-            </View>
+        <View style={[styles.section, { marginBottom: Sizing.x20 }]}>
+          <View style={styles.label}>
+            <Text style={styles.labelText}>Organizer</Text>
           </View>
           <View style={styles.card}>
             <View style={styles.cardHeader}>
@@ -94,11 +92,12 @@ export const PricingScreen = ({ pagerRef }: PricingScreenProps) => {
               {ORGANIZER_BENEFITS.map(renderCheckBoxes)}
             </View>
           </View>
-          <Pressable
-            onPress={onOrganizerPress}
-            style={Buttons.applyOpacity(styles.cardButton)}>
-            <Text style={styles.cardButtonText}>Sign up as organizer</Text>
-          </Pressable>
+          <FullWidthButton
+            colorScheme="dark"
+            onPressCallback={onOrganizerPress}
+            text="Sign up as organizer"
+            buttonType="transparent"
+          />
         </View>
       </ScrollView>
     </View>
@@ -109,7 +108,7 @@ const styles = StyleSheet.create({
   scrollContainer: {
     width: "100%",
     height: "100%",
-    marginTop: Sizing.x10,
+    marginTop: Sizing.x20,
   },
   container: {
     width: "90%",
@@ -119,7 +118,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
-  labelContainer: {},
   label: {
     width: "35%",
     alignItems: "center",
@@ -148,14 +146,14 @@ const styles = StyleSheet.create({
   },
   cardHeaderPrice: {
     ...Typography.header.x70,
-    fontFamily: "Roboto-Black",
+    fontFamily: "Roboto-Medium",
     lineHeight: 0,
     letterSpacing: -1,
     color: Colors.primary.s800,
   },
   cardHeaderText: {
-    ...Typography.header.x40,
-    fontFamily: "Roboto-Medium",
+    ...Typography.header.x35,
+    fontFamily: "Roboto-Regular",
     lineHeight: 0,
     color: Colors.neutral.s500,
     letterSpacing: -1,
@@ -180,15 +178,5 @@ const styles = StyleSheet.create({
   checkBoxText: {
     ...Typography.body.x20,
     marginLeft: Sizing.x10,
-  },
-  cardButton: {
-    ...Buttons.bar.transparent,
-  },
-  cardButtonText: {
-    ...Buttons.barText.transparent,
-  },
-  headerText: {
-    ...Typography.header.x40,
-    color: Colors.primary.neutral,
   },
 });

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { View, Text, Pressable, StyleSheet, SafeAreaView } from "react-native";
+
 import { StackScreenProps } from "@react-navigation/stack";
 import { OrganizerTabParamList } from "common/types/navigationTypes";
 import { appContext } from "contexts/contextApi";
