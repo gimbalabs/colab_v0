@@ -5,8 +5,8 @@ import {
   StyleSheet,
   SafeAreaView,
   Pressable,
-  Alert,
   LayoutChangeEvent,
+  ActivityIndicator,
 } from "react-native";
 
 import { LinearGradient } from "expo-linear-gradient";
@@ -16,6 +16,7 @@ import { OrganizerTabParamList } from "common/types/navigationTypes";
 import { appContext } from "contexts/contextApi";
 import { RefreshIcon, RightArrowIcon, SearchIcon } from "icons/index";
 import { TransactionsList } from "components/wallet/transactionsList";
+import { ProfileContext } from "contexts/profileContext";
 
 // @TODO: Implement navigationTypes type
 export interface WalletScreenProps
@@ -25,26 +26,32 @@ function wait(ms: number): Promise<void> {
   return new Promise((res) => setTimeout(res, ms));
 }
 
-export const WalletScreen = ({}: WalletScreenProps) => {
+export const WalletScreen = ({ navigation, route }: WalletScreenProps) => {
   const { colorScheme } = appContext();
+  const {
+    hasSyncedWallet,
+    setHasSyncedWallet,
+    walletBalance,
+  } = React.useContext(ProfileContext);
   const [layoutHeight, setLayoutHeight] = React.useState<any>(null);
   const [isSmallScreen, setIsSmallScreen] = React.useState<boolean>(false);
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [isTxListLoading, setIsTxListLoading] = React.useState<boolean>(false);
+  const [isWalletSyncing, setIsWalletSyncing] = React.useState<boolean>(false);
 
   const darkGradient: string[] = [Colors.primary.s800, Colors.primary.s600];
   const lightGradient: string[] = [Colors.primary.s200, Colors.primary.neutral];
 
   React.useEffect(() => {}, []);
 
-  const addFunds = () => {
-    Alert.alert(
-      // title
-      "No wallet connected yet!",
-      // message
-      "Connect to your wallet to add funds and make transactions",
-      // array of buttons
-      [{ text: "Return", style: "cancel" }]
-    );
+  const onWalletButtonPress = async () => {
+    if (!hasSyncedWallet) {
+      setIsWalletSyncing(true);
+      await wait(1200);
+      setHasSyncedWallet(true);
+      setIsWalletSyncing(false);
+    } else {
+      navigation.navigate("Add Funds", { fromScreen: "Wallet" });
+    }
   };
 
   const onLayout = (e: LayoutChangeEvent) => {
@@ -56,9 +63,9 @@ export const WalletScreen = ({}: WalletScreenProps) => {
   };
 
   const onRefreshPress = async () => {
-    setIsLoading(true);
+    setIsTxListLoading(true);
     await wait(2000);
-    setIsLoading(false);
+    setIsTxListLoading(false);
   };
 
   return (
@@ -84,6 +91,15 @@ export const WalletScreen = ({}: WalletScreenProps) => {
           start={{ x: 0, y: 1 }}
           end={{ x: 1, y: 0 }}
           style={styles.walletContainer}>
+          <ActivityIndicator
+            animating={isWalletSyncing}
+            color={
+              colorScheme === "light"
+                ? Colors.primary.neutral
+                : Colors.primary.s800
+            }
+            style={styles.walletLoadingSpinner}
+          />
           <Text
             style={[
               colorScheme == "light"
@@ -99,10 +115,10 @@ export const WalletScreen = ({}: WalletScreenProps) => {
                 ? styles.walletBalance_ligth
                 : styles.walletBalance_dark,
             ]}>
-            52 ₳
+            {!hasSyncedWallet ? "--" : walletBalance} ₳
           </Text>
           <Pressable
-            onPress={addFunds}
+            onPress={onWalletButtonPress}
             pressRetentionOffset={15}
             hitSlop={15}
             style={Buttons.applyOpacity(
@@ -116,7 +132,7 @@ export const WalletScreen = ({}: WalletScreenProps) => {
                   ? styles.walletButtonText_light
                   : styles.walletButtonText_dark,
               ]}>
-              Add funds
+              {!hasSyncedWallet ? "Link Wallet" : "Add funds"}
             </Text>
           </Pressable>
         </LinearGradient>
@@ -148,12 +164,12 @@ export const WalletScreen = ({}: WalletScreenProps) => {
                     height={22}
                     stroke={
                       colorScheme === "light"
-                        ? !isLoading
+                        ? !isTxListLoading
                           ? Colors.primary.s600
                           : Colors.primary.s800
                         : Colors.primary.neutral
                     }
-                    strokeWidth={!isLoading ? 1.5 : 1.6}
+                    strokeWidth={!isTxListLoading ? 1.5 : 1.6}
                   />
                 </Pressable>
               )}
@@ -170,7 +186,7 @@ export const WalletScreen = ({}: WalletScreenProps) => {
             </View>
           </View>
           <TransactionsList
-            isLoading={isLoading}
+            isLoading={isTxListLoading}
             isSmallScreen={isSmallScreen}
           />
         </View>
@@ -285,5 +301,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginLeft: "auto",
     alignItems: "center",
+  },
+  walletLoadingSpinner: {
+    position: "absolute",
+    top: Sizing.x12,
+    right: Sizing.x12,
   },
 });
