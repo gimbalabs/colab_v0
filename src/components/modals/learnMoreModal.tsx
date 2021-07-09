@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, Dimensions, Pressable } from "react-native";
 import Modal from "react-native-modal";
 import { IdeaIcon } from "icons/index";
 import { Buttons, Colors, Typography, Sizing, Outlines } from "styles/index";
+import { FullWidthButton } from "components/buttons/fullWidthButton";
 
 export interface LearnMoreModalProps {
   setIsVisibleModal: (arg: boolean) => void;
@@ -32,7 +33,7 @@ export const LearnMoreModal = ({
       onBackdropPress={onModalComplete}
       useNativeDriverForBackdrop
       useNativeDriver
-      hasBackdrop
+      hideModalContentWhileAnimating
       swipeThreshold={100}
       swipeDirection={["down"]}
       deviceHeight={height}
@@ -62,11 +63,11 @@ export const LearnMoreModal = ({
             </View>
           </View>
           <View style={styles.buttonWrapper}>
-            <Pressable
-              onPress={onPress}
-              style={Buttons.applyOpacity(styles.button)}>
-              <Text style={styles.buttonText}>Okay</Text>
-            </Pressable>
+            <FullWidthButton
+              onPressCallback={onPress}
+              text="Okay"
+              colorScheme="light"
+            />
           </View>
         </View>
       </View>
@@ -139,7 +140,7 @@ const styles = StyleSheet.create({
     flex: 2,
     marginTop: Sizing.x10,
     alignItems: "center",
-    width: "100%",
+    width: "90%",
     height: "100%",
   },
   button: {
