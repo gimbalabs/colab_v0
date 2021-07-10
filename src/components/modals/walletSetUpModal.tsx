@@ -8,7 +8,6 @@ import { BodyText } from "components/rnWrappers/bodyText";
 import { appContext } from "contexts/contextApi";
 import { Colors, Outlines, Sizing, Typography } from "styles/index";
 import { ProfileContext } from "contexts/profileContext";
-import Clipboard from "@react-native-clipboard/clipboard";
 
 export interface WalletSetUpModalProps {
   isVisible: boolean;

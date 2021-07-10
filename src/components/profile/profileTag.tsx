@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   skillTag: {
     borderRadius: Outlines.borderRadius.large,
     paddingHorizontal: Sizing.x12,
-    marginRight: Sizing.x5,
+    marginRight: Sizing.x8,
     textAlign: "center",
   },
   skillName: {

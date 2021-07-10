@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Text, Pressable, TextInput } from "react-native";
+import { View, Text, Pressable, TextInput, ScrollView } from "react-native";
 
 import { Colors } from "styles/index";
 
@@ -43,12 +43,13 @@ export const CustomPlainInput = (props: CustomPlainInputProps) => {
       <View style={styles.textInputWrapper}>
         {/*@ts-ignore*/}
         <TextInput
-          style={[styles.input, multiline != null ? { height: 80 } : {}]}
+          style={[styles.input, multiline != null ? { height: 60 } : {}]}
           multiline={multiline != null ? multiline : false}
           numberOfLines={numberOfLines != null ? numberOfLines : 1}
           placeholder={placeholder}
           onChangeText={onChangeCallback}
           placeholderTextColor={styles.placeholderText.color}
+          scrollEnabled={false}
           {...additionalProps}
         />
         {customChild && customChild}

@@ -15,17 +15,17 @@ export const CopyMessage = ({ isActive }: CopyMessageProps) => {
       Animated.timing(copyMsgOpacity, {
         useNativeDriver: false,
         toValue: isActive ? 1 : 0,
-        duration: 100,
+        duration: 80,
       }),
       Animated.timing(copyMsgPosition.x, {
         useNativeDriver: false,
         toValue: isActive ? 30 : 0,
-        duration: 100,
+        duration: 80,
       }),
       Animated.timing(copyMsgPosition.y, {
         useNativeDriver: false,
         toValue: isActive ? -25 : 0,
-        duration: 100,
+        duration: 80,
       }),
     ]).start();
   }, [isActive]);

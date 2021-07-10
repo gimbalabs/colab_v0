@@ -138,23 +138,9 @@ const styles = StyleSheet.create({
   },
   buttonWrapper: {
     flex: 2,
-    marginTop: Sizing.x10,
+    marginVertical: Sizing.x10,
     alignItems: "center",
     width: "90%",
     height: "100%",
-  },
-  button: {
-    width: "85%",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: Outlines.borderRadius.base,
-    backgroundColor: Colors.primary.s800,
-    ...Outlines.shadow.lifted,
-  },
-  buttonText: {
-    ...Typography.body.x40,
-    fontFamily: "Roboto-Medium",
-    color: Colors.primary.neutral,
-    paddingVertical: Sizing.x10,
   },
 });
