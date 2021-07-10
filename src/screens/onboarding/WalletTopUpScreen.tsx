@@ -36,7 +36,7 @@ export const WalletTopUpScreen = ({
   pagerRef,
 }: WalletTopUpScreenProps) => {
   const navigation = useNavigation();
-  var { colorScheme } = appContext();
+  var { colorScheme, ref } = appContext();
   const [isLightMode, setIsLightMode] = React.useState<boolean>(false);
   const [address, setAddress] = React.useState<string>("");
   const [amount, setAmount] = React.useState<string>("");
@@ -48,7 +48,7 @@ export const WalletTopUpScreen = ({
   );
   const windowWidth = useWindowDimensions().width;
 
-  const isOnboardingScreen = pagerRef?.current instanceof ViewPager;
+  const isRegistrationScreen = pagerRef?.current instanceof ViewPager;
   const isBookingScreen = route != null && route.params?.isBookingScreen;
   const isDisabled = !address || !amount;
 
@@ -71,15 +71,19 @@ export const WalletTopUpScreen = ({
     setIsLoading(false);
 
     // this means we are on the onboarding screen
-    if (
-      isOnboardingScreen ||
-      (route != null && route.params?.fromScreen != null)
-    ) {
+    if (isRegistrationScreen) {
+      navigation.navigate("Deposit Successful", {
+        fromScreen: "User Registration Screens",
+      });
+    }
+
+    if (route != null && route.params?.fromScreen != null) {
       navigation.navigate("Deposit Successful", {
         fromScreen: route.params.fromScreen,
       });
     }
-    navigation.navigate("Deposit Successful", { isBookingWalletTopUp: true });
+
+    // navigation.navigate("Deposit Successful", { isBookingWalletTopUp: true });
   };
 
   const hideModal = () => setIsVisibleModal(false);
@@ -126,7 +130,7 @@ export const WalletTopUpScreen = ({
             keyboardShouldPersistTaps="handled"
             showsVerticalScrollIndicator={false}
             style={styles.scrollView}>
-            {!isOnboardingScreen ? (
+            {!isRegistrationScreen ? (
               <View style={styles.navigation}>
                 <Pressable onPress={onBackNavigationPress} hitSlop={10}>
                   <LeftArrowIcon
@@ -284,8 +288,6 @@ const styles = StyleSheet.create({
   },
   labelContainer: {
     width: "100%",
-    paddingHorizontal: Sizing.x15,
-    paddingBottom: Sizing.x2,
   },
   textInputWrapper: {
     width: "100%",
@@ -293,13 +295,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   iconWrapper: {
-    left: -45,
-    width: Sizing.x40,
-    height: Sizing.x40,
-  },
-  icon: {
+    left: -40,
     width: Sizing.x35,
     height: Sizing.x35,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  icon: {
+    width: Sizing.x30,
+    height: Sizing.x30,
   },
 });
 

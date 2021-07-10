@@ -8,23 +8,25 @@ import {
 } from "react-native";
 
 import {
-  CreateAccountScreen,
-  InitialScreen,
-  PricingScreen,
-} from "screens/onboarding";
+  UserDetailsScreen,
+  WalletTopUpScreen,
+  PaymentConfirmationScreen,
+} from "screens/onboarding/index";
 import PagerView from "react-native-pager-view";
 import { ScalingDot } from "react-native-animated-pagination-dots";
 import { Colors, Outlines } from "styles/index";
+import { appContext } from "contexts/contextApi";
 
 const AnimatedPagerView = Animated.createAnimatedComponent(PagerView);
 
 const SCREENS = [
-  { component: InitialScreen },
-  { component: PricingScreen },
-  { component: CreateAccountScreen },
+  { component: UserDetailsScreen },
+  { component: WalletTopUpScreen },
+  { component: PaymentConfirmationScreen },
 ];
 
-export const OnboardingScreens = () => {
+export const UserRegistrationScreens = ({ navigation, route }) => {
+  const { pageIndex, setRef, ref: _ref } = appContext();
   const ref = React.useRef<PagerView>(null);
   const screenWidth = Dimensions.get("window").width;
   const scrollOffsetAnimatedValue = React.useRef(new Animated.Value(0)).current;
@@ -37,6 +39,11 @@ export const OnboardingScreens = () => {
     inputRange,
     outputRange: [0, SCREENS.length * screenWidth],
   });
+
+  React.useEffect(() => {
+    // set ref of View Pager so that we can manipulate page index
+    if (ref) setRef(ref);
+  }, []);
 
   // This is only working with useMemo/useCallback
   const onPageScroll = React.useMemo(
@@ -68,9 +75,11 @@ export const OnboardingScreens = () => {
     <SafeAreaView style={styles.safeArea}>
       <AnimatedPagerView
         ref={ref}
-        onPageScroll={onPageScroll}
         keyboardDismissMode="on-drag"
-        initialPage={0}
+        showPageIndicator={false}
+        onPageScroll={onPageScroll}
+        scrollEnabled={true}
+        initialPage={pageIndex}
         style={styles.animatedPager}>
         {SCREENS.map(renderScreens)}
       </AnimatedPagerView>

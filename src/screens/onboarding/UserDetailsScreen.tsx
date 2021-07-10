@@ -3,7 +3,6 @@ import {
   View,
   StyleSheet,
   Text,
-  Pressable,
   TextInput,
   KeyboardAvoidingView,
   Platform,
@@ -12,19 +11,39 @@ import {
 
 import { CustomPlainInput } from "components/forms/CustomPlainInput";
 import { CalendarIcon, DownIcon, PencilAltIcon } from "icons/index";
-import {
-  Typography,
-  Colors,
-  Sizing,
-  Outlines,
-  Buttons,
-  Forms,
-} from "styles/index";
+import { Typography, Colors, Sizing, Forms } from "styles/index";
 import { FullWidthButton } from "components/buttons/fullWidthButton";
+import { ProfileContext } from "contexts/profileContext";
 
 export interface UserDetailScreenProps {}
 
-export const UserDetailsScreen = ({}) => {
+export const UserDetailsScreen = ({ pagerRef }) => {
+  const {
+    setProfession,
+    setJobTitle,
+    setDescription,
+    setSkills,
+    setTimeBlockCostADA,
+    skills,
+  } = React.useContext(ProfileContext);
+
+  const [_profession, _setProfession] = React.useState<string | string[]>("");
+  const [_jobTitle, _setJobTitle] = React.useState<string | string[]>("");
+  const [_description, _setDescription] = React.useState<string | string[]>("");
+  const [_timeBlockCostAda, _setTimeBlockCostAda] = React.useState<string>("");
+  const [_skills, _setSkills] = React.useState<string | string[]>("");
+
+  const submitBioState = () => {
+    setProfession(_profession);
+    setJobTitle(_jobTitle);
+    setDescription(_description);
+    setTimeBlockCostADA(_timeBlockCostAda);
+    setSkills(_skills);
+    pagerRef.current.setPage(1);
+  };
+
+  React.useEffect(() => {}, []);
+
   return (
     <KeyboardAvoidingView
       keyboardVerticalOffset={40}
@@ -45,14 +64,14 @@ export const UserDetailsScreen = ({}) => {
             placeholder="Doctor, therapist, developer, etc..."
             icon={DownIcon}
             styles={styles}
-            onPressHandler={() => {}}
+            onChangeCallback={(val) => _setProfession(val)}
           />
           <CustomPlainInput
             label="Job Title"
             placeholder="Full Stack Engineer, Sr Business..."
             icon={DownIcon}
             styles={styles}
-            onPressHandler={() => {}}
+            onChangeCallback={(val) => _setJobTitle(val)}
           />
           {/* when handling events with multiline, use ref._lastNativeText */}
           <CustomPlainInput
@@ -62,18 +81,16 @@ export const UserDetailsScreen = ({}) => {
             placeholder="Passionate in helping others draw business goals and needs..."
             icon={PencilAltIcon}
             styles={styles}
-            onPressHandler={() => {}}
+            onChangeCallback={(val) => _setDescription(val)}
           />
           <CustomPlainInput
             label="Availability"
             placeholder="weekly, weekends, mornings, e..."
             icon={CalendarIcon}
             styles={styles}
-            onPressHandler={() => {}}
+            onChangeCallback={() => {}}
           />
-          <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={styles.inputContainer}>
+          <View style={styles.inputContainer}>
             <View style={styles.labelContainer}>
               <Text style={styles.label}>Hourly rate</Text>
             </View>
@@ -84,19 +101,20 @@ export const UserDetailsScreen = ({}) => {
                 textContentType="none"
                 placeholder="35 ₳ an hour"
                 placeholderTextColor={styles.placeholderText.color}
+                onChangeText={(val) => _setTimeBlockCostAda(val)}
               />
             </View>
-          </KeyboardAvoidingView>
+          </View>
           <CustomPlainInput
             label="Skills"
             placeholder="Organized, Motivated, Critical Th..."
             icon={DownIcon}
             styles={styles}
-            onPressHandler={() => {}}
+            onChangeCallback={(val) => _setSkills(val)}
           />
         </View>
         <FullWidthButton
-          onPressCallback={() => {}}
+          onPressCallback={submitBioState}
           text="Next"
           buttonType="transparent"
           colorScheme="dark"
@@ -113,7 +131,7 @@ const styles = StyleSheet.create({
   scrollView: {
     width: "100%",
     height: "100%",
-    marginTop: Sizing.x20,
+    marginVertical: Sizing.x20,
   },
   header: {
     marginVertical: Sizing.x10,

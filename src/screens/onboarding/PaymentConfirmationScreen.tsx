@@ -3,7 +3,6 @@ import {
   View,
   StyleSheet,
   Text,
-  Pressable,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -11,15 +10,11 @@ import {
 } from "react-native";
 
 import { CreditCardIcon, PencilAltIcon } from "icons/index";
-import {
-  Tags,
-  Typography,
-  Colors,
-  Sizing,
-  Outlines,
-  Buttons,
-} from "styles/index";
+import { Typography, Colors, Sizing, Outlines, Buttons } from "styles/index";
 import { ProfileTag } from "components/profile/profileTag";
+import { FullWidthButton } from "components/buttons/fullWidthButton";
+import { appContext } from "contexts/contextApi";
+import { PressableIcon } from "components/buttons/pressableIcon";
 
 export interface PaymentConfirmationScreenProps {}
 
@@ -36,6 +31,11 @@ const USER_TAGS = [
 ];
 
 export const PaymentConfirmationScreen = () => {
+  const { toggleAuth, ref } = appContext();
+
+  const onChangePress = () => ref.current.setPage(0);
+
+  const onConfirm = () => {};
   return (
     <KeyboardAvoidingView
       keyboardVerticalOffset={40}
@@ -58,9 +58,16 @@ export const PaymentConfirmationScreen = () => {
           </Text>
         </View>
         <View style={styles.userDetails}>
-          <PencilAltIcon
-            stroke={Colors.primary.s350}
-            style={styles.userDetailsIcon}
+          <PressableIcon
+            icon={
+              <PencilAltIcon
+                stroke={Colors.primary.s350}
+                style={styles.userDetailsIcon}
+                onPress={onChangePress}
+              />
+            }
+            onPressCallback={onChangePress}
+            styles={styles.iconWrapper}
           />
           <Text style={styles.userDetailsHeader}>Profession</Text>
           <Text style={styles.userDetailsText}>Software engineer</Text>
@@ -84,12 +91,12 @@ export const PaymentConfirmationScreen = () => {
             })}
           </View>
         </View>
-        <Pressable
-          onPress={() => {}}
-          accessibilityLabel="Next"
-          style={Buttons.applyOpacity(styles.submitButton)}>
-          <Text style={styles.submitButtonText}>Confirm</Text>
-        </Pressable>
+        <FullWidthButton
+          onPressCallback={onConfirm}
+          colorScheme="dark"
+          buttonType="transparent"
+          text="Confirm"
+        />
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -101,28 +108,30 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   header: {
-    marginBottom: Sizing.x10,
+    marginBottom: Sizing.x15,
+    alignSelf: "flex-start",
   },
   scrollView: {
     alignItems: "center",
     justifyContent: "center",
   },
   headerText: {
-    ...Typography.header.x70,
+    ...Typography.header.x65,
     color: Colors.primary.neutral,
     marginBottom: Sizing.x5,
   },
   headerImage: {
-    width: SCREEN_WIDTH * 0.7,
-    height: SCREEN_WIDTH * 0.7,
+    width: SCREEN_WIDTH * 0.65,
+    height: SCREEN_WIDTH * 0.65,
     marginTop: -Sizing.x20,
     marginBottom: -Sizing.x30,
-    alignItems: "center",
-    justifyContent: "center",
+    marginRight: "auto",
+    marginLeft: Sizing.x10,
+    alignItems: "flex-end",
   },
   image: {},
   subHeaderText: {
-    ...Typography.subHeader.x40,
+    ...Typography.subHeader.x35,
     fontFamily: "Roboto-Regular",
     color: Colors.primary.neutral,
   },
@@ -130,30 +139,29 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: Colors.primary.neutral,
     borderRadius: Outlines.borderRadius.base,
-    padding: Sizing.x25,
+    padding: Sizing.x20,
   },
-  userDetailsIcon: {
+  iconWrapper: {
+    zIndex: 10,
+    position: "absolute",
     right: Sizing.x25,
     top: Sizing.x25,
-    position: "absolute",
-    width: Sizing.x35,
-    height: Sizing.x35,
+  },
+  userDetailsIcon: {
+    zIndex: 9,
+    width: Sizing.x30,
+    height: Sizing.x30,
   },
   userDetailsHeader: {
     ...Typography.header.x10,
     color: Colors.primary.s600,
-    marginVertical: Sizing.x2,
+    marginTop: Sizing.x2,
+    marginBottom: Sizing.x1,
   },
   userDetailsText: {
     ...Typography.body.x10,
     lineHeight: 0,
     color: Colors.primary.s600,
-  },
-  submitButton: {
-    ...Buttons.bar.transparent_,
-  },
-  submitButtonText: {
-    ...Buttons.barText.transparent,
   },
   skillTags: {
     flexDirection: "row",

@@ -4,7 +4,7 @@ import { Pressable, StyleSheet } from "react-native";
 import PagerView from "react-native-pager-view";
 import Animated from "react-native-reanimated";
 
-export const OnboardingPager = ({
+export const OnboardingScreens = ({
   descriptors,
   navigation,
   state,
@@ -50,7 +50,7 @@ export const OnboardingPager = ({
           onPress={onPress}
           onLongPress={onLongPress}
           key={route.key}>
-          <Animated.Text style={{ opacity }}>{"hello"}</Animated.Text>
+          <Animated.Text style={{ opacity }}>hello</Animated.Text>
         </Pressable>
       );
     };

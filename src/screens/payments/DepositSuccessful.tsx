@@ -11,15 +11,18 @@ import { DepositSuccessfulIcon, LeftArrowIcon } from "assets/icons";
 export interface DepositSuccessfulProps {}
 
 export const DepositSuccessful = ({ navigation, route }) => {
-  const { colorScheme } = appContext();
+  const { colorScheme, ref } = appContext();
   const buttonTitle = route.params?.isBookingWalletTopUp
     ? "Proceed to booking"
     : "Go back";
 
   const isLightMode = colorScheme === "light";
 
-  const navigateBack = () => {
+  const navigateBack = async () => {
     if (route.params?.fromScreen != null) {
+      // This will set the index of page on "User Registration Screens"
+      if (ref) await ref.current.setPage(2);
+
       navigation.navigate(route.params.fromScreen);
     }
   };

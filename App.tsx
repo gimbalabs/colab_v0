@@ -18,12 +18,13 @@ import { jsErrorHandler } from "lib/errors";
 
 import { AppContextProvider } from "contexts/appContext";
 import { appContext } from "contexts/contextApi";
-import { OnboardingScreens } from "tabs/OnboardingScreens";
+import { UserRegistrationScreens } from "tabs/UserRegistrationScreens";
 import { ProfileContextProvider } from "contexts/profileContext";
 import { DepositSuccessful, Confirmation } from "screens/payments";
 import { AppStackParamList } from "common/types/navigationTypes";
 import { NavigationScreens } from "tabs/NavigationScreens";
 import { WalletTopUpScreen } from "screens/onboarding";
+import { OnboardingScreens } from "components/OnboardingPager";
 
 setJSExceptionHandler(jsErrorHandler, true); // true - enables the error in dev mode
 enableScreens(); // enable native screens for navigation instead of using Views
@@ -49,7 +50,9 @@ function App() {
       <AppContextProvider>
         <ProfileContextProvider>
           <NavigationContainer>
-            <Stack.Navigator initialRouteName="Home" headerMode="screen">
+            <Stack.Navigator
+              initialRouteName="Navigation Screens"
+              headerMode="screen">
               {auth ? (
                 <>
                   {/*<Stack.Screen
@@ -81,11 +84,28 @@ function App() {
               ) : (
                 <>
                   <Stack.Screen
+                    name="User Registration Screens"
+                    component={UserRegistrationScreens}
+                    options={{
+                      headerShown: false,
+                    }}
+                  />
+                  <Stack.Screen
                     name="Onboarding Screens"
                     component={OnboardingScreens}
                     options={{
                       headerShown: false,
                     }}
+                  />
+                  <Stack.Screen
+                    name="Deposit Successful"
+                    options={{ headerShown: false, gestureEnabled: false }}
+                    component={DepositSuccessful}
+                  />
+                  <Stack.Screen
+                    name="Confirmation"
+                    options={{ headerShown: false, gestureEnabled: false }}
+                    component={Confirmation}
                   />
                 </>
               )}
