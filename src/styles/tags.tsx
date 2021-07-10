@@ -18,7 +18,7 @@ type TagHeader = "small" | "medium" | "large";
 export const tagHeader: Record<TagHeader, TextStyle> = {
   small: {
     ...Typography.header.x10,
-    fontSize: Sizing.x12,
+    fontSize: Sizing.x10,
   },
   large: {},
   medium: {},
