@@ -111,7 +111,7 @@ export const MonthlyDay = ({
           ]}>
           {number}
         </Text>
-        {isPartiallyBooked && !isActiveDay && (
+        {isPartiallyBooked && !isActiveDay && isBookingCalendar && (
           <PartiallyBookedDay
             width={34}
             height={34}
@@ -119,16 +119,25 @@ export const MonthlyDay = ({
           />
         )}
       </View>
-      {isBookingCalendar != null && !isBookingCalendar && (
-        <View style={styles.dotsWrapper}>
-          {scheduledEvents && (
-            <DotIcon style={styles.scheduledDay} fill="#FCD34D" stroke="none" />
-          )}
-          {availabilities && (
-            <DotIcon style={styles.availableDay} fill="#60A5FA" stroke="none" />
-          )}
-        </View>
-      )}
+      {isBookingCalendar != null ||
+        (isBookingCalendar && (
+          <View style={styles.dotsWrapper}>
+            {scheduledEvents && (
+              <DotIcon
+                style={styles.scheduledDay}
+                fill="#FCD34D"
+                stroke="none"
+              />
+            )}
+            {availabilities && (
+              <DotIcon
+                style={styles.availableDay}
+                fill="#60A5FA"
+                stroke="none"
+              />
+            )}
+          </View>
+        ))}
     </Pressable>
   );
 };

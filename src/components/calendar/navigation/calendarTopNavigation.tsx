@@ -8,7 +8,7 @@ import {
 
 import { LeftArrowIcon, RightArrowIcon } from "assets/icons";
 import { isSixMonthsBefore, isSixMonthsLater } from "lib/utils";
-import { Buttons, Colors } from "styles/index";
+import { Buttons, Colors, Sizing } from "styles/index";
 import { CalendarHeader } from "common/interfaces/myCalendarInterface";
 import { monthsByName } from "common/types/calendarTypes";
 
@@ -57,8 +57,8 @@ export const CalendarTopNavigation = ({
         onPress={onPreviousPress}
         disabled={disabledPreviousButton}>
         <LeftArrowIcon
-          width="24"
-          height="24"
+          width="20"
+          height="20"
           color={
             colorScheme === "light" ? Colors.primary.s350 : Colors.primary.s800
           }
@@ -71,8 +71,8 @@ export const CalendarTopNavigation = ({
         onPress={onNextPress}
         disabled={disabledNextButton}>
         <RightArrowIcon
-          width="24"
-          height="24"
+          width="20"
+          height="20"
           color={
             colorScheme === "light" ? Colors.primary.s350 : Colors.primary.s800
           }
@@ -85,8 +85,8 @@ export const CalendarTopNavigation = ({
 const styles = StyleSheet.create({
   monthSwitchButton_light: {
     padding: 5,
-    width: 35,
-    height: 35,
+    width: Sizing.x35,
+    height: Sizing.x35,
     borderRadius: 999,
     backgroundColor: Colors.primary.s200,
     justifyContent: "center",
@@ -94,8 +94,8 @@ const styles = StyleSheet.create({
   },
   monthSwitchButton_dark: {
     padding: 5,
-    width: 35,
-    height: 35,
+    width: Sizing.x35,
+    height: Sizing.x35,
     borderRadius: 999,
     backgroundColor: Colors.primary.s200,
     justifyContent: "center",

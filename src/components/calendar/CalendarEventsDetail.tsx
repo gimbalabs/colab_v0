@@ -23,7 +23,7 @@ export const CalendarEventsDetail = ({
   setHighlightedDay,
   highlightedDay,
 }: CalendarEventsDetailProps) => {
-  const animatedMargin = React.useRef(new Animated.Value(-60)).current;
+  const animatedMargin = React.useRef(new Animated.Value(-65)).current;
   const animatedValue = parseInt(JSON.stringify(animatedMargin));
 
   const fromTimeDigit = getDigitalTime(fromTime);
@@ -38,7 +38,7 @@ export const CalendarEventsDetail = ({
     // when we click on the last card, return
     if (index === listLength - 1) return;
 
-    if (highlightedDay - 1 === index && animatedValue === -60) {
+    if (highlightedDay - 1 === index && animatedValue === -65) {
       // when someone clicks on the same card, just pull it back to top
       setHighlightedDay(null);
     } else {
@@ -50,7 +50,7 @@ export const CalendarEventsDetail = ({
 
   const animateToTop = () => {
     Animated.timing(animatedMargin, {
-      toValue: -60,
+      toValue: -65,
       duration: 200,
       useNativeDriver: false,
     }).start();
@@ -121,7 +121,8 @@ const styles = StyleSheet.create({
     borderRadius: Outlines.borderRadius.base,
     backgroundColor: Colors.calendarCard.blue,
     ...Outlines.shadow.lifted,
-    padding: Sizing.x14,
+    padding: Sizing.x10,
+    marginHorizontal: Sizing.x8,
     alignSelf: "center",
     width: "90%",
   },
@@ -142,26 +143,27 @@ const styles = StyleSheet.create({
     alignItems: "baseline",
   },
   hours: {
-    fontSize: 13,
+    ...Typography.subHeader.x10,
     color: Colors.primary.s600,
   },
   dateDay: {
-    ...Typography.roboto.medium,
+    ...Typography.header.x70,
     color: Colors.primary.s600,
-    fontSize: Sizing.x45,
     letterSpacing: -2,
+    lineHeight: 0,
     marginRight: Sizing.x2,
   },
   dateMonth: {
-    ...Typography.subHeader.x40,
+    ...Typography.subHeader.x35,
     fontFamily: "Roboto-Medium",
     color: Colors.primary.s800,
   },
   eventDetail: {
-    flex: 3,
+    flex: 1,
+    marginLeft: Sizing.x5,
   },
   eventDetailText: {
-    ...Typography.body.x25,
+    ...Typography.body.x20,
     color: Colors.primary.s600,
     fontFamily: "Roboto-Regular",
     lineHeight: Sizing.x30,

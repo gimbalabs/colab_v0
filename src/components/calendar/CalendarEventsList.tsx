@@ -145,9 +145,10 @@ export const CalendarEventsList = ({
           <CalendarEventsListHeader isHomeScreen />
           {data ? (
             <SectionList
-              style={[
+              contentContainerStyle={[
                 {
                   width: dimensions ? dimensions.width : "100%",
+                  paddingBottom: Sizing.x5,
                 },
               ]}
               renderItem={renderItem}
@@ -184,15 +185,13 @@ const styles = StyleSheet.create({
     width: "50%",
     alignSelf: "baseline",
     marginLeft: Sizing.x20,
-    ...Typography.header.x35,
-    fontSize: 17,
+    ...Typography.subHeader.x30,
     color: Colors.primary.s600,
   },
   sectionHeader_dark: {
     width: "50%",
     marginLeft: Sizing.x20,
-    ...Typography.header.x35,
-    fontSize: 17,
+    ...Typography.header.x30,
     color: Colors.primary.neutral,
   },
 });

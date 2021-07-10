@@ -28,7 +28,7 @@ export const CalendarEventsListHeader = ({
             : styles.dayPreviewBarText_dark
         }>
         You have{" "}
-        <Text style={{ fontSize: 18, fontFamily: "Roboto-Bold" }}>
+        <Text style={{ fontFamily: "Roboto-Bold" }}>
           {isHomeScreen ? homerScreenNumOfEvents : calendarHeader.numOfEvents}
         </Text>{" "}
         upcoming events
@@ -46,12 +46,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   dayPreviewBarText_light: {
-    ...Typography.header.x35,
+    ...Typography.subHeader.x35,
     fontSize: 17,
     color: Colors.primary.s600,
   },
   dayPreviewBarText_dark: {
-    ...Typography.header.x35,
+    ...Typography.subHeader.x35,
     fontSize: 17,
     color: Colors.primary.neutral,
   },
