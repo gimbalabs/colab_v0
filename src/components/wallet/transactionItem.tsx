@@ -63,30 +63,30 @@ const styles = StyleSheet.create({
   },
   transactionPic: {
     borderRadius: 999,
-    width: Sizing.x60,
-    height: Sizing.x60,
+    width: Sizing.x55,
+    height: Sizing.x55,
   },
   transactionDetails: {
     marginLeft: Sizing.x15,
   },
   userName_light: {
-    ...Typography.header.x35,
+    ...Typography.header.x30,
     color: Colors.primary.s800,
   },
   userName_dark: {
-    ...Typography.header.x35,
+    ...Typography.header.x30,
     color: Colors.primary.neutral,
   },
   transactionInfo_light: {
-    ...Typography.subHeader.x25,
+    ...Typography.subHeader.x20,
     color: Colors.primary.s600,
   },
   transactionInfo_dark: {
-    ...Typography.subHeader.x25,
+    ...Typography.subHeader.x20,
     color: Colors.primary.s180,
   },
   amount: {
     marginLeft: "auto",
-    ...Typography.header.x40,
+    ...Typography.header.x35,
   },
 });

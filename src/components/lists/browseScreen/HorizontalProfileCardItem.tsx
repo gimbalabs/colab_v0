@@ -65,8 +65,8 @@ export const HorizontalProfileCardItem = ({
 
 const styles = StyleSheet.create({
   container: {
-    height: 155,
-    width: 155,
+    height: Sizing.x110,
+    width: Sizing.x110,
     alignItems: "center",
     justifyContent: "flex-start",
     marginRight: Sizing.x12,
@@ -81,8 +81,8 @@ const styles = StyleSheet.create({
     borderRadius: Outlines.borderRadius.max,
   },
   imageView: {
-    width: Sizing.x50,
-    height: Sizing.x50,
+    width: Sizing.x45,
+    height: Sizing.x45,
     ...Outlines.shadow.lifted,
   },
   header: {
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
   },
   bodyText: {
-    fontSize: Sizing.x12,
+    fontSize: Sizing.x10,
     lineHeight: 15,
     fontFamily: "Roboto-Regular",
   },

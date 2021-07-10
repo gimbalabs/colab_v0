@@ -47,8 +47,8 @@ export const HorizontalCardItem = ({
 
 const styles = StyleSheet.create({
   container: {
-    height: 155,
-    width: 155,
+    height: Sizing.x110,
+    width: Sizing.x110,
     alignItems: "center",
     justifyContent: "center",
     marginRight: Sizing.x12,

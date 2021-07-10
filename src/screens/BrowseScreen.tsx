@@ -43,8 +43,8 @@ export const BrowseScreen = ({ navigation }: BrowseProps) => {
       <View style={styles.container}>
         <View style={styles.searchToolContainer}>
           <SearchIcon
-            width={28}
-            height={28}
+            width={24}
+            height={24}
             stroke={
               colorScheme === "light"
                 ? Colors.primary.s800

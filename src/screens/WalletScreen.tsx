@@ -74,18 +74,9 @@ export const WalletScreen = ({ navigation, route }: WalletScreenProps) => {
         colorScheme == "light" ? styles.safeArea_light : styles.safeaArea_dark,
       ]}>
       <View style={styles.container}>
-        <View style={styles.searchToolContainer}>
-          <SearchIcon
-            width={28}
-            height={28}
-            stroke={
-              colorScheme === "light"
-                ? Colors.primary.s800
-                : Colors.primary.neutral
-            }
-            strokeWidth={1.6}
-          />
-        </View>
+        {/* <View style={styles.searchToolContainer}>
+          </View>*/}
+
         <LinearGradient
           colors={colorScheme === "light" ? darkGradient : lightGradient}
           start={{ x: 0, y: 1 }}
@@ -173,14 +164,15 @@ export const WalletScreen = ({ navigation, route }: WalletScreenProps) => {
                   />
                 </Pressable>
               )}
-              <RightArrowIcon
-                width={28}
-                height={28}
-                color={
+              <SearchIcon
+                width={24}
+                height={24}
+                stroke={
                   colorScheme === "light"
-                    ? Colors.primary.s600
+                    ? Colors.primary.s800
                     : Colors.primary.neutral
                 }
+                strokeWidth={1.6}
                 style={{ marginLeft: "auto" }}
               />
             </View>
@@ -215,36 +207,36 @@ const styles = StyleSheet.create({
     marginTop: Sizing.x10,
   },
   walletContainer: {
-    height: 220,
+    height: Sizing.x130,
     alignItems: "center",
     justifyContent: "space-between",
-    marginTop: Sizing.x25,
-    padding: Sizing.x15,
+    marginTop: Sizing.x20,
+    padding: Sizing.x14,
     borderRadius: Outlines.borderRadius.base,
     ...Outlines.shadow.lifted,
   },
   walletHeader_ligth: {
-    ...Typography.header.x35,
+    ...Typography.header.x30,
     color: Colors.primary.s180,
   },
   walletHeader_dark: {
-    ...Typography.header.x35,
+    ...Typography.header.x30,
     color: Colors.primary.s600,
   },
   walletBalance_ligth: {
     fontFamily: "Roboto-Medium",
-    fontSize: 64,
+    fontSize: Sizing.x65,
     color: Colors.primary.neutral,
   },
   walletBalance_dark: {
     fontFamily: "Roboto-Medium",
-    fontSize: 64,
+    fontSize: Sizing.x65,
     color: Colors.primary.s800,
   },
   walletButton_light: {
-    paddingVertical: Sizing.x2,
-    paddingHorizontal: Sizing.x7,
-    borderWidth: 4,
+    paddingVertical: Sizing.x1,
+    paddingHorizontal: Sizing.x8,
+    borderWidth: Sizing.x3,
     borderColor: Colors.primary.neutral,
     borderRadius: Outlines.borderRadius.base,
     marginBottom: Sizing.x20,
@@ -260,7 +252,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
   walletButtonText_light: {
-    ...Typography.header.x30,
+    ...Typography.header.x25,
     textAlign: "center",
     color: Colors.primary.neutral,
   },
