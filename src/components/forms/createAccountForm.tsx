@@ -224,11 +224,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: Sizing.x8,
     marginTop: Sizing.x5,
     justifyContent: "center",
-    backgroundColor: Colors.primary.neutral,
+    backgroundColor: Colors.danger.s400,
     borderRadius: Outlines.borderRadius.base,
   },
   error: {
     ...Forms.inputLabel.error,
-    color: Colors.danger.s400,
+    color: Colors.primary.neutral,
   },
 });

@@ -60,7 +60,7 @@ export const CustomPasswordInput = (props: any) => {
         style={[
           styles.errorWrapper,
           {
-            backgroundColor: !hasError ? "transparent" : Colors.primary.neutral,
+            backgroundColor: !hasError ? "transparent" : Colors.danger.s400,
           },
         ]}>
         {hasError && <Text style={styles.error}>{errors[name]}</Text>}
@@ -111,11 +111,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: Sizing.x8,
     marginTop: Sizing.x5,
     justifyContent: "center",
-    backgroundColor: Colors.primary.neutral,
     borderRadius: Outlines.borderRadius.base,
   },
   error: {
     ...Forms.inputLabel.error,
-    color: Colors.danger.s400,
+    color: Colors.primary.neutral,
   },
 });

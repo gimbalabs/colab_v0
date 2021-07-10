@@ -60,7 +60,7 @@ export const CustomInput = (props: any) => {
         style={[
           styles.errorWrapper,
           {
-            backgroundColor: !hasError ? "transparent" : Colors.primary.neutral,
+            backgroundColor: !hasError ? "transparent" : Colors.danger.s400,
           },
         ]}>
         {hasError && <Text style={styles.error}>{errors[name]}</Text>}
