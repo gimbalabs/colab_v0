@@ -6,6 +6,10 @@ export interface BioState {
   hasSyncedWallet: boolean;
   timeBlockLengthMin: string | null;
   timeBlockCostADA: string | null;
+  profession: string | string[] | null;
+  jobTitle: string | string[] | null;
+  description: string | string[] | null;
+  skills: string | string[] | null;
   setAlias: (input: string) => void;
   setAboutURL: (input: string) => void;
   setImageURL: (input: string) => void;
@@ -13,4 +17,8 @@ export interface BioState {
   setTimeBlockCostADA: (input: string) => void;
   setHasSyncedWallet: (arg: boolean) => void;
   setWalletBalance: (input: number) => void;
+  setProfession: (input: string | string[]) => void;
+  setJobTitle: (input: string | string[]) => void;
+  setDescription: (input: string | string[]) => void;
+  setSkills: (input: string | string[]) => void;
 }

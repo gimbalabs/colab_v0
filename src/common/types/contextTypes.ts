@@ -14,6 +14,7 @@ import { ColorSchemeName } from "react-native";
 
 export enum AppTypes {
   ToggleAuth = "TOGGLE_AUTH",
+  SetPageIndex = "SET_PAGE_INDEX",
   SetColorScheme = "SET_COLOR_SCHEME",
   SetFavoriteOrganizer = "SET_FAVORITE_ORGANIZER",
 }
@@ -60,6 +61,9 @@ export type ActionMap<M extends { [index: string]: any }> = {
 export type AppPayload = {
   [AppTypes.ToggleAuth]: {
     auth: boolean;
+  };
+  [AppTypes.SetPageIndex]: {
+    pageIndex: number;
   };
   [AppTypes.SetFavoriteOrganizer]: {
     alias: string;

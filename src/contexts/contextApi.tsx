@@ -19,7 +19,10 @@ export const appContext = () => {
   return {
     auth: state.authentication,
     colorScheme: state.colorScheme,
+    pageIndex: state.pageIndex,
     favoriteOrganizers: state.favoriteOrganizers,
+    ref: state.ref,
+    setRef: (ref) => dispatch({ type: "SET_REF", payload: { ref } }),
     toggleAuth: (auth?: boolean) => {
       dispatch({ type: "TOGGLE_AUTH", payload: { auth } });
     },
@@ -28,6 +31,9 @@ export const appContext = () => {
     },
     setColorScheme: (newColorScheme: ColorSchemeName) => {
       dispatch({ type: "SET_COLOR_SCHEME", payload: { newColorScheme } });
+    },
+    setPageIndex: (pageIndex: number) => {
+      dispatch({ type: "SET_PAGE_INDEX", payload: { pageIndex } });
     },
   };
 };

@@ -6,9 +6,13 @@ import React, { useState, createContext } from "react";
 import { BioState } from "interfaces/profileInterface";
 
 export const initialState: BioState = {
-  alias: "Batman",
+  alias: "",
   aboutURL: "",
   imageURL: "",
+  profession: null,
+  jobTitle: null,
+  description: null,
+  skills: null,
   hasSyncedWallet: false,
   timeBlockLengthMin: "15",
   timeBlockCostADA: "20",
@@ -20,6 +24,10 @@ export const initialState: BioState = {
   setTimeBlockCostADA: () => {},
   setHasSyncedWallet: () => {},
   setWalletBalance: () => {},
+  setProfession: () => {},
+  setJobTitle: () => {},
+  setDescription: () => {},
+  setSkills: () => {},
 };
 
 export interface ContextProviderProps {
@@ -36,6 +44,12 @@ export const ProfileContextProvider = ({ children }: ContextProviderProps) => {
     null
   );
   const [timeBlockCostADA, setTimeBlockCostADA] = useState<string | null>(null);
+  const [profession, setProfession] = useState<string | string[] | null>(null);
+  const [jobTitle, setJobTitle] = useState<string | string[] | null>(null);
+  const [description, setDescription] = useState<string | string[] | null>(
+    null
+  );
+  const [skills, setSkills] = useState<string | string[] | null>(null);
   const [hasSyncedWallet, setHasSyncedWallet] = useState<boolean>(false);
   const [walletBalance, setWalletBalance] = useState<number>(56);
 
@@ -49,6 +63,10 @@ export const ProfileContextProvider = ({ children }: ContextProviderProps) => {
         hasSyncedWallet,
         timeBlockLengthMin,
         timeBlockCostADA,
+        profession,
+        jobTitle,
+        description,
+        skills,
         setAlias,
         setAboutURL,
         setImageURL,
@@ -56,6 +74,10 @@ export const ProfileContextProvider = ({ children }: ContextProviderProps) => {
         setHasSyncedWallet,
         setTimeBlockLengthMin,
         setTimeBlockCostADA,
+        setProfession,
+        setJobTitle,
+        setDescription,
+        setSkills,
       }}>
       {children}
     </ProfileContext.Provider>

@@ -19,10 +19,17 @@ const initialAppState: AppState = {
   authentication: true,
   colorScheme: colorScheme == null ? "light" : colorScheme,
   favoriteOrganizers: [],
+  pageIndex: 0,
+  ref: null,
 };
 
 const reducer = (state: AppState, action: AppActions) => {
   switch (action.type) {
+    case "SET_REF":
+      return {
+        ...state,
+        ref: action.payload.ref,
+      };
     case AppTypes.ToggleAuth:
       return {
         ...state,
@@ -31,6 +38,13 @@ const reducer = (state: AppState, action: AppActions) => {
             ? action.payload.auth
             : !state.authentication,
       };
+    case AppTypes.SetPageIndex:
+      if (action.payload.pageIndex != null) {
+        return {
+          ...state,
+          pageIndex: action.payload.pageIndex,
+        };
+      }
     case AppTypes.SetColorScheme:
       if (action.payload.newColorScheme != null) {
         return {

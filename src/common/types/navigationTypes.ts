@@ -1,16 +1,13 @@
-// import { NavigatorScreenParams } from "@react-navigation/native";
-
 export type AppStackParamList = {
-  // 'undefined' means that no parameters are specified
-  Home: undefined;
+  Initial: undefined;
+  Pricing: undefined;
+  "Create Account": undefined;
+  "Deposit Successful": undefined;
+  Confirmation: undefined;
   "Add Funds": { fromScreen: string };
   "Navigation Screens": undefined;
+  "User Registration Screens": undefined;
   "Onboarding Screens": undefined;
-  Modal: undefined;
-  Attendees: undefined;
-  Browse: undefined;
-  Confirmation: undefined;
-  "Deposit Successful": undefined;
 };
 
 export type OrganizerTabParamList = {

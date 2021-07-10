@@ -8,6 +8,7 @@ export interface AppState {
   authentication: boolean;
   colorScheme: ColorSchemeName;
   favoriteOrganizers: any[];
+  pageIndex: number;
 }
 
 export interface AppContextProviderProps {
