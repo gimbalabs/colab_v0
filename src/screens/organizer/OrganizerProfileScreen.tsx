@@ -116,13 +116,14 @@ export const OrganizerProfileScreen = ({
       <View style={styles.mainNavigation}>
         <Pressable style={styles.navigationItem} onPress={() => {}}>
           <HearthIcon
-            width={32}
-            height={32}
+            width={26}
+            height={26}
             color={
               colorScheme === "light"
                 ? Colors.primary.brand
                 : Colors.primary.neutral
             }
+            strokeWidth={1.6}
           />
           <Text
             style={
@@ -133,25 +134,27 @@ export const OrganizerProfileScreen = ({
             Favorites
           </Text>
           <RightArrowIcon
-            width={32}
-            height={32}
+            width={26}
+            height={26}
             color={
               colorScheme === "light"
                 ? Colors.primary.brand
                 : Colors.primary.neutral
             }
             style={styles.navigationItemRightIcon}
+            strokeWidth={1.6}
           />
         </Pressable>
         <Pressable style={styles.navigationItem} onPress={() => {}}>
           <CogIcon
-            width={32}
-            height={32}
+            width={26}
+            height={26}
             color={
               colorScheme === "light"
                 ? Colors.primary.brand
                 : Colors.primary.neutral
             }
+            strokeWidth={1.6}
           />
           <Text
             style={
@@ -162,25 +165,27 @@ export const OrganizerProfileScreen = ({
             Settings
           </Text>
           <RightArrowIcon
-            width={32}
-            height={32}
+            width={26}
+            height={26}
             color={
               colorScheme === "light"
                 ? Colors.primary.brand
                 : Colors.primary.neutral
             }
             style={styles.navigationItemRightIcon}
+            strokeWidth={1.6}
           />
         </Pressable>
         <View style={[styles.navigationItem, { marginTop: "auto" }]}>
           <LightBulbIcon
-            width={32}
-            height={32}
+            width={26}
+            height={26}
             color={
               colorScheme === "light"
                 ? Colors.primary.brand
                 : Colors.primary.neutral
             }
+            strokeWidth={1.6}
           />
           <Text
             style={
@@ -220,34 +225,35 @@ const styles = StyleSheet.create({
   },
   headerNavigation: {
     alignItems: "center",
-    marginVertical: Sizing.x50,
+    marginVertical: Sizing.x30,
   },
   headerText_ligth: {
-    ...Typography.header.x50,
+    ...Typography.header.x45,
     color: Colors.primary.s600,
+    marginVertical: Sizing.x5,
   },
   headerText_dark: {
-    ...Typography.header.x50,
+    ...Typography.header.x45,
     color: Colors.primary.neutral,
+    marginVertical: Sizing.x5,
   },
   mainNavigation: {
     flex: 1,
     alignItems: "center",
-    marginTop: Sizing.x20,
+    marginTop: Sizing.x10,
     width: "100%",
   },
   button_light: {
     ...Buttons.bar.secondary,
-    padding: Sizing.x10,
-    marginVertical: Sizing.x10,
+    padding: Sizing.x8,
     backgroundColor: Colors.primary.s800,
     ...Outlines.shadow.lifted_noElevation,
   },
   button_dark: {
     ...Buttons.bar.secondary,
-    padding: Sizing.x10,
-    marginVertical: Sizing.x10,
+    padding: Sizing.x8,
     backgroundColor: Colors.primary.neutral,
+    ...Outlines.shadow.lifted_noElevation,
   },
   buttonText_light: {
     ...Typography.header.x30,
@@ -276,8 +282,8 @@ const styles = StyleSheet.create({
   },
   profilePic: {
     borderRadius: Outlines.borderRadius.max,
-    width: Sizing.x90,
-    height: Sizing.x90,
+    width: Sizing.x85,
+    height: Sizing.x85,
   },
   navigationItem: {
     flexDirection: "row",

@@ -170,12 +170,12 @@ const styles = StyleSheet.create({
     color: Colors.primary.neutral,
   },
   headerOccupation_light: {
-    ...Typography.subHeader.x30,
+    ...Typography.subHeader.x25,
     lineHeight: 0,
     color: Colors.primary.s600,
   },
   headerOccupation_dark: {
-    ...Typography.subHeader.x30,
+    ...Typography.subHeader.x25,
     lineHeight: 0,
     color: Colors.primary.s600,
   },
@@ -206,11 +206,11 @@ const styles = StyleSheet.create({
     color: Colors.primary.s200,
   },
   hourlyRate_light: {
-    ...Typography.subHeader.x30,
+    ...Typography.subHeader.x25,
     color: Colors.primary.s800,
   },
   hourlyRate_dark: {
-    ...Typography.subHeader.x30,
+    ...Typography.subHeader.x25,
     color: Colors.primary.s200,
   },
   rightSubBottom: {

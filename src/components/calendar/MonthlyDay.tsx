@@ -24,7 +24,7 @@ export const MonthlyDay = ({
   setActiveDay,
   scheduledEvents,
   year,
-  isBookingCalendar,
+  isBookingCalendar = false,
 }: MonthlyDayProps) => {
   const { previewingDayEvents } = myCalendarContext();
   const { setPickedDate, pickedDate } = bookingContext();
@@ -68,7 +68,7 @@ export const MonthlyDay = ({
     if (availabilities == null) return;
 
     // Dont' highlight a fully booked day
-    if (isFullyBooked) return;
+    if (isFullyBooked && isBookingCalendar) return;
 
     if (isBookingCalendar && hasAvailabilities) {
       setPickedDate(dayInTime);
@@ -86,7 +86,7 @@ export const MonthlyDay = ({
             backgroundColor:
               isActiveDay && !isBookingCalendar
                 ? Colors.primary.s600
-                : pickedDate === dayInTime
+                : isBookingCalendar && pickedDate === dayInTime
                 ? Colors.primary.s600
                 : isBookingCalendar && isFullyBooked
                 ? Colors.booked
@@ -96,7 +96,9 @@ export const MonthlyDay = ({
                 ? Colors.primary.s180
                 : "transparent",
           },
-          !isFullyBooked && availabilities && { ...Outlines.shadow.lifted },
+          !isFullyBooked &&
+            isBookingCalendar &&
+            availabilities && { ...Outlines.shadow.lifted },
         ]}>
         <Text
           style={[
@@ -119,25 +121,16 @@ export const MonthlyDay = ({
           />
         )}
       </View>
-      {isBookingCalendar != null ||
-        (isBookingCalendar && (
-          <View style={styles.dotsWrapper}>
-            {scheduledEvents && (
-              <DotIcon
-                style={styles.scheduledDay}
-                fill="#FCD34D"
-                stroke="none"
-              />
-            )}
-            {availabilities && (
-              <DotIcon
-                style={styles.availableDay}
-                fill="#60A5FA"
-                stroke="none"
-              />
-            )}
-          </View>
-        ))}
+      {!isBookingCalendar && (
+        <View style={styles.dotsWrapper}>
+          {scheduledEvents && (
+            <DotIcon style={styles.scheduledDay} fill="#FCD34D" stroke="none" />
+          )}
+          {availabilities && (
+            <DotIcon style={styles.availableDay} fill="#60A5FA" stroke="none" />
+          )}
+        </View>
+      )}
     </Pressable>
   );
 };
@@ -149,6 +142,7 @@ const styles = StyleSheet.create({
     zIndex: 2,
   },
   dotsWrapper: {
+    zIndex: 5,
     flexDirection: "row",
     marginTop: 2,
     width: "50%",

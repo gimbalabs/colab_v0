@@ -17,6 +17,7 @@ type FontSize =
   | "x30"
   | "x35"
   | "x40"
+  | "x45"
   | "x50"
   | "x55"
   | "x60"
@@ -43,6 +44,9 @@ export const fontSize: Record<FontSize, TextStyle> = {
   },
   x40: {
     fontSize: scale(20),
+  },
+  x45: {
+    fontSize: scale(22),
   },
   x50: {
     fontSize: scale(24),
@@ -95,6 +99,7 @@ type LineHeight =
   | "x30"
   | "x35"
   | "x40"
+  | "x45"
   | "x50"
   | "x55"
   | "x60"
@@ -122,6 +127,9 @@ export const lineHeight: Record<LineHeight, TextStyle> = {
   x40: {
     lineHeight: scale(26),
   },
+  x45: {
+    lineHeight: scale(30),
+  },
   x50: {
     lineHeight: scale(32),
   },
@@ -146,6 +154,7 @@ type Header =
   | "x30"
   | "x35"
   | "x40"
+  | "x45"
   | "x50"
   | "x55"
   | "x60"
@@ -185,6 +194,12 @@ export const header: Record<Header, TextStyle> = {
   x40: {
     ...fontSize.x40,
     ...lineHeight.x40,
+    ...fontWeight.bold,
+    fontFamily: "Roboto-Medium",
+  },
+  x45: {
+    ...fontSize.x45,
+    ...lineHeight.x45,
     ...fontWeight.bold,
     fontFamily: "Roboto-Medium",
   },

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-import { Colors, Sizing } from "styles/index";
+import { Colors, Outlines, Sizing, Typography } from "styles/index";
 import { EventLine, SectionDetail } from "common/interfaces/bookingInterface";
 import { SubHeaderText } from "components/rnWrappers/subHeaderText";
 import { appContext } from "contexts/contextApi";
@@ -30,7 +30,7 @@ export const EventConfirmationDetail = ({
       style={[
         styles.container,
         !isLastItem && {
-          borderBottomWidth: 1.5,
+          borderBottomWidth: Outlines.borderWidth.thin,
           borderBottomColor: isLightMode
             ? Colors.primary.s350
             : Colors.primary.s300,
@@ -112,7 +112,8 @@ const styles = StyleSheet.create({
     marginBottom: Sizing.x5,
   },
   text: {
-    fontSize: 16,
-    fontFamily: "Roboto-Medium",
+    ...Typography.header.x25,
+    // fontSize: 16,
+    // fontFamily: "Roboto-Medium",
   },
 });

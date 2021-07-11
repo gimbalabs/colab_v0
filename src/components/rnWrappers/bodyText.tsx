@@ -29,6 +29,6 @@ export const BodyText = ({ children, colors, customStyle }: BodyTextProps) => {
 
 const styles = StyleSheet.create({
   text: {
-    ...Typography.body.x30,
+    ...Typography.body.x25,
   },
 });

@@ -43,6 +43,6 @@ export const SubHeaderText = ({
 
 const styles = StyleSheet.create({
   text: {
-    ...Typography.subHeader.x35,
+    ...Typography.subHeader.x30,
   },
 });
