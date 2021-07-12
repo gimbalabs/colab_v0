@@ -95,7 +95,7 @@ export const AvailableDates = ({ navigation, route }) => {
         <View style={styles.buttonContainer}>
           <FullWidthButton
             onPressCallback={onNextPress}
-            text={"Choose time"}
+            text={"Book event"}
             colorScheme={colorScheme}
             disabled={isDisabled}
           />

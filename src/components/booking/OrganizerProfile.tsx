@@ -13,6 +13,7 @@ import { appContext } from "contexts/contextApi";
 import { HearthIcon } from "assets/icons/index";
 import { ProfileTag } from "components/profile/profileTag";
 import { BodyText } from "components/rnWrappers/bodyText";
+import { scale } from "lib/utils";
 
 export interface OrganizerProfileProps {
   profile: any;
@@ -150,8 +151,8 @@ const styles = StyleSheet.create({
     borderRadius: 999,
   },
   imageBackground: {
-    width: Sizing.x85,
-    height: Sizing.x85,
+    width: scale(98),
+    height: scale(98),
     borderRadius: 999,
     ...Outlines.shadow.lifted,
   },
@@ -195,7 +196,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginLeft: Sizing.x15,
-    marginBottom: Sizing.x5,
+    marginBottom: Sizing.x2,
   },
   relatedTags_light: {
     ...Typography.subHeader.x10,

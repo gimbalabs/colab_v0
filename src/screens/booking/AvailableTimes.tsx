@@ -164,7 +164,7 @@ export const AvailableTimes = ({ navigation, route }) => {
         <View style={styles.buttonContainer}>
           <FullWidthButton
             onPressCallback={onNextPress}
-            text={"Choose duration"}
+            text={"Next"}
             colorScheme={colorScheme}
             disabled={isDisabled}
           />

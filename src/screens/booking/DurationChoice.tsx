@@ -46,7 +46,7 @@ export const DurationChoice = ({ navigation, route }) => {
     ? "Sign up"
     : walletBalance != null && walletBalance < cost
     ? "Deposit"
-    : "Confirm";
+    : "Next";
 
   const { timeSlots, setTimeSlots } = useDurationSlots(
     timeBlockMilSec,
@@ -59,7 +59,7 @@ export const DurationChoice = ({ navigation, route }) => {
     if (buttonText === "Sign up") return; // @TODO must navigate to sign up screen
     if (buttonText === "Deposit")
       navigation.navigate("Add Funds", { fromScreen: "Duration Choice" });
-    if (buttonText === "Confirm") {
+    if (buttonText === "Next") {
       setIsLoading(true);
       setDuration(selectedDuration);
       setDurationCost(cost);
