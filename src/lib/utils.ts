@@ -92,7 +92,7 @@ export function getMonth(val?: any): number {
   return new Date().getMonth();
 }
 
-export function getMonthByIndex(val?: any): string {
+export function getMonthName(val?: any): string {
   var month;
   if (val != null) {
     month = months[new Date(val).getMonth()];
