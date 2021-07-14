@@ -25,6 +25,7 @@ import { AppStackParamList } from "common/types/navigationTypes";
 import { NavigationScreens } from "tabs/NavigationScreens";
 import { WalletTopUpScreen } from "screens/onboarding";
 import { OnboardingScreens } from "components/OnboardingPager";
+import { LogIn } from "screens/LogIn";
 
 setJSExceptionHandler(jsErrorHandler, true); // true - enables the error in dev mode
 enableScreens(); // enable native screens for navigation instead of using Views
@@ -50,9 +51,7 @@ function App() {
       <AppContextProvider>
         <ProfileContextProvider>
           <NavigationContainer>
-            <Stack.Navigator
-              initialRouteName="Navigation Screens"
-              headerMode="screen">
+            <Stack.Navigator initialRouteName="Log In" headerMode="screen">
               {auth ? (
                 <>
                   {/*<Stack.Screen
@@ -60,6 +59,11 @@ function App() {
                   options={{ title: "Home" }}
                   component={HomeScreen}
                 />*/}
+                  <Stack.Screen
+                    name="Log In"
+                    component={LogIn}
+                    options={{ headerShown: false }}
+                  />
                   <Stack.Screen
                     name="Navigation Screens"
                     component={NavigationScreens}

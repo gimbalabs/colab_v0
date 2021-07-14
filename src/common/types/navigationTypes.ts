@@ -1,4 +1,5 @@
 export type AppStackParamList = {
+  "Log In": undefined;
   Initial: undefined;
   Pricing: undefined;
   "Create Account": undefined;
