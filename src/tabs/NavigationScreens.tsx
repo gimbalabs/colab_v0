@@ -9,6 +9,7 @@ import { Calendar } from "containers/MyCalendar";
 import { OrganizerProfileScreen } from "screens/organizer/OrganizerProfileScreen";
 import { NavigationTabBar } from "components/navBarComponents/navigationTabBar";
 import { BrowseScreensStack } from "../stacks/BrowseScreensStack";
+import { Sizing } from "styles/index";
 
 const NavigationTabs = createBottomTabNavigator<OrganizerTabParamList>();
 

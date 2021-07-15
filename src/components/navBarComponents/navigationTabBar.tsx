@@ -12,7 +12,7 @@ import { Colors, Typography, Outlines } from "styles/index";
 import { OrganizerTabParamList } from "common/types/navigationTypes";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { appContext } from "contexts/contextApi";
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView } from "react-native-safe-area-context";
 
 type NavigationTabBarProps = BottomTabBarProps<OrganizerTabParamList>;
 
@@ -145,12 +145,12 @@ export const NavigationTabBar = ({
     );
   };
   return (
-    <SafeAreaView
+    <View
       style={[
         colorScheme == "light" ? styles.container_light : styles.container_dark,
       ]}>
       {state.routes.map(renderTabItem)}
-    </SafeAreaView>
+    </View>
   );
 };
 
