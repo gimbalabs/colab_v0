@@ -1,13 +1,7 @@
 import * as React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  ScrollView,
-} from "react-native";
+import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
 
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView } from "react-native-safe-area-context";
 import { StackScreenProps } from "@react-navigation/stack";
 import { Colors, Buttons, Typography, Sizing, Outlines } from "styles/index";
 import { BookingStackParamList } from "common/types/navigationTypes";

@@ -13,13 +13,14 @@ export interface EventsListProps {}
 
 export const EventsList = ({}: EventsListProps) => {
   const renderEventCard = ({ item }: any) => {
-    const { title, fromDate, toDate, image, color } = item;
+    const { title, description, fromDate, toDate, image, color } = item;
 
     const imageSrc = image === "Fall" ? FallImg : SummerImg;
 
     return (
       <EventsListCard
         title={title}
+        description={description}
         fromDate={fromDate}
         toDate={toDate}
         image={imageSrc}

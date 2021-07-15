@@ -4,7 +4,7 @@ import { Buttons, Colors, Outlines, Sizing, Typography } from "styles/index";
 import { DotIcon, PartiallyBookedDay } from "icons/index";
 import { Day } from "interfaces/myCalendarInterface";
 import { bookingContext, myCalendarContext } from "contexts/contextApi";
-import { getDate, getMonthByIndex, getTime, getYear } from "lib/utils";
+import { getDate, getMonthName, getTime, getYear } from "lib/utils";
 import { monthsByName } from "common/types/calendarTypes";
 
 export interface MonthlyDayProps extends Day {
@@ -34,7 +34,7 @@ export const MonthlyDay = ({
 
   // Today's day
   const isCurrentDay =
-    year === getYear() && month === getMonthByIndex() && number === getDate();
+    year === getYear() && month === getMonthName() && number === getDate();
 
   // Whenever someone has pressed a day or it's a current day
   const isActiveDay =

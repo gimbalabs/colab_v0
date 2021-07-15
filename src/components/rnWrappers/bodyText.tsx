@@ -11,7 +11,7 @@ import { appContext } from "contexts/contextApi";
 import { Typography } from "styles/index";
 
 export interface BodyTextProps {
-  children?: any;
+  children?: React.ReactNode;
   colors: string[];
   customStyle?: StyleProp<TextStyle>;
 }
