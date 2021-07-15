@@ -1,6 +1,7 @@
 import * as React from "react";
-import { View, Text, StyleSheet, SafeAreaView, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { Colors, Sizing, Typography } from "styles/index";
 import { appContext } from "contexts/contextApi";
 

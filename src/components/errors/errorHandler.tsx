@@ -1,7 +1,8 @@
 import * as React from "react";
 
 import * as Updates from "expo-updates";
-import { Pressable, View, Text, StyleSheet, SafeAreaView } from "react-native";
+import { Pressable, View, Text, StyleSheet } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 import { Buttons, Typography } from "styles/index";
 

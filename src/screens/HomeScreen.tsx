@@ -1,6 +1,5 @@
 import * as React from "react";
 import {
-  SafeAreaView,
   View,
   Text,
   Pressable,
@@ -8,6 +7,7 @@ import {
   Switch,
 } from "react-native";
 
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { AppStackParamList } from "common/types/navigationTypes";
 import { StackScreenProps } from "@react-navigation/stack";
 import { Colors, Buttons, Typography, Sizing, Outlines } from "styles/index";

@@ -1,6 +1,7 @@
 import * as React from "react";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 
-import { View, Text, StyleSheet, SafeAreaView, Pressable } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { ProfileContext } from "contexts/profileContext";
 import { OrgCreateProfile } from "components/forms/OrgCreateProfile";
 import { StackScreenProps } from "@react-navigation/stack";

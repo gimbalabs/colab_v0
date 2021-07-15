@@ -26,6 +26,7 @@ import { NavigationScreens } from "tabs/NavigationScreens";
 import { WalletTopUpScreen } from "screens/onboarding";
 import { OnboardingScreens } from "components/OnboardingPager";
 import { LogIn } from "screens/LogIn";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 setJSExceptionHandler(jsErrorHandler, true); // true - enables the error in dev mode
 enableScreens(); // enable native screens for navigation instead of using Views
@@ -48,75 +49,79 @@ function App() {
     return <AppLoading />;
   } else {
     return (
-      <AppContextProvider>
-        <ProfileContextProvider>
-          <NavigationContainer>
-            <Stack.Navigator initialRouteName="Log In" headerMode="screen">
-              {auth ? (
-                <>
-                  {/*<Stack.Screen
+      <SafeAreaProvider>
+        <AppContextProvider>
+          <ProfileContextProvider>
+            <NavigationContainer>
+              <Stack.Navigator
+                initialRouteName="Navigation Screens"
+                headerMode="screen">
+                {auth ? (
+                  <>
+                    {/*<Stack.Screen
                   name="Home"
                   options={{ title: "Home" }}
                   component={HomeScreen}
                 />*/}
-                  <Stack.Screen
+                    {/*               <Stack.Screen
                     name="Log In"
                     component={LogIn}
                     options={{ headerShown: false }}
-                  />
-                  <Stack.Screen
-                    name="Navigation Screens"
-                    component={NavigationScreens}
-                    options={{ headerShown: false }}
-                  />
-                  <Stack.Screen
-                    name="Deposit Successful"
-                    options={{ headerShown: false, gestureEnabled: false }}
-                    component={DepositSuccessful}
-                  />
-                  <Stack.Screen
-                    name="Confirmation"
-                    options={{ headerShown: false, gestureEnabled: false }}
-                    component={Confirmation}
-                  />
-                  <Stack.Screen
-                    name="Add Funds"
-                    options={{ headerShown: false, gestureEnabled: false }}
-                    component={WalletTopUpScreen}
-                  />
-                </>
-              ) : (
-                <>
-                  <Stack.Screen
-                    name="User Registration Screens"
-                    component={UserRegistrationScreens}
-                    options={{
-                      headerShown: false,
-                    }}
-                  />
-                  <Stack.Screen
-                    name="Onboarding Screens"
-                    component={OnboardingScreens}
-                    options={{
-                      headerShown: false,
-                    }}
-                  />
-                  <Stack.Screen
-                    name="Deposit Successful"
-                    options={{ headerShown: false, gestureEnabled: false }}
-                    component={DepositSuccessful}
-                  />
-                  <Stack.Screen
-                    name="Confirmation"
-                    options={{ headerShown: false, gestureEnabled: false }}
-                    component={Confirmation}
-                  />
-                </>
-              )}
-            </Stack.Navigator>
-          </NavigationContainer>
-        </ProfileContextProvider>
-      </AppContextProvider>
+                  />*/}
+                    <Stack.Screen
+                      name="Navigation Screens"
+                      component={NavigationScreens}
+                      options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                      name="Deposit Successful"
+                      options={{ headerShown: false, gestureEnabled: false }}
+                      component={DepositSuccessful}
+                    />
+                    <Stack.Screen
+                      name="Confirmation"
+                      options={{ headerShown: false, gestureEnabled: false }}
+                      component={Confirmation}
+                    />
+                    <Stack.Screen
+                      name="Add Funds"
+                      options={{ headerShown: false, gestureEnabled: false }}
+                      component={WalletTopUpScreen}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <Stack.Screen
+                      name="User Registration Screens"
+                      component={UserRegistrationScreens}
+                      options={{
+                        headerShown: false,
+                      }}
+                    />
+                    <Stack.Screen
+                      name="Onboarding Screens"
+                      component={OnboardingScreens}
+                      options={{
+                        headerShown: false,
+                      }}
+                    />
+                    <Stack.Screen
+                      name="Deposit Successful"
+                      options={{ headerShown: false, gestureEnabled: false }}
+                      component={DepositSuccessful}
+                    />
+                    <Stack.Screen
+                      name="Confirmation"
+                      options={{ headerShown: false, gestureEnabled: false }}
+                      component={Confirmation}
+                    />
+                  </>
+                )}
+              </Stack.Navigator>
+            </NavigationContainer>
+          </ProfileContextProvider>
+        </AppContextProvider>
+      </SafeAreaProvider>
     );
   }
 }

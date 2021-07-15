@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  SafeAreaView,
   Pressable,
   ScrollView,
 } from "react-native";
@@ -17,6 +16,7 @@ import {
   myCalendarContext,
 } from "contexts/contextApi";
 
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { customAvailabilities } from "../../api_data/customAvailabilities";
 import { featuredOrganizers } from "../../api_data/featuredOrganizers";
 import { MonthlyWrapper } from "components/calendar";

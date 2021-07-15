@@ -2,7 +2,6 @@ import * as React from "react";
 import {
   View,
   Animated,
-  SafeAreaView,
   StyleSheet,
   Dimensions,
 } from "react-native";
@@ -12,6 +11,7 @@ import {
   WalletTopUpScreen,
   PaymentConfirmationScreen,
 } from "screens/onboarding/index";
+import { SafeAreaView } from 'react-native-safe-area-context'
 import PagerView from "react-native-pager-view";
 import { ScalingDot } from "react-native-animated-pagination-dots";
 import { Colors, Outlines } from "styles/index";

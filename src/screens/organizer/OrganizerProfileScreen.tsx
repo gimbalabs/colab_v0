@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  SafeAreaView,
   Pressable,
   Switch,
   Platform,
@@ -11,6 +10,7 @@ import {
   ImageBackground,
 } from "react-native";
 
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { Buttons, Outlines, Typography, Sizing, Colors } from "styles/index";
 import { StackScreenProps } from "@react-navigation/stack";
 import { OrganizerTabParamList } from "common/types/navigationTypes";

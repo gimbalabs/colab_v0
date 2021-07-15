@@ -2,7 +2,6 @@ import * as React from "react";
 import {
   View,
   Animated,
-  SafeAreaView,
   StyleSheet,
   Dimensions,
 } from "react-native";
@@ -15,6 +14,7 @@ import {
 import PagerView from "react-native-pager-view";
 import { ScalingDot } from "react-native-animated-pagination-dots";
 import { Colors, Outlines } from "styles/index";
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const AnimatedPagerView = Animated.createAnimatedComponent(PagerView);
 

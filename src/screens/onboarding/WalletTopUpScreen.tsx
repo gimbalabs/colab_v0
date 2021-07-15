@@ -7,10 +7,10 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  SafeAreaView,
   useWindowDimensions,
 } from "react-native";
 
+import { SafeAreaView } from 'react-native-safe-area-context'
 import ViewPager from "react-native-pager-view";
 import QRCode from "react-native-qrcode-svg";
 import { CustomPlainInput } from "components/forms/CustomPlainInput";

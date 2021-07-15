@@ -6,6 +6,7 @@ import {
   AvailableDates,
   AvailableTimes,
   DurationChoice,
+  EventDescription,
 } from "screens/booking/index";
 import { BookingContextProvider } from "contexts/bookingContext";
 import { WalletTopUpScreen } from "screens/onboarding";
@@ -18,6 +19,7 @@ export const BrowseScreensStack = () => (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Browse" component={BrowseScreen} />
       <Stack.Screen name="Available Dates" component={AvailableDates} />
+      <Stack.Screen name="Event Description" component={EventDescription} />
       <Stack.Screen name="Available Times" component={AvailableTimes} />
       <Stack.Screen name="Duration Choice" component={DurationChoice} />
       <Stack.Screen name="Add Funds" component={WalletTopUpScreen} />
