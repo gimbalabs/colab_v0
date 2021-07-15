@@ -571,3 +571,44 @@ export function getTimeSpanLength(time: number): string {
     return `${hours}${minutes && "." + minutes} hrs`;
   }
 }
+
+/**
+ * @description Returns date used to show on event card component
+ *
+ * @param fromDate: number
+ * @param toDate: number
+ *
+ * @returns date: string
+ */
+export function getEventCardDate(fromDate: number, toDate: number) {
+  let dateString = "";
+
+  // if the events happens in the same month
+  if (getMonthName(fromDate) === getMonthName(toDate)) {
+    dateString +=
+      getDate(fromDate) +
+      "-" +
+      getDate(toDate) +
+      " " +
+      getMonthName(fromDate).slice(0, 3);
+
+    return dateString;
+  }
+
+  // if it's first day - only attach the month name (first 3 letters)
+  if (getDate(fromDate) === 1) {
+    dateString += getMonthName(fromDate).slice(0, 3);
+  } else {
+    dateString += getMonthName(fromDate).slice(0, 3) + " " + getDate(fromDate);
+  }
+
+  // if it's first day - only attach the month name (first 3 letters)
+  if (getDate(toDate) === 1) {
+    dateString += " - " + getMonthName(toDate).slice(0, 3);
+  } else {
+    dateString +=
+      " - " + getMonthName(toDate).slice(0, 3) + " " + getDate(toDate);
+  }
+
+  return dateString;
+}

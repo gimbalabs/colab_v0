@@ -1,12 +1,20 @@
-import { getDate, getMonthName } from "lib/utils";
 import * as React from "react";
-import { View, Text, StyleSheet, ImageBackground } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ImageBackground,
+  Pressable,
+} from "react-native";
 
+import { useNavigation } from "@react-navigation/native";
 import { Colors, Outlines, Sizing, Typography } from "styles/index";
 import { applyOpacity } from "../../styles/colors";
+import { getEventCardDate } from "lib/utils";
 
 export interface EventsListCardProps {
   title: string;
+  description: string;
   fromDate: number;
   toDate: number;
   image: any;
@@ -15,66 +23,51 @@ export interface EventsListCardProps {
 
 export const EventsListCard = ({
   title,
+  description,
   fromDate,
   toDate,
   image,
   color,
 }: EventsListCardProps) => {
-  const getEventDate = () => {
-    let dateString = "";
+  const navigation = useNavigation();
+  const getEventDate = () => {};
 
-    // if the events happens in the same month
-    if (getMonthName(fromDate) === getMonthName(toDate)) {
-      dateString +=
-        getDate(fromDate) +
-        "-" +
-        getDate(toDate) +
-        " " +
-        getMonthName(fromDate).slice(0, 3);
-
-      return dateString;
-    }
-
-    // if it's first day - only attach the month name (first 3 letters)
-    if (getDate(fromDate) === 1) {
-      dateString += getMonthName(fromDate).slice(0, 3);
-    } else {
-      dateString +=
-        getMonthName(fromDate).slice(0, 3) + " " + getDate(fromDate);
-    }
-
-    // if it's first day - only attach the month name (first 3 letters)
-    if (getDate(toDate) === 1) {
-      dateString += " - " + getMonthName(toDate).slice(0, 3);
-    } else {
-      dateString +=
-        " - " + getMonthName(toDate).slice(0, 3) + " " + getDate(toDate);
-    }
-
-    return dateString;
+  const onCardPress = () => {
+    return navigation.navigate("Event Description", {
+      title,
+      description,
+      fromDate,
+      toDate,
+      image,
+      color,
+    });
   };
 
   return (
-    <ImageBackground
-      imageStyle={styles.image}
-      resizeMode="cover"
-      source={image}
-      style={styles.backgroundImage}>
-      <View
-        style={[
-          styles.container,
-          { backgroundColor: applyOpacity(color, 0.5) },
-        ]}>
+    <Pressable onPress={onCardPress} style={{ flex: 1 }}>
+      <ImageBackground
+        imageStyle={styles.image}
+        resizeMode="cover"
+        source={image}
+        style={styles.backgroundImage}>
         <View
           style={[
-            styles.dateCard,
-            { backgroundColor: applyOpacity(color, 0.8) },
+            styles.container,
+            { backgroundColor: applyOpacity(color, 0.5) },
           ]}>
-          <Text style={styles.dateCardText}>{getEventDate()}</Text>
+          <View
+            style={[
+              styles.dateCard,
+              { backgroundColor: applyOpacity(color, 0.8) },
+            ]}>
+            <Text style={styles.dateCardText}>
+              {getEventCardDate(fromDate, toDate)}
+            </Text>
+          </View>
+          <Text style={styles.eventTitle}>{title}</Text>
         </View>
-        <Text style={styles.eventTitle}>{title}</Text>
-      </View>
-    </ImageBackground>
+      </ImageBackground>
+    </Pressable>
   );
 };
 
