@@ -1,11 +1,5 @@
 import * as React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  ScrollView,
-} from "react-native";
+import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
 
 import { Colors, Sizing, Typography } from "styles/index";
 import { OrganizerProfile } from "components/booking/index";
@@ -16,7 +10,7 @@ import {
   myCalendarContext,
 } from "contexts/contextApi";
 
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView } from "react-native-safe-area-context";
 import { customAvailabilities } from "../../api_data/customAvailabilities";
 import { featuredOrganizers } from "../../api_data/featuredOrganizers";
 import { MonthlyWrapper } from "components/calendar";
@@ -42,11 +36,16 @@ export const AvailableDates = ({ navigation, route }) => {
   const { alias } = route.params;
 
   React.useEffect(() => {
+    if (route.params?.selectedEvent != null) {
+      setSelectedEvent(route.params.selectedEvent);
+      setCurrentTab("availabilities");
+    }
+
     let profile = featuredOrganizers.items.find((org) => org.alias === alias);
 
     setAvailCalendar(customAvailabilities);
     setPreviewingOrganizer(profile);
-  }, []);
+  }, [navigation, route.params]);
 
   const isLightMode = colorScheme === "light";
   const isDisabled = pickedDate === null;
