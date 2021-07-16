@@ -1,11 +1,8 @@
 import * as React from "react";
-import { View, Text, StyleSheet, Platform } from "react-native";
+import { View, StyleSheet } from "react-native";
 
-//@ts-ignore
-import { GOOGLE_CLIENT_ID } from "@env";
-import * as Linking from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
-import * as Google from "expo-auth-session/providers/google";
+import fetch from "cross-fetch";
 import { FullWidthButton } from "components/buttons/fullWidthButton";
 
 // without this the web popup will not close
@@ -17,35 +14,32 @@ export const LogIn = ({}: LogInProps) => {
   const [isRequesting, setIsRequesting] = React.useState<boolean>(false);
   const [_stateKey, setStateKey] = React.useState<string>("");
 
-  const [request, response, promptAsync] = Google.useAuthRequest({
-    redirectUri: "http://localhost:3000/auth",
-    responseType: "code",
-    extraParams: {
-      access_type: "offline",
-    },
-    expoClientId: GOOGLE_CLIENT_ID,
-  });
-
   React.useEffect(() => {
     // Android specific, for speeding up prompt message
     WebBrowser.warmUpAsync();
     return () => {
       WebBrowser.coolDownAsync();
     };
-  }, [response, request]);
+  }, []);
 
   const onPress = async () => {
     setIsRequesting(true);
+    try {
+      const res = await fetch("http://localhost:3000/auth/google/url");
+      const { authUrl } = await res.json();
+      if (authUrl) {
+        await WebBrowser.openAuthSessionAsync(
+          authUrl,
+          "http://localhost:3000/auth/google"
+        );
+      }
 
-    Linking.addEventListener("url", handleUrlLink);
-
-    await promptAsync();
-    setIsRequesting(false);
-  };
-
-  const handleUrlLink = (e) => {
-    const data = Linking.parse(e.url);
-    console.log(data);
+      setIsRequesting(false);
+      return;
+    } catch (err) {
+      setIsRequesting(false);
+      throw new Error(err);
+    }
   };
 
   return (
@@ -56,6 +50,11 @@ export const LogIn = ({}: LogInProps) => {
           text="Log In"
           onPressCallback={onPress}
           disabled={isRequesting}
+        />
+        <FullWidthButton
+          colorScheme="light"
+          text="Get SecureStore value"
+          onPressCallback={() => {}}
         />
       </View>
     </View>
