@@ -527,7 +527,7 @@ export function isLastWeek(currDay: number, firstDay: number): boolean {
 /**
  *  @description Get the time in clock-like format
  */
-export function getDigitalTime(time: number): string {
+export function getDigitalTime(time: number | string): string {
   const hours = new Date(time).getHours();
   const minutes = new Date(time).getMinutes();
 
@@ -611,4 +611,13 @@ export function getEventCardDate(fromDate: number, toDate: number) {
   }
 
   return dateString;
+}
+
+/**
+ * @description Get locale timezone as a string, e.g 'UTC +2'
+ */
+export function getLocaleTimezone(): string {
+  const offset = new Date().getTimezoneOffset();
+
+  return `UTC ${offset < 0 && "+"}${-offset / 60}`;
 }
