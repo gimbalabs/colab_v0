@@ -41,7 +41,11 @@ export const CalendarEventsDetail = ({
     // when we click on the last card, return
     if (index === listLength - 1) return;
 
-    if (highlightedDay.index - 1 === index && animatedValue === -65) {
+    if (
+      highlightedDay.listSection === listSection &&
+      highlightedDay.index - 1 === index &&
+      animatedValue === -65
+    ) {
       // when someone clicks on the same card, just pull it back to top
       setHighlightedDay({ listSection: "", index: null });
     } else {
