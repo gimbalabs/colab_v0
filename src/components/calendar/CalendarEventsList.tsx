@@ -15,6 +15,7 @@ import { Sizing, Colors, Outlines, Typography } from "styles/index";
 import { ScheduledEvent } from "common/interfaces/myCalendarInterface";
 import { CalendarEventsListHeader } from "./CalendarEventsListHeader";
 import { CalendarEventsListEmpty } from "./CalendarEventsListEmpty";
+import { months } from "common/types/calendarTypes";
 
 export interface CalendarEventsListProps {
   isHomeScreen?: boolean;
@@ -32,9 +33,10 @@ export const CalendarEventsList = ({
   const [dimensions, setDimensions] = React.useState<LayoutRectangle | null>(
     null
   );
-  const [highlightedDay, setHighlightedDay] = React.useState<any>(null);
-  const [monthEventsLenght, setMonthEventsLength] = React.useState<number>(0);
-  const [dayEventsLenght, setDayEventsLength] = React.useState<number>(0);
+  const [highlightedDay, setHighlightedDay] = React.useState<any>({
+    listSection: "",
+    index: null,
+  });
 
   const renderItem = ({ item, index, section }: any) => {
     const {
@@ -57,6 +59,7 @@ export const CalendarEventsList = ({
         participants={participants}
         organizer={organizer}
         listLength={section.data.length}
+        listSection={section.title}
         highlightedDay={highlightedDay}
         setHighlightedDay={setHighlightedDay}
       />
@@ -78,9 +81,8 @@ export const CalendarEventsList = ({
       if (scheduledYear.year === getYear()) {
         if (scheduledYear.months) {
           var monthObj = scheduledYear.months.find((obj) => {
-            //@TODO Change this return value to current month events in prod.
             if (isHomeScreen) {
-              return obj.month === "May";
+              return obj.month === months[new Date().getMonth()];
             }
             return obj.month === calendarHeader.month;
           });
@@ -88,12 +90,9 @@ export const CalendarEventsList = ({
           if (monthObj != null) {
             monthObj.days.forEach((day) =>
               day.scheduledEvents.forEach((evt) => {
-                //@TODO Change this return value to current month events in prod.
-                if (isHomeScreen && day.day === 13) {
+                if (isHomeScreen && day.day === new Date().getDate()) {
                   dayEvents.push(evt);
-                }
-
-                if (day.day === getDate()) {
+                } else if (day.day === getDate()) {
                   dayEvents.push(evt);
                 } else {
                   monthlyEvents.push(evt);
@@ -104,19 +103,17 @@ export const CalendarEventsList = ({
         }
       }
     }
-    var sections;
+    const sections: any[] = [];
 
-    if (!!dayEvents.length) {
-      sections = [
-        { title: "Today", data: [...dayEvents] },
-        { title: "This month", data: [...monthlyEvents] },
-      ];
-    } else {
-      sections = [{ title: "This month", data: [...monthlyEvents] }];
+    if (dayEvents.length) {
+      sections.push({ title: "Today", data: [...dayEvents] });
     }
-
-    setMonthEventsLength(monthlyEvents.length);
-    setDayEventsLength(dayEvents.length);
+    if (monthlyEvents.length) {
+      sections.push({
+        title: "This month",
+        data: [...monthlyEvents],
+      });
+    }
 
     return sections;
   }, [previewingDayEvents, calendarHeader.month, scheduledEvents]);
@@ -142,7 +139,9 @@ export const CalendarEventsList = ({
     <View style={styles.eventsHolder} onLayout={onLayout}>
       {isHomeScreen || calendarHeader.numOfEvents ? (
         <>
-          <CalendarEventsListHeader isHomeScreen />
+          <CalendarEventsListHeader
+            numOfEvents={data.reduce((acc, curr) => acc + curr.data.length, 0)}
+          />
           {data ? (
             <SectionList
               contentContainerStyle={[
