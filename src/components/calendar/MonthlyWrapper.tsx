@@ -55,8 +55,8 @@ export const MonthlyWrapper = ({ isBookingCalendar }: MonthlyWrapperProps) => {
     const fadeOutPrevious = direction === "left" && fadeOut;
     const fadeOutNext = direction === "right" && fadeOut;
 
-    if (fadeOutPrevious) animatedTranslateXSlideIn.setValue(20);
-    if (fadeOutNext) animatedTranslateXSlideIn.setValue(-20);
+    if (fadeOutPrevious) animatedTranslateXSlideIn.setValue(-20);
+    if (fadeOutNext) animatedTranslateXSlideIn.setValue(20);
 
     Animated.parallel([
       Animated.timing(animatedOpacity, {
@@ -66,7 +66,7 @@ export const MonthlyWrapper = ({ isBookingCalendar }: MonthlyWrapperProps) => {
         easing: Easing.sin,
       }),
       Animated.timing(animatedTranslateX, {
-        toValue: fadeOutPrevious ? -20 : 20,
+        toValue: fadeOutPrevious ? 20 : -20,
         duration: 120,
         useNativeDriver: true,
         easing: Easing.sin,
