@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { FlatList } from "react-native";
 
 //@ts-ignore
 import SummerImg from "../../assets/images/summer.jpeg";
@@ -41,7 +41,3 @@ export const EventsList = ({}: EventsListProps) => {
     />
   );
 };
-
-const styles = StyleSheet.create({
-  container: { flex: 1, width: "100%" },
-});

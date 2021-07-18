@@ -27,7 +27,7 @@ export interface AvailabilitiesDay {
 }
 
 export interface AvailabilitySlot {
-  fromTime: number;
+  fromTime: number | string;
   toTime: number;
 }
 
@@ -49,7 +49,7 @@ export interface ScheduledEventsDay {
 
 export interface ScheduledEvent {
   title: string;
-  fromTime: number;
+  fromTime: number | string;
   toTime: number;
   description: string;
   participants: string[];

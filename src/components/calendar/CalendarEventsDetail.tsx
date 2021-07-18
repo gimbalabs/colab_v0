@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Pressable, Animated } from "react-native";
 
 import { Colors, Outlines, Sizing, Typography } from "styles/index";
 import { ScheduledEvent } from "interfaces/myCalendarInterface";
-import { getDigitalTime } from "lib/utils";
+import { getDigitalTime, getLocaleTimezone } from "lib/utils";
 import { months } from "common/types/calendarTypes";
 import { RightArrowIcon } from "icons/index";
 
@@ -11,6 +11,8 @@ export interface CalendarEventsDetailProps extends ScheduledEvent {
   setHighlightedDay: React.Dispatch<any>;
   highlightedDay: any;
   listLength: number;
+  index: number;
+  listSection: string;
 }
 
 export const CalendarEventsDetail = ({
@@ -22,6 +24,7 @@ export const CalendarEventsDetail = ({
   organizer,
   setHighlightedDay,
   highlightedDay,
+  listSection,
 }: CalendarEventsDetailProps) => {
   const animatedMargin = React.useRef(new Animated.Value(-65)).current;
   const animatedValue = parseInt(JSON.stringify(animatedMargin));
@@ -38,13 +41,13 @@ export const CalendarEventsDetail = ({
     // when we click on the last card, return
     if (index === listLength - 1) return;
 
-    if (highlightedDay - 1 === index && animatedValue === -65) {
+    if (highlightedDay.index - 1 === index && animatedValue === -65) {
       // when someone clicks on the same card, just pull it back to top
-      setHighlightedDay(null);
+      setHighlightedDay({ listSection: "", index: null });
     } else {
       // on press, set the index of card bellow the one that was clicked,
       // because that's the one that needs to move down
-      setHighlightedDay(index + 1);
+      setHighlightedDay({ listSection, index: index + 1 });
     }
   };
 
@@ -65,7 +68,10 @@ export const CalendarEventsDetail = ({
   };
 
   React.useEffect(() => {
-    if (index === highlightedDay) {
+    if (
+      listSection === highlightedDay.listSection &&
+      index === highlightedDay.index
+    ) {
       animateToBottom();
     } else if (Number(animatedMargin) !== 0) {
       animateToTop();
@@ -94,7 +100,7 @@ export const CalendarEventsDetail = ({
           </View>
           <View style={styles.hourHolder}>
             <Text style={styles.hours}>
-              {fromTimeDigit} - {toTimeDigit} UTC +12
+              {fromTimeDigit} - {toTimeDigit} {getLocaleTimezone()}
             </Text>
           </View>
         </View>
