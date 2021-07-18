@@ -10,7 +10,7 @@ import {
   ImageBackground,
 } from "react-native";
 
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Buttons, Outlines, Typography, Sizing, Colors } from "styles/index";
 import { StackScreenProps } from "@react-navigation/stack";
 import { OrganizerTabParamList } from "common/types/navigationTypes";
@@ -23,6 +23,7 @@ import {
 } from "icons/index";
 import * as ImagePicker from "expo-image-picker";
 import ProfilePic from "assets/images/profilePic.jpg";
+import { MediaTypeOptions } from "expo-image-picker";
 
 export interface OrganizerProfileScreenProps
   extends StackScreenProps<OrganizerTabParamList, "Browse"> {}
@@ -58,6 +59,8 @@ export const OrganizerProfileScreen = ({
         allowsEditing: true,
         aspect: [4, 4],
         quality: 1,
+        mediaTypes: MediaTypeOptions.Images,
+        allowsMultipleSelection: false,
       });
 
       if (!result.cancelled) setCurrImage(result.uri);
