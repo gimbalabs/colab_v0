@@ -3,7 +3,6 @@ import {
   View,
   StyleSheet,
   LayoutRectangle,
-  ActivityIndicator,
   LayoutChangeEvent,
   Text,
   Animated,
@@ -39,9 +38,15 @@ export const MonthlyWrapper = ({ isBookingCalendar }: MonthlyWrapperProps) => {
     null
   );
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [initialHasLoaded, setInitialHasLoaded] = React.useState<boolean>(
+    false
+  );
 
   var animatedOpacity = React.useRef(new Animated.Value(1)).current;
+  var animatedInitialOpacity = React.useRef(new Animated.Value(0)).current;
+  var animatedOpacitySlideIn = React.useRef(new Animated.Value(0)).current;
   var animatedTranslateX = React.useRef(new Animated.Value(0)).current;
+  var animatedTranslateXSlideIn = React.useRef(new Animated.Value(0)).current;
 
   const startCalendarAnimation = (
     direction: "left" | "right" | null,
@@ -50,59 +55,51 @@ export const MonthlyWrapper = ({ isBookingCalendar }: MonthlyWrapperProps) => {
     const fadeOutPrevious = direction === "left" && fadeOut;
     const fadeOutNext = direction === "right" && fadeOut;
 
+    if (fadeOutPrevious) animatedTranslateXSlideIn.setValue(20);
+    if (fadeOutNext) animatedTranslateXSlideIn.setValue(-20);
+
     Animated.parallel([
       Animated.timing(animatedOpacity, {
-        toValue: fadeOut ? 0 : 1,
-        duration: 100,
+        toValue: 0,
+        duration: 120,
         useNativeDriver: true,
         easing: Easing.sin,
       }),
       Animated.timing(animatedTranslateX, {
-        toValue: fadeOutPrevious ? 20 : fadeOutNext ? -20 : 0,
-        duration: 100,
+        toValue: fadeOutPrevious ? -20 : 20,
+        duration: 120,
+        useNativeDriver: true,
+        easing: Easing.sin,
+      }),
+      Animated.timing(animatedOpacitySlideIn, {
+        toValue: 1,
+        duration: 120,
+        useNativeDriver: true,
+        easing: Easing.sin,
+      }),
+      Animated.timing(animatedTranslateXSlideIn, {
+        toValue: 0,
+        duration: 120,
         useNativeDriver: true,
         easing: Easing.sin,
       }),
     ]).start(({ finished }) => {
-      if (fadeOutPrevious) {
-        setCurrIndex(0);
-        animatedTranslateX.setValue(-20);
-        Animated.parallel([
-          Animated.timing(animatedOpacity, {
-            toValue: 1,
-            duration: 100,
-            useNativeDriver: true,
-            easing: Easing.sin,
-          }),
-          Animated.timing(animatedTranslateX, {
-            toValue: 0,
-            duration: 100,
-            useNativeDriver: true,
-            easing: Easing.sin,
-          }),
-        ]).start();
-        onPreviousLoadCalendar();
-      }
-      if (fadeOutNext) {
-        setCurrIndex(2);
-        animatedTranslateX.setValue(20);
-        Animated.parallel([
-          Animated.timing(animatedOpacity, {
-            toValue: 1,
-            duration: 100,
-            useNativeDriver: true,
-            easing: Easing.sin,
-          }),
-          Animated.timing(animatedTranslateX, {
-            toValue: 0,
-            duration: 100,
-            useNativeDriver: true,
-            easing: Easing.sin,
-          }),
-        ]).start();
-        onNextLoadCalendar();
-      }
+      setCurrIndex(fadeOutPrevious ? 0 : 2);
+      animatedTranslateX.setValue(0);
+      animatedTranslateXSlideIn.setValue(0);
+      animatedOpacity.setValue(1);
+      animatedOpacitySlideIn.setValue(0);
+      fadeOutPrevious ? onPreviousLoadCalendar() : onNextLoadCalendar();
     });
+  };
+
+  const startInitialCalendarAnimation = () => {
+    Animated.timing(animatedInitialOpacity, {
+      toValue: 1,
+      duration: 200,
+      easing: Easing.sin,
+      useNativeDriver: true,
+    }).start(({ finished }) => finished && setInitialHasLoaded(true));
   };
 
   const onLayout = (event: LayoutChangeEvent) => {
@@ -118,36 +115,52 @@ export const MonthlyWrapper = ({ isBookingCalendar }: MonthlyWrapperProps) => {
     if (direction === "next") onNextStartAnimation();
   };
 
-  const CurrMonth = React.memo(({ item }: { item: Month }) => {
-    return (
-      <Animated.View
-        style={{
-          ...styles.monthContainer,
-          ...{
-            opacity: animatedOpacity,
-            transform: [{ translateX: animatedTranslateX }],
-            width: dimensions ? dimensions.width : 0,
-            height: dimensions ? dimensions.height : 0,
-          },
-        }}>
-        <MonthItem
-          days={item.days}
-          year={item.year}
-          month={item.name}
-          firstDayName={item.firstDayName}
-          numOfDays={item.numOfDays}
-          name={item.name}
-          dimensions={dimensions}
-          onPlaceholderPress={onPlaceholderPress}
-          isBookingCalendar={isBookingCalendar}
-        />
-      </Animated.View>
-    );
-  });
+  const CurrMonth = React.memo(
+    ({ item, position }: { item: Month; position: string }) => {
+      return (
+        <Animated.View
+          style={[
+            styles.monthContainer,
+            position !== "current" && {
+              position: "absolute",
+              top: 0,
+              right: 0,
+            },
+            {
+              opacity: !initialHasLoaded
+                ? animatedInitialOpacity
+                : position !== "current"
+                ? animatedOpacitySlideIn
+                : animatedOpacity,
+              transform: [
+                {
+                  translateX:
+                    position !== "current"
+                      ? animatedTranslateXSlideIn
+                      : animatedTranslateX,
+                },
+              ],
+              width: dimensions ? dimensions.width : 0,
+              height: dimensions ? dimensions.height : 0,
+            },
+          ]}>
+          <MonthItem
+            days={item.days}
+            year={item.year}
+            month={item.name}
+            firstDayName={item.firstDayName}
+            numOfDays={item.numOfDays}
+            name={item.name}
+            dimensions={dimensions}
+            onPlaceholderPress={onPlaceholderPress}
+            isBookingCalendar={isBookingCalendar}
+          />
+        </Animated.View>
+      );
+    }
+  );
 
   const onPreviousStartAnimation = () => {
-    // if(isBookingCalendar && isSixMonthsBefore(calendar
-
     if (isLoading) return;
     setIsLoading(true);
     setDirection("left");
@@ -230,6 +243,8 @@ export const MonthlyWrapper = ({ isBookingCalendar }: MonthlyWrapperProps) => {
       setMonthsArray(calendar);
       setCurrIndex(1);
       setIsLoading(false);
+    } else if (!direction && !initialHasLoaded) {
+      startInitialCalendarAnimation();
     }
   }, [calendar]);
 
@@ -268,13 +283,20 @@ export const MonthlyWrapper = ({ isBookingCalendar }: MonthlyWrapperProps) => {
       <View style={styles.calendar}>
         <WeekDayNames />
         <View style={styles.calendarContainer} onLayout={onLayout}>
-          {dimensions ? (
-            <CurrMonth item={monthsArray[currIndex]} />
-          ) : (
-            <ActivityIndicator
-              color={Colors.primary.s200}
-              style={styles.loadingIndicator}
-            />
+          {dimensions && calendar && (
+            <>
+              {direction === "left" && monthsArray[currIndex - 1] && (
+                <CurrMonth
+                  position="previous"
+                  item={monthsArray[currIndex - 1]}
+                />
+              )}
+
+              <CurrMonth position="current" item={monthsArray[currIndex]} />
+              {direction === "right" && monthsArray[currIndex + 1] && (
+                <CurrMonth position="next" item={monthsArray[currIndex + 1]} />
+              )}
+            </>
           )}
         </View>
       </View>
