@@ -6,30 +6,31 @@ import {
   StyleSheet,
   SectionList,
   Text,
+  Pressable,
 } from "react-native";
 import { CalendarEventsDetail } from "./CalendarEventsDetail";
 
 import { appContext, myCalendarContext } from "contexts/contextApi";
 import { getDate, getYear } from "lib/utils";
-import { Sizing, Colors, Outlines, Typography } from "styles/index";
+import { Sizing, Colors, Outlines, Typography, Buttons } from "styles/index";
 import { ScheduledEvent } from "common/interfaces/myCalendarInterface";
 import { CalendarEventsListHeader } from "./CalendarEventsListHeader";
 import { CalendarEventsListEmpty } from "./CalendarEventsListEmpty";
 import { months } from "common/types/calendarTypes";
+import { PlusIcon } from "assets/icons";
+import { applyOpacity } from "../../styles/colors";
 
 export interface CalendarEventsListProps {
   isHomeScreen?: boolean;
+  isBookingCalendar?: boolean;
 }
 
 export const CalendarEventsList = ({
   isHomeScreen,
+  isBookingCalendar,
 }: CalendarEventsListProps) => {
-  const {
-    previewingDayEvents,
-    scheduledEvents,
-    calendarHeader,
-  } = myCalendarContext();
-  const { colorScheme } = appContext();
+  const { scheduledEvents, calendarHeader } = myCalendarContext();
+  const { colorScheme, accountType } = appContext();
   const [dimensions, setDimensions] = React.useState<LayoutRectangle | null>(
     null
   );
@@ -37,6 +38,7 @@ export const CalendarEventsList = ({
     listSection: "",
     index: null,
   });
+  const isLightMode = colorScheme === "light";
 
   const renderItem = ({ item, index, section }: any) => {
     const {
@@ -73,7 +75,7 @@ export const CalendarEventsList = ({
     setDimensions(event.nativeEvent.layout);
   };
 
-  const data = React.useMemo((): { title: string; data: any }[] => {
+  const data = React.useCallback((): { title: string; data: any }[] => {
     var monthlyEvents: ScheduledEvent[] = [];
     var dayEvents: ScheduledEvent[] = [];
 
@@ -81,7 +83,7 @@ export const CalendarEventsList = ({
       if (scheduledYear.year === getYear()) {
         if (scheduledYear.months) {
           var monthObj = scheduledYear.months.find((obj) => {
-            if (isHomeScreen) {
+            if (isHomeScreen && accountType === "attendee") {
               return obj.month === months[new Date().getMonth()];
             }
             return obj.month === calendarHeader.month;
@@ -116,7 +118,7 @@ export const CalendarEventsList = ({
     }
 
     return sections;
-  }, [previewingDayEvents, calendarHeader.month, scheduledEvents]);
+  }, [calendarHeader.month]);
 
   const sectionHeader = ({ section }: any) => {
     const { title } = section;
@@ -134,15 +136,15 @@ export const CalendarEventsList = ({
       </View>
     );
   };
+  const numOfEvents = data().reduce((acc, curr) => acc + curr.data.length, 0);
+  const onAddEventPress = () => {};
 
   return (
     <View style={styles.eventsHolder} onLayout={onLayout}>
-      {isHomeScreen || calendarHeader.numOfEvents ? (
+      <CalendarEventsListHeader numOfEvents={numOfEvents} />
+      {(isBookingCalendar || isHomeScreen) && (
         <>
-          <CalendarEventsListHeader
-            numOfEvents={data.reduce((acc, curr) => acc + curr.data.length, 0)}
-          />
-          {data ? (
+          {data().length > 0 ? (
             <SectionList
               contentContainerStyle={[
                 {
@@ -156,16 +158,46 @@ export const CalendarEventsList = ({
               maxToRenderPerBatch={5}
               updateCellsBatchingPeriod={5}
               progressViewOffset={15}
-              sections={data}
+              sections={data()}
               renderSectionHeader={sectionHeader}
               stickySectionHeadersEnabled={false}
               showsVerticalScrollIndicator={false}
             />
-          ) : (
-            <CalendarEventsListEmpty />
-          )}
+          ) : accountType === "organizer" ? (
+            <View style={styles.buttonWrapper}>
+              <Pressable
+                onPress={onAddEventPress}
+                style={Buttons.applyOpacity(
+                  Object.assign(
+                    {},
+                    styles.addEventButton,
+                    isLightMode
+                      ? { backgroundColor: Colors.primary.s800 }
+                      : { backgroundColor: Colors.primary.neutral }
+                  )
+                )}>
+                <Text
+                  style={[
+                    styles.addEventButtonText,
+                    isLightMode
+                      ? { color: Colors.primary.neutral }
+                      : { color: Colors.primary.s800 },
+                  ]}>
+                  Add Event
+                </Text>
+                <PlusIcon
+                  color={
+                    isLightMode ? Colors.primary.neutral : Colors.primary.s800
+                  }
+                  width={Sizing.x14}
+                  height={Sizing.x14}
+                  strokeWidth={3.4}
+                />
+              </Pressable>
+            </View>
+          ) : null}
         </>
-      ) : null}
+      )}
     </View>
   );
 };
@@ -192,5 +224,23 @@ const styles = StyleSheet.create({
     marginLeft: Sizing.x20,
     ...Typography.header.x30,
     color: Colors.primary.neutral,
+  },
+  buttonWrapper: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  addEventButton: {
+    borderRadius: Outlines.borderRadius.base,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: Sizing.x5,
+    paddingHorizontal: Sizing.x10,
+    ...Outlines.shadow.base,
+  },
+  addEventButtonText: {
+    ...Typography.header.x20,
+    marginRight: Sizing.x5,
   },
 });
