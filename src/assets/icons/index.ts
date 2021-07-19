@@ -11,6 +11,7 @@ import { LiveCollaborationIcon } from "./liveCollaboration";
 import { CheckIcon } from "./check";
 import { DotIcon } from "./dot";
 import { DownIcon } from "./down";
+import { PlusIcon } from "./plus";
 import { RightArrowIcon } from "./rightArrow";
 import { RefreshIcon } from "./refresh";
 import { LeftArrowIcon } from "./leftArrow";
@@ -52,6 +53,7 @@ export {
   EyeIcon,
   EyeOffIcon,
   IdeaIcon,
+  PlusIcon,
   HearthIcon,
   HomeIcon,
   ModernProfessionalIcon,
