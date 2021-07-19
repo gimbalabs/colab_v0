@@ -12,7 +12,6 @@ import { Colors, Typography, Outlines } from "styles/index";
 import { OrganizerTabParamList } from "common/types/navigationTypes";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { appContext } from "contexts/contextApi";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 type NavigationTabBarProps = BottomTabBarProps<OrganizerTabParamList>;
 

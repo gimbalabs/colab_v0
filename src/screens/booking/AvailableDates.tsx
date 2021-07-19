@@ -76,7 +76,7 @@ export const AvailableDates = ({ navigation, route }) => {
             />
           </Pressable>
         </View>
-        {previewingOrganizer && (
+        {previewingOrganizer && currentTab != "availabilities" && (
           <OrganizerProfile profile={previewingOrganizer} />
         )}
         <View style={styles.calendarHeader}>
