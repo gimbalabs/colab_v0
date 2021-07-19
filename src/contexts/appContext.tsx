@@ -17,6 +17,7 @@ const colorScheme: ColorSchemeName = Appearance.getColorScheme();
 
 const initialAppState: AppState = {
   authentication: true,
+  accountType: "organizer",
   colorScheme: colorScheme == null ? "light" : colorScheme,
   favoriteOrganizers: [],
   pageIndex: 0,
@@ -25,7 +26,7 @@ const initialAppState: AppState = {
 
 const reducer = (state: AppState, action: AppActions) => {
   switch (action.type) {
-    case "SET_REF":
+    case AppTypes.SetRef:
       return {
         ...state,
         ref: action.payload.ref,
@@ -39,19 +40,15 @@ const reducer = (state: AppState, action: AppActions) => {
             : !state.authentication,
       };
     case AppTypes.SetPageIndex:
-      if (action.payload.pageIndex != null) {
-        return {
-          ...state,
-          pageIndex: action.payload.pageIndex,
-        };
-      }
+      return {
+        ...state,
+        pageIndex: action.payload.pageIndex,
+      };
     case AppTypes.SetColorScheme:
-      if (action.payload.newColorScheme != null) {
-        return {
-          ...state,
-          colorScheme: action.payload.newColorScheme,
-        };
-      }
+      return {
+        ...state,
+        colorScheme: action.payload.newColorScheme,
+      };
     case AppTypes.SetFavoriteOrganizer:
       if (state.favoriteOrganizers.includes(action.payload.alias)) {
         const newFavoriteOrganizers = state.favoriteOrganizers.filter(

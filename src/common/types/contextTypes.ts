@@ -1,6 +1,3 @@
-/**
- * @types for appContext & myCalendarContext files.
- */
 import { OrganizerRate } from "common/interfaces/bookingInterface";
 import {
   Availabilities,
@@ -10,10 +7,11 @@ import {
   PreviewingDayEvents,
   ScheduledEvents,
 } from "interfaces/myCalendarInterface";
-import { ColorSchemeName } from "react-native";
+import { ColorSchemeName } from "interfaces/appInterface";
 
 export enum AppTypes {
   ToggleAuth = "TOGGLE_AUTH",
+  SetRef = "SET_REF",
   SetPageIndex = "SET_PAGE_INDEX",
   SetColorScheme = "SET_COLOR_SCHEME",
   SetFavoriteOrganizer = "SET_FAVORITE_ORGANIZER",
@@ -44,7 +42,7 @@ export enum MyCalendarTypes {
 
 /**
  * @name ActionMap
- * @description maps trough indexed types of payloads types and assigns
+ * @description maps through indexed types of payloads types and assigns
  *              the payload accordingly (if the action type isn't undefined)
  */
 export type ActionMap<M extends { [index: string]: any }> = {
@@ -61,6 +59,9 @@ export type ActionMap<M extends { [index: string]: any }> = {
 export type AppPayload = {
   [AppTypes.ToggleAuth]: {
     auth: boolean;
+  };
+  [AppTypes.SetRef]: {
+    ref: any;
   };
   [AppTypes.SetPageIndex]: {
     pageIndex: number;

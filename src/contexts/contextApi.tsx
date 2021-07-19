@@ -18,6 +18,7 @@ export const appContext = () => {
 
   return {
     auth: state.authentication,
+    accountType: state.accountType,
     colorScheme: state.colorScheme,
     pageIndex: state.pageIndex,
     favoriteOrganizers: state.favoriteOrganizers,
