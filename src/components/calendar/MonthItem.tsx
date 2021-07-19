@@ -12,41 +12,41 @@ export interface MonthProps extends Month {
   month: string;
 }
 
-export const MonthItem = React.memo(
-  // just ignore it for now...
-  //@ts-ignore
-  ({
-    year,
-    month,
-    days,
-    onPlaceholderPress,
-    isBookingCalendar,
-  }: MonthProps) => {
-    const [activeDay, setActiveDay] = React.useState<number | null>(null);
+export const MonthItem = ({
+  year,
+  month,
+  days,
+  onPlaceholderPress,
+  isBookingCalendar,
+}: MonthProps) => {
+  const [activeDay, setActiveDay] = React.useState<number | null>(null);
 
-    return days.map((day) =>
-      day.name === "placeholder" ? (
-        <PlaceholderDay
-          onPlaceholderPress={onPlaceholderPress}
-          direction={day.direction != null ? day.direction : ""}
-          key={`${day.name}-${day.number}`}
-          number={day.number}
-        />
-      ) : (
-        <MonthlyDay
-          month={month}
-          year={year}
-          name={day.name}
-          key={`${day.name}-${day.number}-${year}`}
-          number={day.number}
-          availabilities={day.availabilities}
-          activeDay={activeDay}
-          setActiveDay={setActiveDay}
-          scheduledEvents={day.scheduledEvents}
-          isLastWeek={day.isLastWeek || false}
-          isBookingCalendar={isBookingCalendar}
-        />
-      )
-    );
-  }
-);
+  return (
+    <>
+      {days.map((day) =>
+        day.name === "placeholder" ? (
+          <PlaceholderDay
+            onPlaceholderPress={onPlaceholderPress}
+            direction={day.direction != null ? day.direction : ""}
+            key={`${day.name}-${day.number}`}
+            number={day.number}
+          />
+        ) : (
+          <MonthlyDay
+            month={month}
+            year={year}
+            name={day.name}
+            key={`${day.name}-${day.number}-${year}`}
+            number={day.number}
+            availabilities={day.availabilities}
+            activeDay={activeDay}
+            setActiveDay={setActiveDay}
+            scheduledEvents={day.scheduledEvents}
+            isLastWeek={day.isLastWeek || false}
+            isBookingCalendar={isBookingCalendar}
+          />
+        )
+      )}
+    </>
+  );
+};

@@ -100,10 +100,14 @@ export const MonthlyWrapper = ({ isBookingCalendar }: MonthlyWrapperProps) => {
       easing: Easing.sin,
       useNativeDriver: true,
     }).start(({ finished }) => finished && setInitialHasLoaded(true));
+    setInitialHasLoaded(true);
   };
 
   const onLayout = (event: LayoutChangeEvent) => {
     setDimensions(event.nativeEvent.layout);
+    if (!direction && !initialHasLoaded) {
+      startInitialCalendarAnimation();
+    }
   };
 
   const loadNewMonths = (nextMonths: boolean, month: number, year?: number) => {
@@ -115,50 +119,48 @@ export const MonthlyWrapper = ({ isBookingCalendar }: MonthlyWrapperProps) => {
     if (direction === "next") onNextStartAnimation();
   };
 
-  const CurrMonth = React.memo(
-    ({ item, position }: { item: Month; position: string }) => {
-      return (
-        <Animated.View
-          style={[
-            styles.monthContainer,
-            position !== "current" && {
-              position: "absolute",
-              top: 0,
-              right: 0,
-            },
-            {
-              opacity: !initialHasLoaded
-                ? animatedInitialOpacity
-                : position !== "current"
-                ? animatedOpacitySlideIn
-                : animatedOpacity,
-              transform: [
-                {
-                  translateX:
-                    position !== "current"
-                      ? animatedTranslateXSlideIn
-                      : animatedTranslateX,
-                },
-              ],
-              width: dimensions ? dimensions.width : 0,
-              height: dimensions ? dimensions.height : 0,
-            },
-          ]}>
-          <MonthItem
-            days={item.days}
-            year={item.year}
-            month={item.name}
-            firstDayName={item.firstDayName}
-            numOfDays={item.numOfDays}
-            name={item.name}
-            dimensions={dimensions}
-            onPlaceholderPress={onPlaceholderPress}
-            isBookingCalendar={isBookingCalendar}
-          />
-        </Animated.View>
-      );
-    }
-  );
+  const CurrMonth = ({ item, position }: { item: Month; position: string }) => {
+    return (
+      <Animated.View
+        style={[
+          styles.monthContainer,
+          position !== "current" && {
+            position: "absolute",
+            top: 0,
+            right: 0,
+          },
+          {
+            opacity: !initialHasLoaded
+              ? animatedInitialOpacity
+              : position !== "current"
+              ? animatedOpacitySlideIn
+              : animatedOpacity,
+            transform: [
+              {
+                translateX:
+                  position !== "current"
+                    ? animatedTranslateXSlideIn
+                    : animatedTranslateX,
+              },
+            ],
+            width: dimensions ? dimensions.width : 0,
+            height: dimensions ? dimensions.height : 0,
+          },
+        ]}>
+        <MonthItem
+          days={item.days}
+          year={item.year}
+          month={item.name}
+          firstDayName={item.firstDayName}
+          numOfDays={item.numOfDays}
+          name={item.name}
+          dimensions={dimensions}
+          onPlaceholderPress={onPlaceholderPress}
+          isBookingCalendar={isBookingCalendar}
+        />
+      </Animated.View>
+    );
+  };
 
   const onPreviousStartAnimation = () => {
     if (isLoading) return;
@@ -243,8 +245,6 @@ export const MonthlyWrapper = ({ isBookingCalendar }: MonthlyWrapperProps) => {
       setMonthsArray(calendar);
       setCurrIndex(1);
       setIsLoading(false);
-    } else if (!direction && !initialHasLoaded) {
-      startInitialCalendarAnimation();
     }
   }, [calendar]);
 

@@ -14,9 +14,9 @@ export const CalendarEventsListHeader = ({
   const { colorScheme } = appContext();
   const lightTheme = colorScheme === "light";
 
-  return (
-    <View style={styles.dayPreviewBar}>
-      {numOfEvents && (
+  return React.useMemo(
+    () => (
+      <View style={styles.dayPreviewBar}>
         <Text
           style={
             lightTheme
@@ -27,8 +27,9 @@ export const CalendarEventsListHeader = ({
           <Text style={{ fontFamily: "Roboto-Bold" }}>{numOfEvents}</Text>{" "}
           upcoming events
         </Text>
-      )}
-    </View>
+      </View>
+    ),
+    [numOfEvents]
   );
 };
 
@@ -41,12 +42,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   dayPreviewBarText_light: {
-    ...Typography.subHeader.x35,
+    ...Typography.subHeader.x30,
     fontSize: 17,
     color: Colors.primary.s600,
   },
   dayPreviewBarText_dark: {
-    ...Typography.subHeader.x35,
+    ...Typography.subHeader.x30,
     fontSize: 17,
     color: Colors.primary.neutral,
   },
