@@ -7,14 +7,8 @@
  */
 
 import * as React from "react";
-import {
-  TextInput,
-  Text,
-  View,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
-import { Colors, Sizing } from "styles/index";
+import { TextInput, Text, View } from "react-native";
+import { Colors } from "styles/index";
 
 export interface CustomInputProps {}
 
@@ -32,9 +26,7 @@ export const CustomInput = (props: any) => {
   const hasError = errors[name] && touched[name];
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.inputContainer}>
+    <>
       <View style={styles.labelContainer}>
         <Text style={styles.label}>{props.label}</Text>
       </View>
@@ -65,6 +57,6 @@ export const CustomInput = (props: any) => {
         ]}>
         {hasError && <Text style={styles.error}>{errors[name]}</Text>}
       </View>
-    </KeyboardAvoidingView>
+    </>
   );
 };
