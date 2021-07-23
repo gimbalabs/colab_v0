@@ -1,19 +1,12 @@
 import * as React from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  TextInput,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-} from "react-native";
+import { View, StyleSheet, Text, TextInput, ScrollView } from "react-native";
 
 import { CustomPlainInput } from "components/forms/CustomPlainInput";
 import { CalendarIcon, DownIcon, PencilAltIcon } from "icons/index";
 import { Typography, Colors, Sizing, Forms } from "styles/index";
 import { FullWidthButton } from "components/buttons/fullWidthButton";
 import { ProfileContext } from "contexts/profileContext";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export interface UserDetailScreenProps {}
 
@@ -26,7 +19,6 @@ export const UserDetailsScreen = ({ pagerRef }) => {
     setTimeBlockCostADA,
     skills,
   } = React.useContext(ProfileContext);
-
   const [_profession, _setProfession] = React.useState<string | string[]>("");
   const [_jobTitle, _setJobTitle] = React.useState<string | string[]>("");
   const [_description, _setDescription] = React.useState<string | string[]>("");
@@ -42,85 +34,84 @@ export const UserDetailsScreen = ({ pagerRef }) => {
     pagerRef.current.setPage(1);
   };
 
-  React.useEffect(() => {}, []);
-
   return (
-    <KeyboardAvoidingView
-      keyboardVerticalOffset={40}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}>
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
-        style={styles.scrollView}>
-        <View style={styles.header}>
-          <Text style={styles.headerText}>
-            Tell us a little bit{"\n"}about you
-          </Text>
-        </View>
-        <View style={styles.formContainer}>
-          <CustomPlainInput
-            label="Profession"
-            placeholder="Doctor, therapist, developer, etc..."
-            icon={DownIcon}
-            styles={styles}
-            onChangeCallback={(val) => _setProfession(val)}
-          />
-          <CustomPlainInput
-            label="Job Title"
-            placeholder="Full Stack Engineer, Sr Business..."
-            icon={DownIcon}
-            styles={styles}
-            onChangeCallback={(val) => _setJobTitle(val)}
-          />
-          {/* when handling events with multiline, use ref._lastNativeText */}
-          <CustomPlainInput
-            label="About yourself"
-            multiline={true}
-            numberOfLines={2}
-            placeholder="Passionate in helping others draw business goals and needs..."
-            icon={PencilAltIcon}
-            styles={styles}
-            onChangeCallback={(val) => _setDescription(val)}
-          />
-          <CustomPlainInput
-            label="Availability"
-            placeholder="weekly, weekends, mornings, e..."
-            icon={CalendarIcon}
-            styles={styles}
-            onChangeCallback={() => {}}
-          />
-          <View style={styles.inputContainer}>
-            <View style={styles.labelContainer}>
-              <Text style={styles.label}>Hourly rate</Text>
-            </View>
-            <View style={styles.textInputWrapper}>
-              <TextInput
-                style={styles.input}
-                keyboardType="numeric"
-                textContentType="none"
-                placeholder="35 ₳ an hour"
-                placeholderTextColor={styles.placeholderText.color}
-                onChangeText={(val) => _setTimeBlockCostAda(val)}
-              />
-            </View>
-          </View>
-          <CustomPlainInput
-            label="Skills"
-            placeholder="Organized, Motivated, Critical Th..."
-            icon={DownIcon}
-            styles={styles}
-            onChangeCallback={(val) => _setSkills(val)}
-          />
-        </View>
-        <FullWidthButton
-          onPressCallback={submitBioState}
-          text="Next"
-          buttonType="transparent"
-          colorScheme="dark"
+    <KeyboardAwareScrollView
+      keyboardShouldPersistTaps="handled"
+      showsVerticalScrollIndicator={false}
+      keyboardOpeningTime={Number.MAX_SAFE_INTEGER}
+      style={{ width: "90%", marginVertical: Sizing.x15 }}>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>
+          Tell us a little bit{"\n"}about you
+        </Text>
+      </View>
+      <View style={styles.formContainer}>
+        <CustomPlainInput
+          label="Profession"
+          placeholder="Doctor, therapist, developer, etc..."
+          icon={DownIcon}
+          styles={styles}
+          isLightMode={false}
+          onChangeCallback={(val) => _setProfession(val)}
         />
-      </ScrollView>
-    </KeyboardAvoidingView>
+        <CustomPlainInput
+          label="Job Title"
+          placeholder="Full Stack Engineer, Sr Business..."
+          icon={DownIcon}
+          styles={styles}
+          isLightMode={false}
+          onChangeCallback={(val) => _setJobTitle(val)}
+        />
+        {/* when handling events with multiline, use ref._lastNativeText */}
+        <CustomPlainInput
+          label="About yourself"
+          multiline={true}
+          numberOfLines={8}
+          placeholder="Passionate in helping others draw business goals and needs..."
+          icon={PencilAltIcon}
+          styles={styles}
+          isLightMode={false}
+          onChangeCallback={(val) => _setDescription(val)}
+        />
+        <CustomPlainInput
+          label="Availability"
+          placeholder="weekly, weekends, mornings, e..."
+          icon={CalendarIcon}
+          styles={styles}
+          isLightMode={false}
+          onChangeCallback={() => {}}
+        />
+        <View style={styles.inputContainer}>
+          <View style={styles.labelContainer}>
+            <Text style={styles.label}>Hourly rate</Text>
+          </View>
+          <View style={styles.textInputWrapper}>
+            <TextInput
+              style={styles.input}
+              keyboardType="numeric"
+              textContentType="none"
+              placeholder="35 ₳ an hour"
+              placeholderTextColor={styles.placeholderText.color}
+              onChangeText={(val) => _setTimeBlockCostAda(val)}
+            />
+          </View>
+        </View>
+        <CustomPlainInput
+          label="Skills"
+          placeholder="Organized, Motivated, Critical Th..."
+          icon={DownIcon}
+          styles={styles}
+          isLightMode={false}
+          onChangeCallback={(val) => _setSkills(val)}
+        />
+      </View>
+      <FullWidthButton
+        onPressCallback={submitBioState}
+        text="Next"
+        buttonType="transparent"
+        colorScheme="dark"
+      />
+    </KeyboardAwareScrollView>
   );
 };
 

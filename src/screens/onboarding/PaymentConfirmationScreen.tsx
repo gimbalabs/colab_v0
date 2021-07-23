@@ -1,13 +1,5 @@
 import * as React from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  Dimensions,
-} from "react-native";
+import { View, StyleSheet, Text, Dimensions } from "react-native";
 
 import { CreditCardIcon, PencilAltIcon } from "icons/index";
 import { Typography, Colors, Sizing, Outlines, Buttons } from "styles/index";
@@ -15,6 +7,7 @@ import { ProfileTag } from "components/profile/profileTag";
 import { FullWidthButton } from "components/buttons/fullWidthButton";
 import { appContext } from "contexts/contextApi";
 import { PressableIcon } from "components/buttons/pressableIcon";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export interface PaymentConfirmationScreenProps {}
 
@@ -36,77 +29,68 @@ export const PaymentConfirmationScreen = () => {
   const onChangePress = () => ref.current.setPage(0);
 
   const onConfirm = () => {};
+
   return (
-    <KeyboardAvoidingView
-      keyboardVerticalOffset={40}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}>
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollView}>
-        <View style={styles.headerImage}>
-          <CreditCardIcon style={styles.image} />
-        </View>
-        <View style={styles.header}>
-          <Text style={styles.headerText}>
-            Confirm details and make payment
-          </Text>
-          <Text style={styles.subHeaderText}>
-            You will be able to edit any personal information in your account
-            profile if needed.
-          </Text>
-        </View>
-        <View style={styles.userDetails}>
-          <PressableIcon
-            icon={
-              <PencilAltIcon
-                stroke={Colors.primary.s350}
-                style={styles.userDetailsIcon}
-                onPress={onChangePress}
-              />
-            }
-            onPressCallback={onChangePress}
-            styles={styles.iconWrapper}
-          />
-          <Text style={styles.userDetailsHeader}>Profession</Text>
-          <Text style={styles.userDetailsText}>Software engineer</Text>
-          <Text style={styles.userDetailsHeader}>Job title</Text>
-          <Text style={styles.userDetailsText}>Fullstack engineer</Text>
-          <Text style={styles.userDetailsHeader}>About yourself</Text>
-          <Text style={styles.userDetailsText}>
-            Fluent in Java, Javascipt, HTML5 and CSS. Experienced in mentoring
-            students, developing and mastering their skills.
-          </Text>
-          <Text style={styles.userDetailsHeader}>Hourly rate</Text>
-          <Text style={styles.userDetailsText}>50 ₳ an hour</Text>
-          <Text style={styles.userDetailsHeader}>Skills</Text>
-          <View style={styles.skillTags}>
-            {USER_TAGS.map((tag, i) => {
-              return (
-                <View key={i}>
-                  <ProfileTag tag={tag} key={i} />
-                </View>
-              );
-            })}
-          </View>
-        </View>
-        <FullWidthButton
-          onPressCallback={onConfirm}
-          colorScheme="dark"
-          buttonType="transparent"
-          text="Confirm"
+    <KeyboardAwareScrollView
+      keyboardShouldPersistTaps="handled"
+      showsVerticalScrollIndicator={false}
+      keyboardOpeningTime={Number.MAX_SAFE_INTEGER}
+      style={{ width: "90%" }}>
+      <View style={styles.headerImage}>
+        <CreditCardIcon style={styles.image} />
+      </View>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Confirm details and make payment</Text>
+        <Text style={styles.subHeaderText}>
+          You will be able to edit any personal information in your account
+          profile if needed.
+        </Text>
+      </View>
+      <View style={styles.userDetails}>
+        <PressableIcon
+          icon={
+            <PencilAltIcon
+              stroke={Colors.primary.s350}
+              style={styles.userDetailsIcon}
+              onPress={onChangePress}
+            />
+          }
+          onPressCallback={onChangePress}
+          styles={styles.iconWrapper}
         />
-      </ScrollView>
-    </KeyboardAvoidingView>
+        <Text style={styles.userDetailsHeader}>Profession</Text>
+        <Text style={styles.userDetailsText}>Software engineer</Text>
+        <Text style={styles.userDetailsHeader}>Job title</Text>
+        <Text style={styles.userDetailsText}>Fullstack engineer</Text>
+        <Text style={styles.userDetailsHeader}>About yourself</Text>
+        <Text style={styles.userDetailsText}>
+          Fluent in Java, Javascipt, HTML5 and CSS. Experienced in mentoring
+          students, developing and mastering their skills.
+        </Text>
+        <Text style={styles.userDetailsHeader}>Hourly rate</Text>
+        <Text style={styles.userDetailsText}>50 ₳ an hour</Text>
+        <Text style={styles.userDetailsHeader}>Skills</Text>
+        <View style={styles.skillTags}>
+          {USER_TAGS.map((tag, i) => {
+            return (
+              <View key={i}>
+                <ProfileTag tag={tag} key={i} />
+              </View>
+            );
+          })}
+        </View>
+      </View>
+      <FullWidthButton
+        onPressCallback={onConfirm}
+        colorScheme="dark"
+        buttonType="transparent"
+        text="Confirm"
+      />
+    </KeyboardAwareScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    width: "90%",
-    height: "100%",
-  },
   header: {
     marginBottom: Sizing.x15,
     alignSelf: "flex-start",

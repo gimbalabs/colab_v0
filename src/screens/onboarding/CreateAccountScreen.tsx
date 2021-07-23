@@ -1,18 +1,11 @@
 import * as React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  Dimensions,
-} from "react-native";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
 
 import PagerView from "react-native-pager-view";
 import { CreateAccountForm } from "components/forms/createAccountForm";
 import { Colors, Sizing, Typography } from "styles/index";
 import { ModernProfessionalIcon } from "icons/index";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const SCREEN_WIDTH = Dimensions.get("screen").width;
 
@@ -26,27 +19,20 @@ export const CreateAccountScreen = ({ pagerRef }: CreateAccountScreenProps) => {
   };
 
   return (
-    <KeyboardAvoidingView
-      keyboardVerticalOffset={20}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}>
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        scrollEnabled={false}
-        contentContainerStyle={styles.scrollView}>
-        <View style={styles.imageContainer}>
-          <ModernProfessionalIcon
-            style={styles.image}
-            width="80%"
-            height="80%"
-          />
-        </View>
-        <View style={styles.header}>
-          <Text style={styles.headerText}>Create attendee account</Text>
-        </View>
-        <CreateAccountForm />
-      </ScrollView>
-    </KeyboardAvoidingView>
+    <KeyboardAwareScrollView
+      keyboardShouldPersistTaps="handled"
+      showsVerticalScrollIndicator={false}
+      keyboardOpeningTime={Number.MAX_SAFE_INTEGER}
+      style={{ width: "90%" }}
+      contentContainerStyle={{ alignItems: "center" }}>
+      <View style={styles.imageContainer}>
+        <ModernProfessionalIcon style={styles.image} width="80%" height="80%" />
+      </View>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Create attendee account</Text>
+      </View>
+      <CreateAccountForm />
+    </KeyboardAwareScrollView>
   );
 };
 

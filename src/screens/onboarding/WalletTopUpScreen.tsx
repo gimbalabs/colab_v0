@@ -4,13 +4,10 @@ import {
   StyleSheet,
   Text,
   Pressable,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
   useWindowDimensions,
 } from "react-native";
 
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView } from "react-native-safe-area-context";
 import ViewPager from "react-native-pager-view";
 import QRCode from "react-native-qrcode-svg";
 import { CustomPlainInput } from "components/forms/CustomPlainInput";
@@ -24,6 +21,7 @@ import { WalletSetUpModal } from "components/modals/walletSetUpModal";
 import { useNavigation } from "@react-navigation/native";
 import * as Clipboard from "expo-clipboard";
 import { CopyMessage } from "components/popups/copyMessage";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export interface WalletTopUpScreenProps {
   pagerRef?: React.RefObject<ViewPager>;
@@ -114,111 +112,96 @@ export const WalletTopUpScreen = ({
   return (
     <>
       <SafeAreaView
-        style={{
-          flex: 1,
-          backgroundColor: isLightMode
-            ? Colors.primary.neutral
-            : Colors.primary.s800,
-        }}>
-        <KeyboardAvoidingView
-          keyboardVerticalOffset={40}
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={[
-            isLightMode ? styles.container_light : styles.container_dark,
-          ]}>
-          <ScrollView
-            keyboardShouldPersistTaps="handled"
-            showsVerticalScrollIndicator={false}
-            style={styles.scrollView}>
-            {!isRegistrationScreen ? (
-              <View style={styles.navigation}>
-                <Pressable onPress={onBackNavigationPress} hitSlop={10}>
-                  <LeftArrowIcon
-                    width={24}
-                    height={24}
-                    color={
-                      isLightMode ? Colors.primary.s600 : Colors.primary.neutral
-                    }
-                  />
-                </Pressable>
-              </View>
+        style={[
+          styles.safeArea,
+          {
+            backgroundColor: isLightMode
+              ? Colors.primary.neutral
+              : Colors.primary.s800,
+          },
+        ]}>
+        <KeyboardAwareScrollView
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+          keyboardOpeningTime={Number.MAX_SAFE_INTEGER}
+          style={{ width: "90%" }}>
+          {!isRegistrationScreen ? (
+            <View style={styles.navigation}>
+              <Pressable onPress={onBackNavigationPress} hitSlop={10}>
+                <LeftArrowIcon
+                  width={24}
+                  height={24}
+                  color={
+                    isLightMode ? Colors.primary.s600 : Colors.primary.neutral
+                  }
+                />
+              </Pressable>
+            </View>
+          ) : (
+            <View style={{ marginTop: Sizing.x20 }} />
+          )}
+          <View style={styles.header}>
+            <Text
+              style={[
+                isLightMode ? styles.headerText_light : styles.headerText_dark,
+              ]}>
+              {isBookingScreen ? "Add funds" : "Set up your wallet"}
+            </Text>
+            {isBookingScreen ? (
+              <BodyText colors={[Colors.primary.s600, Colors.primary.neutral]}>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Vestibulum venenatis quam sem, eget bibendum lorem convallis et.
+                Donec velit ante, efficitur at ante eu, consequat hendrerit
+                augue. Vivamus quis eros ex
+              </BodyText>
             ) : (
-              <View style={{ marginTop: Sizing.x20 }} />
-            )}
-            <View style={styles.header}>
               <Text
                 style={[
                   isLightMode
-                    ? styles.headerText_light
-                    : styles.headerText_dark,
+                    ? styles.subHeaderText_light
+                    : styles.subHeaderText_dark,
                 ]}>
-                {isBookingScreen ? "Add funds" : "Set up your wallet"}
+                Deposit /withdrawl ADA into your wallet to make payments, and
+                receive payments.
               </Text>
-              {isBookingScreen ? (
-                <BodyText
-                  colors={[Colors.primary.s600, Colors.primary.neutral]}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Vestibulum venenatis quam sem, eget bibendum lorem convallis
-                  et. Donec velit ante, efficitur at ante eu, consequat
-                  hendrerit augue. Vivamus quis eros ex
-                </BodyText>
-              ) : (
-                <Text
-                  style={[
-                    isLightMode
-                      ? styles.subHeaderText_light
-                      : styles.subHeaderText_dark,
-                  ]}>
-                  Deposit /withdrawl ADA into your wallet to make payments, and
-                  receive payments.
-                </Text>
-              )}
-            </View>
-            <View style={styles.main}>
-              <View style={styles.qrCodeContainer}>
-                <QRCode
-                  value="https://gimbalabs.com"
-                  size={windowWidth / 2}
-                  backgroundColor={Colors.primary.neutral}
-                />
-              </View>
-            </View>
-            <CustomPlainInput
-              label="Address"
-              placeholder="addr9czf30t9dzbdsxe79a2vtf8io"
-              icon={DuplicateIcon}
-              styles={Object.assign(
-                styles,
-                isLightMode ? formStyleLight : formStyleDark
-              )}
-              onChangeCallback={onTextChangeCallback}
-              onPressHandler={onCopyPress}
-              customChild={<CopyMessage isActive={copyMsgActive} />}
-            />
-            <CustomPlainInput
-              label="Amount"
-              placeholder="50 ₳"
-              styles={Object.assign(
-                styles,
-                isLightMode ? formStyleLight : formStyleDark
-              )}
-              keyboardType="numeric"
-              onChangeCallback={onAmountChangeCallback}
-              onPressHandler={() => {}}
-            />
-            <View style={styles.buttonWrapper}>
-              <FullWidthButton
-                onPressCallback={processPayment}
-                text={"Deposit"}
-                colorScheme={colorScheme}
-                disabled={isDisabled}
-                loadingIndicator={isLoading}
-                buttonType={!isLightMode ? "transparent" : "filled"}
-                lightMode={isLightMode}
+            )}
+          </View>
+          <View style={styles.main}>
+            <View style={styles.qrCodeContainer}>
+              <QRCode
+                value="https://gimbalabs.com"
+                size={windowWidth / 2}
+                backgroundColor={Colors.primary.neutral}
               />
             </View>
-          </ScrollView>
-        </KeyboardAvoidingView>
+          </View>
+          <CustomPlainInput
+            label="Address"
+            placeholder="addr9czf30t9dzbdsxe79a2vtf8io"
+            icon={DuplicateIcon}
+            onChangeCallback={onTextChangeCallback}
+            onPressHandler={onCopyPress}
+            customChild={<CopyMessage isActive={copyMsgActive} />}
+          />
+          <CustomPlainInput
+            label="Amount"
+            placeholder="50 ₳"
+            keyboardType="numeric"
+            onChangeCallback={onAmountChangeCallback}
+            onPressHandler={() => {}}
+          />
+          <View style={styles.buttonWrapper}>
+            <FullWidthButton
+              onPressCallback={processPayment}
+              text={"Deposit"}
+              colorScheme={colorScheme}
+              disabled={isDisabled}
+              loadingIndicator={isLoading}
+              buttonType={!isLightMode ? "transparent" : "filled"}
+              lightMode={isLightMode}
+            />
+          </View>
+        </KeyboardAwareScrollView>
         {isVisibleModal && WalletTopUpModal}
       </SafeAreaView>
     </>
@@ -226,6 +209,10 @@ export const WalletTopUpScreen = ({
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    alignItems: "center",
+  },
   container_light: {
     backgroundColor: Colors.primary.neutral,
     alignItems: "center",
@@ -236,10 +223,6 @@ const styles = StyleSheet.create({
   },
   header: {
     width: "100%",
-  },
-  scrollView: {
-    width: "90%",
-    height: "100%",
   },
   headerText_light: {
     ...Typography.header.x65,
@@ -273,64 +256,11 @@ const styles = StyleSheet.create({
   },
   navigation: {
     flexDirection: "row",
-    width: "90%",
+    alignSelf: "flex-start",
     marginVertical: Sizing.x15,
   },
   buttonWrapper: {
+    width: "100%",
     marginVertical: Sizing.x12,
-  },
-  /**
-   * styles passed as prop to CustomPlainInput
-   */
-  inputContainer: {
-    width: "100%",
-    marginBottom: Sizing.x10,
-  },
-  labelContainer: {
-    width: "100%",
-  },
-  textInputWrapper: {
-    width: "100%",
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  iconWrapper: {
-    left: -40,
-    width: Sizing.x35,
-    height: Sizing.x35,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  icon: {
-    width: Sizing.x30,
-    height: Sizing.x30,
-  },
-});
-
-const formStyleLight = StyleSheet.create({
-  label: {
-    ...Forms.inputLabel.primary_light,
-  },
-  input: {
-    width: "100%",
-    ...Forms.input.primary_light,
-    ...Outlines.shadow.lifted,
-  },
-  placeholderText: {
-    color: Colors.primary.s300,
-  },
-});
-
-const formStyleDark = StyleSheet.create({
-  label: {
-    ...Forms.inputLabel.primary_dark,
-  },
-  input: {
-    width: "100%",
-    ...Forms.input.primary_dark,
-    ...Outlines.shadow.lifted,
-  },
-  placeholderText: {
-    color: Colors.primary.s300,
   },
 });
