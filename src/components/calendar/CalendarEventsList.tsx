@@ -10,15 +10,14 @@ import {
 } from "react-native";
 import { CalendarEventsDetail } from "./CalendarEventsDetail";
 
+import { useNavigation } from "@react-navigation/native";
 import { appContext, myCalendarContext } from "contexts/contextApi";
 import { getDate, getYear } from "lib/utils";
 import { Sizing, Colors, Outlines, Typography, Buttons } from "styles/index";
 import { ScheduledEvent } from "common/interfaces/myCalendarInterface";
 import { CalendarEventsListHeader } from "./CalendarEventsListHeader";
-import { CalendarEventsListEmpty } from "./CalendarEventsListEmpty";
 import { months } from "common/types/calendarTypes";
 import { PlusIcon } from "assets/icons";
-import { applyOpacity } from "../../styles/colors";
 
 export interface CalendarEventsListProps {
   isHomeScreen?: boolean;
@@ -39,6 +38,7 @@ export const CalendarEventsList = ({
     index: null,
   });
   const isLightMode = colorScheme === "light";
+  const navigation = useNavigation();
 
   const renderItem = ({ item, index, section }: any) => {
     const {
@@ -137,7 +137,9 @@ export const CalendarEventsList = ({
     );
   };
   const numOfEvents = data().reduce((acc, curr) => acc + curr.data.length, 0);
-  const onAddEventPress = () => {};
+  const onAddEventPress = () => {
+    navigation.navigate("New Event Description");
+  };
 
   return (
     <View style={styles.eventsHolder} onLayout={onLayout}>
