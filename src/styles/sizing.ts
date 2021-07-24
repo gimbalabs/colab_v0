@@ -38,7 +38,8 @@ type Layout =
   | "x110"
   | "x120"
   | "x130"
-  | "x140";
+  | "x140"
+  | "x150";
 export const layout: Record<Layout, number> = {
   x1: 1,
   x2: 2,
@@ -70,6 +71,7 @@ export const layout: Record<Layout, number> = {
   x120: 170,
   x130: 200,
   x140: 230,
+  x150: 250,
 };
 
 export const x1 = layout.x1;
@@ -102,6 +104,7 @@ export const x110 = layout.x110;
 export const x120 = layout.x120;
 export const x130 = layout.x130;
 export const x140 = layout.x140;
+export const x150 = layout.x150;
 
 type Icons = "x10" | "x15" | "x20" | "x25" | "x30" | "x40";
 export const icons: Record<Icons, number> = {
