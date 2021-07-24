@@ -8,11 +8,13 @@ import {
 } from "assets/icons/calendarLegend/index";
 import { Colors, Outlines, Sizing, Typography } from "styles/index";
 
-export interface CalendarLegendProps {
+export interface BookingCalendarLegendProps {
   colorScheme: "light" | "dark";
 }
 
-export const CalendarLegend = ({ colorScheme }: CalendarLegendProps) => {
+export const BookingCalendarLegend = ({
+  colorScheme,
+}: BookingCalendarLegendProps) => {
   const isLightMode = colorScheme === "light";
 
   return (
