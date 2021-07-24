@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { getDate, getMonthByIndex, getYear } from "lib/utils";
+import { getDate, getMonthName, getYear } from "lib/utils";
 
 export const useScheduledTimes = (
   scheduledEvents: any,
@@ -17,7 +17,7 @@ export const useScheduledTimes = (
 
       let currSchedEvents = scheduledEvents
         .find((obj: any) => obj.year === getYear(pickedDate))
-        ?.months.find((obj: any) => obj.month === getMonthByIndex(pickedDate))
+        ?.months.find((obj: any) => obj.month === getMonthName(pickedDate))
         ?.days.find((obj: any) => obj.day === getDate(pickedDate))
         ?.scheduledEvents.forEach((evt: any) => {
           // this means that scheduled event is longer than time block

@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { getDate, getMonthByIndex, getYear } from "lib/utils";
+import { getDate, getMonthName, getYear } from "lib/utils";
 
 export const useAvailabilities = (
   availabilities: any,
@@ -15,7 +15,7 @@ export const useAvailabilities = (
     if (availabilities != null && pickedDate != null) {
       let currAvail = availabilities
         .find((obj: any) => obj.year === getYear(pickedDate))
-        ?.months.find((obj: any) => obj.month === getMonthByIndex(pickedDate))
+        ?.months.find((obj: any) => obj.month === getMonthName(pickedDate))
         ?.days.find((obj: any) => obj.day === getDate(pickedDate))?.timeSlots;
 
       // Calculate how many time slots should we render depending on

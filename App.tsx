@@ -24,7 +24,7 @@ import { DepositSuccessful, Confirmation } from "screens/payments";
 import { AppStackParamList } from "common/types/navigationTypes";
 import { NavigationScreens } from "tabs/NavigationScreens";
 import { WalletTopUpScreen } from "screens/onboarding";
-import { OnboardingScreens } from "components/OnboardingPager";
+import { OnboardingScreens } from "tabs/OnboardingScreens";
 import { LogIn } from "screens/LogIn";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
@@ -58,12 +58,7 @@ function App() {
                 headerMode="screen">
                 {auth ? (
                   <>
-                    {/*<Stack.Screen
-                  name="Home"
-                  options={{ title: "Home" }}
-                  component={HomeScreen}
-                />*/}
-                    {/*               <Stack.Screen
+                    {/* <Stack.Screen
                     name="Log In"
                     component={LogIn}
                     options={{ headerShown: false }}
@@ -92,15 +87,15 @@ function App() {
                 ) : (
                   <>
                     <Stack.Screen
-                      name="User Registration Screens"
-                      component={UserRegistrationScreens}
+                      name="Onboarding Screens"
+                      component={OnboardingScreens}
                       options={{
                         headerShown: false,
                       }}
                     />
                     <Stack.Screen
-                      name="Onboarding Screens"
-                      component={OnboardingScreens}
+                      name="User Registration Screens"
+                      component={UserRegistrationScreens}
                       options={{
                         headerShown: false,
                       }}

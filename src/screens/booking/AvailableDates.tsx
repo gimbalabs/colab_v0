@@ -104,7 +104,6 @@ export const AvailableDates = ({ navigation, route }) => {
                 <MonthlyWrapper isBookingCalendar={true} />
               </CalendarWrapperSimple>
             </View>
-            <CalendarLegend colorScheme={colorScheme} />
             <View style={styles.buttonContainer}>
               <FullWidthButton
                 onPressCallback={onNextPress}
@@ -150,7 +149,7 @@ const styles = StyleSheet.create({
     color: Colors.primary.neutral,
   },
   calendarWrapper: {
-    height: 380,
+    flex: 1,
     width: "100%",
     alignItems: "center",
   },
