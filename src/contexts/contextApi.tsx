@@ -1,8 +1,10 @@
 import * as React from "react";
+import { ColorSchemeName } from "react-native";
 
 import { AppContext } from "./appContext";
 import { MyCalendarContext } from "./myCalendarContext";
 import { BookingContext } from "./bookingContext";
+import { EventCreationContext } from "./eventCreationContext";
 import {
   Availabilities,
   CalendarHeader,
@@ -10,8 +12,12 @@ import {
   PreviewingDayEvents,
   ScheduledEvent,
 } from "interfaces/myCalendarInterface";
-import { ColorSchemeName } from "react-native";
 import { OrganizerRate } from "common/interfaces/bookingInterface";
+import {
+  EventAvailability,
+  TextContent,
+} from "common/interfaces/newEventInterface";
+import { EventCreationTypes } from "common/types/contextTypes";
 
 export const appContext = () => {
   const { state, dispatch } = React.useContext(AppContext);
@@ -23,7 +29,8 @@ export const appContext = () => {
     pageIndex: state.pageIndex,
     favoriteOrganizers: state.favoriteOrganizers,
     ref: state.ref,
-    setRef: (ref) => dispatch({ type: "SET_REF", payload: { ref } }),
+    setRef: (ref: React.RefObject<any>) =>
+      dispatch({ type: "SET_REF", payload: { ref } }),
     toggleAuth: (auth?: boolean) => {
       dispatch({ type: "TOGGLE_AUTH", payload: { auth } });
     },
@@ -35,6 +42,58 @@ export const appContext = () => {
     },
     setPageIndex: (pageIndex: number) => {
       dispatch({ type: "SET_PAGE_INDEX", payload: { pageIndex } });
+    },
+  };
+};
+
+export const eventCreationContext = () => {
+  const { state, dispatch } = React.useContext(EventCreationContext);
+
+  return {
+    textContent: state.textContent,
+    availabilities: state.availabilities,
+    selectedDays: state.selectedDays,
+    tags: state.tags,
+    hourlyRate: state.hourlyRate,
+    imageURI: state.imageURI,
+    setTextContext: (textContent: TextContent) => {
+      dispatch({
+        type: EventCreationTypes.SetTextContent,
+        payload: { textContent },
+      });
+    },
+    setSelectedDays: (
+      selectedDays: number[],
+      isRecurringSelection: boolean = false
+    ) => {
+      dispatch({
+        type: EventCreationTypes.SetSelectedDays,
+        payload: { selectedDays, isRecurringSelection },
+      });
+    },
+    setAvailabilities: (availabilities: EventAvailability[]) => {
+      dispatch({
+        type: EventCreationTypes.SetAvailabilities,
+        payload: { availabilities },
+      });
+    },
+    setHourlyRate: (hourlyRate: number) => {
+      dispatch({
+        type: EventCreationTypes.SetHourlyRate,
+        payload: { hourlyRate },
+      });
+    },
+    setImageUri: (imageURI: string) => {
+      dispatch({
+        type: EventCreationTypes.SetImageURI,
+        payload: { imageURI },
+      });
+    },
+    setTags: (tags: string[]) => {
+      dispatch({
+        type: EventCreationTypes.SetTags,
+        payload: { tags },
+      });
     },
   };
 };

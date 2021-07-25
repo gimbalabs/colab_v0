@@ -7,13 +7,13 @@ import {
 } from "common/interfaces/newEventInterface";
 import {
   EventCreationActions,
-  EventCreationPayload,
   EventCreationTypes,
 } from "common/types/contextTypes";
 
 const initialState: InitialState = {
   textContent: null,
   availabilities: [],
+  selectedDays: null,
   tags: [],
   hourlyRate: null,
   imageURI: null,
@@ -32,8 +32,28 @@ const reducer = (
     case EventCreationTypes.SetAvailabilities:
       return {
         ...state,
-        availabilities: action.payload.availabilties,
+        availabilities: action.payload.availabilities,
       };
+    case EventCreationTypes.SetSelectedDays: {
+      let newSelectedDays = state.selectedDays || {};
+
+      action.payload.selectedDays.map((day) => {
+        if (
+          !state.selectedDays ||
+          !state.selectedDays[day] ||
+          (action.payload.isRecurringSelection && true)
+        ) {
+          newSelectedDays[day] = day;
+        } else {
+          delete newSelectedDays[day];
+        }
+      });
+
+      return {
+        ...state,
+        selectedDays: newSelectedDays,
+      };
+    }
     case EventCreationTypes.SetHourlyRate:
       return {
         ...state,
@@ -55,7 +75,7 @@ const reducer = (
   }
 };
 
-const EventCreationContext = React.createContext<ContextObjectProps>({
+export const EventCreationContext = React.createContext<ContextObjectProps>({
   state: initialState,
   dispatch: () => {},
 });
