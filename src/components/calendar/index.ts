@@ -3,7 +3,6 @@ export { CalendarEventsDetail } from "./CalendarEventsDetail";
 export { CalendarHeader } from "./CalendarHeader";
 export { CalendarWrapper } from "./CalendarWrapper";
 export { MainCalendar } from "./MainCalendar";
-export { MonthlyDay } from "./MonthlyDay";
 export { MonthlyWrapper } from "./MonthlyWrapper";
 export { MonthlyWeek } from "./MonthlyWeek";
 export { WeekDayNames } from "./WeekDayNames";

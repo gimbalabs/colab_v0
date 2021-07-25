@@ -1,6 +1,6 @@
 import * as React from "react";
 import { StyleSheet } from "react-native";
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "styles/index";
 import { MyCalendarProvider } from "contexts/myCalendarContext";
 import { appContext } from "contexts/contextApi";

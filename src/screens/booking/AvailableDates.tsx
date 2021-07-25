@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
+import { View, StyleSheet, Pressable } from "react-native";
 
 import { Colors, Sizing, Typography } from "styles/index";
 import { OrganizerProfile } from "components/booking/index";
@@ -15,7 +15,6 @@ import { customAvailabilities } from "../../api_data/customAvailabilities";
 import { featuredOrganizers } from "../../api_data/featuredOrganizers";
 import { MonthlyWrapper } from "components/calendar";
 import { CalendarWrapperSimple } from "components/calendar/CalendarWrapperSimple";
-import { CalendarLegend } from "components/calendar/booking/CalendarLegend";
 import { FullWidthButton } from "components/buttons/fullWidthButton";
 import { SubHeaderText } from "components/rnWrappers/subHeaderText";
 import { EventsList } from "components/booking/EventsList";
