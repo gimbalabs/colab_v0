@@ -2,7 +2,10 @@ import * as React from "react";
 
 import { createStackNavigator } from "@react-navigation/stack";
 import { HomeScreen } from "screens/HomeScreen";
-import { NewEventDescription } from "screens/organizer/newEvent";
+import {
+  AvailableDaysSelection,
+  NewEventDescription,
+} from "screens/organizer/newEvent";
 
 const Stack = createStackNavigator();
 
@@ -13,6 +16,10 @@ export const OrganizerHomeScreenStack = () => {
       <Stack.Screen
         name="New Event Description"
         component={NewEventDescription}
+      />
+      <Stack.Screen
+        name="Available Days Selection"
+        component={AvailableDaysSelection}
       />
     </Stack.Navigator>
   );

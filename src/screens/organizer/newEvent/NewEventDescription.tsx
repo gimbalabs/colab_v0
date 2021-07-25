@@ -32,7 +32,7 @@ export const NewEventDescription = ({
 
   // navigation handlers
   const onBackNavigationPress = () => navigation.goBack();
-  const onNextPress = () => navigation.navigate("Select Availabilities");
+  const onNextPress = () => navigation.navigate("Available Days Selection");
 
   return (
     <SafeAreaView
