@@ -16,12 +16,17 @@ import { CalendarHeader, Month } from "interfaces/myCalendarInterface";
 import { monthsByName } from "common/types/calendarTypes";
 import { WeekDayNames } from "./WeekDayNames";
 import { CalendarTopNavigation } from "./navigation/calendarTopNavigation";
+import { BookingCalendarLegend } from "./booking/BookingCalendarLegend";
 
 export interface MonthlyWrapperProps {
   isBookingCalendar?: boolean;
+  isNewEventCalendar?: boolean;
 }
 
-export const MonthlyWrapper = ({ isBookingCalendar }: MonthlyWrapperProps) => {
+export const MonthlyWrapper = ({
+  isBookingCalendar = false,
+  isNewEventCalendar = false,
+}: MonthlyWrapperProps) => {
   const {
     calendar,
     changeMonthHeader,
@@ -157,6 +162,7 @@ export const MonthlyWrapper = ({ isBookingCalendar }: MonthlyWrapperProps) => {
           dimensions={dimensions}
           onPlaceholderPress={onPlaceholderPress}
           isBookingCalendar={isBookingCalendar}
+          isNewEventCalendar={isNewEventCalendar}
         />
       </Animated.View>
     );
@@ -251,83 +257,89 @@ export const MonthlyWrapper = ({ isBookingCalendar }: MonthlyWrapperProps) => {
   // Do not pass inline functions as props, as they will be recreated
   // on each component re-render (and slowing down the app)
   return (
-    <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <View style={styles.header}>
-          <Text
-            style={
-              colorScheme === "light"
-                ? styles.headerMonth_light
-                : styles.headerMonth_dark
-            }>
-            {calendarHeader.month}
-          </Text>
-          <Text
-            style={
-              colorScheme === "light"
-                ? styles.headerYear_light
-                : styles.headerYear_dark
-            }>
-            {calendarHeader.year}
-          </Text>
+    <>
+      <View style={styles.container}>
+        <View style={styles.headerContainer}>
+          <View style={styles.header}>
+            <Text
+              style={
+                colorScheme === "light"
+                  ? styles.headerMonth_light
+                  : styles.headerMonth_dark
+              }>
+              {calendarHeader.month}
+            </Text>
+            <Text
+              style={
+                colorScheme === "light"
+                  ? styles.headerYear_light
+                  : styles.headerYear_dark
+              }>
+              {calendarHeader.year}
+            </Text>
+          </View>
+          <View style={styles.headerMonthNavigation}>
+            <CalendarTopNavigation
+              onPreviousPress={onPreviousStartAnimation}
+              onNextPress={onNextStartAnimation}
+              colorScheme={colorScheme}
+              calendarHeader={calendarHeader}
+            />
+          </View>
         </View>
-        <View style={styles.headerMonthNavigation}>
-          <CalendarTopNavigation
-            onPreviousPress={onPreviousStartAnimation}
-            onNextPress={onNextStartAnimation}
-            colorScheme={colorScheme}
-            calendarHeader={calendarHeader}
-          />
-        </View>
-      </View>
-      <View style={styles.calendar}>
-        <WeekDayNames />
-        <View style={styles.calendarContainer} onLayout={onLayout}>
-          {dimensions && calendar && (
-            <>
-              {direction === "left" && monthsArray[currIndex - 1] && (
-                <CurrMonth
-                  position="previous"
-                  item={monthsArray[currIndex - 1]}
-                />
-              )}
+        <View style={styles.calendar}>
+          <WeekDayNames isNewEventCalendar={isNewEventCalendar} />
+          <View style={styles.calendarContainer} onLayout={onLayout}>
+            {dimensions && calendar && (
+              <>
+                {direction === "left" && monthsArray[currIndex - 1] && (
+                  <CurrMonth
+                    position="previous"
+                    item={monthsArray[currIndex - 1]}
+                  />
+                )}
 
-              <CurrMonth position="current" item={monthsArray[currIndex]} />
-              {direction === "right" && monthsArray[currIndex + 1] && (
-                <CurrMonth position="next" item={monthsArray[currIndex + 1]} />
-              )}
-            </>
-          )}
+                <CurrMonth position="current" item={monthsArray[currIndex]} />
+                {direction === "right" && monthsArray[currIndex + 1] && (
+                  <CurrMonth
+                    position="next"
+                    item={monthsArray[currIndex + 1]}
+                  />
+                )}
+              </>
+            )}
+          </View>
         </View>
       </View>
-    </View>
+      <View style={styles.legendWrapper}>
+        {isBookingCalendar && (
+          <BookingCalendarLegend colorScheme={colorScheme} />
+        )}
+      </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    minHeight: Sizing.x100,
     width: "90%",
-    marginBottom: Sizing.x10,
-    marginVertical: "auto",
-    alignItems: "center",
+  },
+  legendWrapper: {
+    alignSelf: "flex-start",
   },
   calendarContainer: {
-    flex: 1,
     width: "100%",
-    height: "100%",
+    height: Sizing.x150,
     marginTop: Sizing.x7,
   },
   loadingIndicator: {
     flex: 1,
   },
   calendar: {
-    height: "100%",
     minHeight: 200,
     width: "100%",
-    flex: 1,
-    paddingVertical: Sizing.x5,
+    marginTop: Sizing.x5,
+    paddingVertical: Sizing.x10,
     paddingHorizontal: Sizing.x10,
     backgroundColor: "white",
     borderRadius: Outlines.borderRadius.base,
@@ -338,7 +350,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: Sizing.x5,
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: Sizing.x10,
     marginBottom: Sizing.x5,
   },
   header: {
@@ -379,10 +390,6 @@ const styles = StyleSheet.create({
     paddingRight: 5,
   },
   monthContainer: {
-    flexWrap: "wrap",
-    flexDirection: "row",
-  },
-  daysList: {
     flexWrap: "wrap",
     flexDirection: "row",
   },

@@ -8,12 +8,12 @@ import { BookingDay } from "./days/BookingDay";
 import { AvailabilityDay } from "./days/AvailabilityDay";
 import { getTime } from "lib/utils";
 import { monthsByName } from "common/types/calendarTypes";
+import { eventCreationContext } from "contexts/contextApi";
 
 export interface MonthProps extends Month {
   dimensions: LayoutRectangle | null;
   onPlaceholderPress: (direction: string) => void;
   isBookingCalendar?: boolean;
-  isAvailabilityCalendar?: boolean;
   isNewEventCalendar?: boolean;
   month: string;
 }
@@ -23,17 +23,22 @@ export const MonthItem = ({
   month,
   days,
   onPlaceholderPress,
-  isBookingCalendar,
-  isNewEventCalendar,
+  isBookingCalendar = false,
+  isNewEventCalendar = false,
 }: MonthProps) => {
+  const { selectedDays, setSelectedDays } = eventCreationContext();
   const [activeDay, setActiveDay] = React.useState<number | null>(null);
-  const [availableDays, setAvailableDays] = React.useState<number[]>([]);
 
   const isSelectedAvailability = React.useCallback(
     (year, month, number) => {
-      return availableDays.includes(getTime(year, monthsByName[month], number));
+      return !!selectedDays?.[getTime(year, monthsByName[month], number)];
     },
-    [availableDays]
+    [selectedDays]
+  );
+
+  const onPressCallback = React.useCallback(
+    (val: number) => setSelectedDays([val]),
+    [isNewEventCalendar]
   );
 
   return (
@@ -59,10 +64,13 @@ export const MonthItem = ({
           />
         ) : isNewEventCalendar ? (
           <AvailabilityDay
+            month={month}
+            year={year}
+            name={day.name}
             key={`${month}-${day.name}-${day.number}`}
             number={day.number}
             isSelectedDay={isSelectedAvailability(year, month, day.number)}
-            setAvailableDays={setAvailableDays}
+            onPressCallback={onPressCallback}
           />
         ) : (
           <MonthlyDay
