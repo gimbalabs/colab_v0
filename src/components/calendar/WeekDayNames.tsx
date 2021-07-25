@@ -1,24 +1,94 @@
 import * as React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { appContext } from "contexts/contextApi";
-import { Sizing, Typography, Colors, Outlines } from "../../styles";
+import { View, Text, StyleSheet, Pressable } from "react-native";
+
+import { eventCreationContext, myCalendarContext } from "contexts/contextApi";
+import { Typography, Colors, Sizing, Outlines } from "../../styles";
+import { getRecurringMonthDays } from "lib/helpers";
 
 const weekDays: string[] = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
-export const WeekDayNames = () => {
-  const { colorScheme } = appContext();
-  const lightMode = colorScheme === "light";
+type SelectedWeekDays = { [key: string]: boolean };
+const selectedWeekDays: SelectedWeekDays = {
+  0: false,
+  1: false,
+  2: false,
+  3: false,
+  4: false,
+  5: false,
+  6: false,
+};
+
+export const WeekDayNames = ({
+  isNewEventCalendar = false,
+}: {
+  isNewEventCalendar: boolean;
+}) => {
+  const [weekSelection, setWeekSelection] = React.useState<SelectedWeekDays>(
+    selectedWeekDays
+  );
+  const { calendarHeader } = myCalendarContext();
+  const { setSelectedDays, selectedDays } = eventCreationContext();
+  const { month, year } = calendarHeader;
+
+  const isSelectedDay = (index: number) => !!weekSelection[index];
+
+  const onPress = (index: number): void => {
+    const arrOfDays = getRecurringMonthDays(index, year, month);
+    let selectRecurring: boolean = arrOfDays
+      .map((num: number) => !!selectedDays?.[num])
+      .includes(false);
+
+    setWeekSelection((prev: SelectedWeekDays) => {
+      prev[index] = selectRecurring ? true : !prev[index];
+      return prev;
+    });
+    setSelectedDays(arrOfDays, selectRecurring);
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.weekDays}>
-        {weekDays.map((day, i) => (
-          <Text
-            key={i}
-            style={lightMode ? styles.dayLetter_light : styles.dayLetter_dark}>
-            {day}
-          </Text>
-        ))}
+        {weekDays.map((day, i) =>
+          !isNewEventCalendar ? (
+            <View key={`day-${i}`} style={[styles.dayContainer]}>
+              <View style={[styles.dayPlaceholder]}>
+                <Text
+                  style={[
+                    styles.dayTitle,
+                    {
+                      color: Colors.primary.s600,
+                    },
+                  ]}>
+                  {day}
+                </Text>
+              </View>
+            </View>
+          ) : (
+            <Pressable
+              key={i}
+              style={[styles.dayContainer]}
+              hitSlop={5}
+              onPress={() => onPress(i)}>
+              <View
+                style={[
+                  styles.dayButton,
+                  isSelectedDay(i) && styles.selectedDayButton,
+                ]}>
+                <Text
+                  style={[
+                    styles.dayTitle,
+                    {
+                      color: isSelectedDay(i)
+                        ? Colors.primary.neutral
+                        : Colors.primary.s600,
+                    },
+                  ]}>
+                  {day}
+                </Text>
+              </View>
+            </Pressable>
+          )
+        )}
       </View>
     </View>
   );
@@ -30,16 +100,39 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-evenly",
   },
-  dayLetter_light: {
-    ...Typography.subHeader.x25,
-    color: Colors.primary.s350,
-    width: `${100 / 7}%`,
+  dayTitle: {
+    ...Typography.body.x30,
+    ...Typography.roboto.medium,
+    zIndex: 2,
+    // looks like the font is slightly moved to left
     textAlign: "center",
+    marginLeft: Sizing.x1,
   },
-  dayLetter_dark: {
-    ...Typography.subHeader.x25,
-    color: Colors.primary.s350,
+  dayContainer: {
     width: `${100 / 7}%`,
-    textAlign: "center",
+    height: `${100 / 6}%`,
+    justifyContent: "flex-start",
+    alignItems: "center",
+  },
+  dayPlaceholder: {
+    width: 33,
+    height: 33,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "white",
+  },
+  dayButton: {
+    width: 33,
+    height: 33,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "white",
+    borderRadius: 999,
+    borderWidth: Outlines.borderWidth.thin,
+    borderColor: Colors.applyOpacity(Colors.neutral.s400, 0.4),
+    ...Outlines.shadow.base,
+  },
+  selectedDayButton: {
+    backgroundColor: Colors.primary.s600,
   },
 });
