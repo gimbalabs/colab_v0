@@ -13,10 +13,13 @@ export interface ContextObjectProps {
 export interface InitialState {
   textContent: TextContent | null;
   availabilities: EventAvailability[];
+  selectedDays: SelectedDays | null;
   tags: string[];
   hourlyRate: number | null;
   imageURI: string | null;
 }
+
+export type SelectedDays = { [key: string]: number };
 
 export interface TextContent {
   title: string;

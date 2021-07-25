@@ -8,6 +8,10 @@ import {
   ScheduledEvents,
 } from "interfaces/myCalendarInterface";
 import { ColorSchemeName } from "interfaces/appInterface";
+import {
+  EventAvailability,
+  TextContent,
+} from "common/interfaces/newEventInterface";
 
 export enum AppTypes {
   ToggleAuth = "TOGGLE_AUTH",
@@ -15,6 +19,15 @@ export enum AppTypes {
   SetPageIndex = "SET_PAGE_INDEX",
   SetColorScheme = "SET_COLOR_SCHEME",
   SetFavoriteOrganizer = "SET_FAVORITE_ORGANIZER",
+}
+
+export enum EventCreationTypes {
+  SetTextContent = "SET_TEXT_CONTENT",
+  SetAvailabilities = "SET_AVAILABILITIES",
+  SetSelectedDays = "SET_SELECTED_DAYS",
+  SetTags = "SET_TAGS",
+  SetImageURI = "SET_IMAGE_URI",
+  SetHourlyRate = "SET_HOURLY_RATE",
 }
 
 export enum BookingTypes {
@@ -71,6 +84,29 @@ export type AppPayload = {
   };
   [AppTypes.SetColorScheme]: {
     newColorScheme: ColorSchemeName;
+  };
+  ["unknown"]: any;
+};
+
+export type EventCreationPayload = {
+  [EventCreationTypes.SetAvailabilities]: {
+    availabilities: EventAvailability[];
+  };
+  [EventCreationTypes.SetSelectedDays]: {
+    selectedDays: number[];
+    isRecurringSelection: boolean;
+  };
+  [EventCreationTypes.SetHourlyRate]: {
+    hourlyRate: number;
+  };
+  [EventCreationTypes.SetImageURI]: {
+    imageURI: string;
+  };
+  [EventCreationTypes.SetTags]: {
+    tags: string[];
+  };
+  [EventCreationTypes.SetTextContent]: {
+    textContent: TextContent;
   };
   ["unknown"]: any;
 };
@@ -135,3 +171,4 @@ export type MyCalendarPaylaod = {
 export type MyCalendarActions = ActionMap<MyCalendarPaylaod>[keyof ActionMap<MyCalendarPaylaod>];
 export type AppActions = ActionMap<AppPayload>[keyof ActionMap<AppPayload>];
 export type BookingActions = ActionMap<BookingPayload>[keyof ActionMap<BookingPayload>];
+export type EventCreationActions = ActionMap<EventCreationPayload>[keyof ActionMap<EventCreationPayload>];
