@@ -4,11 +4,14 @@ import { View, Text, StyleSheet, Pressable } from "react-native";
 import { eventCreationContext, myCalendarContext } from "contexts/contextApi";
 import { Typography, Colors, Sizing, Outlines } from "../../styles";
 import { getRecurringMonthDays } from "lib/helpers";
+import { getTime } from "lib/utils";
+import { monthsByName } from "common/types/calendarTypes";
 
 const weekDays: string[] = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
-type SelectedWeekDays = { [key: string]: boolean };
+type SelectedWeekDays = { [key: string]: any };
 const selectedWeekDays: SelectedWeekDays = {
+  date: null,
   0: false,
   1: false,
   2: false,
@@ -23,14 +26,26 @@ export const WeekDayNames = ({
 }: {
   isNewEventCalendar: boolean;
 }) => {
-  const [weekSelection, setWeekSelection] = React.useState<SelectedWeekDays>(
-    selectedWeekDays
+  const [weekSelection, setWeekSelection] = React.useState<SelectedWeekDays[]>(
+    []
   );
   const { calendarHeader } = myCalendarContext();
   const { setSelectedDays, selectedDays } = eventCreationContext();
   const { month, year } = calendarHeader;
 
-  const isSelectedDay = (index: number) => !!weekSelection[index];
+  const isSelectedDay = (index: number) =>
+    !!weekSelection.length &&
+    !!weekSelection[currMonthSelectedWeekIndex()]?.[index];
+  const hasCurrentMonthSelectedWeek = React.useCallback(() => {
+    return !!weekSelection.find(
+      (week) => week.date === getTime(year, monthsByName[month])
+    );
+  }, [month, year]);
+  const currMonthSelectedWeekIndex = React.useCallback(() => {
+    return weekSelection.findIndex(
+      (week) => week.date === getTime(year, monthsByName[month])
+    );
+  }, [month, year]);
 
   const onPress = (index: number): void => {
     const arrOfDays = getRecurringMonthDays(index, year, month);
@@ -38,8 +53,18 @@ export const WeekDayNames = ({
       .map((num: number) => !!selectedDays?.[num])
       .includes(false);
 
-    setWeekSelection((prev: SelectedWeekDays) => {
-      prev[index] = selectRecurring ? true : !prev[index];
+    setWeekSelection((prev: SelectedWeekDays[]) => {
+      if (hasCurrentMonthSelectedWeek()) {
+        prev[currMonthSelectedWeekIndex()][index] = selectRecurring
+          ? true
+          : !prev[currMonthSelectedWeekIndex()][index];
+      } else {
+        let newSelectedWeek = Object.assign({}, selectedWeekDays);
+        newSelectedWeek.date = getTime(year, monthsByName[month]);
+        newSelectedWeek[index] = selectRecurring ? true : !prev[index];
+
+        prev.push(newSelectedWeek);
+      }
       return prev;
     });
     setSelectedDays(arrOfDays, selectRecurring);

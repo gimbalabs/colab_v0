@@ -65,20 +65,14 @@ export const CustomPlainInput = (props: CustomPlainInputProps) => {
     styles = Object.assign({}, styles, formStyleDark);
   }
 
-  // const maxCharCallback = (val: string) => {
-  //   if(maxCharOffset() >= val.length) {
-  //       setHiddenTextVisible(true)
-  //   }
-  //   if (onChangeCallback) onChangeCallback(val);
-  // };
-
   const onChangeText = (val: string) => {
     if (maxChar && val.length >= maxChar - maxChar / 5) {
       setCharsLeft(val.length);
-      if (maxChar === charsLeft) return;
+      onChangeCallback && onChangeCallback(val);
+    } else if (charsLeft) {
+      setCharsLeft(null);
       onChangeCallback && onChangeCallback(val);
     } else {
-      setCharsLeft(null);
       onChangeCallback && onChangeCallback(val);
     }
   };
