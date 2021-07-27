@@ -73,6 +73,7 @@ export const NewEventDescription = ({
         </HeaderText>
         <CustomPlainInput
           label="Description"
+          maxChar={150}
           placeholder="I will be going over..."
           multiline
           numberOfLines={8}

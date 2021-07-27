@@ -21,6 +21,7 @@ export interface CustomPlainInputProps {
   customChild?: React.ReactNode;
   multiline?: boolean;
   numberOfLines?: number;
+  maxChar?: number;
   keyboardType?: KeyboardType;
   onChangeCallback?: (e: any) => void;
   onPressInCallback?: (e: any) => void;
@@ -28,6 +29,7 @@ export interface CustomPlainInputProps {
 }
 
 export const CustomPlainInput = (props: CustomPlainInputProps) => {
+  const [charsLeft, setCharsLeft] = React.useState<number | null>(null);
   var {
     icon,
     placeholder,
@@ -38,6 +40,7 @@ export const CustomPlainInput = (props: CustomPlainInputProps) => {
     isLightMode = true,
     multiline,
     numberOfLines,
+    maxChar,
     keyboardType,
     onBlurCallback,
     onChangeCallback,
@@ -52,6 +55,9 @@ export const CustomPlainInput = (props: CustomPlainInputProps) => {
     additionalProps.multiline = true;
     additionalProps.numberOfLines = numberOfLines;
   }
+  if (maxChar) {
+    additionalProps.maxLength = maxChar;
+  }
 
   if (isLightMode) {
     styles = Object.assign({}, styles, formStyleLight);
@@ -59,18 +65,38 @@ export const CustomPlainInput = (props: CustomPlainInputProps) => {
     styles = Object.assign({}, styles, formStyleDark);
   }
 
+  // const maxCharCallback = (val: string) => {
+  //   if(maxCharOffset() >= val.length) {
+  //       setHiddenTextVisible(true)
+  //   }
+  //   if (onChangeCallback) onChangeCallback(val);
+  // };
+
+  const onChangeText = (val: string) => {
+    if (maxChar && val.length >= maxChar - maxChar / 5) {
+      setCharsLeft(val.length);
+      if (maxChar === charsLeft) return;
+      onChangeCallback && onChangeCallback(val);
+    } else {
+      setCharsLeft(null);
+      onChangeCallback && onChangeCallback(val);
+    }
+  };
+
   return (
     <View style={styles.inputContainer}>
       <View style={styles.labelContainer}>
-        <Text style={styles.label}>{label}</Text>
+        <Text style={styles.label}>
+          {label} {charsLeft && `${charsLeft}/${maxChar}`}
+        </Text>
       </View>
       <View style={styles.textInputWrapper}>
         {/*@ts-ignore*/}
         <TextInput
-          style={[styles.input, multiline != null ? { height: 80 } : {}]}
+          style={[styles.input, multiline != null ? { height: 90 } : {}]}
           numberOfLines={numberOfLines != null ? numberOfLines : 1}
           placeholder={placeholder}
-          onChangeText={onChangeCallback}
+          onChangeText={onChangeText}
           onBlur={onBlurCallback}
           placeholderTextColor={styles.placeholderText.color}
           {...additionalProps}
