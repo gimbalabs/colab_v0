@@ -64,6 +64,7 @@ export const NewEventDescription = ({
         <CustomPlainInput
           label="Event Title"
           placeholder="How to scalpe a trade..."
+          maxChar={40}
           onChangeCallback={onEventTitleChange}
         />
         <HeaderText

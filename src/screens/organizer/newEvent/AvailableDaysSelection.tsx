@@ -6,7 +6,6 @@ import { appContext } from "contexts/contextApi";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors, Sizing } from "styles/index";
 import { HeaderText } from "components/rnWrappers/headerText";
-import { FullWidthButton } from "components/buttons/fullWidthButton";
 import { MonthlyWrapper } from "components/calendar";
 import { CalendarWrapperSimple } from "components/calendar/CalendarWrapperSimple";
 
@@ -22,11 +21,7 @@ export const AvailableDaysSelection = ({
   const { colorScheme } = appContext();
 
   const isLightMode = colorScheme === "light";
-  const isDisabledButton = true;
-
-  // navigation handlers
   const onBackNavigationPress = () => navigation.goBack();
-  const onNextPress = () => navigation.navigate("Availabilities Creation");
 
   return (
     <SafeAreaView
@@ -58,13 +53,6 @@ export const AvailableDaysSelection = ({
             <MonthlyWrapper isNewEventCalendar />
           </CalendarWrapperSimple>
         </View>
-        <FullWidthButton
-          text="Next"
-          colorScheme={colorScheme}
-          disabled={isDisabledButton}
-          onPressCallback={onNextPress}
-          style={styles.button}
-        />
       </View>
     </SafeAreaView>
   );
@@ -77,13 +65,12 @@ const styles = StyleSheet.create({
   },
   navigation: {
     marginVertical: Sizing.x15,
-    alignSelf: "flex-start",
+    alignSelf: "center",
     width: "90%",
   },
   calendarWrapper: {
-    height: 380,
+    flex: 1,
     width: "100%",
     alignItems: "center",
   },
-  button: { width: "90%", marginTop: "auto", marginBottom: Sizing.x15 },
 });

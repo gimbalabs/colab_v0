@@ -35,7 +35,7 @@ const reducer = (
         availabilities: action.payload.availabilities,
       };
     case EventCreationTypes.SetSelectedDays: {
-      let newSelectedDays = state.selectedDays || {};
+      let newSelectedDays: any = state.selectedDays || {};
 
       action.payload.selectedDays.map((day) => {
         if (
@@ -46,6 +46,7 @@ const reducer = (
           newSelectedDays[day] = day;
         } else {
           delete newSelectedDays[day];
+          if (Object.keys(newSelectedDays).length === 0) newSelectedDays = null;
         }
       });
 
