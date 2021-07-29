@@ -17,6 +17,8 @@ import { monthsByName } from "common/types/calendarTypes";
 import { WeekDayNames } from "./WeekDayNames";
 import { CalendarTopNavigation } from "./navigation/calendarTopNavigation";
 import { BookingCalendarLegend } from "./booking/BookingCalendarLegend";
+import { FullWidthButton } from "components/buttons/fullWidthButton";
+import { useNavigation } from "@react-navigation/native";
 
 export interface MonthlyWrapperProps {
   isBookingCalendar?: boolean;
@@ -46,6 +48,8 @@ export const MonthlyWrapper = ({
   const [initialHasLoaded, setInitialHasLoaded] = React.useState<boolean>(
     false
   );
+  const [hasSelectedItem, setHasSelectedItem] = React.useState<boolean>(false);
+  const navigation = useNavigation();
 
   var animatedOpacity = React.useRef(new Animated.Value(1)).current;
   var animatedInitialOpacity = React.useRef(new Animated.Value(0)).current;
@@ -124,49 +128,62 @@ export const MonthlyWrapper = ({
     if (direction === "next") onNextStartAnimation();
   };
 
-  const CurrMonth = ({ item, position }: { item: Month; position: string }) => {
+  const CurrMonth = React.useCallback(
+    ({ item, position }: { item: Month; position: string }) => {
+      return (
+        <Animated.View
+          style={[
+            styles.monthContainer,
+            position !== "current" && {
+              position: "absolute",
+              top: 0,
+              right: 0,
+            },
+            {
+              opacity: !initialHasLoaded
+                ? animatedInitialOpacity
+                : position !== "current"
+                ? animatedOpacitySlideIn
+                : animatedOpacity,
+              transform: [
+                {
+                  translateX:
+                    position !== "current"
+                      ? animatedTranslateXSlideIn
+                      : animatedTranslateX,
+                },
+              ],
+              width: dimensions ? dimensions.width : 0,
+              height: dimensions ? dimensions.height : 0,
+            },
+          ]}>
+          <MonthItem
+            days={item.days}
+            year={item.year}
+            month={item.name}
+            firstDayName={item.firstDayName}
+            numOfDays={item.numOfDays}
+            name={item.name}
+            dimensions={dimensions}
+            onPlaceholderPress={onPlaceholderPress}
+            isBookingCalendar={isBookingCalendar}
+            isNewEventCalendar={isNewEventCalendar}
+            customCallback={itemSelectedCallback}
+          />
+        </Animated.View>
+      );
+    },
+    [monthsArray, initialHasLoaded]
+  );
+
+  const WeekComponent = React.useCallback(() => {
     return (
-      <Animated.View
-        style={[
-          styles.monthContainer,
-          position !== "current" && {
-            position: "absolute",
-            top: 0,
-            right: 0,
-          },
-          {
-            opacity: !initialHasLoaded
-              ? animatedInitialOpacity
-              : position !== "current"
-              ? animatedOpacitySlideIn
-              : animatedOpacity,
-            transform: [
-              {
-                translateX:
-                  position !== "current"
-                    ? animatedTranslateXSlideIn
-                    : animatedTranslateX,
-              },
-            ],
-            width: dimensions ? dimensions.width : 0,
-            height: dimensions ? dimensions.height : 0,
-          },
-        ]}>
-        <MonthItem
-          days={item.days}
-          year={item.year}
-          month={item.name}
-          firstDayName={item.firstDayName}
-          numOfDays={item.numOfDays}
-          name={item.name}
-          dimensions={dimensions}
-          onPlaceholderPress={onPlaceholderPress}
-          isBookingCalendar={isBookingCalendar}
-          isNewEventCalendar={isNewEventCalendar}
-        />
-      </Animated.View>
+      <WeekDayNames
+        customCallback={itemSelectedCallback}
+        isNewEventCalendar={isNewEventCalendar}
+      />
     );
-  };
+  }, [monthsArray, initialHasLoaded]);
 
   const onPreviousStartAnimation = () => {
     if (isLoading) return;
@@ -245,6 +262,17 @@ export const MonthlyWrapper = ({
     }
   };
 
+  /**
+   * part related to new-event-creation flow
+   */
+  const onNextButtonPress = React.useCallback(
+    () => navigation.navigate("Available Time Selection"),
+    [isNewEventCalendar]
+  );
+  const itemSelectedCallback = (payload: boolean) => {
+    setHasSelectedItem(payload);
+  };
+
   React.useEffect(() => {
     if (direction) {
       setDirection(null);
@@ -288,7 +316,7 @@ export const MonthlyWrapper = ({
           </View>
         </View>
         <View style={styles.calendar}>
-          <WeekDayNames isNewEventCalendar={isNewEventCalendar} />
+          <WeekComponent />
           <View style={styles.calendarContainer} onLayout={onLayout}>
             {dimensions && calendar && (
               <>
@@ -316,6 +344,15 @@ export const MonthlyWrapper = ({
           <BookingCalendarLegend colorScheme={colorScheme} />
         )}
       </View>
+      {isNewEventCalendar && (
+        <FullWidthButton
+          text="Next"
+          colorScheme={colorScheme}
+          disabled={!hasSelectedItem}
+          onPressCallback={onNextButtonPress}
+          style={styles.button}
+        />
+      )}
     </>
   );
 };
@@ -335,6 +372,7 @@ const styles = StyleSheet.create({
   loadingIndicator: {
     flex: 1,
   },
+  button: { width: "90%", marginTop: "auto", marginBottom: Sizing.x15 },
   calendar: {
     minHeight: 200,
     width: "100%",
