@@ -15,6 +15,7 @@ export interface MonthProps extends Month {
   onPlaceholderPress: (direction: string) => void;
   isBookingCalendar?: boolean;
   isNewEventCalendar?: boolean;
+  customCallback?: (arg: any | undefined) => void;
   month: string;
 }
 
@@ -23,6 +24,7 @@ export const MonthItem = ({
   month,
   days,
   onPlaceholderPress,
+  customCallback,
   isBookingCalendar = false,
   isNewEventCalendar = false,
 }: MonthProps) => {
@@ -37,9 +39,21 @@ export const MonthItem = ({
   );
 
   const onPressCallback = React.useCallback(
-    (val: number) => setSelectedDays([val]),
+    (val: number) => {
+      if (!selectedDays) {
+        setSelectedDays([val]);
+      } else if (selectedDays) {
+        setSelectedDays([val]);
+      } else {
+        setSelectedDays([val]);
+      }
+    },
     [isNewEventCalendar]
   );
+
+  React.useEffect(() => {
+    customCallback && customCallback(!!selectedDays);
+  }, [selectedDays]);
 
   return (
     <>
