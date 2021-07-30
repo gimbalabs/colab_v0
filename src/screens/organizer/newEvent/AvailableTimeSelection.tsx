@@ -1,13 +1,19 @@
 import * as React from "react";
-import { View, StyleSheet, Pressable, Text } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Pressable,
+  LayoutChangeEvent,
+  LayoutRectangle,
+} from "react-native";
 
 import { DownIcon, LeftArrowIcon } from "assets/icons";
 import { appContext, eventCreationContext } from "contexts/contextApi";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors, Forms, Sizing } from "styles/index";
 import { HeaderText } from "components/rnWrappers/headerText";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import { FullWidthButton } from "components/buttons/fullWidthButton";
+import { TimePickerInput } from "components/forms/TimePickerInput";
 import { CustomPlainInput } from "components/forms/CustomPlainInput";
 
 export interface AvailableTimeSelectionProps {
@@ -20,7 +26,13 @@ export const AvailableTimeSelection = ({
   route,
 }: AvailableTimeSelectionProps) => {
   const [date, setDate] = React.useState(new Date());
-  const [showTimePicker, setShowTimePicker] = React.useState<boolean>(false);
+  // 0 - do not show, 1 - show the first one, 2 - show the second one
+  const [fromTime, setFromTime] = React.useState(null);
+  const [toTime, setToTime] = React.useState(null);
+  const [dimensions, setDimensions] = React.useState<LayoutRectangle | null>(
+    null
+  );
+
   const { colorScheme } = appContext();
   // const { selectedDays } = eventCreationContext();
 
@@ -28,11 +40,10 @@ export const AvailableTimeSelection = ({
   const isDisabledButton = (e: boolean) => {
     // console.log(e);
   };
-  console.log(showTimePicker);
+
   const onDateChange = (event, selectedDate) => {
     const currDate = selectedDate || date;
     // setMode(Platform.OS === "ios");
-    console.log(event, selectedDate);
     setDate(currDate);
   };
 
@@ -41,7 +52,12 @@ export const AvailableTimeSelection = ({
   // const onNextPress = () => navigation.navigate("Availabilities Creation");
   const onNextPress = () => {};
 
+  const onTimePickerPress = (val: string) => {};
+
   const DropDownIcon = React.memo(DownIcon);
+
+  const onLayout = (e: LayoutChangeEvent) =>
+    setDimensions(e.nativeEvent.layout);
 
   return (
     <SafeAreaView
@@ -69,28 +85,18 @@ export const AvailableTimeSelection = ({
           Select a time you are available
         </HeaderText>
         <View style={styles.timePickersWrapper}>
-          <View style={styles.timeInputWrapper}>
-            <Text
-              style={[isLightMode ? styles.label_light : styles.label_dark]}>
-              From
-            </Text>
-            <DateTimePicker
-              style={{ width: "100%", height: 50 }}
-              value={new Date()}
-              mode="time"
-              display="inline"
+          <View style={styles.timeInputWrapper} onLayout={onLayout}>
+            <TimePickerInput
+              onPressHandler={onTimePickerPress}
+              placeholder="8:00 am"
+              label="From"
             />
           </View>
           <View style={styles.timeInputWrapper}>
-            <Text
-              style={[isLightMode ? styles.label_light : styles.label_dark]}>
-              To
-            </Text>
-            <DateTimePicker
-              style={{ width: "100%", height: 50 }}
-              value={new Date()}
-              mode="time"
-              display="inline"
+            <TimePickerInput
+              onPressHandler={onTimePickerPress}
+              placeholder="11:00 am"
+              label="To"
             />
           </View>
         </View>
@@ -135,10 +141,16 @@ const styles = StyleSheet.create({
   timePickersWrapper: {
     marginTop: Sizing.x20,
     width: "100%",
+    justifyContent: "space-between",
     flexDirection: "row",
   },
+  timePickerInput: {},
+  timePicker: {
+    position: "absolute",
+    top: 0,
+  },
   timeInputWrapper: {
-    width: "50%",
+    width: "45%",
     flexDirection: "column",
   },
   timeSlotsPickersWrapper: {
