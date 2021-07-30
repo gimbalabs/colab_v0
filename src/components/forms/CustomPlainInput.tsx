@@ -36,7 +36,7 @@ export const CustomPlainInput = (props: CustomPlainInputProps) => {
     label,
     customChild,
     onPressHandler,
-    styles = defaultStyles,
+    styles,
     isLightMode = true,
     multiline,
     numberOfLines,
@@ -60,9 +60,9 @@ export const CustomPlainInput = (props: CustomPlainInputProps) => {
   }
 
   if (isLightMode) {
-    styles = Object.assign({}, styles, formStyleLight);
+    styles = Object.assign({}, defaultStyles, styles, formStyleLight);
   } else {
-    styles = Object.assign({}, styles, formStyleDark);
+    styles = Object.assign({}, defaultStyles, styles, formStyleDark);
   }
 
   const onChangeText = (val: string) => {
@@ -85,11 +85,11 @@ export const CustomPlainInput = (props: CustomPlainInputProps) => {
         </Text>
       </View>
       <View style={styles.textInputWrapper}>
-        {/*@ts-ignore*/}
         <TextInput
           style={[styles.input, multiline != null ? { height: 90 } : {}]}
           numberOfLines={numberOfLines != null ? numberOfLines : 1}
           placeholder={placeholder}
+          onFocus={() => console.log("onpressin")}
           onChangeText={onChangeText}
           onBlur={onBlurCallback}
           placeholderTextColor={styles.placeholderText.color}
@@ -97,9 +97,7 @@ export const CustomPlainInput = (props: CustomPlainInputProps) => {
         />
         {customChild && customChild}
         <Pressable onPress={onPressHandler} style={styles.iconWrapper}>
-          {Icon != null && (
-            <Icon style={styles.icon} stroke={Colors.primary.s350} />
-          )}
+          {Icon && <Icon style={styles.icon} stroke={Colors.primary.s350} />}
         </Pressable>
       </View>
     </View>
