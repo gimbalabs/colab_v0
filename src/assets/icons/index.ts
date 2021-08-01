@@ -9,6 +9,7 @@ import { ModernProfessionalIcon } from "./modernProfessional";
 import { BusinessDecisionsIcon } from "./businessDecisions";
 import { LiveCollaborationIcon } from "./liveCollaboration";
 import { CheckIcon } from "./check";
+import { ClockIcon } from "./clock";
 import { DotIcon } from "./dot";
 import { DownIcon } from "./down";
 import { PlusIcon } from "./plus";
@@ -40,6 +41,7 @@ export {
   CalendarIcon,
   CashStackIcon,
   CheckIcon,
+  ClockIcon,
   CogIcon,
   CreditCardIcon,
   DotIcon,
