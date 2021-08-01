@@ -526,24 +526,41 @@ export function isLastWeek(currDay: number, firstDay: number): boolean {
 
 /**
  *  @description Get the time in clock-like format
+ *
+ *  @property time - time in milliseconds or date string
+ *  @property offset - clock offset, either '12' or '24' (default '24')
  */
-export function getDigitalTime(time: number | string): string {
-  const hours = new Date(time).getHours();
-  const minutes = new Date(time).getMinutes();
+export function getDigitalTime(
+  time: number | string | Date,
+  offset = "24"
+): string {
+  var hours = new Date(time).getHours();
+  var minutes = new Date(time).getMinutes();
+  var abbreviation;
+  if (offset === "12") {
+    abbreviation = hours >= 12 && hours <= 24 ? "pm" : "am";
+    if (hours > 12 && hours <= 23) {
+      hours -= 12;
+    } else if (hours === 0) {
+      hours = 12;
+    }
+  }
 
-  return `${hours}:${minutes <= 9 ? minutes + "0" : minutes}`;
+  return `${hours}:${minutes <= 9 ? "0" + minutes : minutes} ${
+    abbreviation ?? ""
+  }`;
 }
 
 /**
  *  @description returns a string of local time based on 'time' and 'locale'
  */
 export function getDigitalLocaleTime(
-  time: number,
+  time: number | Date,
   locale: string = "en"
 ): string {
   var timeString: any = new Date(time).toLocaleTimeString(locale);
   timeString = timeString.split(" ");
-  var abbreviation = timeString?.[1].toLocaleLowerCase();
+  var abbreviation = timeString[1]?.toLocaleLowerCase();
 
   timeString.pop();
   timeString = timeString?.[0].split(":");
