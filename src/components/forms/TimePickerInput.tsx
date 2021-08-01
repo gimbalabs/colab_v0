@@ -3,34 +3,50 @@ import {
   View,
   Text,
   Pressable,
-  TextInput,
   StyleSheet,
   Animated,
+  LayoutChangeEvent,
+  LayoutRectangle,
+  Platform,
 } from "react-native";
 
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { Colors, Forms, Outlines, Sizing } from "styles/index";
+import { Colors, Forms, Outlines, Sizing, Typography } from "styles/index";
 import { DownIcon } from "assets/icons";
+import { getDigitalTime } from "lib/utils";
 
 export interface TimePickerInputProps {
   label: string;
-  placeholder: string;
   styles?: any;
+  timeValue: Date;
   isLightMode?: boolean;
-  onPressHandler?: (arg: string) => void;
+  openPicker: string | null;
+  onValueChange: (arg1: string, arg2: any) => void;
+  onOpenChange: (arg: string | null) => void;
 }
 
 export const TimePickerInput = (props: TimePickerInputProps) => {
   const [showTimePicker, setShowTimePicker] = React.useState<boolean>(false);
-  const [animationValue, setAnimationValue] = React.useState<number>(0);
+  const [iconAnimationValue, setIconAnimationValue] = React.useState<number>(0);
+  const [
+    dropDownAnimationValue,
+    setDropDownAnimationValue,
+  ] = React.useState<number>(0);
+  const [dimensions, setDimensions] = React.useState<LayoutRectangle | null>(
+    null
+  );
   var {
     label,
     styles,
-    placeholder,
     isLightMode = true,
-    onPressHandler,
+    timeValue,
+    onValueChange,
+    onOpenChange,
+    openPicker,
   }: TimePickerInputProps = props;
-  const iconRotation = React.useRef(new Animated.Value(0)).current;
+  const iconRotationRef = React.useRef(new Animated.Value(0)).current;
+  const dropDownHeightRef = React.useRef(new Animated.Value(0)).current;
+  const os = Platform.OS;
 
   if (isLightMode) {
     styles = Object.assign({}, defaultStyles, styles, formStyleLight);
@@ -39,26 +55,84 @@ export const TimePickerInput = (props: TimePickerInputProps) => {
   }
 
   React.useEffect(() => {
-    const listener = () =>
-      iconRotation.addListener(({ value }) => setAnimationValue(value));
-    listener();
-    // return iconRotation.removeAllListeners;
-  }, []);
+    // whenever user opens another drop down, close the current open one
+    if (!openPicker && showTimePicker) onInputPress();
+
+    const listeners = () => {
+      iconRotationRef.addListener(({ value }) => {
+        setIconAnimationValue(value);
+      });
+      dropDownHeightRef.addListener(({ value }) =>
+        setDropDownAnimationValue(value)
+      );
+    };
+    listeners();
+
+    const removeListeners = () => {
+      iconRotationRef.removeAllListeners;
+      dropDownHeightRef.removeAllListeners;
+    };
+
+    return removeListeners;
+  }, [openPicker]);
 
   const AnimatedIcon = Animated.createAnimatedComponent(DownIcon);
 
-  const spin = iconRotation.interpolate({
+  const spin = iconRotationRef.interpolate({
     inputRange: [0, 1],
     outputRange: ["0deg", "180deg"],
   });
 
-  const onInputPress = () => {
-    Animated.timing(iconRotation, {
-      toValue: animationValue === 0 ? 1 : 0,
-      duration: 200,
+  const onInputPress = (e?: any, selectedDate?: any) => {
+    if (openPicker && openPicker !== label) return onOpenChange(null);
+
+    // Whenever there is a selected value event from android component
+    // just turn the icon
+    const iconAnimation = Animated.timing(iconRotationRef, {
+      toValue: (iconRotationRef as any)._value === 0 ? 1 : 0,
+      duration: 120,
       useNativeDriver: true,
-    }).start();
-    onPressHandler && onPressHandler(label);
+    });
+    const dropDownAnimation = Animated.timing(dropDownHeightRef, {
+      toValue: dropDownAnimationValue === 0 ? 150 : 0,
+      duration: 120,
+      useNativeDriver: true,
+    });
+
+    const animations: any[] = [];
+    animations.push(iconAnimation);
+    if (os === "ios") {
+      animations.push(dropDownAnimation);
+    }
+
+    // on Android we can close by pressing buttons, we do not need
+    // change showTimePicker value
+    setShowTimePicker((prev: boolean) => {
+      if (os === "android" && prev) {
+        return false;
+      }
+      return !prev;
+    });
+    // // update the reference of current open picker
+    if (!showTimePicker) onOpenChange(label);
+
+    Animated.parallel(animations).start(({ finished }) => {
+      if (finished) {
+        selectedDate && onValueChange(label, selectedDate);
+      }
+    });
+  };
+
+  const onLayout = (e: LayoutChangeEvent) => {
+    setDimensions(e.nativeEvent.layout);
+  };
+
+  const onChange = (e: any, selectedDate: any) => {
+    if (os === "android") {
+      onInputPress(e.type, selectedDate);
+    } else {
+      selectedDate && onValueChange(label, selectedDate);
+    }
   };
 
   return (
@@ -66,25 +140,49 @@ export const TimePickerInput = (props: TimePickerInputProps) => {
       <View style={styles.labelContainer}>
         <Text style={styles.label}>{label}</Text>
       </View>
-      <Pressable onPress={onInputPress}>
-        <View style={styles.textInputWrapper} pointerEvents="none">
-          <TextInput
-            style={styles.input}
-            placeholder={placeholder}
-            placeholderTextColor={styles.placeholderText.color}
-            editable={false}
+      <Pressable
+        onLayout={onLayout}
+        onPress={onInputPress}
+        style={styles.input}>
+        <View style={styles.textInputWrapper}>
+          <Text
+            style={[styles.placeholderText, os === "ios" && { lineHeight: 0 }]}>
+            {getDigitalTime(timeValue, "12")}
+          </Text>
+          <AnimatedIcon
+            style={[styles.icon, { transform: [{ rotate: spin }] }]}
+            stroke={Colors.primary.s350}
           />
-          <View style={styles.iconWrapper}>
-            <AnimatedIcon
-              style={[styles.icon, { transform: [{ rotate: spin }] }]}
-              stroke={Colors.primary.s350}
-            />
-          </View>
         </View>
+        {os === "ios" && (
+          <Animated.View
+            style={[
+              styles.dropDown,
+              dimensions && {
+                top: dimensions.height,
+                width: dimensions.width,
+              },
+              { height: dropDownAnimationValue },
+            ]}>
+            <DateTimePicker
+              style={styles.dateTimePicker}
+              value={timeValue}
+              mode="time"
+              display="spinner"
+              onChange={onChange}
+            />
+          </Animated.View>
+        )}
       </Pressable>
-      <View style={[styles.dropDown, { opacity: 1 }]}>
-        <DateTimePicker value={new Date()} mode="time" display="spinner" />
-      </View>
+      {os === "android" && showTimePicker && (
+        <DateTimePicker
+          style={styles.dateTimePicker}
+          value={timeValue}
+          mode="time"
+          display="spinner"
+          onChange={onChange}
+        />
+      )}
     </View>
   );
 };
@@ -101,23 +199,24 @@ const defaultStyles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     alignItems: "center",
-  },
-  iconWrapper: {
-    left: -40,
-    width: Sizing.x35,
-    height: Sizing.x35,
-    alignItems: "center",
     justifyContent: "center",
   },
   icon: {
     width: Sizing.x30,
     height: Sizing.x30,
+    position: "absolute",
+    right: 0,
   },
   dropDown: {
-    opacity: 0,
-    height: 100,
-    backgroundColor: Colors.neutral.s300,
+    height: 0,
+    position: "absolute",
+    top: 0,
+    overflow: "hidden",
+    justifyContent: "center",
+    backgroundColor: Colors.neutral.s150,
+    borderRadius: Outlines.borderRadius.base,
   },
+  dateTimePicker: {},
 });
 
 const formStyleLight = StyleSheet.create({
@@ -130,7 +229,10 @@ const formStyleLight = StyleSheet.create({
     ...Outlines.shadow.lifted,
   },
   placeholderText: {
-    color: Colors.primary.s300,
+    color: Colors.primary.s600,
+    ...Typography.subHeader.x30,
+    lineHeight: 0,
+    marginRight: "auto",
   },
 });
 
@@ -144,6 +246,9 @@ const formStyleDark = StyleSheet.create({
     ...Outlines.shadow.lifted,
   },
   placeholderText: {
-    color: Colors.primary.s300,
+    color: Colors.primary.s600,
+    ...Typography.subHeader.x30,
+    marginRight: "auto",
+    lineHeight: 0,
   },
 });
