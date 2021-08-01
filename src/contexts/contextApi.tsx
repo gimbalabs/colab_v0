@@ -71,10 +71,17 @@ export const eventCreationContext = () => {
         payload: { selectedDays, isRecurringSelection },
       });
     },
-    setAvailabilities: (availabilities: EventAvailability[]) => {
+    addAvailability: (availability: EventAvailability) => {
+      console.log(availability);
       dispatch({
-        type: EventCreationTypes.SetAvailabilities,
-        payload: { availabilities },
+        type: EventCreationTypes.AddAvailability,
+        payload: { availability },
+      });
+    },
+    removeAvailability: (availability: EventAvailability) => {
+      dispatch({
+        type: EventCreationTypes.RemoveAvailability,
+        payload: { availability },
       });
     },
     setHourlyRate: (hourlyRate: number) => {

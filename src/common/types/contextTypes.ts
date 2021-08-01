@@ -23,7 +23,8 @@ export enum AppTypes {
 
 export enum EventCreationTypes {
   SetTextContent = "SET_TEXT_CONTENT",
-  SetAvailabilities = "SET_AVAILABILITIES",
+  AddAvailability = "SET_AVAILABILITIES",
+  RemoveAvailability = "REMOVE_AVAILABILITIES",
   SetSelectedDays = "SET_SELECTED_DAYS",
   SetTags = "SET_TAGS",
   SetImageURI = "SET_IMAGE_URI",
@@ -89,8 +90,11 @@ export type AppPayload = {
 };
 
 export type EventCreationPayload = {
-  [EventCreationTypes.SetAvailabilities]: {
-    availabilities: EventAvailability[];
+  [EventCreationTypes.AddAvailability]: {
+    availability: EventAvailability;
+  };
+  [EventCreationTypes.RemoveAvailability]: {
+    availability: EventAvailability;
   };
   [EventCreationTypes.SetSelectedDays]: {
     selectedDays: number[];

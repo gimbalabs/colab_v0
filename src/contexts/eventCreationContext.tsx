@@ -29,11 +29,22 @@ const reducer = (
         ...state,
         textContent: action.payload.textContent,
       };
-    case EventCreationTypes.SetAvailabilities:
+    case EventCreationTypes.AddAvailability:
+      state.availabilities.push(action.payload.availability);
       return {
         ...state,
-        availabilities: action.payload.availabilities,
       };
+    case EventCreationTypes.RemoveAvailability:
+      const { from, to } = action.payload.availability;
+      const newAvailabilities = state.availabilities.filter(
+        (el) => el.from != from && el.to != to
+      );
+
+      return {
+        ...state,
+        availabilities: newAvailabilities,
+      };
+
     case EventCreationTypes.SetSelectedDays: {
       let newSelectedDays: any = state.selectedDays || {};
 
