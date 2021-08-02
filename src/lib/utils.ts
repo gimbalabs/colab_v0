@@ -1,4 +1,5 @@
 import { Dimensions } from "react-native";
+import * as Random from "expo-random";
 import * as yup from "yup";
 import {
   AvailabilitiesDay,
@@ -567,7 +568,7 @@ export function getDigitalLocaleTime(
   timeString.pop();
   timeString = timeString.join(":");
 
-  return timeString + abbreviation;
+  return timeString + " " + abbreviation;
 }
 
 /**
@@ -637,4 +638,20 @@ export function getLocaleTimezone(): string {
   const offset = new Date().getTimezoneOffset();
 
   return `UTC ${offset < 0 && "+"}${-offset / 60}`;
+}
+
+/**
+ * Uses Random library from expo-random to generate array of random bytes
+ *
+ * @param number - number of bytes
+ */
+export function getRandomKey(bytes: number): string {
+  return Random.getRandomBytes(bytes).join("");
+}
+
+export async function getRandomKeyAsync(bytes: number): Promise<string> {
+  const res = await Random.getRandomBytesAsync(bytes);
+  const arr = res.join("");
+
+  return arr;
 }
