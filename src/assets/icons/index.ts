@@ -33,6 +33,7 @@ import { SearchIcon } from "./search";
 import { UserIcon } from "./user";
 import { WalletIcon } from "./wallet";
 import { TimeIcon } from "./time";
+import { TrashIcon } from "./trash";
 import { IdeaIcon } from "./idea";
 
 export {
@@ -72,4 +73,5 @@ export {
   UserIcon,
   WalletIcon,
   TimeIcon,
+  TrashIcon,
 };
