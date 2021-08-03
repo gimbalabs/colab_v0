@@ -7,13 +7,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "test": "jest --watchAll"
-  },
-  "husky": {
-    "hooks": {
-        "pre-commit":"",
-        "pre-push":""
-    }
+    "test": "jest --watchAll",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@expo/metro-config": "^0.1.65",
@@ -83,6 +78,7 @@
     "eslint-plugin-react": "^7.23.2",
     "eslint-plugin-react-native": "^3.10.0",
     "husky": "^7.0.1",
+    "lint-staged": ">=10",
     "prettier": "^2.2.1",
     "react-error-boundary": "^3.1.1",
     "react-native-bundle-visualizer": "^2.2.1",
@@ -91,5 +87,9 @@
   "eslintConfig": {
     "extends": "universe/native"
   },
-  "private": true
+  "private": true,
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.{js,css,md}": "prettier --write"
+  }
 }
