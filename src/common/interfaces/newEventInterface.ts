@@ -1,5 +1,6 @@
-import { EventCreationActions } from "common/types/contextTypes";
 import * as React from "react";
+
+import { EventCreationActions } from "common/types/contextTypes";
 
 export interface ProviderProps {
   children: React.ReactNode;
@@ -27,9 +28,9 @@ export interface TextContent {
 }
 
 export interface EventAvailability {
-  from: number;
-  to: number;
+  from: Date | number;
+  to: Date | number;
   maxDuration: number;
   minDuration: number;
-  localeTimeOffset: number;
+  localeTimeOffset?: number;
 }

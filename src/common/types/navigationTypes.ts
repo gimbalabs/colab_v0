@@ -3,12 +3,23 @@ export type AppStackParamList = {
   Initial: undefined;
   Pricing: undefined;
   "Create Account": undefined;
-  "Deposit Successful": undefined;
-  Confirmation: undefined;
+  "Deposit Successful":
+    | {
+        isBookingWalletTopUp: boolean | undefined;
+        fromScreen: string | undefined;
+      }
+    | undefined;
+  Confirmation:
+    | {
+        isBookingWalletTopUp: boolean | undefined;
+        isBookingConfirmation: boolean | undefined;
+      }
+    | undefined;
   "Add Funds": { fromScreen: string };
   "Navigation Screens": undefined;
   "User Registration Screens": undefined;
   "Onboarding Screens": undefined;
+  "Duration Choice": any;
 };
 
 export type OrganizerTabParamList = {
@@ -22,9 +33,16 @@ export type OrganizerTabParamList = {
 
 export type BookingStackParamList = {
   Browse: any;
-  "Available Dates": any;
+  "Available Dates":
+    | {
+        alias: string | undefined;
+        selectedEvent: any | undefined;
+      }
+    | undefined;
   "Available Times": any;
   "Duration Choice": any;
+  "Event Description": any;
   "Add Funds": any;
+  "Booking Confirmation": any;
   Confirmation: any;
 };

@@ -28,7 +28,7 @@ export interface AvailabilitiesDay {
 
 export interface AvailabilitySlot {
   fromTime: number | string;
-  toTime: number;
+  toTime: number | string;
 }
 
 export interface ScheduledEvents {
@@ -50,7 +50,7 @@ export interface ScheduledEventsDay {
 export interface ScheduledEvent {
   title: string;
   fromTime: number | string;
-  toTime: number;
+  toTime: number | string;
   description: string;
   participants: string[];
   organizer: string;
@@ -76,7 +76,7 @@ export interface PreviewingDayEvents {
 export interface CalendarHeader {
   month: string;
   year: number;
-  numOfEvents: number | undefined;
+  numOfEvents?: number | undefined;
 }
 
 export interface Month {

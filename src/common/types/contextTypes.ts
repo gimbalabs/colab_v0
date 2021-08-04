@@ -1,5 +1,10 @@
 import { OrganizerRate } from "common/interfaces/bookingInterface";
 import {
+  EventAvailability,
+  TextContent,
+} from "common/interfaces/newEventInterface";
+import { ColorSchemeName } from "interfaces/appInterface";
+import {
   Availabilities,
   CalendarHeader,
   MyCalendarState,
@@ -7,11 +12,6 @@ import {
   PreviewingDayEvents,
   ScheduledEvents,
 } from "interfaces/myCalendarInterface";
-import { ColorSchemeName } from "interfaces/appInterface";
-import {
-  EventAvailability,
-  TextContent,
-} from "common/interfaces/newEventInterface";
 
 export enum AppTypes {
   ToggleAuth = "TOGGLE_AUTH",
@@ -168,7 +168,7 @@ export type MyCalendarPaylaod = {
   [MyCalendarTypes.SetCurrentSelectedDay]: {
     selectedDay: any;
   };
-  [MyCalendarTypes.ClearDayPreview]: {};
+  [MyCalendarTypes.ClearDayPreview]: object;
   ["unknown"]: any;
 };
 
