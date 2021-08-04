@@ -1,17 +1,12 @@
 import * as React from "react";
-import {
-  View,
-  Animated,
-  StyleSheet,
-  Dimensions,
-} from "react-native";
+import { View, Animated, StyleSheet, Dimensions } from "react-native";
 
 import {
   UserDetailsScreen,
   WalletTopUpScreen,
   PaymentConfirmationScreen,
 } from "screens/onboarding/index";
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView } from "react-native-safe-area-context";
 import PagerView from "react-native-pager-view";
 import { ScalingDot } from "react-native-animated-pagination-dots";
 import { Colors, Outlines } from "styles/index";
@@ -25,7 +20,7 @@ const SCREENS = [
   { component: PaymentConfirmationScreen },
 ];
 
-export const UserRegistrationScreens = ({ navigation, route }) => {
+export const UserRegistrationScreens = () => {
   const { pageIndex, setRef, ref: _ref } = appContext();
   const ref = React.useRef<PagerView>(null);
   const screenWidth = Dimensions.get("window").width;

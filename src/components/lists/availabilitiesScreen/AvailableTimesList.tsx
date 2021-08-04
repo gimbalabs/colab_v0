@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
-import { AvailableTimeSlot } from "./AvailableTimeSlot";
+// import { AvailableTimeSlot } from "./AvailableTimeSlot";
 
 export interface AvailableTimesListProps {
   availabilities: any;
@@ -9,19 +9,19 @@ export interface AvailableTimesListProps {
 export const AvailableTimesList = ({
   availabilities,
 }: AvailableTimesListProps) => {
-  const renderItem = ({ item, index }) => {
-    return <AvailableTimeSlot time={item.time} />;
-  };
+  // const renderItem = ({ item, index }) => {
+  //   return <AvailableTimeSlot time={item.time} />;
+  // };
 
-  const keyExtractor = (item, index) => `${item.time}_${index}`;
+  // const keyExtractor = (item, index) => `${item.time}_${index}`;
 
   return (
     <View style={styles.container}>
-      <FlatList
+      {/*<FlatList
         renderItem={renderItem}
         data={availabilities}
         keyExtractor={keyExtractor}
-      />
+      />*/}
     </View>
   );
 };

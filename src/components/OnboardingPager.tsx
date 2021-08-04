@@ -9,7 +9,7 @@ export const OnboardingScreens = ({
   navigation,
   state,
   position,
-}) => {
+}: any) => {
   const renderScreens = (route: any, index: number) => {
     // no need to show label for page swiper
 

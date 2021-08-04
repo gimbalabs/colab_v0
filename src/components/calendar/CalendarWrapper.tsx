@@ -1,9 +1,10 @@
 import * as React from "react";
 import { StyleSheet } from "react-native";
+
+import { appContext } from "contexts/contextApi";
+import { MyCalendarProvider } from "contexts/myCalendarContext";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "styles/index";
-import { MyCalendarProvider } from "contexts/myCalendarContext";
-import { appContext } from "contexts/contextApi";
 
 export interface CalendarWrapperProps {
   children: React.ReactNode;

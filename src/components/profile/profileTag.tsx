@@ -8,7 +8,7 @@ export interface ProfileTagProps {
   alias?: string;
 }
 
-export const ProfileTag = ({ tag, index, alias }: ProfileTagProps) => {
+export const ProfileTag = ({ tag }: ProfileTagProps) => {
   return (
     <View
       style={[styles.skillTag, { backgroundColor: tag.tagBackgroundColor }]}>

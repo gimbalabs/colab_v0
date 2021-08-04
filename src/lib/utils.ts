@@ -231,9 +231,11 @@ export function getCalendarMonths(
   var currDayIndex = firstDayIndex;
   var numOfDays = 0;
   var scheduledYear = scheduledEvents.find(
-    (schedEvts) => schedEvts.year === currYear
+    (schedEvts: any) => schedEvts.year === currYear
   );
-  var availableYear = availabilities.find((avail) => avail.year === currYear);
+  var availableYear = availabilities.find(
+    (avail: any) => avail.year === currYear
+  );
 
   if (nextMonths) {
     if (month === 11) {
@@ -248,7 +250,7 @@ export function getCalendarMonths(
 
       if (availableYear != null) {
         var availableDays = availableYear.months.find(
-          (month) => month.month === months[i]
+          (month: any) => month.month === months[i]
         );
         availableDays?.days.map((availDay: AvailabilitiesDay) =>
           availableSlots.push(availDay)
@@ -257,7 +259,7 @@ export function getCalendarMonths(
 
       if (scheduledYear != null) {
         var scheduledDays = scheduledYear.months.find(
-          (month) => month.month === months[i]
+          (month: any) => month.month === months[i]
         );
         scheduledDays?.days.map((schedDay: ScheduledEventsDay) =>
           events.push(schedDay)
@@ -362,7 +364,7 @@ export function getCalendarMonths(
 
       if (availableYear != null) {
         var availableDays = availableYear.months.find(
-          (month) => month.month === months[i + 1]
+          (month: any) => month.month === months[i + 1]
         );
         availableDays?.days.map((availDay: AvailabilitiesDay) =>
           availableSlots.push(availDay)
@@ -371,7 +373,7 @@ export function getCalendarMonths(
 
       if (scheduledYear != null) {
         var scheduledDays = scheduledYear.months.find(
-          (month) => month.month === months[i + 1]
+          (month: any) => month.month === months[i + 1]
         );
         scheduledDays?.days.map((schedDay: ScheduledEventsDay) =>
           events.push(schedDay)

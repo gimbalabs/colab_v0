@@ -7,10 +7,15 @@ import {
   View,
 } from "react-native";
 
-import profilePic_1 from "assets/images/profilePicTwo.png";
-import profilePic_2 from "assets/images/profilePicThree.png";
-import profilePic_3 from "assets/images/profilePicFour.png";
 import { Sizing, Outlines, Typography, Colors } from "styles/index";
+
+// Remove this code once we have external images.
+/* @ts-ignore */
+import profilePic_1 from "assets/images/profilePicTwo.png";
+/* @ts-ignore */
+import profilePic_2 from "assets/images/profilePicThree.png";
+/* @ts-ignore */
+import profilePic_3 from "assets/images/profilePicFour.png";
 
 export interface HorizontalProfileCardItemProps {
   item: any;

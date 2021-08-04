@@ -1,10 +1,11 @@
 import * as React from "react";
-import { MyCalendarProvider } from "contexts/myCalendarContext";
+
 import { EventCreationContextProvider } from "contexts/eventCreationContext";
+import { MyCalendarProvider } from "contexts/myCalendarContext";
 
 export interface CalendarWrapperSimpleProps {
   children: React.ReactNode;
-  isNewEventCalendar: boolean;
+  isNewEventCalendar?: boolean;
 }
 
 export const CalendarWrapperSimple = ({

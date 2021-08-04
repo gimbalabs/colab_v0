@@ -1,17 +1,21 @@
 import * as React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StackScreenProps } from "@react-navigation/stack";
+
 import { Colors, Sizing, Typography } from "styles/index";
 import { appContext } from "contexts/contextApi";
-
 import { FullWidthButton } from "components/buttons/fullWidthButton";
 import { BodyText } from "components/rnWrappers/bodyText";
 import { DepositSuccessfulIcon, LeftArrowIcon } from "assets/icons";
+import { AppStackParamList } from "common/types/navigationTypes";
 
 export interface DepositSuccessfulProps {}
 
-export const DepositSuccessful = ({ navigation, route }) => {
+type Props = StackScreenProps<AppStackParamList, "Deposit Successful">;
+
+export const DepositSuccessful = ({ navigation, route }: Props) => {
   const { colorScheme, ref } = appContext();
   const buttonTitle = route.params?.isBookingWalletTopUp
     ? "Proceed to booking"
@@ -24,7 +28,7 @@ export const DepositSuccessful = ({ navigation, route }) => {
       // This will set the index of page on "User Registration Screens"
       if (ref) await ref.current.setPage(2);
 
-      navigation.navigate(route.params.fromScreen);
+      navigation.navigate(route.params[0].fromScreen);
     }
   };
 

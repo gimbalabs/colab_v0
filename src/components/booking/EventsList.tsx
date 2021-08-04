@@ -29,7 +29,7 @@ export const EventsList = ({}: EventsListProps) => {
     );
   };
 
-  const keyExtractor = (item, index) => item.title + index;
+  const keyExtractor = (item: any, index: number) => item.title + index;
 
   return (
     <FlatList

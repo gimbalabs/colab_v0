@@ -22,8 +22,11 @@ import {
   RightArrowIcon,
 } from "icons/index";
 import * as ImagePicker from "expo-image-picker";
-import ProfilePic from "assets/images/profilePic.jpg";
 import { MediaTypeOptions } from "expo-image-picker";
+
+// image only for testing purposes
+//@ts-ignore
+import ProfilePic from "assets/images/profilePic.jpg";
 
 export interface OrganizerProfileScreenProps
   extends StackScreenProps<OrganizerTabParamList, "Browse"> {}

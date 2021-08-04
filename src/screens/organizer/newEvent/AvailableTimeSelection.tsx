@@ -1,63 +1,89 @@
 import * as React from "react";
-import {
-  View,
-  StyleSheet,
-  Pressable,
-  LayoutChangeEvent,
-  LayoutRectangle,
-} from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 
-import { DownIcon, LeftArrowIcon } from "assets/icons";
+import { useNavigation } from "@react-navigation/native";
+import { LeftArrowIcon, PlusIcon } from "assets/icons";
+import { FullWidthButton } from "components/buttons/fullWidthButton";
+import { AvailabilityList } from "components/events/availabilityList";
+import { PlainInputPicker } from "components/forms/PlainInputPicker";
+import { TimePickerInput } from "components/forms/TimePickerInput";
+import { HeaderText } from "components/rnWrappers/headerText";
 import { appContext, eventCreationContext } from "contexts/contextApi";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Colors, Forms, Sizing } from "styles/index";
-import { HeaderText } from "components/rnWrappers/headerText";
-import { FullWidthButton } from "components/buttons/fullWidthButton";
-import { TimePickerInput } from "components/forms/TimePickerInput";
-import { CustomPlainInput } from "components/forms/CustomPlainInput";
+import { Buttons, Colors, Forms, Outlines, Sizing } from "styles/index";
 
-export interface AvailableTimeSelectionProps {
-  navigation: any;
-  route: any;
-}
-
-export const AvailableTimeSelection = ({
-  navigation,
-  route,
-}: AvailableTimeSelectionProps) => {
-  const [date, setDate] = React.useState(new Date());
-  // 0 - do not show, 1 - show the first one, 2 - show the second one
-  const [fromTime, setFromTime] = React.useState(null);
-  const [toTime, setToTime] = React.useState(null);
-  const [dimensions, setDimensions] = React.useState<LayoutRectangle | null>(
-    null
-  );
-
+export const AvailableTimeSelection = () => {
+  const [fromTime, setFromTime] = React.useState<Date>(new Date());
+  const [toTime, setToTime] = React.useState<Date>(new Date());
+  const [minTime, setMinTime] = React.useState<number>(0);
+  const [maxTime, setMaxTime] = React.useState<number>(0);
+  const [openPicker, setOpenPicker] = React.useState<string | null>(null);
   const { colorScheme } = appContext();
-  // const { selectedDays } = eventCreationContext();
+  const { addAvailability, availabilities } = eventCreationContext();
+  const navigation = useNavigation();
+
+  const minInputRange = React.useMemo(() => {
+    let arr: number[] = [];
+    const range = toTime.getTime() - fromTime.getTime();
+
+    if (range > 0) {
+      for (let i = 1; i < range / 1000 / 60 + 1; i++) {
+        arr.push(i);
+      }
+    } else {
+      arr = [1];
+    }
+
+    return arr;
+  }, [fromTime, toTime]);
+  const maxInputRange = React.useMemo(() => {
+    let arr: number[] = [];
+    const range = toTime.getTime() - fromTime.getTime();
+
+    if (range !== 0) {
+      for (let i = 1; i < range / 1000 / 60 + 1; i++) {
+        arr.push(i);
+      }
+    } else {
+      arr = [1];
+    }
+
+    // when minTime is already selected, substract it from maxTime,
+    if (minTime) arr.splice(0, minTime - 1);
+
+    return arr;
+  }, [fromTime, toTime, minTime]);
 
   const isLightMode = colorScheme === "light";
-  const isDisabledButton = (e: boolean) => {
-    // console.log(e);
+  const isDisabledButton = !availabilities.length;
+  const isDisabledAddBtn = fromTime === toTime || fromTime > toTime;
+
+  const onTimeChangeValue = (label: string, val: Date) => {
+    if (label === "From") setFromTime(val);
+    if (label === "To") setToTime(val);
+  };
+  const onMinValueChange = (val: number) => {
+    setMinTime(val);
+    // if new min. time slot > max. time slot, reset maxTime
+    if (val > maxTime) setMaxTime(val);
+  };
+  const onMaxValueChange = (val: number) => setMaxTime(val);
+  const onOpenChange = (label: string | null) => setOpenPicker(label);
+  const addNewAvailability = () => {
+    addAvailability({
+      from: fromTime,
+      to: toTime,
+      maxDuration: maxTime,
+      minDuration: minTime,
+    });
   };
 
-  const onDateChange = (event, selectedDate) => {
-    const currDate = selectedDate || date;
-    // setMode(Platform.OS === "ios");
-    setDate(currDate);
-  };
-
-  // navigation handlers
+  /**
+   * Navigation handlers
+   */
   const onBackNavigationPress = () => navigation.goBack();
   // const onNextPress = () => navigation.navigate("Availabilities Creation");
   const onNextPress = () => {};
-
-  const onTimePickerPress = (val: string) => {};
-
-  const DropDownIcon = React.memo(DownIcon);
-
-  const onLayout = (e: LayoutChangeEvent) =>
-    setDimensions(e.nativeEvent.layout);
 
   return (
     <SafeAreaView
@@ -69,7 +95,7 @@ export const AvailableTimeSelection = ({
             : Colors.primary.s600,
         },
       ]}>
-      <View style={{ flex: 1, width: "90%", alignItems: "center" }}>
+      <View style={{ height: "100%", width: "90%", alignItems: "center" }}>
         <View style={styles.navigation}>
           <Pressable onPress={onBackNavigationPress} hitSlop={10}>
             <LeftArrowIcon
@@ -85,38 +111,68 @@ export const AvailableTimeSelection = ({
           Select a time you are available
         </HeaderText>
         <View style={styles.timePickersWrapper}>
-          <View style={styles.timeInputWrapper} onLayout={onLayout}>
+          <View style={styles.timeInputWrapper}>
             <TimePickerInput
-              onPressHandler={onTimePickerPress}
-              placeholder="8:00 am"
+              onValueChange={onTimeChangeValue}
+              timeValue={fromTime}
               label="From"
+              openPicker={openPicker}
+              onOpenChange={onOpenChange}
             />
           </View>
           <View style={styles.timeInputWrapper}>
             <TimePickerInput
-              onPressHandler={onTimePickerPress}
-              placeholder="11:00 am"
+              onValueChange={onTimeChangeValue}
+              timeValue={toTime}
               label="To"
+              openPicker={openPicker}
+              onOpenChange={onOpenChange}
             />
           </View>
         </View>
         <View style={styles.timeSlotsPickersWrapper}>
-          <CustomPlainInput
-            icon={DropDownIcon}
-            placeholder="15 min"
-            label="Min. time slot"
-          />
-          <CustomPlainInput
-            icon={DropDownIcon}
-            placeholder="15 min"
-            label="Min. time slot"
-          />
+          <View style={styles.slotsWrapperTop}>
+            <PlainInputPicker
+              label="Min. time slot"
+              minTime={minTime}
+              inputRange={minInputRange}
+              onValueChange={onMinValueChange}
+              openPicker={openPicker}
+              onOpenChange={onOpenChange}
+            />
+          </View>
+          <View style={styles.slotsWrapperBottom}>
+            <PlainInputPicker
+              label="Max. time slot"
+              maxTime={maxTime}
+              inputRange={maxInputRange}
+              onValueChange={onMaxValueChange}
+              openPicker={openPicker}
+              onOpenChange={onOpenChange}
+            />
+          </View>
         </View>
-
+        <View style={styles.addBtnWrapper}>
+          <Pressable
+            onPress={addNewAvailability}
+            disabled={isDisabledAddBtn}
+            style={Buttons.applyOpacity(
+              Object.assign(
+                {},
+                styles.addBtn,
+                isDisabledAddBtn ? { backgroundColor: Colors.neutral.s200 } : {}
+              )
+            )}>
+            <PlusIcon style={styles.plusIcon} strokeWidth={2} />
+          </Pressable>
+        </View>
+        <AvailabilityList />
         <FullWidthButton
           text="Next"
+          disabled={isDisabledButton}
+          style={{ marginTop: "auto", marginBottom: Sizing.x15 }}
           colorScheme={colorScheme}
-          onPressCallback={() => {}}
+          onPressCallback={onNextPress}
         />
       </View>
     </SafeAreaView>
@@ -139,21 +195,42 @@ const styles = StyleSheet.create({
     ...Forms.inputLabel.primary_dark,
   },
   timePickersWrapper: {
-    marginTop: Sizing.x20,
+    marginTop: Sizing.x10,
     width: "100%",
     justifyContent: "space-between",
     flexDirection: "row",
-  },
-  timePickerInput: {},
-  timePicker: {
-    position: "absolute",
-    top: 0,
+    zIndex: 5,
   },
   timeInputWrapper: {
     width: "45%",
     flexDirection: "column",
+    zIndex: 10,
   },
   timeSlotsPickersWrapper: {
+    zIndex: 1,
     width: "100%",
+  },
+  slotsWrapperTop: {
+    zIndex: 6,
+  },
+  slotsWrapperBottom: {
+    zIndex: 5,
+  },
+  addBtnWrapper: {
+    marginVertical: Sizing.x10,
+  },
+  addBtn: {
+    borderRadius: Outlines.borderRadius.max,
+    justifyContent: "center",
+    width: Sizing.x40,
+    height: Sizing.x40,
+    backgroundColor: Colors.primary.s200,
+    ...Outlines.shadow.lifted,
+  },
+  plusIcon: {
+    width: Sizing.x25,
+    height: Sizing.x25,
+    alignSelf: "center",
+    color: Colors.primary.s600,
   },
 });

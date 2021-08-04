@@ -18,11 +18,14 @@ import { CalendarWrapperSimple } from "components/calendar/CalendarWrapperSimple
 import { FullWidthButton } from "components/buttons/fullWidthButton";
 import { SubHeaderText } from "components/rnWrappers/subHeaderText";
 import { EventsList } from "components/booking/EventsList";
+import { BookingStackParamList } from "common/types/navigationTypes";
+import { StackScreenProps } from "@react-navigation/stack";
 
 export interface AvailableDatesProps {}
 
-export const AvailableDates = ({ navigation, route }) => {
-  const [profile, setProfile] = React.useState<any>(null);
+type Props = StackScreenProps<BookingStackParamList, "Available Dates">;
+
+export const AvailableDates = ({ navigation, route }: Props) => {
   const [selectedEvent, setSelectedEvent] = React.useState(null);
   const [currentTab, setCurrentTab] = React.useState<string>("events");
   const { colorScheme } = appContext();
@@ -32,7 +35,7 @@ export const AvailableDates = ({ navigation, route }) => {
     previewingOrganizer,
     pickedDate,
   } = bookingContext();
-  const { alias } = route.params;
+  const alias = route.params?.alias;
 
   React.useEffect(() => {
     if (route.params?.selectedEvent != null) {

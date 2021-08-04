@@ -1,13 +1,7 @@
 import * as React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  ScrollView,
-} from "react-native";
+import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
 
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors, Outlines, Sizing, Typography } from "styles/index";
 import { OrganizerProfile } from "components/booking/index";
 import { LeftArrowIcon } from "icons/index";
@@ -17,14 +11,16 @@ import { getTimeSpanLength } from "lib/utils";
 import { ProfileContext } from "contexts/profileContext";
 import { useDurationSlots } from "lib/hooks/useDurationSlots";
 import AnimatedNumber from "react-native-animated-number";
-
-export interface DurationChoiceProps {}
+import { BookingStackParamList } from "common/types/navigationTypes";
+import { StackScreenProps } from "@react-navigation/stack";
 
 function wait(ms: number): Promise<void> {
   return new Promise((res) => setTimeout(res, ms));
 }
 
-export const DurationChoice = ({ navigation, route }) => {
+type Props = StackScreenProps<BookingStackParamList, "Duration Choice">;
+
+export const DurationChoice = ({ navigation }: Props) => {
   const { maxTimeSlotDuration } = bookingContext();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [selectedDuration, setSelectedDuration] = React.useState<number>(0);
@@ -33,7 +29,6 @@ export const DurationChoice = ({ navigation, route }) => {
 
   const {
     previewingOrganizer,
-    pickedDate,
     setDuration,
     setDurationCost,
   } = bookingContext();
@@ -48,10 +43,7 @@ export const DurationChoice = ({ navigation, route }) => {
     ? "Deposit"
     : "Next";
 
-  const { timeSlots, setTimeSlots } = useDurationSlots(
-    timeBlockMilSec,
-    maxTimeSlotDuration
-  );
+  const { timeSlots } = useDurationSlots(timeBlockMilSec, maxTimeSlotDuration);
 
   const onBackNavigationPress = () => navigation.goBack();
 

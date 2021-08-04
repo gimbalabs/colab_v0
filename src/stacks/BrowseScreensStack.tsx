@@ -1,18 +1,19 @@
 import * as React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
 
-import { BrowseScreen } from "screens/index";
+import { createStackNavigator } from "@react-navigation/stack";
+import { BookingContextProvider } from "contexts/bookingContext";
 import {
   AvailableDates,
   AvailableTimes,
   DurationChoice,
   EventDescription,
 } from "screens/booking/index";
-import { BookingContextProvider } from "contexts/bookingContext";
+import { BrowseScreen } from "screens/index";
 import { WalletTopUpScreen } from "screens/onboarding";
 import { BookingConfirmation } from "screens/payments";
+import { BookingStackParamList } from "common/types/navigationTypes";
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<BookingStackParamList>();
 
 export const BrowseScreensStack = () => (
   <BookingContextProvider>

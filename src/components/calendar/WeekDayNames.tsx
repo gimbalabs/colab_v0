@@ -24,8 +24,8 @@ const selectedWeekDays: SelectedWeekDays = {
 export const WeekDayNames = ({
   isNewEventCalendar = false,
 }: {
-  isNewEventCalendar: boolean;
-  customCallback: (arg: boolean) => void;
+  isNewEventCalendar?: boolean;
+  customCallback?: (arg: boolean) => void;
 }) => {
   const [weekSelection, setWeekSelection] = React.useState<SelectedWeekDays[]>(
     []

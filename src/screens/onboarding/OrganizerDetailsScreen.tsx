@@ -1,5 +1,5 @@
 import * as React from "react";
-import { SafeAreaView, View, Text, StyleSheet, Pressable } from "react-native";
+import { Pressable, SafeAreaView, StyleSheet, Text, View } from "react-native";
 
 import { Colors, Sizing, Typography } from "styles/index";
 

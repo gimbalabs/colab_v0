@@ -1,5 +1,5 @@
-import * as React from "react"
-import Svg, { SvgProps, Path, Circle } from "react-native-svg"
+import * as React from "react";
+import Svg, { SvgProps, Path, Circle } from "react-native-svg";
 
 export const DepositSuccessfulIcon = (props: SvgProps) => {
   return (
@@ -8,8 +8,7 @@ export const DepositSuccessfulIcon = (props: SvgProps) => {
       width={505.466}
       height={596.945}
       viewBox="0 0 505.466 596.945"
-      {...props}
-    >
+      {...props}>
       <Path
         d="M359.466 500.945l5 96s-211.494-201.294-237.842-260.19 23.248-204.588 23.248-204.588l110.044 60.446zM35.18 91.87L2.63 94.968s-17.049 37.198 35.648 40.297zM35.18 149.216l-32.549 3.1s-17.049 37.197 35.648 40.297zM35.18 211.212l-32.549 3.1s-17.049 37.197 35.648 40.297zM44.479 273.208l-32.548 3.1s-17.05 37.198 35.648 40.297z"
         fill="#9f616a"
@@ -22,13 +21,7 @@ export const DepositSuccessfulIcon = (props: SvgProps) => {
         d="M59.38 10.187h18.71a13.893 13.893 0 0012.864 19.14h82.116a13.893 13.893 0 0012.863-19.14h17.475A29.242 29.242 0 01232.65 39.43v370.62a29.242 29.242 0 01-29.242 29.242H59.381a29.242 29.242 0 01-29.243-29.242V39.429a29.242 29.242 0 0129.243-29.242z"
         fill="#fff"
       />
-      <Path
-        fill="#6d28d9"
-        style={{
-          isolation: "isolate",
-        }}
-        d="M100.537 114.016h61.715v14.892h-61.715z"
-      />
+      <Path fill="#6d28d9" d="M100.537 114.016h61.715v14.892h-61.715z" />
       <Path
         fill="#e5e5e5"
         d="M97.599 178.009h67.592v14.892H97.599zM55.965 210h150.858v14.892H55.965zM55.965 241.99h150.858v14.892H55.965z"
@@ -47,5 +40,5 @@ export const DepositSuccessfulIcon = (props: SvgProps) => {
         d="M127.351 360.424l-12.938-16.637 7.524-5.852 6.126 7.877 20.697-21.848 6.921 6.557-28.33 29.903z"
       />
     </Svg>
-  )
-}
+  );
+};

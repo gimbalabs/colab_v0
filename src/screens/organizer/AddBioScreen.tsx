@@ -1,18 +1,16 @@
 import * as React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView } from "react-native-safe-area-context";
 import { ProfileContext } from "contexts/profileContext";
 import { OrgCreateProfile } from "components/forms/OrgCreateProfile";
-import { StackScreenProps } from "@react-navigation/stack";
-import { OrganizerTabParamList } from "common/types/navigationTypes";
-import { Colors, Buttons, Typography, Outlines, Sizing } from "styles";
+import { Buttons, Typography, Sizing } from "styles/index";
 
 // export interface AddBioProps
 //   extends StackScreenProps<OrganizerTabParamList, "Add Bio"> {}
 
 export const AddBioScreen = ({ navigation }: any) => {
-  const { alias, timeBlockLengthMin } = React.useContext(ProfileContext);
+  const { alias } = React.useContext(ProfileContext);
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -88,13 +86,10 @@ const styles = StyleSheet.create({
     marginTop: Sizing.x10,
   },
   button: {
-    ...Buttons.bar.transparent,
     width: Sizing.x120,
     marginVertical: Sizing.x15,
   },
-  buttonText: {
-    ...Buttons.barText.transparent,
-  },
+  buttonText: {},
   bottom: {
     width: "100%",
     flexDirection: "row",

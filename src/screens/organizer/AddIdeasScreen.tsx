@@ -1,24 +1,9 @@
 import * as React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  SafeAreaView,
-  Pressable,
-} from "react-native";
+import { View, Text, StyleSheet, FlatList, SafeAreaView } from "react-native";
+
 import { AddIdea } from "components/ideas/AddIdea";
 import { IdeaList } from "components/ideas/IdeaList";
-import { StackScreenProps } from "@react-navigation/stack";
-import { OrganizerTabParamList } from "common/types/navigationTypes";
-import {
-  Buttons,
-  Colors,
-  Outlines,
-  Typography,
-  Sizing,
-  Forms,
-} from "styles/index";
+import { Typography, Sizing } from "styles/index";
 
 // export interface AddIdeasProps
 //   extends StackScreenProps<OrganizerTabParamList, "Add Ideas"> {}
@@ -28,7 +13,7 @@ export interface Todo {
   key: string;
 }
 
-export const AddIdeasScreen = ({ navigation }: any) => {
+export const AddIdeasScreen = () => {
   const [data, setData] = React.useState<Todo[]>([]);
 
   const submitHandler = (value: string) => {
@@ -80,13 +65,6 @@ export const AddIdeasScreen = ({ navigation }: any) => {
           )}
         />
       </View>
-      <View style={styles.bottom}>
-        <Pressable
-          style={Buttons.applyOpacity(styles.bottomButton)}
-          onPress={() => navigation.popToTop()}>
-          <Text style={styles.bottomButtonText}>Back to menu</Text>
-        </Pressable>
-      </View>
     </SafeAreaView>
   );
 };
@@ -112,16 +90,5 @@ const styles = StyleSheet.create({
     marginVertical: Sizing.x20,
     marginHorizontal: Sizing.x30,
     flexDirection: "column",
-  },
-  bottom: {
-    marginTop: "auto",
-    borderTopWidth: Outlines.borderWidth.thin,
-    paddingVertical: Sizing.x20,
-  },
-  bottomButton: {
-    ...Buttons.bar.transparent,
-  },
-  bottomButtonText: {
-    ...Buttons.barText.transparent,
   },
 });

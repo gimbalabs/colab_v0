@@ -1,12 +1,7 @@
 import * as React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { StackScreenProps } from "@react-navigation/stack";
-import { AppStackParamList } from "common/types/navigationTypes";
-import { Colors, Buttons, Typography, Sizing, Outlines } from "styles/index";
-
-// export interface AttendeesProps
-//   extends StackScreenProps<AppStackParamList, "Attendees"> {}
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Buttons, Typography, Sizing, Outlines } from "styles/index";
 
 export const AttendeesScreen = ({ navigation }: any) => {
   return (
@@ -57,12 +52,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   button: {
-    ...Buttons.bar.primary,
     ...Outlines.shadow.base,
     width: Sizing.x130,
     margin: Sizing.x10,
   },
-  buttonText: {
-    ...Buttons.barText.primary,
-  },
+  buttonText: {},
 });

@@ -1,9 +1,9 @@
 import * as React from "react";
-import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StackScreenProps } from "@react-navigation/stack";
-import { Colors, Buttons, Typography, Sizing, Outlines } from "styles/index";
+import { Colors, Sizing } from "styles/index";
 import { BookingStackParamList } from "common/types/navigationTypes";
 import { appContext } from "contexts/contextApi";
 import { SearchIcon } from "icons/index";
@@ -25,7 +25,7 @@ export const BrowseScreen = ({ navigation }: BrowseProps) => {
     ));
   }, [browseFeatured]);
 
-  const navigateTo = (params?: { alias: string }) => {
+  const navigateTo = (params: BookingStackParamList["Available Dates"]) => {
     navigation.navigate("Available Dates", params);
   };
 

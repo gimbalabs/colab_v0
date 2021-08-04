@@ -7,13 +7,16 @@ import {
   ImageBackground,
 } from "react-native";
 
-import profilePicThree from "assets/images/profilePicThree.png";
 import { Colors, Outlines, Sizing, Typography } from "styles/index";
 import { appContext } from "contexts/contextApi";
 import { HearthIcon } from "assets/icons/index";
 import { ProfileTag } from "components/profile/profileTag";
 import { BodyText } from "components/rnWrappers/bodyText";
 import { scale } from "lib/utils";
+
+// Remove this code once we have user data available
+//@ts-ignore
+import profilePicThree from "assets/images/profilePicThree.png";
 
 export interface OrganizerProfileProps {
   profile: any;

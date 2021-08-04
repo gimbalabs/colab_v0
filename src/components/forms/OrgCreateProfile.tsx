@@ -5,7 +5,7 @@ import { CustomInput } from "../forms/CustomInput";
 import { Formik, Field } from "formik";
 import { ProfileContext } from "contexts/profileContext";
 import { OrganizerForm } from "common/interfaces/organizerFormInterface";
-import { Buttons, Typography, Colors, Sizing, Forms } from "styles/index";
+import { Buttons, Colors, Sizing, Forms } from "styles/index";
 
 export interface OrgCreateProfileProps {}
 
@@ -85,6 +85,7 @@ export const OrgCreateProfile = () => {
             styles={styles}
           />
           <Pressable
+            //@ts-ignore
             onPress={handleSubmit}
             accessibilityLabel="Set up your profile as organizer"
             disabled={!isValid}

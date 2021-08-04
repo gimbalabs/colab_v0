@@ -2,11 +2,18 @@ import * as React from "react";
 import { ImageBackground, StyleSheet, Text, View } from "react-native";
 import { Colors, Outlines, Sizing, Typography } from "styles/index";
 
+// Remove this code once we have external images.
+/* @ts-ignore */
 import investing from "assets/images/investing.jpg";
+/* @ts-ignore */
 import developing from "assets/images/developing.jpg";
+/* @ts-ignore */
 import clothes from "assets/images/clothes.jpg";
+/* @ts-ignore */
 import health from "assets/images/health.png";
+/* @ts-ignore */
 import lawyer from "assets/images/lawyer.png";
+/* @ts-ignore */
 import fashion from "assets/images/fashion.png";
 
 const Images = [
@@ -23,10 +30,7 @@ export interface HorizontalCardItemProps {
   navigateTo: any;
 }
 
-export const HorizontalCardItem = ({
-  item,
-  navigateTo,
-}: HorizontalCardItemProps) => {
+export const HorizontalCardItem = ({ item }: HorizontalCardItemProps) => {
   const placeholder: any = Images[Math.floor(Math.random() * Images.length)];
 
   return (

@@ -1,17 +1,21 @@
 import * as React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StackScreenProps } from "@react-navigation/stack";
 import { Colors, Sizing, Typography } from "styles/index";
 import { appContext } from "contexts/contextApi";
 
 import { FullWidthButton } from "components/buttons/fullWidthButton";
 import { BodyText } from "components/rnWrappers/bodyText";
 import { LeftArrowIcon, PaymentSuccessfulIcon } from "assets/icons";
+import { AppStackParamList } from "common/types/navigationTypes";
 
 export interface ConfirmationProps {}
 
-export const Confirmation = ({ navigation, route }) => {
+type Props = StackScreenProps<AppStackParamList, "Confirmation">;
+
+export const Confirmation = ({ navigation, route }: Props) => {
   const { colorScheme } = appContext();
 
   const isLightMode = colorScheme === "light";

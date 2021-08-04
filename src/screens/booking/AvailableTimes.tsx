@@ -1,13 +1,7 @@
 import * as React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  ScrollView,
-} from "react-native";
+import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
 
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors, Outlines, Sizing, Typography } from "styles/index";
 import { OrganizerProfile } from "components/booking/index";
 import { LeftArrowIcon } from "icons/index";
@@ -21,10 +15,14 @@ import { FullWidthButton } from "components/buttons/fullWidthButton";
 import { useAvailabilities } from "lib/hooks/useAvailabilities";
 import { getDigitalLocaleTime } from "lib/utils";
 import { useScheduledTimes } from "lib/hooks/useScheduledTimes";
+import { BookingStackParamList } from "common/types/navigationTypes";
+import { StackScreenProps } from "@react-navigation/stack";
 
 export interface AvailableTimesProps {}
 
-export const AvailableTimes = ({ navigation, route }) => {
+type Props = StackScreenProps<BookingStackParamList, "Available Times">;
+
+export const AvailableTimes = ({ navigation }: Props) => {
   const [selectedTimeSlot, setSelectedTimeSlot] = React.useState<number | null>(
     null
   );

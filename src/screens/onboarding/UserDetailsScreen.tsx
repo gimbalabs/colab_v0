@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, StyleSheet, Text, TextInput, ScrollView } from "react-native";
+import { View, StyleSheet, Text, TextInput } from "react-native";
 
 import { CustomPlainInput } from "components/forms/CustomPlainInput";
 import { CalendarIcon, DownIcon, PencilAltIcon } from "icons/index";
@@ -10,14 +10,13 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 
 export interface UserDetailScreenProps {}
 
-export const UserDetailsScreen = ({ pagerRef }) => {
+export const UserDetailsScreen = ({ pagerRef }: any) => {
   const {
     setProfession,
     setJobTitle,
     setDescription,
     setSkills,
     setTimeBlockCostADA,
-    skills,
   } = React.useContext(ProfileContext);
   const [_profession, _setProfession] = React.useState<string | string[]>("");
   const [_jobTitle, _setJobTitle] = React.useState<string | string[]>("");

@@ -1,5 +1,5 @@
-import * as React from "react"
-import Svg, { SvgProps, Path, Circle } from "react-native-svg"
+import * as React from "react";
+import Svg, { SvgProps, Path, Circle } from "react-native-svg";
 
 export const PaymentSuccessfulIcon = (props: SvgProps) => {
   return (
@@ -8,8 +8,7 @@ export const PaymentSuccessfulIcon = (props: SvgProps) => {
       width={816.215}
       height={621}
       viewBox="0 0 816.215 621"
-      {...props}
-    >
+      {...props}>
       <Path
         d="M326.608 128.781h-2.977v-81.57A47.21 47.21 0 00276.42 0H103.601a47.21 47.21 0 00-47.21 47.21v447.502a47.21 47.21 0 0047.21 47.21H276.42a47.21 47.21 0 0047.21-47.21V186.844h2.978z"
         fill="#3f3d56"
@@ -105,9 +104,6 @@ export const PaymentSuccessfulIcon = (props: SvgProps) => {
       <Path
         d="M655.355 332.24s-44.84-148.927-59.25-150.94-31.731 38.621-31.731 38.621c-15 62-67.041 162.413-67.041 162.413s51.746 3.238 89.573 23.364 82.468-1.02 82.468-1.02z"
         opacity={0.1}
-        style={{
-          isolation: "isolate",
-        }}
       />
       <Path
         fill="#2f2e41"
@@ -137,5 +133,5 @@ export const PaymentSuccessfulIcon = (props: SvgProps) => {
         fill="#2f2e41"
       />
     </Svg>
-  )
-}
+  );
+};

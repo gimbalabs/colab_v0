@@ -1,9 +1,13 @@
 import * as React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { StyleSheet, Text } from "react-native";
+
+import { appContext } from "contexts/contextApi";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Typography, Colors } from "styles/index";
 
-export const FavoritesScreen = ({}) => {
+export const FavoritesScreen = () => {
+  const { colorScheme } = appContext();
   return (
     <SafeAreaView style={styles.safeArea}>
       <Text

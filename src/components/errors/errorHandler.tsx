@@ -2,7 +2,7 @@ import * as React from "react";
 
 import * as Updates from "expo-updates";
 import { Pressable, View, Text, StyleSheet } from "react-native";
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView } from "react-native-safe-area-context";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 import { Buttons, Typography } from "styles/index";
 
@@ -12,6 +12,7 @@ export interface ErrorHandlerProps {
 
 export const myErrorHandler = (error: Error) => {
   //@TODO: do something with the error
+  return error;
 };
 
 export const ErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
@@ -27,12 +28,12 @@ export const ErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
         <Pressable
           onPress={() => resetErrorBoundary()}
           style={Buttons.applyOpacity(styles.button)}>
-          <Text style={Buttons.barText.transparent}>Try again</Text>
+          <Text style={Buttons.barText.primary_light}>Try again</Text>
         </Pressable>
         <Pressable
           onPress={async () => await Updates.reloadAsync()}
           style={Buttons.applyOpacity(styles.button)}>
-          <Text style={Buttons.barText.transparent}>Restart</Text>
+          <Text style={Buttons.barText.primary_light}>Restart</Text>
         </Pressable>
       </View>
     </SafeAreaView>
@@ -55,6 +56,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   button: {
-    ...Buttons.bar.transparent,
+    ...Buttons.bar.primary_light,
   },
 });

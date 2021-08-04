@@ -114,8 +114,9 @@ export const CreateAccountForm = ({}: CreateAccountFormProps) => {
             <Text style={styles.appendixTextLink}>Sign in</Text>
           </View>
           <Pressable
-            disabled={!isValid}
+            //@ts-ignore
             onPress={handleSubmit}
+            disabled={!isValid}
             accessibilityLabel="Create new account."
             style={Buttons.applyOpacity(styles.submitButton)}>
             <Text style={styles.submitButtonText}>Create account</Text>
