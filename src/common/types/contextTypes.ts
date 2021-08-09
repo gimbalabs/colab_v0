@@ -1,6 +1,7 @@
 import { OrganizerRate } from "common/interfaces/bookingInterface";
 import {
   EventAvailability,
+  SelectedWeekDays,
   TextContent,
 } from "common/interfaces/newEventInterface";
 import { ColorSchemeName } from "interfaces/appInterface";
@@ -26,6 +27,7 @@ export enum EventCreationTypes {
   AddAvailability = "SET_AVAILABILITIES",
   RemoveAvailability = "REMOVE_AVAILABILITIES",
   SetSelectedDays = "SET_SELECTED_DAYS",
+  SetSelectedWeek = "SET_SELECTED_WEEKS",
   SetTags = "SET_TAGS",
   SetImageURI = "SET_IMAGE_URI",
   SetHourlyRate = "SET_HOURLY_RATE",
@@ -99,6 +101,9 @@ export type EventCreationPayload = {
   [EventCreationTypes.SetSelectedDays]: {
     selectedDays: number[];
     isRecurringSelection: boolean;
+  };
+  [EventCreationTypes.SetSelectedWeek]: {
+    selectedWeek: SelectedWeekDays;
   };
   [EventCreationTypes.SetHourlyRate]: {
     hourlyRate: number;

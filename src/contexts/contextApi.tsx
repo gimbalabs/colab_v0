@@ -15,6 +15,7 @@ import {
 import { OrganizerRate } from "common/interfaces/bookingInterface";
 import {
   EventAvailability,
+  SelectedWeekDays,
   TextContent,
 } from "common/interfaces/newEventInterface";
 import { EventCreationTypes } from "common/types/contextTypes";
@@ -53,6 +54,7 @@ export const eventCreationContext = () => {
     textContent: state.textContent,
     availabilities: state.availabilities,
     selectedDays: state.selectedDays,
+    selectedWeekDays: state.selectedWeekDays,
     tags: state.tags,
     hourlyRate: state.hourlyRate,
     imageURI: state.imageURI,
@@ -69,6 +71,12 @@ export const eventCreationContext = () => {
       dispatch({
         type: EventCreationTypes.SetSelectedDays,
         payload: { selectedDays, isRecurringSelection },
+      });
+    },
+    setSelectedWeek: (selectedWeek: SelectedWeekDays) => {
+      dispatch({
+        type: EventCreationTypes.SetSelectedWeek,
+        payload: { selectedWeek },
       });
     },
     addAvailability: (availability: EventAvailability) => {

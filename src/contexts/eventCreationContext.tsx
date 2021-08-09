@@ -17,6 +17,7 @@ const initialState: InitialState = {
   tags: [],
   hourlyRate: null,
   imageURI: null,
+  selectedWeekDays: [],
 };
 
 const reducer = (
@@ -24,17 +25,27 @@ const reducer = (
   action: EventCreationActions
 ): InitialState => {
   switch (action.type) {
-    case EventCreationTypes.SetTextContent:
+    case EventCreationTypes.SetTextContent: {
       return {
         ...state,
         textContent: action.payload.textContent,
       };
-    case EventCreationTypes.AddAvailability:
-      state.availabilities.push(action.payload.availability);
-      return {
-        ...state,
-      };
-    case EventCreationTypes.RemoveAvailability:
+    }
+    case EventCreationTypes.AddAvailability: {
+      const { from, to } = action.payload.availability;
+      const availExists = state.availabilities.find(
+        (el) => el.from === from && el.to === to
+      );
+
+      if (!availExists) {
+        state.availabilities.push(action.payload.availability);
+        console.log("state", state);
+        return state;
+      } else {
+        return state;
+      }
+    }
+    case EventCreationTypes.RemoveAvailability: {
       const { from, to } = action.payload.availability;
       const newAvailabilities = state.availabilities.filter(
         (el) => el.from != from && el.to != to
@@ -44,7 +55,7 @@ const reducer = (
         ...state,
         availabilities: newAvailabilities,
       };
-
+    }
     case EventCreationTypes.SetSelectedDays: {
       let newSelectedDays: any = state.selectedDays || {};
 
@@ -66,21 +77,39 @@ const reducer = (
         selectedDays: newSelectedDays,
       };
     }
-    case EventCreationTypes.SetHourlyRate:
+    case EventCreationTypes.SetSelectedWeek: {
+      const selectedWeek = state.selectedWeekDays.find(
+        (week) => week.date === action.payload.selectedWeek.date
+      );
+
+      if (selectedWeek) {
+        for (let key of Object.keys(selectedWeek)) {
+          selectedWeek[key] = action.payload.selectedWeek[key];
+        }
+      } else {
+        state.selectedWeekDays.push(action.payload.selectedWeek);
+      }
+
+      return state;
+    }
+    case EventCreationTypes.SetHourlyRate: {
       return {
         ...state,
         hourlyRate: action.payload.hourlyRate,
       };
-    case EventCreationTypes.SetImageURI:
+    }
+    case EventCreationTypes.SetImageURI: {
       return {
         ...state,
         imageURI: action.payload.imageURI,
       };
-    case EventCreationTypes.SetTags:
+    }
+    case EventCreationTypes.SetTags: {
       return {
         ...state,
         tags: action.payload.tags,
       };
+    }
     default: {
       throw new Error(`Unknown type of action ${action.type}`);
     }
