@@ -18,9 +18,11 @@ export interface InitialState {
   tags: string[];
   hourlyRate: number | null;
   imageURI: string | null;
+  selectedWeekDays: SelectedWeekDays[];
 }
 
 export type SelectedDays = { [key: string]: number };
+export type SelectedWeekDays = { [key: string]: any };
 
 export interface TextContent {
   title: string;
