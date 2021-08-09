@@ -10,7 +10,7 @@ import { monthsByName } from "common/types/calendarTypes";
 const weekDays: string[] = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
 type SelectedWeekDays = { [key: string]: any };
-const selectedWeekDays: SelectedWeekDays = {
+const _selectedWeekDays: SelectedWeekDays = {
   date: null,
   0: false,
   1: false,
@@ -27,23 +27,31 @@ export const WeekDayNames = ({
   isNewEventCalendar?: boolean;
   customCallback?: (arg: boolean) => void;
 }) => {
-  const [weekSelection, setWeekSelection] = React.useState<SelectedWeekDays[]>(
-    []
-  );
+  // const [currentWeek, setCurrentWeek] = React.useState<SelectedWeekDays[]>(
+  //   []
+  // );
   const { calendarHeader } = myCalendarContext();
-  const { setSelectedDays, selectedDays } = eventCreationContext();
+  const {
+    setSelectedDays,
+    selectedDays,
+    setSelectedWeek,
+    selectedWeekDays,
+  } = eventCreationContext();
   const { month, year } = calendarHeader;
 
   const isSelectedDay = (index: number) =>
-    !!weekSelection.length &&
-    !!weekSelection[currMonthSelectedWeekIndex()]?.[index];
-  const hasCurrentMonthSelectedWeek = React.useCallback(() => {
-    return !!weekSelection.find(
+    !!selectedWeekDays.length &&
+    !!selectedWeekDays[currMonthSelectedWeekIndex()]?.[index];
+  const currentMonthSelectedWeek = React.useCallback(() => {
+    var week = selectedWeekDays.find(
       (week) => week.date === getTime(year, monthsByName[month])
     );
+
+    if (week) return week;
+    return null;
   }, [month, year]);
   const currMonthSelectedWeekIndex = React.useCallback(() => {
-    return weekSelection.findIndex(
+    return selectedWeekDays.findIndex(
       (week) => week.date === getTime(year, monthsByName[month])
     );
   }, [month, year]);
@@ -54,21 +62,25 @@ export const WeekDayNames = ({
       .map((num: number) => !!selectedDays?.[num])
       .includes(false);
 
-    setWeekSelection((prev: SelectedWeekDays[]) => {
-      if (hasCurrentMonthSelectedWeek()) {
-        prev[currMonthSelectedWeekIndex()][index] = selectRecurring
-          ? true
-          : !prev[currMonthSelectedWeekIndex()][index];
-      } else {
-        let newSelectedWeek = Object.assign({}, selectedWeekDays);
-        newSelectedWeek.date = getTime(year, monthsByName[month]);
-        newSelectedWeek[index] = selectRecurring ? true : !prev[index];
-
-        prev.push(newSelectedWeek);
-      }
-      return prev;
-    });
     setSelectedDays(arrOfDays, selectRecurring);
+
+    let newSelectedWeek = currentMonthSelectedWeek();
+
+    if (newSelectedWeek) {
+      newSelectedWeek[index] = selectRecurring
+        ? true
+        : !newSelectedWeek[currMonthSelectedWeekIndex()][index];
+
+      setSelectedWeek(newSelectedWeek);
+    } else {
+      newSelectedWeek = Object.assign({}, _selectedWeekDays);
+      newSelectedWeek.date = getTime(year, monthsByName[month]);
+      newSelectedWeek[index] = selectRecurring
+        ? true
+        : !selectedWeekDays[index];
+
+      setSelectedWeek(newSelectedWeek);
+    }
   };
 
   return (
