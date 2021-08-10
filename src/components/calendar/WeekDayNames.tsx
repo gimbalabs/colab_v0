@@ -27,9 +27,6 @@ export const WeekDayNames = ({
   isNewEventCalendar?: boolean;
   customCallback?: (arg: boolean) => void;
 }) => {
-  // const [currentWeek, setCurrentWeek] = React.useState<SelectedWeekDays[]>(
-  //   []
-  // );
   const { calendarHeader } = myCalendarContext();
   const {
     setSelectedDays,

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View, Text } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
 import { LeftArrowIcon, PlusIcon } from "assets/icons";
@@ -10,7 +10,14 @@ import { TimePickerInput } from "components/forms/TimePickerInput";
 import { HeaderText } from "components/rnWrappers/headerText";
 import { appContext, eventCreationContext } from "contexts/contextApi";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Buttons, Colors, Forms, Outlines, Sizing } from "styles/index";
+import {
+  Buttons,
+  Colors,
+  Forms,
+  Outlines,
+  Sizing,
+  Typography,
+} from "styles/index";
 
 export const AvailableTimeSelection = () => {
   const [fromTime, setFromTime] = React.useState<Date>(new Date());
@@ -18,6 +25,7 @@ export const AvailableTimeSelection = () => {
   const [minTime, setMinTime] = React.useState<number>(0);
   const [maxTime, setMaxTime] = React.useState<number>(0);
   const [openPicker, setOpenPicker] = React.useState<string | null>(null);
+  const [totalAvailabilities, setTotalAvailabilites] = React.useState(0);
   const { colorScheme } = appContext();
   const { addAvailability, availabilities } = eventCreationContext();
   const navigation = useNavigation();
@@ -76,8 +84,9 @@ export const AvailableTimeSelection = () => {
       maxDuration: maxTime,
       minDuration: minTime,
     });
+    // react-navigation doesn't update screen immediately after context dispatch
+    setTotalAvailabilites(availabilities.length++);
   };
-
   /**
    * Navigation handlers
    */
@@ -152,19 +161,41 @@ export const AvailableTimeSelection = () => {
             />
           </View>
         </View>
-        <View style={styles.addBtnWrapper}>
-          <Pressable
-            onPress={addNewAvailability}
-            disabled={isDisabledAddBtn}
-            style={Buttons.applyOpacity(
-              Object.assign(
-                {},
-                styles.addBtn,
-                isDisabledAddBtn ? { backgroundColor: Colors.neutral.s200 } : {}
-              )
-            )}>
-            <PlusIcon style={styles.plusIcon} strokeWidth={2} />
-          </Pressable>
+        <View style={styles.listHeaderWrapper}>
+          <Text
+            style={[
+              isLightMode
+                ? { color: Colors.primary.s800 }
+                : { color: Colors.primary.neutral },
+              styles.listHeaderText,
+            ]}>
+            Total ({totalAvailabilities})
+          </Text>
+          <View style={{ flexDirection: "row" }}>
+            <Text
+              style={[
+                isLightMode
+                  ? { color: Colors.primary.s800 }
+                  : { color: Colors.primary.neutral },
+                styles.listHeaderText,
+              ]}>
+              Add new item
+            </Text>
+            <Pressable
+              onPress={addNewAvailability}
+              disabled={isDisabledAddBtn}
+              style={Buttons.applyOpacity(
+                Object.assign(
+                  {},
+                  styles.addBtn,
+                  isDisabledAddBtn
+                    ? { backgroundColor: Colors.neutral.s200 }
+                    : {}
+                )
+              )}>
+              <PlusIcon style={styles.plusIcon} strokeWidth={2} />
+            </Pressable>
+          </View>
         </View>
         <AvailabilityList />
         <FullWidthButton
@@ -216,14 +247,24 @@ const styles = StyleSheet.create({
   slotsWrapperBottom: {
     zIndex: 5,
   },
-  addBtnWrapper: {
-    marginVertical: Sizing.x10,
+  listHeaderWrapper: {
+    display: "flex",
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginVertical: Sizing.x5,
+  },
+  listHeaderText: {
+    ...Typography.subHeader.x30,
+    alignSelf: "center",
+    marginLeft: Sizing.x10,
   },
   addBtn: {
     borderRadius: Outlines.borderRadius.max,
     justifyContent: "center",
     width: Sizing.x40,
     height: Sizing.x40,
+    marginHorizontal: Sizing.x10,
     backgroundColor: Colors.primary.s200,
     ...Outlines.shadow.lifted,
   },

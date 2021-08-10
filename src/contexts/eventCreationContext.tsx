@@ -32,14 +32,22 @@ const reducer = (
       };
     }
     case EventCreationTypes.AddAvailability: {
-      const { from, to } = action.payload.availability;
+      const {
+        from,
+        to,
+        minDuration,
+        maxDuration,
+      } = action.payload.availability;
       const availExists = state.availabilities.find(
-        (el) => el.from === from && el.to === to
+        (el) =>
+          el.from === from &&
+          el.to === to &&
+          el.minDuration === minDuration &&
+          el.maxDuration === maxDuration
       );
 
       if (!availExists) {
         state.availabilities.push(action.payload.availability);
-        console.log("state", state);
         return state;
       } else {
         return state;

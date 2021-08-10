@@ -1,21 +1,32 @@
 import * as React from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList, ListRenderItemInfo } from "react-native";
 
 import { eventCreationContext } from "contexts/contextApi";
 import { getRandomKey } from "lib/utils";
-import { EventAvailability } from "common/interfaces/newEventInterface";
 import { Availability } from "./availability";
 
 export interface AvailabilityListProps {}
 
 export const AvailabilityList = ({}: AvailabilityListProps) => {
-  const { availabilities } = eventCreationContext();
+  const { availabilities, removeAvailability } = eventCreationContext();
 
-  const renderAvailabilities = ({ item }: { item: EventAvailability }) => (
-    <Availability availability={item} />
-  );
+  const renderAvailabilities = ({ item, index }: ListRenderItemInfo<any>) => {
+    if (item) {
+      return (
+        <Availability
+          availability={item}
+          index={index}
+          onRemovePress={onRemovePress}
+        />
+      );
+    } else {
+      return <></>;
+    }
+  };
 
   const keyExtractor = (item: any, index: number) => `${getRandomKey(index)}`;
+  const onRemovePress = (index: number) =>
+    removeAvailability(availabilities[index]);
 
   return (
     <View style={styles.container}>
@@ -23,7 +34,7 @@ export const AvailabilityList = ({}: AvailabilityListProps) => {
         data={availabilities}
         renderItem={renderAvailabilities}
         keyExtractor={keyExtractor}
-        contentContainerStyle={{ marginTop: 8 }}
+        style={{ marginVertical: 8 }}
       />
     </View>
   );

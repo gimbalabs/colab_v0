@@ -134,7 +134,6 @@ export const TimePickerInput = (props: TimePickerInputProps) => {
       selectedDate && onValueChange(label, selectedDate);
     }
   };
-  console.log(timeValue);
 
   return (
     <View style={styles.inputContainer}>

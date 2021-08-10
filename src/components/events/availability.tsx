@@ -2,20 +2,22 @@ import * as React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 
 import { ClockIcon, TrashIcon } from "assets/icons";
-import { eventCreationContext } from "contexts/contextApi";
 import { EventAvailability } from "common/interfaces/newEventInterface";
 import { Buttons, Colors, Outlines, Sizing, Typography } from "styles/index";
 import { getDigitalLocaleTime } from "lib/utils";
 
 export interface AvailabilityProps {
   availability: EventAvailability;
+  index: number;
+  onRemovePress: (index: number) => void;
 }
 
-export const Availability = ({ availability }: AvailabilityProps) => {
-  const { removeAvailability } = eventCreationContext();
+export const Availability = ({
+  availability,
+  onRemovePress,
+  index,
+}: AvailabilityProps) => {
   const { from, to, maxDuration, minDuration } = availability;
-
-  const onRemovePress = () => removeAvailability(availability);
 
   return (
     <View style={styles.container}>
@@ -31,7 +33,7 @@ export const Availability = ({ availability }: AvailabilityProps) => {
         </View>
         <Pressable
           hitSlop={5}
-          onPress={onRemovePress}
+          onPress={() => onRemovePress(index)}
           style={Buttons.applyOpacity(styles.removeButton)}>
           <TrashIcon style={styles.trashIcon} strokeWidth={1.6} />
         </Pressable>

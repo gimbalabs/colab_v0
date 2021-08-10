@@ -80,7 +80,6 @@ export const eventCreationContext = () => {
       });
     },
     addAvailability: (availability: EventAvailability) => {
-      console.log(availability);
       dispatch({
         type: EventCreationTypes.AddAvailability,
         payload: { availability },
