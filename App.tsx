@@ -1,42 +1,43 @@
+import "react-native-gesture-handler";
 import * as React from "react";
-import { LogBox } from "react-native";
+import { LogBox, Platform, UIManager } from "react-native";
+
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { AppStackParamList } from "common/types/navigationTypes";
+import { AppContextProvider } from "contexts/appContext";
+import { appContext } from "contexts/contextApi";
+import { ProfileContextProvider } from "contexts/profileContext";
+import AppLoading from "expo-app-loading";
+import { useFonts } from "expo-font";
+import { jsErrorHandler } from "lib/errors";
+import { setJSExceptionHandler } from "react-native-exception-handler";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { enableScreens } from "react-native-screens";
+import { WalletTopUpScreen } from "screens/onboarding";
+import { Confirmation, DepositSuccessful } from "screens/payments";
+import { NavigationScreens } from "tabs/NavigationScreens";
+import { OnboardingScreens } from "tabs/OnboardingScreens";
+import { UserRegistrationScreens } from "tabs/UserRegistrationScreens";
 
 // Ignore all log notifications:
 LogBox.ignoreAllLogs();
 
-import "react-native-gesture-handler";
-import AppLoading from "expo-app-loading";
-import { useFonts } from "expo-font";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import { enableScreens } from "react-native-screens";
-
-// Error Handlers
-import { setJSExceptionHandler } from "react-native-exception-handler";
-import { jsErrorHandler } from "lib/errors";
-//-----
-
-import { AppContextProvider } from "contexts/appContext";
-import { appContext } from "contexts/contextApi";
-import { UserRegistrationScreens } from "tabs/UserRegistrationScreens";
-import { ProfileContextProvider } from "contexts/profileContext";
-import { DepositSuccessful, Confirmation } from "screens/payments";
-import { AppStackParamList } from "common/types/navigationTypes";
-import { NavigationScreens } from "tabs/NavigationScreens";
-import { WalletTopUpScreen } from "screens/onboarding";
-import { OnboardingScreens } from "tabs/OnboardingScreens";
-import { LogIn } from "screens/LogIn";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-
 setJSExceptionHandler(jsErrorHandler, true); // true - enables the error in dev mode
 enableScreens(); // enable native screens for navigation instead of using Views
-
+//
+// this will enable LayoutAnimation API
+if (Platform.OS === "android") {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
 const Stack = createStackNavigator<AppStackParamList>();
 
 function App() {
   const { auth } = appContext();
 
-  let [fontsLoadaed] = useFonts({
+  const [fontsLoadaed] = useFonts({
     "Roboto-Thin": require("./assets/fonts/Roboto-Thin.ttf"),
     "Roboto-Light": require("./assets/fonts/Roboto-Light.ttf"),
     "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
@@ -64,7 +65,7 @@ function App() {
                     options={{ headerShown: false }}
                   />*/}
                     <Stack.Screen
-                      name="Navigation Screens"
+                      name="Navigation Screensss"
                       component={NavigationScreens}
                       options={{ headerShown: false }}
                     />

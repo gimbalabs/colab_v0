@@ -6,7 +6,7 @@ export type AppStackParamList = {
   "Deposit Successful":
     | {
         isBookingWalletTopUp: boolean | undefined;
-        fromScreen: string | undefined;
+        fromScreen: any;
       }
     | undefined;
   Confirmation:
@@ -20,6 +20,7 @@ export type AppStackParamList = {
   "User Registration Screens": undefined;
   "Onboarding Screens": undefined;
   "Duration Choice": any;
+  Wallet: undefined;
 };
 
 export type OrganizerTabParamList = {
@@ -45,4 +46,12 @@ export type BookingStackParamList = {
   "Add Funds": any;
   "Booking Confirmation": any;
   Confirmation: any;
+};
+
+export type EventCreationParamList = {
+  Home: undefined;
+  "New Event Description": undefined;
+  "Available Days Selection": undefined;
+  "Available Time Selection": undefined;
+  "Image Cover Selection": undefined;
 };
