@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Pressable, StyleSheet, View, Text } from "react-native";
 
-import { useNavigation } from "@react-navigation/native";
 import { LeftArrowIcon, PlusIcon } from "assets/icons";
 import { FullWidthButton } from "components/buttons/fullWidthButton";
 import { AvailabilityList } from "components/events/availabilityList";
@@ -18,8 +17,15 @@ import {
   Sizing,
   Typography,
 } from "styles/index";
+import { StackScreenProps } from "@react-navigation/stack";
+import { EventCreationParamList } from "common/types/navigationTypes";
 
-export const AvailableTimeSelection = () => {
+type Props = StackScreenProps<
+  EventCreationParamList,
+  "Available Time Selection"
+>;
+
+export const AvailableTimeSelection = ({ route, navigation }: Props) => {
   const [fromTime, setFromTime] = React.useState<Date>(new Date());
   const [toTime, setToTime] = React.useState<Date>(new Date());
   const [minTime, setMinTime] = React.useState<number>(0);
@@ -28,7 +34,6 @@ export const AvailableTimeSelection = () => {
   const [totalAvailabilities, setTotalAvailabilites] = React.useState(0);
   const { colorScheme } = appContext();
   const { addAvailability, availabilities } = eventCreationContext();
-  const navigation = useNavigation();
 
   const minInputRange = React.useMemo(() => {
     let arr: number[] = [];

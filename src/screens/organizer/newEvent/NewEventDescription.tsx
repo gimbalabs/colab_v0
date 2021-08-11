@@ -1,6 +1,7 @@
 import * as React from "react";
 import { StyleSheet, View, Pressable } from "react-native";
 
+import { StackScreenProps } from "@react-navigation/stack";
 import { LeftArrowIcon } from "assets/icons";
 import { CustomPlainInput } from "components/forms/CustomPlainInput";
 import { HeaderText } from "components/rnWrappers/headerText";
@@ -9,16 +10,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors, Sizing } from "styles/index";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { FullWidthButton } from "components/buttons/fullWidthButton";
+import { EventCreationParamList } from "common/types/navigationTypes";
 
-export interface NewEventDescriptionProps {
-  navigation: any;
-  route: any;
-}
+type Props = StackScreenProps<EventCreationParamList, "New Event Description">;
 
-export const NewEventDescription = ({
-  navigation,
-  route,
-}: NewEventDescriptionProps) => {
+export const NewEventDescription = ({ navigation, route }: Props) => {
   const { colorScheme } = appContext();
   const [eventTitle, setEventTitle] = React.useState<string>("");
   const [eventDescription, setEventsDescription] = React.useState<string>("");

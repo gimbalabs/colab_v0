@@ -8,16 +8,15 @@ import { Colors, Sizing } from "styles/index";
 import { HeaderText } from "components/rnWrappers/headerText";
 import { MonthlyWrapper } from "components/calendar";
 import { CalendarWrapperSimple } from "components/calendar/CalendarWrapperSimple";
+import { StackScreenProps } from "@react-navigation/stack";
+import { EventCreationParamList } from "common/types/navigationTypes";
 
-export interface AvailableDaysSelectionProps {
-  navigation: any;
-  route: any;
-}
+type Props = StackScreenProps<
+  EventCreationParamList,
+  "Available Days Selection"
+>;
 
-export const AvailableDaysSelection = ({
-  navigation,
-  route,
-}: AvailableDaysSelectionProps) => {
+export const AvailableDaysSelection = ({ navigation, route }: Props) => {
   const { colorScheme } = appContext();
 
   const isLightMode = colorScheme === "light";
