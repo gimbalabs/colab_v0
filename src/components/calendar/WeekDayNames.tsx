@@ -64,9 +64,7 @@ export const WeekDayNames = ({
     let newSelectedWeek = currentMonthSelectedWeek();
 
     if (newSelectedWeek) {
-      newSelectedWeek[index] = selectRecurring
-        ? true
-        : !newSelectedWeek[currMonthSelectedWeekIndex()][index];
+      newSelectedWeek[index] = selectRecurring ? true : !newSelectedWeek[index];
 
       setSelectedWeek(newSelectedWeek);
     } else {
