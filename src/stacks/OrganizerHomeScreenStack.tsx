@@ -6,10 +6,12 @@ import { HomeScreen } from "screens/HomeScreen";
 import {
   AvailableDaysSelection,
   AvailableTimeSelection,
+  ImageCoverSelection,
   NewEventDescription,
 } from "screens/organizer/newEvent";
+import { EventCreationParamList } from "common/types/navigationTypes";
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<EventCreationParamList>();
 
 export const OrganizerHomeScreenStack = () => {
   return (
@@ -27,6 +29,10 @@ export const OrganizerHomeScreenStack = () => {
         <Stack.Screen
           name="Available Time Selection"
           component={AvailableTimeSelection}
+        />
+        <Stack.Screen
+          name="Image Cover Selection"
+          component={ImageCoverSelection}
         />
       </Stack.Navigator>
     </EventCreationContextProvider>
