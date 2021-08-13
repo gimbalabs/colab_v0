@@ -122,8 +122,12 @@ export const PlainInputPicker = (props: PlainInputPickerProps) => {
       }
       return !prev;
     });
-    // // update the reference of current open picker
-    if (!showPicker) onOpenChange(label);
+    // update the reference of current open picker
+    if (!openPicker && !showPicker) {
+      onOpenChange(label);
+    } else {
+      onOpenChange(null);
+    }
 
     Animated.parallel(animations).start();
   };

@@ -113,8 +113,12 @@ export const TimePickerInput = (props: TimePickerInputProps) => {
       }
       return !prev;
     });
-    // // update the reference of current open picker
-    if (!showTimePicker) onOpenChange(label);
+    // update the reference of current open picker
+    if (!openPicker && !showTimePicker) {
+      onOpenChange(label);
+    } else {
+      onOpenChange(null);
+    }
 
     Animated.parallel(animations).start(({ finished }) => {
       if (finished) {
