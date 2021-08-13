@@ -31,7 +31,6 @@ export const AvailableTimeSelection = ({ route, navigation }: Props) => {
   const [minTime, setMinTime] = React.useState<number>(0);
   const [maxTime, setMaxTime] = React.useState<number>(0);
   const [openPicker, setOpenPicker] = React.useState<string | null>(null);
-  const [totalAvailabilities, setTotalAvailabilites] = React.useState(0);
   const { colorScheme } = appContext();
   const { addAvailability, availabilities } = eventCreationContext();
 
@@ -67,9 +66,19 @@ export const AvailableTimeSelection = ({ route, navigation }: Props) => {
     return arr;
   }, [fromTime, toTime, minTime]);
 
+  const hasExistingAvailability = !!availabilities.find(
+    (el) =>
+      el &&
+      el.from === fromTime &&
+      el.to === toTime &&
+      el.maxDuration === maxTime &&
+      el.minDuration === minTime
+  );
+
   const isLightMode = colorScheme === "light";
   const isDisabledButton = !availabilities.length;
-  const isDisabledAddBtn = fromTime === toTime || fromTime > toTime;
+  const isDisabledAddBtn =
+    fromTime === toTime || fromTime > toTime || hasExistingAvailability;
 
   const onTimeChangeValue = (label: string, val: Date) => {
     if (label === "From") setFromTime(val);
@@ -90,7 +99,7 @@ export const AvailableTimeSelection = ({ route, navigation }: Props) => {
       minDuration: minTime,
     });
     // react-navigation doesn't update screen immediately after context dispatch
-    setTotalAvailabilites(availabilities.length++);
+    navigation.setParams({ availabilities: availabilities.length++ });
   };
   /**
    * Navigation handlers
@@ -174,7 +183,7 @@ export const AvailableTimeSelection = ({ route, navigation }: Props) => {
                 : { color: Colors.primary.neutral },
               styles.listHeaderText,
             ]}>
-            Total ({totalAvailabilities})
+            Total ({availabilities.length})
           </Text>
           <View style={{ flexDirection: "row" }}>
             <Text
