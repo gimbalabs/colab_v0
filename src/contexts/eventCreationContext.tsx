@@ -38,25 +38,38 @@ const reducer = (
         minDuration,
         maxDuration,
       } = action.payload.availability;
-      const availExists = state.availabilities.find(
+      // Why is keep adding undefined...
+      state.availabilities = state.availabilities.filter((el) => el != null);
+
+      const availExists =
+        !!state.availabilities.length &&
+        state.availabilities.find(
+          (el) =>
+            el &&
+            el.from === from &&
+            el.to === to &&
+            el.minDuration === minDuration &&
+            el.maxDuration === maxDuration
+        );
+      if (!availExists) {
+        state.availabilities.push(action.payload.availability);
+      }
+
+      return state;
+    }
+    case EventCreationTypes.RemoveAvailability: {
+      const {
+        from,
+        to,
+        minDuration,
+        maxDuration,
+      } = action.payload.availability;
+      const newAvailabilities = state.availabilities.filter(
         (el) =>
           el.from === from &&
           el.to === to &&
           el.minDuration === minDuration &&
           el.maxDuration === maxDuration
-      );
-
-      if (!availExists) {
-        state.availabilities.push(action.payload.availability);
-        return state;
-      } else {
-        return state;
-      }
-    }
-    case EventCreationTypes.RemoveAvailability: {
-      const { from, to } = action.payload.availability;
-      const newAvailabilities = state.availabilities.filter(
-        (el) => el.from != from && el.to != to
       );
 
       return {
