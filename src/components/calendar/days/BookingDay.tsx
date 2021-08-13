@@ -23,7 +23,7 @@ export interface BookingDayProps extends Day {
  *  available days while booking an event.
  */
 
-export const BookingDay = ({
+export const _BookingDay = ({
   number,
   year,
   month,
@@ -153,3 +153,5 @@ const styles = StyleSheet.create({
     width: 33,
   },
 });
+
+export const BookingDay = React.memo(_BookingDay);

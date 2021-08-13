@@ -20,7 +20,7 @@ export interface MonthlyDayProps extends Day {
  *    This component is being used to display days on a regular 'main' calendar.
  */
 
-export const MonthlyDay = ({
+export const _MonthlyDay = ({
   month,
   number,
   availabilities,
@@ -124,3 +124,5 @@ const styles = StyleSheet.create({
     width: Sizing.x7,
   },
 });
+
+export const MonthlyDay = React.memo(_MonthlyDay);

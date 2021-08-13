@@ -17,7 +17,7 @@ export interface AvailabilityDayProps extends Day {
  *  This day components is being used in calendar for selecting
  *  availabilities when creating new event as organizer.
  */
-export const AvailabilityDay = ({
+export const _AvailabilityDay = ({
   number,
   month,
   year,
@@ -79,3 +79,5 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primary.s600,
   },
 });
+
+export const AvailabilityDay = React.memo(_AvailabilityDay);

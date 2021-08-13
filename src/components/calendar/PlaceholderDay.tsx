@@ -9,7 +9,7 @@ export interface PlaceholderDayProps {
   onPlaceholderPress: (direction: string) => void;
 }
 
-export const PlaceholderDay = ({
+const _PlaceholderDay = ({
   number,
   direction,
   onPlaceholderPress,
@@ -46,3 +46,5 @@ const styles = StyleSheet.create({
     color: Colors.primary.s350,
   },
 });
+
+export const PlaceholderDay = React.memo(_PlaceholderDay);
