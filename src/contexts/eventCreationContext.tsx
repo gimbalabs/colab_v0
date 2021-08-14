@@ -66,10 +66,10 @@ const reducer = (
       } = action.payload.availability;
       const newAvailabilities = state.availabilities.filter(
         (el) =>
-          el.from === from &&
-          el.to === to &&
-          el.minDuration === minDuration &&
-          el.maxDuration === maxDuration
+          el.from !== from ||
+          el.to !== to ||
+          el.minDuration !== minDuration ||
+          el.maxDuration !== maxDuration
       );
 
       return {

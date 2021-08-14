@@ -105,8 +105,7 @@ export const AvailableTimeSelection = ({ route, navigation }: Props) => {
    * Navigation handlers
    */
   const onBackNavigationPress = () => navigation.goBack();
-  // const onNextPress = () => navigation.navigate("Availabilities Creation");
-  const onNextPress = () => {};
+  const onNextPress = () => navigation.navigate("Image Cover Selection");
 
   return (
     <SafeAreaView

@@ -89,7 +89,6 @@ export const CustomPlainInput = (props: CustomPlainInputProps) => {
           style={[styles.input, multiline != null ? { height: 90 } : {}]}
           numberOfLines={numberOfLines != null ? numberOfLines : 1}
           placeholder={placeholder}
-          onFocus={() => console.log("onpressin")}
           onChangeText={onChangeText}
           onBlur={onBlurCallback}
           placeholderTextColor={styles.placeholderText.color}
