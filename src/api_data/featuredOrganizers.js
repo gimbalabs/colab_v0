@@ -3,15 +3,17 @@ export const featuredOrganizers = {
   type: "profiles",
   items: [
     {
-      type: "profile",
-      alias: "JoeStardom1",
-      occupation: "Fashion Design",
+      // identity - public key of their did?
+      type: "profile", // remove
+      alias: "JoeStardom1", // -> 'name'
+      occupation: "Fashion Design", // ?
       description:
         "Lorem ipsum dolor sit amet, consectetur  elit. Vestibulum venenatis quam sem, eget bibendum...",
-      backgroundImage: "assets/images/profilePicTwo.png",
+      backgroundImage: "assets/images/profilePicTwo.png", // -> 'profile image' ,
+      // do we resize it on the client or on the server side?
       backgroundColor: "#FCE7F3",
       bodyColor: "#9D174D",
-      timeBlock: 30,
+      timeBlock: 30, // This one can be moved to events as well
       tags: [
         {
           tagName: "Teach",
@@ -29,7 +31,7 @@ export const featuredOrganizers = {
           tagTextColor: "#92400E",
         },
       ],
-      hourlyRate: 50,
+      hourlyRate: 50, // should we show it on the booking-event experience?
     },
     {
       type: "profile",
