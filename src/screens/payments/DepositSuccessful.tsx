@@ -28,7 +28,10 @@ export const DepositSuccessful = ({ navigation, route }: Props) => {
       // This will set the index of page on "User Registration Screens"
       if (ref) await ref.current.setPage(2);
 
-      navigation.navigate(route.params[0].fromScreen);
+      if (route.params?.fromScreen) {
+        const fromScreen = route.params.fromScreen;
+        navigation.navigate(fromScreen);
+      }
     }
   };
 

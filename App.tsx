@@ -65,7 +65,7 @@ function App() {
                     options={{ headerShown: false }}
                   />*/}
                     <Stack.Screen
-                      name="Navigation Screensss"
+                      name="Navigation Screens"
                       component={NavigationScreens}
                       options={{ headerShown: false }}
                     />
