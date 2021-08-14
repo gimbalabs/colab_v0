@@ -1,6 +1,7 @@
 import { AdaIcon } from "./ada";
 import { BusinessDecisionsIcon } from "./businessDecisions";
 import { CalendarIcon } from "./calendar";
+import { CameraIcon } from "./camera";
 import { CashStackIcon } from "./cashStack";
 import { CheckIcon } from "./check";
 import { ClockIcon } from "./clock";
@@ -24,6 +25,7 @@ import { PartiallyBookedDay } from "./partiallyBookedDay";
 import { PaymentIcon } from "./payment";
 import { PaymentSuccessfulIcon } from "./paymentSuccessful";
 import { PencilAltIcon } from "./pencilAlt";
+import { PlaceholderIcon } from "./placeholder";
 import { PlusIcon } from "./plus";
 import { PresentationIcon } from "./presentation";
 import { QrCodeSampleIcon } from "./qrCodeSample";
@@ -40,6 +42,7 @@ export {
   AdaIcon,
   BusinessDecisionsIcon,
   CalendarIcon,
+  CameraIcon,
   CashStackIcon,
   CheckIcon,
   ClockIcon,
@@ -66,6 +69,7 @@ export {
   PencilAltIcon,
   PaymentIcon,
   PaymentSuccessfulIcon,
+  PlaceholderIcon,
   PresentationIcon,
   PartiallyBookedDay,
   QrCodeSampleIcon,
