@@ -28,10 +28,6 @@ PODS:
     - React-Core
     - UMCore
     - UMImageLoaderInterface
-  - EXImagePicker (10.1.4):
-    - UMCore
-    - UMFileSystemInterface
-    - UMPermissionsInterface
   - EXKeepAwake (9.1.2):
     - UMCore
   - EXLinearGradient (9.1.0):
@@ -52,7 +48,7 @@ PODS:
     - React-Core
   - EXSecureStore (10.1.0):
     - UMCore
-  - EXSplashScreen (0.10.2):
+  - EXSplashScreen (0.11.2):
     - React-Core
     - UMCore
   - EXStructuredHeaders (1.0.1):
@@ -336,7 +332,7 @@ PODS:
     - SDWebImageWebPCoder (~> 0.6.1)
   - RNGestureHandler (1.10.3):
     - React-Core
-  - RNReanimated (2.1.0):
+  - RNReanimated (2.2.0):
     - DoubleConversion
     - FBLazyVector
     - FBReactNativeSpec
@@ -382,7 +378,7 @@ PODS:
     - UMCore
   - UMConstantsInterface (6.1.0):
     - UMCore
-  - UMCore (7.1.0)
+  - UMCore (7.1.1)
   - UMFaceDetectorInterface (6.1.0)
   - UMFileSystemInterface (6.1.0)
   - UMFontInterface (6.1.0)
@@ -409,14 +405,13 @@ DEPENDENCIES:
   - EXFileSystem (from `../node_modules/expo-file-system/ios`)
   - EXFont (from `../node_modules/expo-font/ios`)
   - EXImageLoader (from `../node_modules/expo-image-loader/ios`)
-  - EXImagePicker (from `../node_modules/expo-image-picker/ios`)
   - EXKeepAwake (from `../node_modules/expo-keep-awake/ios`)
   - EXLinearGradient (from `../node_modules/expo-linear-gradient/ios`)
   - EXPermissions (from `../node_modules/expo-permissions/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core/ios`)
   - EXRandom (from `../node_modules/expo-random/ios`)
   - EXSecureStore (from `../node_modules/expo-secure-store/ios`)
-  - EXSplashScreen (from `../node_modules/expo-splash-screen/ios`)
+  - EXSplashScreen (from `../node_modules/expo-app-loading/node_modules/expo-splash-screen/ios`)
   - EXStructuredHeaders (from `../node_modules/expo-structured-headers/ios`)
   - EXUpdates (from `../node_modules/expo-updates/ios`)
   - EXWebBrowser (from `../node_modules/expo-web-browser/ios`)
@@ -500,8 +495,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-font/ios"
   EXImageLoader:
     :path: "../node_modules/expo-image-loader/ios"
-  EXImagePicker:
-    :path: "../node_modules/expo-image-picker/ios"
   EXKeepAwake:
     :path: "../node_modules/expo-keep-awake/ios"
   EXLinearGradient:
@@ -515,7 +508,7 @@ EXTERNAL SOURCES:
   EXSecureStore:
     :path: "../node_modules/expo-secure-store/ios"
   EXSplashScreen:
-    :path: "../node_modules/expo-splash-screen/ios"
+    :path: "../node_modules/expo-app-loading/node_modules/expo-splash-screen/ios"
   EXStructuredHeaders:
     :path: "../node_modules/expo-structured-headers/ios"
   EXUpdates:
@@ -635,14 +628,13 @@ SPEC CHECKSUMS:
   EXFileSystem: dcf2273f49431e5037347c733a2dc5d08e0d0a9e
   EXFont: d6fb79f9863120f0d0b26b0c2d1453bc9511e9df
   EXImageLoader: da941c9399e01ec28f2d5b270bdd21f2c8ca596c
-  EXImagePicker: dd05b8a5cb782c79d07d1d72e5850c6acc2b9a37
   EXKeepAwake: d4e4a3ed8c1c4fd940dd62fc5a8be2a190371fd4
   EXLinearGradient: 39b1cf1df5b885e8c35e8afedc9d8893b9fced4b
   EXPermissions: 8f8c1c05580c4e02d4ee2c8dd74bfe173ff6a723
   ExpoModulesCore: 2734852616127a6c1fc23012197890a6f3763dc7
   EXRandom: cbd66cd45434a494f5ef98650eec1f8d78b90270
   EXSecureStore: da5a255445bb6ee8b8ac54f65412bc803272bd87
-  EXSplashScreen: a9baaf4fa866003884c90ba049f18760d6a8ce39
+  EXSplashScreen: 6208ca88470ff5979fd49a08ef3feb01143a2b79
   EXStructuredHeaders: be834496a4d9fd0069cd12ec1cc57b31c6d3b256
   EXUpdates: efe0e8c514dcff06a8fd0b63be6019a6365fb9c7
   EXWebBrowser: 0b466c50e5ff61c9758095d49d5081e3229d77ac
@@ -680,7 +672,7 @@ SPEC CHECKSUMS:
   RNDateTimePicker: 17593e41b6b1585aeb8ecbe1c1cbc30cba3d0b4b
   RNFastImage: a7384db75df352500261e8e8f1ac2026def26102
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
-  RNReanimated: 70f662b5232dd5d19ccff581e919a54ea73df51c
+  RNReanimated: d9da990fc90123f4ffbfdda93d00fc15174863a8
   RNScreens: e8e8dd0588b5da0ab57dcca76ab9b2d8987757e0
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
@@ -689,7 +681,7 @@ SPEC CHECKSUMS:
   UMBarCodeScannerInterface: 79f92bea5f7af39b381a4c82298105ceb537408a
   UMCameraInterface: 81ff46700da88435f17afedfc88915eaede7e6a6
   UMConstantsInterface: bb94dd46039dcde276ed50225b29e22785e604bf
-  UMCore: 60b35f4d217461f7b54934b0c5be67442871f01f
+  UMCore: 2f671796d7439604a1cf8ac7bbe5809cd5c50437
   UMFaceDetectorInterface: 791eec55ffca1171992976b7eceb73e69e391c58
   UMFileSystemInterface: f72245e90ce78fa6427180ff0b0904ead13d8161
   UMFontInterface: 5843cff7db85a42ba629aaac53d33091c35524d3
@@ -702,4 +694,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 8f0a8ce9383b6b99481470ddbb530307620f0c8b
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.10.2
