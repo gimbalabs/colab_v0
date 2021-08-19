@@ -23,15 +23,15 @@ type Props = StackScreenProps<EventCreationParamList, "Image Cover Selection">;
 
 export const ImageCoverSelection = ({ route, navigation }: Props) => {
   const [layout, setLayout] = React.useState<any>(null);
-  const { launchMediaLibraryAsync, mediaObj } = useMediaLibraryAccess();
-  const { launchCameraAsync, imageObj } = useCameraAccess();
+  const { launchImageLibrary, mediaObj } = useMediaLibraryAccess();
+  const { launchCamera, imageObj } = useCameraAccess();
   const { colorScheme } = appContext();
 
   const isLightMode = colorScheme === "light";
 
   const onBackNavigationPress = () => {};
   const onLayout = (e: LayoutChangeEvent) => setLayout(e.nativeEvent.layout);
-  console.log(imageObj, mediaObj);
+  console.log(mediaObj,imageObj)
 
   return (
     <SafeAreaView
@@ -69,7 +69,7 @@ export const ImageCoverSelection = ({ route, navigation }: Props) => {
               styles.imagePreview,
               { paddingBottom: layout ? layout.height : 0 },
             ]}>
-            {!mediaObj ? (
+            {!mediaObj && !imageObj? (
               <View style={styles.imagePreview_inner}>
                 <PlaceholderIcon
                   width={Sizing.x80}
@@ -99,9 +99,7 @@ export const ImageCoverSelection = ({ route, navigation }: Props) => {
                   : Colors.primary.s800,
               },
             ]}>
-            <Pressable
-              style={styles.main_navigation_button}
-              onPress={launchMediaLibraryAsync}>
+            <Pressable style={styles.main_navigation_button} onPress={launchImageLibrary}>
               <Text style={styles.button_text}>Gallery</Text>
               <PlaceholderIcon
                 width={Sizing.x30}
@@ -112,7 +110,7 @@ export const ImageCoverSelection = ({ route, navigation }: Props) => {
             </Pressable>
             <Pressable
               style={styles.main_navigation_button}
-              onPress={launchCameraAsync}>
+              onPress={launchCamera}>
               <Text style={styles.button_text}>Take photo</Text>
               <CameraIcon
                 width={Sizing.x30}
