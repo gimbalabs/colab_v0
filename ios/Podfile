@@ -18,4 +18,15 @@ target '1on1' do
   #     flipper_post_install(installer)
   #   end
   # end
+   
+
+  permissions_path = '../node_modules/react-native-permissions/ios'
+
+  pod 'RNPermissions', :path => '../node_modules/react-native-permissions'
+  pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
+  pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary"
+  pod 'Permission-MediaLibrary', :path => "#{permissions_path}/MediaLibrary"
+
 end
+
+
