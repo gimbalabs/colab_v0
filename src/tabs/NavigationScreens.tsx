@@ -21,7 +21,7 @@ export const NavigationScreens = () => {
     <ProfileContextProvider>
       <NavigationTabs.Navigator
         //@ts-ignore
-        tabBar={(props) => <NavigationTabBar {...props} />}>
+        tabBar={props => <NavigationTabBar {...props} />}>
         <NavigationTabs.Screen
           name="Home"
           component={

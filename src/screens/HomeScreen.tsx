@@ -1,6 +1,5 @@
 import * as React from "react";
 import { View, StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 import { StackScreenProps } from "@react-navigation/stack";
 import { OrganizerTabParamList } from "common/types/navigationTypes";
@@ -17,7 +16,7 @@ export const HomeScreen = ({ navigation }: HomeProps) => {
   const { colorScheme, accountType } = appContext();
 
   return (
-    <SafeAreaView
+    <View
       style={[
         colorScheme == "light" ? styles.safeArea_light : styles.safeaArea_dark,
       ]}>
@@ -30,7 +29,7 @@ export const HomeScreen = ({ navigation }: HomeProps) => {
           <CalendarEventsList isHomeScreen={true} />
         </View>
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 

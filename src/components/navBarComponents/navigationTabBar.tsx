@@ -12,6 +12,7 @@ import { Colors, Typography, Outlines } from "styles/index";
 import { OrganizerTabParamList } from "common/types/navigationTypes";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { appContext } from "contexts/contextApi";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type NavigationTabBarProps = BottomTabBarProps<OrganizerTabParamList>;
 
@@ -21,6 +22,7 @@ export const NavigationTabBar = ({
   navigation,
 }: NavigationTabBarProps) => {
   const { colorScheme } = appContext();
+  const { bottom: bottomInset } = useSafeAreaInsets();
 
   const getNavBarIcon = (routeName: string) => {
     switch (routeName) {
@@ -146,6 +148,7 @@ export const NavigationTabBar = ({
   return (
     <View
       style={[
+        { marginBottom: bottomInset },
         colorScheme == "light" ? styles.container_light : styles.container_dark,
       ]}>
       {state.routes.map(renderTabItem)}
@@ -167,7 +170,6 @@ const styles = StyleSheet.create({
   navBarButtonWrapper: {
     flex: 1,
     alignItems: "center",
-    marginVertical: 5,
   },
   navBarButton_light: {
     alignItems: "center",

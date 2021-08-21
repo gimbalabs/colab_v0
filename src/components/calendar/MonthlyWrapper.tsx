@@ -29,12 +29,8 @@ export const MonthlyWrapper = ({
   isBookingCalendar = false,
   isNewEventCalendar = false,
 }: MonthlyWrapperProps) => {
-  const {
-    calendar,
-    changeMonthHeader,
-    calendarHeader,
-    loadMyCalendar,
-  } = myCalendarContext();
+  const { calendar, changeMonthHeader, calendarHeader, loadMyCalendar } =
+    myCalendarContext();
   const { colorScheme } = appContext();
   const [dimensions, setDimensions] = React.useState<LayoutRectangle | null>(
     null
@@ -45,9 +41,8 @@ export const MonthlyWrapper = ({
     null
   );
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const [initialHasLoaded, setInitialHasLoaded] = React.useState<boolean>(
-    false
-  );
+  const [initialHasLoaded, setInitialHasLoaded] =
+    React.useState<boolean>(false);
   const [hasSelectedItem, setHasSelectedItem] = React.useState<boolean>(false);
   const navigation = useNavigation();
 
