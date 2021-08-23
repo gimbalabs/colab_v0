@@ -41,9 +41,9 @@
       </dict>
     </array>
     <key>NSPhotoLibraryUsageDescription</key>
-    <string>Allow users to upload their own gallery image</string>
+    <string>Give access to upload an image from photo library</string>
     <key>NSCameraUsageDescription</key>
-    <string>Allow users to make a photo and upload it</string>
+    <string>Give access to make a photo and upload it</string>
     <key>CFBundleVersion</key>
     <string>1.0.0</string>
     <key>LSRequiresIPhoneOS</key>

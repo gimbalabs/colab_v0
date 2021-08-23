@@ -406,6 +406,7 @@ PODS:
   - Yoga (1.14.0)
 
 DEPENDENCIES:
+  - AppAuth
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - EXAppAuth (from `../node_modules/expo-app-auth/ios`)
   - EXApplication (from `../node_modules/expo-application/ios`)
@@ -722,6 +723,6 @@ SPEC CHECKSUMS:
   UMTaskManagerInterface: 203c11259d2699b5b3a4eda4adbc466f5cb5c561
   Yoga: 4bd86afe9883422a7c4028c00e34790f560923d6
 
-PODFILE CHECKSUM: 89f2e369d32f03e8195f0e96b7227be4f28b3d70
+PODFILE CHECKSUM: 78479254825fdf4cbdbcfa6135f2c8b8ccbc4e01
 
 COCOAPODS: 1.10.2
