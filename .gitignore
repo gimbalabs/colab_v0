@@ -5,6 +5,7 @@ node_modules
 .DS_store
 .build
 .env
+.nvimlog
 packages_cache
 package-lock.json
 yarn.lock
