@@ -5,9 +5,8 @@ import { EyeIcon, EyeOffIcon } from "icons/index";
 import { Sizing, Forms, Colors, Outlines } from "styles/index";
 
 export const CustomPasswordInput = (props: any) => {
-  const [isVisiblePassword, setIsVisiblePassword] = React.useState<boolean>(
-    true
-  );
+  const [isVisiblePassword, setIsVisiblePassword] =
+    React.useState<boolean>(false);
 
   const {
     field: { onChange, name, onBlur, value },
