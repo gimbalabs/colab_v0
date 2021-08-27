@@ -28,10 +28,8 @@ export interface TimePickerInputProps {
 export const TimePickerInput = (props: TimePickerInputProps) => {
   const [showTimePicker, setShowTimePicker] = React.useState<boolean>(false);
   const [iconAnimationValue, setIconAnimationValue] = React.useState<number>(0);
-  const [
-    dropDownAnimationValue,
-    setDropDownAnimationValue,
-  ] = React.useState<number>(0);
+  const [dropDownAnimationValue, setDropDownAnimationValue] =
+    React.useState<number>(0);
   const [dimensions, setDimensions] = React.useState<LayoutRectangle | null>(
     null
   );
@@ -235,7 +233,6 @@ const formStyleLight = StyleSheet.create({
   placeholderText: {
     color: Colors.primary.s600,
     ...Typography.subHeader.x30,
-    lineHeight: 0,
     marginRight: "auto",
   },
 });
@@ -253,6 +250,5 @@ const formStyleDark = StyleSheet.create({
     color: Colors.primary.s600,
     ...Typography.subHeader.x30,
     marginRight: "auto",
-    lineHeight: 0,
   },
 });

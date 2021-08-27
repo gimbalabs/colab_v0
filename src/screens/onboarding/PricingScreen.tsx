@@ -147,16 +147,15 @@ const styles = StyleSheet.create({
   cardHeaderPrice: {
     ...Typography.header.x70,
     fontFamily: "Roboto-Medium",
-    lineHeight: 0,
     letterSpacing: -1,
     color: Colors.primary.s800,
   },
   cardHeaderText: {
     ...Typography.header.x35,
     fontFamily: "Roboto-Regular",
-    lineHeight: 0,
     color: Colors.neutral.s500,
     letterSpacing: -1,
+    lineHeight: Sizing.x40,
     marginLeft: Sizing.x5,
   },
   subHeader: {

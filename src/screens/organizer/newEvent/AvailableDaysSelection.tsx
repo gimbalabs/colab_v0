@@ -42,11 +42,13 @@ export const AvailableDaysSelection = ({ navigation, route }: Props) => {
             />
           </Pressable>
         </View>
-        <HeaderText
-          customStyles={{ marginBottom: Sizing.x10 }}
-          colorScheme={colorScheme}>
-          Select dates you are available to host event
-        </HeaderText>
+        <View style={{ width: "90%" }}>
+          <HeaderText
+            customStyles={{ marginBottom: Sizing.x10 }}
+            colorScheme={colorScheme}>
+            Select dates you are available to host event
+          </HeaderText>
+        </View>
         <View style={styles.calendarWrapper}>
           <CalendarWrapperSimple isNewEventCalendar>
             <MonthlyWrapper isNewEventCalendar />

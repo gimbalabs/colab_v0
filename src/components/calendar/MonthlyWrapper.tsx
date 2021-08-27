@@ -355,6 +355,7 @@ export const MonthlyWrapper = ({
 const styles = StyleSheet.create({
   container: {
     width: "90%",
+    marginTop: Sizing.x10,
   },
   legendWrapper: {
     alignSelf: "flex-start",
@@ -403,24 +404,23 @@ const styles = StyleSheet.create({
     ...Typography.header.x55,
     color: Colors.primary.s600,
     paddingRight: 5,
-    lineHeight: 0,
   },
   headerMonth_dark: {
     ...Typography.header.x55,
     color: Colors.primary.neutral,
     paddingRight: 5,
-    lineHeight: 0,
   },
   headerYear_light: {
     ...Typography.header.x35,
     color: Colors.primary.s300,
     paddingRight: 5,
-    lineHeight: 0,
+    lineHeight: 30,
   },
   headerYear_dark: {
     ...Typography.header.x35,
     color: Colors.primary.neutral,
     paddingRight: 5,
+    lineHeight: 30,
   },
   monthContainer: {
     flexWrap: "wrap",

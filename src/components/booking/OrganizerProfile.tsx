@@ -23,11 +23,8 @@ export interface OrganizerProfileProps {
 }
 
 export const OrganizerProfile = ({ profile }: OrganizerProfileProps) => {
-  const {
-    colorScheme,
-    setFavoriteOrganizer,
-    favoriteOrganizers,
-  } = appContext();
+  const { colorScheme, setFavoriteOrganizer, favoriteOrganizers } =
+    appContext();
 
   const isFavorite =
     profile != null && favoriteOrganizers.includes(profile.alias);
@@ -175,12 +172,10 @@ const styles = StyleSheet.create({
   },
   headerOccupation_light: {
     ...Typography.subHeader.x25,
-    lineHeight: 0,
     color: Colors.primary.s600,
   },
   headerOccupation_dark: {
     ...Typography.subHeader.x25,
-    lineHeight: 0,
     color: Colors.primary.s600,
   },
   favoriteButton: {

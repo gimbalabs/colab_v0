@@ -86,7 +86,10 @@ export const CustomPlainInput = (props: CustomPlainInputProps) => {
       </View>
       <View style={styles.textInputWrapper}>
         <TextInput
-          style={[styles.input, multiline != null ? { height: 90 } : {}]}
+          style={[
+            styles.input,
+            multiline != null ? { height: 90, textAlignVertical: "top" } : {},
+          ]}
           numberOfLines={numberOfLines != null ? numberOfLines : 1}
           placeholder={placeholder}
           onChangeText={onChangeText}

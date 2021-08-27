@@ -34,16 +34,15 @@ export const WalletTopUpScreen = ({
   pagerRef,
 }: WalletTopUpScreenProps) => {
   const navigation = useNavigation();
-  var { colorScheme, ref } = appContext();
+  const { colorScheme } = appContext();
   const [isLightMode, setIsLightMode] = React.useState<boolean>(false);
   const [address, setAddress] = React.useState<string>("");
   const [amount, setAmount] = React.useState<string>("");
   const [copyMsgActive, setCopyMsgActive] = React.useState<boolean>(false);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [isVisibleModal, setIsVisibleModal] = React.useState<boolean>(false);
-  const { hasSyncedWallet, walletBalance, setWalletBalance } = React.useContext(
-    ProfileContext
-  );
+  const { hasSyncedWallet, walletBalance, setWalletBalance } =
+    React.useContext(ProfileContext);
   const windowWidth = useWindowDimensions().width;
 
   const isRegistrationScreen = pagerRef?.current instanceof ViewPager;
@@ -117,6 +116,8 @@ export const WalletTopUpScreen = ({
           {
             backgroundColor: isLightMode
               ? Colors.primary.neutral
+              : isRegistrationScreen
+              ? Colors.primary.s600
               : Colors.primary.s800,
           },
         ]}>
@@ -124,7 +125,7 @@ export const WalletTopUpScreen = ({
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
           keyboardOpeningTime={Number.MAX_SAFE_INTEGER}
-          style={{ width: "90%" }}>
+          style={{ width: "100%" }}>
           {!isRegistrationScreen ? (
             <View style={styles.navigation}>
               <Pressable onPress={onBackNavigationPress} hitSlop={10}>
@@ -212,6 +213,7 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     alignItems: "center",
+    width: "90%",
   },
   container_light: {
     backgroundColor: Colors.primary.neutral,

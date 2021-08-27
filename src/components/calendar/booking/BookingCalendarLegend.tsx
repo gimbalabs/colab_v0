@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   },
   text: {
     ...Typography.subHeader.x5,
-    lineHeight: 0,
+    paddingTop: Sizing.x2,
     color: Colors.primary.neutral,
   },
 });

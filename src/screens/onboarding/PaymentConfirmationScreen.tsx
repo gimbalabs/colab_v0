@@ -24,7 +24,7 @@ const USER_TAGS = [
 ];
 
 export const PaymentConfirmationScreen = () => {
-  const { toggleAuth, ref } = appContext();
+  const { ref } = appContext();
 
   const onChangePress = () => ref.current.setPage(0);
 
@@ -144,7 +144,6 @@ const styles = StyleSheet.create({
   },
   userDetailsText: {
     ...Typography.body.x10,
-    lineHeight: 0,
     color: Colors.primary.s600,
   },
   skillTags: {

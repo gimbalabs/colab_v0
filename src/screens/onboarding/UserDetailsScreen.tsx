@@ -66,6 +66,7 @@ export const UserDetailsScreen = ({ pagerRef }: any) => {
           label="About yourself"
           multiline={true}
           numberOfLines={8}
+          maxChar={250}
           placeholder="Passionate in helping others draw business goals and needs..."
           icon={PencilAltIcon}
           styles={styles}

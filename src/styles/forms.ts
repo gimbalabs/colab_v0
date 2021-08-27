@@ -9,7 +9,6 @@ type Input = "primary" | "primary_light" | "primary_dark";
 export const input: Record<Input, TextStyle> = {
   primary: {
     ...Typography.subHeader.x30,
-    lineHeight: 0,
     paddingVertical: Sizing.x12,
     paddingHorizontal: Sizing.x14,
     backgroundColor: Colors.primary.neutral,
@@ -22,7 +21,6 @@ export const input: Record<Input, TextStyle> = {
   },
   primary_light: {
     ...Typography.subHeader.x30,
-    lineHeight: 0,
     paddingVertical: Sizing.x12,
     paddingHorizontal: Sizing.x14,
     backgroundColor: Colors.primary.neutral,
@@ -35,7 +33,6 @@ export const input: Record<Input, TextStyle> = {
   },
   primary_dark: {
     ...Typography.subHeader.x30,
-    lineHeight: 0,
     paddingVertical: Sizing.x12,
     paddingHorizontal: Sizing.x14,
     backgroundColor: Colors.primary.neutral,

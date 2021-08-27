@@ -160,13 +160,13 @@ const styles = StyleSheet.create({
     ...Typography.header.x70,
     color: Colors.primary.s600,
     letterSpacing: -2,
-    lineHeight: 0,
     marginRight: Sizing.x2,
   },
   dateMonth: {
     ...Typography.subHeader.x35,
     fontFamily: "Roboto-Medium",
     color: Colors.primary.s800,
+    lineHeight: Sizing.x45,
   },
   eventDetail: {
     flex: 1,
