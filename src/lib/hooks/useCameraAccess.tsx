@@ -48,7 +48,7 @@ export const useCameraAccess = () => {
       os === "android" ? PERMISSIONS.ANDROID.CAMERA : PERMISSIONS.IOS.CAMERA;
 
     try {
-      const res: PermissionStatus = await request(permission);
+      const res: PermissionStatus = await request(permission, rationale);
       if (res !== "granted") {
         Alert.alert(
           "Access needed",
@@ -66,14 +66,18 @@ export const useCameraAccess = () => {
       );
     }
   };
-  const _launchCamera = () => {
+  const _launchCamera = async () => {
+    if (!access) {
+      await requestCameraAccessAsync();
+    }
+
     const options: CameraOptions = {
       mediaType: "photo",
       quality: 0.5,
       saveToPhotos: true,
     };
 
-    launchCamera(options, res => {
+    launchCamera(options, (res) => {
       if (res.didCancel) return;
       setImgObj(res);
     });

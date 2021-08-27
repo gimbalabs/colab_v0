@@ -14,14 +14,16 @@ import {
   ImageLibraryOptions,
 } from "react-native-image-picker";
 
-export const useMediaLibraryAccess = () => {
+export const useMediaAccess = () => {
   const [access, setAccess] = React.useState<boolean | null>(false);
   const [mediaObj, setImgObj] = React.useState<any>(null);
   const os = Platform.OS;
 
   const checkImageLibraryPermission = async (): Promise<void> => {
     const permission =
-      os === "android" ? PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE : PERMISSIONS.IOS.PHOTO_LIBRARY;
+      os === "android"
+        ? PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE
+        : PERMISSIONS.IOS.PHOTO_LIBRARY;
     try {
       const result = await check(permission);
       if (result === RESULTS.GRANTED) {
@@ -41,17 +43,20 @@ export const useMediaLibraryAccess = () => {
   const requestImageLibraryAccessAsync = async (): Promise<void> => {
     const rationale: Rationale = {
       title: "Media library permission needed",
-      message: "We need access to your media library in order to upload a new photo",
+      message:
+        "We need access to your media library in order to upload a new photo",
       buttonNegative: "Deny",
       buttonPositive: "Approve",
       buttonNeutral: "Close",
     };
 
     const permission =
-      os === "android" ? PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE : PERMISSIONS.IOS.PHOTO_LIBRARY;
+      os === "android"
+        ? PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE
+        : PERMISSIONS.IOS.PHOTO_LIBRARY;
 
     try {
-      const res: PermissionStatus = await request(permission);
+      const res: PermissionStatus = await request(permission, rationale);
       if (res !== "granted") {
         Alert.alert(
           "Access needed",
@@ -69,14 +74,18 @@ export const useMediaLibraryAccess = () => {
       );
     }
   };
-  const _launchImageLibrary = () => {
+  const _launchImageLibrary = async () => {
+    if (!access) {
+      await requestImageLibraryAccessAsync();
+    }
+
     const options: ImageLibraryOptions = {
       mediaType: "photo",
       quality: 0.5,
-      selectionLimit: 1
+      selectionLimit: 1,
     };
 
-    launchImageLibrary(options, res => {
+    launchImageLibrary(options, (res) => {
       if (res.didCancel) return;
       setImgObj(res);
     });
