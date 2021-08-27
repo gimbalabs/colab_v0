@@ -10,6 +10,7 @@ import {
   ImageBackground,
 } from "react-native";
 
+import ModalSelector from "react-native-modal-selector";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Buttons, Outlines, Typography, Sizing, Colors } from "styles/index";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -21,12 +22,13 @@ import {
   LightBulbIcon,
   RightArrowIcon,
 } from "icons/index";
-import * as ImagePicker from "expo-image-picker";
-import { MediaTypeOptions } from "expo-image-picker";
 
 // image only for testing purposes
 //@ts-ignore
 import ProfilePic from "assets/images/profilePic.jpg";
+import { NativeModal } from "components/modals/nativeModal";
+import { useCameraAccess } from "lib/hooks/useCameraAccess";
+import { useMediaAccess } from "lib/hooks/useMediaAccess";
 
 export interface OrganizerProfileScreenProps
   extends StackScreenProps<OrganizerTabParamList, "Browse"> {}
@@ -37,36 +39,34 @@ export const OrganizerProfileScreen = ({
   const { colorScheme, setColorScheme } = appContext();
   const [imagePressed, setImagePressed] = React.useState<boolean>(false);
   const [currImage, setCurrImage] = React.useState<string>("");
+  const { mediaObj, launchImageLibrary } = useMediaAccess();
+  const { imageObj, launchCamera } = useCameraAccess();
+
+  React.useEffect(() => {
+    /**
+     *  @TODO send the user selected image to our back end
+     */
+
+    if (mediaObj) {
+      //we only allow user to select one image, so take the first in array
+      const { uri } = mediaObj.assets[0];
+      if (uri !== currImage) setCurrImage(uri);
+    }
+    if (imageObj) {
+      const { uri } = imageObj.assets[0];
+      if (uri !== currImage) setCurrImage(uri);
+    }
+  }, [mediaObj, imageObj]);
+
   const darkMode = colorScheme === "dark";
 
   const setDarkMode = () => {
     setColorScheme(darkMode ? "light" : "dark");
   };
 
-  /**
-   * in production we want to check for access to camera and media library
-   * and if it's not yet granted, try to get the permission from user
-   */
   const onImageLongPress = async () => {
     // don't run it on the browser
     if (Platform.OS !== "web") {
-      const {
-        status,
-      } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (status !== "granted") {
-        Alert.alert("We need camera roll permission for this to work!");
-      }
-
-      // the access was granted, let user choose the image
-      const result = await ImagePicker.launchImageLibraryAsync({
-        allowsEditing: true,
-        aspect: [4, 4],
-        quality: 1,
-        mediaTypes: MediaTypeOptions.Images,
-        allowsMultipleSelection: false,
-      });
-
-      if (!result.cancelled) setCurrImage(result.uri);
     }
   };
 
@@ -80,22 +80,27 @@ export const OrganizerProfileScreen = ({
         colorScheme == "light" ? styles.safeArea_light : styles.safeaArea_dark,
       ]}>
       <View style={styles.headerNavigation}>
-        <ImageBackground
-          // only for testing purpose render uri conditionally
-          source={currImage ? { uri: currImage } : ProfilePic}
-          imageStyle={styles.profilePicImage}
-          style={styles.profilePic}>
-          <Pressable
-            onPressIn={onImagePress}
-            onPressOut={onImagePressOut}
-            onLongPress={onImageLongPress}
-            hitSlop={5}
-            pressRetentionOffset={5}
-            style={[
-              styles.profilePicWrapper,
-              imagePressed ? { backgroundColor: "rgba(0,0,0,0.15)" } : {},
-            ]}></Pressable>
-        </ImageBackground>
+        <NativeModal
+          cameraAccessCb={launchCamera}
+          mediaLibraryCb={launchImageLibrary}
+          child={
+            <ImageBackground
+              // only for testing purpose render uri conditionally
+              source={currImage ? { uri: currImage } : ProfilePic}
+              imageStyle={styles.profilePicImage}
+              style={styles.profilePic}>
+              <Pressable
+                onPressIn={onImagePress}
+                onPressOut={onImagePressOut}
+                onLongPress={onImageLongPress}
+                hitSlop={5}
+                pressRetentionOffset={5}
+                style={[
+                  styles.profilePicWrapper,
+                  imagePressed ? { backgroundColor: "rgba(0,0,0,0.15)" } : {},
+                ]}></Pressable>
+            </ImageBackground>
+          }></NativeModal>
         <Text
           style={[
             colorScheme == "light"
@@ -263,14 +268,16 @@ const styles = StyleSheet.create({
   },
   buttonText_light: {
     ...Typography.header.x30,
-    lineHeight: 0,
+    textAlignVertical: "center",
+    includeFontPadding: false,
     paddingHorizontal: Sizing.x2,
     textAlign: "center",
     color: Colors.primary.neutral,
   },
   buttonText_dark: {
     ...Typography.header.x30,
-    lineHeight: 0,
+    textAlignVertical: "center",
+    includeFontPadding: false,
     paddingHorizontal: Sizing.x2,
     textAlign: "center",
     color: Colors.primary.s600,
