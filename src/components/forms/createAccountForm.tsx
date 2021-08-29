@@ -14,6 +14,10 @@ import { createAccountValidationScheme } from "lib/utils";
 import { CustomInput } from "../forms/CustomInput";
 import { CheckIcon } from "icons/index";
 import { CustomPasswordInput } from "./CustomPasswordInput";
+import { FullWidthButton } from "components/buttons/fullWidthButton";
+import { setToEncryptedStorage } from "lib/encryptedStorage";
+import { generateKeyPair } from "lib/tweetnacl";
+import base64 from "base64-js";
 
 export interface CreateAccountFormProps {}
 
@@ -22,6 +26,7 @@ const AnimatedCheckIcon = Animated.createAnimatedComponent(CheckIcon);
 export const CreateAccountForm = ({}: CreateAccountFormProps) => {
   const [acceptedCheckbox, setAcceptedChecbox] = React.useState<boolean>(false);
   const [submitted, setSubmitted] = React.useState<boolean>(false);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const animatedOpacity = React.useRef(new Animated.Value(0)).current;
 
   const fadeIn = () => {
@@ -44,8 +49,25 @@ export const CreateAccountForm = ({}: CreateAccountFormProps) => {
     acceptedCheckbox ? fadeIn() : fadeOut();
   };
 
-  const onSubmit = (values: { name: string; password: string }) => {
-    setSubmitted(true);
+  const onSubmit = async (values: { name: string; password: string }) => {
+    setIsLoading(true);
+
+    // generate key pair with tweetnacl
+    const keypair = await generateKeyPair();
+
+    if (keypair) {
+      // convert to base64
+      const stringSecret = base64.fromByteArray(keypair.secretKey);
+      const stringPublic = base64.fromByteArray(keypair.publicKey);
+
+      // store private key in encrypted storage
+      const string = setToEncryptedStorage("secret", stringSecret);
+
+      // ... send public key + alias or continue with profile creation
+      setSubmitted(true);
+    }
+
+    setIsLoading(false);
   };
 
   return (
@@ -113,14 +135,15 @@ export const CreateAccountForm = ({}: CreateAccountFormProps) => {
             <Text style={styles.appendixText}>Already have an account?</Text>
             <Text style={styles.appendixTextLink}>Sign in</Text>
           </View>
-          <Pressable
-            //@ts-ignore
-            onPress={handleSubmit}
+          <FullWidthButton
+            colorScheme={"dark"}
+            loadingIndicator={isLoading}
+            onPressCallback={handleSubmit}
+            style={styles.submitButton}
+            text={"Create account"}
+            textStyle={styles.submitButtonText}
             disabled={!isValid}
-            accessibilityLabel="Create new account."
-            style={Buttons.applyOpacity(styles.submitButton)}>
-            <Text style={styles.submitButtonText}>Create account</Text>
-          </Pressable>
+          />
         </>
       )}
     </Formik>
