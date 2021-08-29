@@ -21,6 +21,7 @@ export interface PlainInputPickerProps {
   inputRange: number[];
   styles?: any;
   isLightMode?: boolean;
+  enabledPicker: boolean;
   openPicker: string | null;
   onValueChange: (val: number) => void;
   onOpenChange: (arg: string | null) => void;
@@ -28,10 +29,8 @@ export interface PlainInputPickerProps {
 
 export const PlainInputPicker = (props: PlainInputPickerProps) => {
   const [iconAnimationValue, setIconAnimationValue] = React.useState<number>(0);
-  const [
-    dropDownAnimationValue,
-    setDropDownAnimationValue,
-  ] = React.useState<number>(0);
+  const [dropDownAnimationValue, setDropDownAnimationValue] =
+    React.useState<number>(0);
   const [dimensions, setDimensions] = React.useState<LayoutRectangle | null>(
     null
   );
@@ -44,6 +43,7 @@ export const PlainInputPicker = (props: PlainInputPickerProps) => {
     minTime,
     maxTime,
     openPicker,
+    enabledPicker,
     onValueChange,
     onOpenChange,
   }: PlainInputPickerProps = props;
@@ -137,11 +137,11 @@ export const PlainInputPicker = (props: PlainInputPickerProps) => {
   );
 
   const renderPickerItems = React.useCallback(
-    () => inputRange.map((val) => PickerItem(val)),
+    () => inputRange.map(val => PickerItem(val)),
     [inputRange]
   );
 
-  const inputValue = minTime || maxTime || inputRange[0] || 0;
+  const inputValue = minTime || maxTime || inputRange[0];
 
   return (
     <View style={styles.inputContainer}>
@@ -173,6 +173,7 @@ export const PlainInputPicker = (props: PlainInputPickerProps) => {
               { height: dropDownAnimationValue },
             ]}>
             <Picker
+              enabled={enabledPicker}
               selectedValue={String(minTime ?? maxTime)}
               onValueChange={onChange}>
               {renderPickerItems()}
@@ -181,6 +182,7 @@ export const PlainInputPicker = (props: PlainInputPickerProps) => {
         )}
         {os === "android" && (
           <Picker
+            enabled={enabledPicker}
             style={[
               styles.androidPicker,
               dimensions && {
