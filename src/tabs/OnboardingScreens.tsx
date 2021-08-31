@@ -1,10 +1,5 @@
 import * as React from "react";
-import {
-  View,
-  Animated,
-  StyleSheet,
-  Dimensions,
-} from "react-native";
+import { View, Animated, StyleSheet, Dimensions } from "react-native";
 
 import {
   CreateAccountScreen,
@@ -14,7 +9,7 @@ import {
 import PagerView from "react-native-pager-view";
 import { ScalingDot } from "react-native-animated-pagination-dots";
 import { Colors, Outlines } from "styles/index";
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const AnimatedPagerView = Animated.createAnimatedComponent(PagerView);
 
@@ -71,6 +66,7 @@ export const OnboardingScreens = () => {
         onPageScroll={onPageScroll}
         keyboardDismissMode="on-drag"
         initialPage={0}
+        scrollEnabled={false}
         style={styles.animatedPager}>
         {SCREENS.map(renderScreens)}
       </AnimatedPagerView>

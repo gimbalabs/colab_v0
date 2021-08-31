@@ -1,11 +1,16 @@
 import * as React from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Dimensions, Pressable } from "react-native";
 
 import PagerView from "react-native-pager-view";
 import { CreateAccountForm } from "components/forms/createAccountForm";
-import { Colors, Sizing, Typography } from "styles/index";
-import { ModernProfessionalIcon } from "icons/index";
+import { Buttons, Colors, Sizing, Typography } from "styles/index";
+import {
+  BusinessDecisionsIcon,
+  LeftArrowIcon,
+  ModernProfessionalIcon,
+} from "icons/index";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { ProfileContext } from "contexts/profileContext";
 
 const SCREEN_WIDTH = Dimensions.get("screen").width;
 
@@ -14,10 +19,11 @@ export interface CreateAccountScreenProps {
 }
 
 export const CreateAccountScreen = ({ pagerRef }: CreateAccountScreenProps) => {
-  const onCreateAccount = () => {
-    pagerRef.current?.setPage(3);
-  };
+  const { profileType } = React.useContext(ProfileContext);
 
+  const onBackPress = () => {
+    pagerRef.current?.setPage(1);
+  };
   return (
     <KeyboardAwareScrollView
       keyboardShouldPersistTaps="handled"
@@ -26,12 +32,40 @@ export const CreateAccountScreen = ({ pagerRef }: CreateAccountScreenProps) => {
       style={{ width: "90%" }}
       contentContainerStyle={{ alignItems: "center" }}>
       <View style={styles.imageContainer}>
-        <ModernProfessionalIcon style={styles.image} width="80%" height="80%" />
+        {profileType === "attendee" ? (
+          <ModernProfessionalIcon
+            style={styles.image}
+            width="80%"
+            height="80%"
+          />
+        ) : (
+          <BusinessDecisionsIcon
+            style={styles.image}
+            width="80%"
+            height="80%"
+          />
+        )}
       </View>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Create attendee account</Text>
+        <Text style={styles.headerText}>
+          Create {profileType === "attendee" ? "attendee" : "organizer"} account
+        </Text>
       </View>
       <CreateAccountForm />
+      <View style={styles.backButtonSection}>
+        <Pressable
+          onPress={onBackPress}
+          style={Buttons.applyOpacity(styles.backButton)}>
+          <Text style={styles.backButtonText}>Back</Text>
+          <LeftArrowIcon
+            color={Colors.primary.neutral}
+            width={18}
+            height={18}
+            strokeWidth={3}
+            style={styles.backButtonIcon}
+          />
+        </Pressable>
+      </View>
     </KeyboardAwareScrollView>
   );
 };
@@ -59,7 +93,31 @@ const styles = StyleSheet.create({
   },
   headerText: {
     width: "100%",
-    ...Typography.header.x65,
+    ...Typography.header.x60,
     color: Colors.primary.neutral,
+  },
+  backButtonSection: {
+    marginTop: Sizing.x20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  backButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: Sizing.x10,
+  },
+  backButtonText: {
+    lineHeight: 30,
+    alignContent: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingBottom: Sizing.x2,
+    ...Typography.subHeader.x35,
+    ...Typography.roboto.medium,
+    color: Colors.primary.neutral,
+  },
+  backButtonIcon: {
+    position: "absolute",
+    left: -Sizing.x12,
   },
 });

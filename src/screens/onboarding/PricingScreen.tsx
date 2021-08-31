@@ -2,9 +2,11 @@ import * as React from "react";
 import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
 
 import PagerView from "react-native-pager-view";
-import { CheckIcon } from "icons/index";
+import { CheckIcon, LeftArrowIcon } from "icons/index";
 import { Colors, Sizing, Typography, Outlines, Buttons } from "styles/index";
 import { FullWidthButton } from "components/buttons/fullWidthButton";
+import { SubHeaderText } from "components/rnWrappers/subHeaderText";
+import { ProfileContext } from "contexts/profileContext";
 
 export interface PricingScreenProps {
   pagerRef: React.RefObject<PagerView>;
@@ -28,6 +30,7 @@ const ORGANIZER_BENEFITS: Benefit[] = [
 ];
 
 export const PricingScreen = ({ pagerRef }: PricingScreenProps) => {
+  const { setProfileType } = React.useContext(ProfileContext);
   const renderCheckBoxes = (val: Benefit, i: number) => {
     return (
       <View key={i} style={styles.checkBox}>
@@ -38,10 +41,15 @@ export const PricingScreen = ({ pagerRef }: PricingScreenProps) => {
   };
 
   const onAttendeePress = () => {
+    setProfileType("attendee");
     pagerRef.current?.setPage(2);
   };
   const onOrganizerPress = () => {
+    setProfileType("organizer");
     pagerRef.current?.setPage(2);
+  };
+  const onBackPress = () => {
+    pagerRef.current?.setPage(0);
   };
 
   return (
@@ -74,7 +82,7 @@ export const PricingScreen = ({ pagerRef }: PricingScreenProps) => {
             buttonType="transparent"
           />
         </View>
-        <View style={[styles.section, { marginBottom: Sizing.x20 }]}>
+        <View style={[styles.section, { marginBottom: Sizing.x10 }]}>
           <View style={styles.label}>
             <Text style={styles.labelText}>Organizer</Text>
           </View>
@@ -98,6 +106,20 @@ export const PricingScreen = ({ pagerRef }: PricingScreenProps) => {
             text="Sign up as organizer"
             buttonType="transparent"
           />
+        </View>
+        <View style={styles.backButtonSection}>
+          <Pressable
+            onPress={onBackPress}
+            style={Buttons.applyOpacity(styles.backButton)}>
+            <Text style={styles.backButtonText}>Back</Text>
+            <LeftArrowIcon
+              color={Colors.primary.neutral}
+              width={18}
+              height={18}
+              strokeWidth={3}
+              style={styles.backButtonIcon}
+            />
+          </Pressable>
         </View>
       </ScrollView>
     </View>
@@ -177,5 +199,29 @@ const styles = StyleSheet.create({
   checkBoxText: {
     ...Typography.body.x20,
     marginLeft: Sizing.x10,
+  },
+  backButtonSection: {
+    marginTop: Sizing.x5,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  backButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: Sizing.x10,
+  },
+  backButtonText: {
+    lineHeight: 30,
+    alignContent: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingBottom: Sizing.x2,
+    ...Typography.subHeader.x35,
+    ...Typography.roboto.medium,
+    color: Colors.primary.neutral,
+  },
+  backButtonIcon: {
+    position: "absolute",
+    left: -Sizing.x12,
   },
 });
