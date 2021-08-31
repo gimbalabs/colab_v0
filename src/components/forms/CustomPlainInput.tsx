@@ -7,6 +7,8 @@ import {
   StyleSheet,
   TextInputProps,
   KeyboardType,
+  TextStyle,
+  StyleProp,
 } from "react-native";
 
 import { Colors, Forms, Outlines, Sizing } from "styles/index";
@@ -22,6 +24,7 @@ export interface CustomPlainInputProps {
   multiline?: boolean;
   numberOfLines?: number;
   maxChar?: number;
+  labelStyle?: StyleProp<TextStyle>;
   keyboardType?: KeyboardType;
   onChangeCallback?: (e: any) => void;
   onPressInCallback?: (e: any) => void;
@@ -34,6 +37,7 @@ export const CustomPlainInput = (props: CustomPlainInputProps) => {
     icon,
     placeholder,
     label,
+    labelStyle,
     customChild,
     onPressHandler,
     styles,
@@ -80,7 +84,7 @@ export const CustomPlainInput = (props: CustomPlainInputProps) => {
   return (
     <View style={styles.inputContainer}>
       <View style={styles.labelContainer}>
-        <Text style={styles.label}>
+        <Text style={[styles.label, labelStyle]}>
           {label} {charsLeft && `${charsLeft}/${maxChar}`}
         </Text>
       </View>

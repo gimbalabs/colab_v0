@@ -18,16 +18,22 @@ import { setToEncryptedStorage } from "lib/encryptedStorage";
 import { generateKeyPair } from "lib/tweetnacl";
 import base64 from "base64-js";
 import { Users } from "../../services/Api/Users";
+import { ProfileContext } from "contexts/profileContext";
+import { useNavigation } from "@react-navigation/native";
+import { appContext } from "contexts/contextApi";
 
 export interface CreateAccountFormProps {}
 
 const AnimatedCheckIcon = Animated.createAnimatedComponent(CheckIcon);
 
 export const CreateAccountForm = ({}: CreateAccountFormProps) => {
+  const { profileType } = React.useContext(ProfileContext);
+  const { toggleAuth } = appContext();
   const [acceptedCheckbox, setAcceptedChecbox] = React.useState<boolean>(false);
   const [submitted, setSubmitted] = React.useState<boolean>(false);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const animatedOpacity = React.useRef(new Animated.Value(0)).current;
+  const navigation = useNavigation();
 
   const fadeIn = () => {
     Animated.timing(animatedOpacity, {
@@ -43,6 +49,11 @@ export const CreateAccountForm = ({}: CreateAccountFormProps) => {
       useNativeDriver: true,
     }).start();
   };
+
+  React.useEffect(() => {
+    setAcceptedChecbox(false);
+    fadeOut();
+  }, [profileType]);
 
   const onCheckBoxPress = () => {
     setAcceptedChecbox((prev) => !prev);
@@ -60,20 +71,30 @@ export const CreateAccountForm = ({}: CreateAccountFormProps) => {
       const stringSecret = base64.fromByteArray(keypair.secretKey);
       const stringPublic = base64.fromByteArray(keypair.publicKey);
 
-      values.pubKey = stringPublic;
+      values.publicKey = stringPublic;
 
-      // get new user id
-      const id = await new Users().createAccount(values);
-      console.log(id);
+      try {
+        // get new user id
+        // const id = await new Users().createAccount(values);
+        // console.log(id);
 
-      // store private key in encrypted storage
-      const string = setToEncryptedStorage("secret", stringSecret);
+        // store private key in encrypted storage
+        const string = setToEncryptedStorage("secret", stringSecret);
 
-      // ... send public key + alias or continue with profile creation
-      setSubmitted(true);
+        setSubmitted(true);
+        setIsLoading(false);
+
+        if (profileType === "attendee") {
+          toggleAuth(true);
+          navigation.navigate("Navigation Screens");
+        } else {
+          navigation.navigate("User Registration Screens");
+        }
+      } catch (e) {
+        // show error notification
+        setIsLoading(false);
+      }
     }
-
-    setIsLoading(false);
   };
 
   return (
@@ -83,7 +104,7 @@ export const CreateAccountForm = ({}: CreateAccountFormProps) => {
       validateOnBlur={submitted}
       initialValues={{
         name: "",
-        handle: "",
+        username: "",
       }}
       onSubmit={onSubmit}>
       {({ handleSubmit, isValid, validateForm }) => (
@@ -102,14 +123,14 @@ export const CreateAccountForm = ({}: CreateAccountFormProps) => {
             styles={styles}
           />
           <Field
-            key="Handle"
-            name="handle"
-            label="Handle"
+            key="Username"
+            name="username"
+            label="Username"
             component={CustomInput}
             placeholder="@John12"
             keyboardType="default"
-            textContentType="name"
-            autoCompleteType="off"
+            textContentType="username"
+            autoCompleteType="username"
             validateForm={validateForm}
             submitted={submitted}
             styles={styles}
