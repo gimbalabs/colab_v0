@@ -10,6 +10,7 @@ export interface BioState {
   jobTitle: string | string[] | null;
   description: string | string[] | null;
   skills: string | string[] | null;
+  profileType: "attendee" | "organizer" | null;
   setAlias: (input: string) => void;
   setAboutURL: (input: string) => void;
   setImageURL: (input: string) => void;
@@ -21,4 +22,5 @@ export interface BioState {
   setJobTitle: (input: string | string[]) => void;
   setDescription: (input: string | string[]) => void;
   setSkills: (input: string | string[]) => void;
+  setProfileType: (input: "organizer" | "attendee") => void;
 }

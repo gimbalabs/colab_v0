@@ -32,8 +32,8 @@ export const appContext = () => {
     ref: state.ref,
     setRef: (ref: React.RefObject<any>) =>
       dispatch({ type: "SET_REF", payload: { ref } }),
-    toggleAuth: (auth?: boolean) => {
-      dispatch({ type: "TOGGLE_AUTH", payload: { auth } });
+    toggleAuth: (auth: boolean, accountType: string) => {
+      dispatch({ type: "TOGGLE_AUTH", payload: { auth, accountType } });
     },
     setFavoriteOrganizer: (alias: string) => {
       dispatch({ type: "SET_FAVORITE_ORGANIZER", payload: { alias } });

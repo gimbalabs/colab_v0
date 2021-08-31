@@ -17,6 +17,7 @@ export const initialState: BioState = {
   timeBlockLengthMin: "15",
   timeBlockCostADA: "20",
   walletBalance: 56,
+  profileType: null,
   setAlias: () => {},
   setAboutURL: () => {},
   setImageURL: () => {},
@@ -28,6 +29,7 @@ export const initialState: BioState = {
   setJobTitle: () => {},
   setDescription: () => {},
   setSkills: () => {},
+  setProfileType: () => {},
 };
 
 export interface ContextProviderProps {
@@ -52,6 +54,9 @@ export const ProfileContextProvider = ({ children }: ContextProviderProps) => {
   const [skills, setSkills] = useState<string | string[] | null>(null);
   const [hasSyncedWallet, setHasSyncedWallet] = useState<boolean>(false);
   const [walletBalance, setWalletBalance] = useState<number>(56);
+  const [profileType, setProfileType] = useState<
+    "attendee" | "organizer" | null
+  >(null);
 
   return (
     <ProfileContext.Provider
@@ -67,6 +72,8 @@ export const ProfileContextProvider = ({ children }: ContextProviderProps) => {
         jobTitle,
         description,
         skills,
+        profileType,
+        setProfileType,
         setAlias,
         setAboutURL,
         setImageURL,

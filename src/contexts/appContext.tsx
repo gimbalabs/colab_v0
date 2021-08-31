@@ -16,7 +16,8 @@ import { AppActions, AppTypes } from "common/types/contextTypes";
 const colorScheme: ColorSchemeName = Appearance.getColorScheme();
 
 const initialAppState: AppState = {
-  authentication: true,
+  authentication: false,
+  //@TODO Set to null after developing
   accountType: "organizer",
   colorScheme: colorScheme == null ? "light" : colorScheme,
   favoriteOrganizers: [],
@@ -38,6 +39,10 @@ const reducer = (state: AppState, action: AppActions) => {
           action.payload.auth != null
             ? action.payload.auth
             : !state.authentication,
+        accountType:
+          action.payload.accountType != null
+            ? action.payload.accountType
+            : !state.accountType,
       };
     case AppTypes.SetPageIndex:
       return {

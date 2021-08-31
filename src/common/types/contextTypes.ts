@@ -74,7 +74,8 @@ export type ActionMap<M extends { [index: string]: any }> = {
 
 export type AppPayload = {
   [AppTypes.ToggleAuth]: {
-    auth: boolean;
+    auth: boolean | null;
+    accountType: string | null;
   };
   [AppTypes.SetRef]: {
     ref: any;
@@ -177,7 +178,10 @@ export type MyCalendarPaylaod = {
   ["unknown"]: any;
 };
 
-export type MyCalendarActions = ActionMap<MyCalendarPaylaod>[keyof ActionMap<MyCalendarPaylaod>];
+export type MyCalendarActions =
+  ActionMap<MyCalendarPaylaod>[keyof ActionMap<MyCalendarPaylaod>];
 export type AppActions = ActionMap<AppPayload>[keyof ActionMap<AppPayload>];
-export type BookingActions = ActionMap<BookingPayload>[keyof ActionMap<BookingPayload>];
-export type EventCreationActions = ActionMap<EventCreationPayload>[keyof ActionMap<EventCreationPayload>];
+export type BookingActions =
+  ActionMap<BookingPayload>[keyof ActionMap<BookingPayload>];
+export type EventCreationActions =
+  ActionMap<EventCreationPayload>[keyof ActionMap<EventCreationPayload>];
