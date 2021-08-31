@@ -12,7 +12,14 @@ import ViewPager from "react-native-pager-view";
 import QRCode from "react-native-qrcode-svg";
 import { CustomPlainInput } from "components/forms/CustomPlainInput";
 import { DuplicateIcon, LeftArrowIcon } from "icons/index";
-import { Typography, Colors, Sizing, Outlines, Forms } from "styles/index";
+import {
+  Typography,
+  Colors,
+  Sizing,
+  Outlines,
+  Forms,
+  Buttons,
+} from "styles/index";
 import { appContext } from "contexts/contextApi";
 import { FullWidthButton } from "components/buttons/fullWidthButton";
 import { BodyText } from "components/rnWrappers/bodyText";
@@ -99,6 +106,9 @@ export const WalletTopUpScreen = ({
     setCopyMsgActive(true);
     setTimeout(() => setCopyMsgActive(false), 2000);
   };
+  const onBackPress = () => {
+    pagerRef?.current?.setPage(0);
+  };
 
   React.useEffect(() => {
     if (pagerRef?.current instanceof ViewPager) {
@@ -180,6 +190,7 @@ export const WalletTopUpScreen = ({
             label="Address"
             placeholder="addr9czf30t9dzbdsxe79a2vtf8io"
             icon={DuplicateIcon}
+            labelStyle={!isBookingScreen && { color: Colors.primary.neutral }}
             onChangeCallback={onTextChangeCallback}
             onPressHandler={onCopyPress}
             customChild={<CopyMessage isActive={copyMsgActive} />}
@@ -188,8 +199,8 @@ export const WalletTopUpScreen = ({
             label="Amount"
             placeholder="50 ₳"
             keyboardType="numeric"
+            labelStyle={!isBookingScreen && { color: Colors.primary.neutral }}
             onChangeCallback={onAmountChangeCallback}
-            onPressHandler={() => {}}
           />
           <View style={styles.buttonWrapper}>
             <FullWidthButton
@@ -202,6 +213,22 @@ export const WalletTopUpScreen = ({
               lightMode={isLightMode}
             />
           </View>
+          {!isBookingScreen && (
+            <View style={styles.backButtonSection}>
+              <Pressable
+                onPress={onBackPress}
+                style={Buttons.applyOpacity(styles.backButton)}>
+                <Text style={styles.backButtonText}>Back</Text>
+                <LeftArrowIcon
+                  color={Colors.primary.neutral}
+                  width={18}
+                  height={18}
+                  strokeWidth={3}
+                  style={styles.backButtonIcon}
+                />
+              </Pressable>
+            </View>
+          )}
         </KeyboardAwareScrollView>
         {isVisibleModal && WalletTopUpModal}
       </SafeAreaView>
@@ -264,5 +291,29 @@ const styles = StyleSheet.create({
   buttonWrapper: {
     width: "100%",
     marginVertical: Sizing.x12,
+  },
+  backButtonSection: {
+    marginTop: Sizing.x5,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  backButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: Sizing.x10,
+  },
+  backButtonText: {
+    lineHeight: 30,
+    alignContent: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingBottom: Sizing.x2,
+    ...Typography.subHeader.x35,
+    ...Typography.roboto.medium,
+    color: Colors.primary.neutral,
+  },
+  backButtonIcon: {
+    position: "absolute",
+    left: -Sizing.x12,
   },
 });
