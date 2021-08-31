@@ -64,10 +64,10 @@ export function formValidationSchema() {
 export function createAccountValidationScheme() {
   return yup.object().shape({
     name: yup.string().required("Name is required"),
-    handle: yup
+    username: yup
       .string()
-      .min(2, "Handle should be at least 2 chars long")
-      .required("Handle is required"),
+      .min(2, "User name is to short (minimum 2 characters)")
+      .required("User name is required"),
     // email: yup.string().email().required("Email address is required"),
     // password: yup
     //   .string()
