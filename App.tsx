@@ -56,64 +56,49 @@ function App() {
           <ProfileContextProvider>
             <NavigationContainer>
               <Stack.Navigator
-                initialRouteName="Navigation Screens"
+                initialRouteName={
+                  auth ? "Navigation Screens" : "Onboarding Screens"
+                }
                 headerMode="screen">
-                {!auth ? (
-                  <>
-                    {/*<Stack.Screen
+                {/*<Stack.Screen
                       name="Log In"
                       component={LogIn}
                       options={{ headerShown: false }}
                     />*/}
-                    <Stack.Screen
-                      name="Navigation Screens"
-                      component={NavigationScreens}
-                      options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                      name="Deposit Successful"
-                      options={{ headerShown: false, gestureEnabled: false }}
-                      component={DepositSuccessful}
-                    />
-                    <Stack.Screen
-                      name="Confirmation"
-                      options={{ headerShown: false, gestureEnabled: false }}
-                      component={Confirmation}
-                    />
-                    <Stack.Screen
-                      name="Add Funds"
-                      options={{ headerShown: false, gestureEnabled: false }}
-                      component={WalletTopUpScreen}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <Stack.Screen
-                      name="Onboarding Screens"
-                      component={OnboardingScreens}
-                      options={{
-                        headerShown: false,
-                      }}
-                    />
-                    <Stack.Screen
-                      name="User Registration Screens"
-                      component={UserRegistrationScreens}
-                      options={{
-                        headerShown: false,
-                      }}
-                    />
-                    <Stack.Screen
-                      name="Deposit Successful"
-                      options={{ headerShown: false, gestureEnabled: false }}
-                      component={DepositSuccessful}
-                    />
-                    <Stack.Screen
-                      name="Confirmation"
-                      options={{ headerShown: false, gestureEnabled: false }}
-                      component={Confirmation}
-                    />
-                  </>
-                )}
+                <Stack.Screen
+                  name="Onboarding Screens"
+                  component={OnboardingScreens}
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+                <Stack.Screen
+                  name="User Registration Screens"
+                  component={UserRegistrationScreens}
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+                <Stack.Screen
+                  name="Navigation Screens"
+                  component={NavigationScreens}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Deposit Successful"
+                  options={{ headerShown: false, gestureEnabled: false }}
+                  component={DepositSuccessful}
+                />
+                <Stack.Screen
+                  name="Confirmation"
+                  options={{ headerShown: false, gestureEnabled: false }}
+                  component={Confirmation}
+                />
+                <Stack.Screen
+                  name="Add Funds"
+                  options={{ headerShown: false, gestureEnabled: false }}
+                  component={WalletTopUpScreen}
+                />
               </Stack.Navigator>
             </NavigationContainer>
           </ProfileContextProvider>
