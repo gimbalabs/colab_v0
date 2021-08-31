@@ -15,5 +15,3 @@ export const generateKeyPair = async (
     console.error(e);
   }
 };
-
-// export const

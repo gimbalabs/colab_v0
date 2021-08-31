@@ -53,7 +53,7 @@ export const LogIn = ({}: LogInProps) => {
         />
         <FullWidthButton
           colorScheme="light"
-          text="Get SecureStore value"
+          text="Do something..."
           onPressCallback={() => {}}
         />
       </View>

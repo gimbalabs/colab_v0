@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginRight: Sizing.x12,
     ...Outlines.shadow.lifted,
+    elevation: 4,
   },
   backgroundImage: {
     borderRadius: Outlines.borderRadius.base,

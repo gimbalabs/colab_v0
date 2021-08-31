@@ -26,8 +26,7 @@ Miro (Playground) -> Gherkin (Project) -> (GitLab <- -> Figma) -> Dapp
 
 2. 
 
-3. 
-
+3.
 
 
 We hope that this application is something that can help both developers and users join the decentralized movement .

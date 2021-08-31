@@ -7,8 +7,7 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "test": "jest --watchAll",
-    "prepare": "husky install",
-    "postinstall": "rn-nodeify --install fs,dgram,process,path,console --hack"
+    "prepare": "husky install"
   },
   "dependencies": {
     "@expo/metro-config": "^0.1.65",
@@ -39,7 +38,7 @@
     "expo-font": "~9.1.0",
     "expo-linear-gradient": "~9.1.0",
     "expo-linking": "~2.2.3",
-    "expo-random": "~11.1.2",
+    "expo-random": "^11.2.0",
     "expo-secure-store": "^10.2.0",
     "expo-splash-screen": "~0.10.2",
     "expo-status-bar": "~1.0.3",
@@ -88,7 +87,7 @@
     "string_decoder": "~0.10.25",
     "timers-browserify": "^1.0.1",
     "tty-browserify": "0.0.0",
-    "tweet-nacl-react-native-expo": "^1.0.3",
+    "tweet-nacl-react-native-expo": "git+https://github.com/PiotrNap/react-native-expo-tweet-nacl.git",
     "url": "~0.10.1",
     "utf8": "^3.0.0",
     "vm-browserify": "0.0.4",

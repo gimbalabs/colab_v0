@@ -31,7 +31,6 @@ export const ImageCoverSelection = ({ route, navigation }: Props) => {
 
   const onBackNavigationPress = () => {};
   const onLayout = (e: LayoutChangeEvent) => setLayout(e.nativeEvent.layout);
-  console.log(mediaObj,imageObj)
 
   return (
     <SafeAreaView
@@ -69,7 +68,7 @@ export const ImageCoverSelection = ({ route, navigation }: Props) => {
               styles.imagePreview,
               { paddingBottom: layout ? layout.height : 0 },
             ]}>
-            {!mediaObj && !imageObj? (
+            {!mediaObj && !imageObj ? (
               <View style={styles.imagePreview_inner}>
                 <PlaceholderIcon
                   width={Sizing.x80}
@@ -99,7 +98,9 @@ export const ImageCoverSelection = ({ route, navigation }: Props) => {
                   : Colors.primary.s800,
               },
             ]}>
-            <Pressable style={styles.main_navigation_button} onPress={launchImageLibrary}>
+            <Pressable
+              style={styles.main_navigation_button}
+              onPress={launchImageLibrary}>
               <Text style={styles.button_text}>Gallery</Text>
               <PlaceholderIcon
                 width={Sizing.x30}

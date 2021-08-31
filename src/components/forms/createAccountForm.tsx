@@ -13,11 +13,11 @@ import {
 import { createAccountValidationScheme } from "lib/utils";
 import { CustomInput } from "../forms/CustomInput";
 import { CheckIcon } from "icons/index";
-import { CustomPasswordInput } from "./CustomPasswordInput";
 import { FullWidthButton } from "components/buttons/fullWidthButton";
 import { setToEncryptedStorage } from "lib/encryptedStorage";
 import { generateKeyPair } from "lib/tweetnacl";
 import base64 from "base64-js";
+import { Users } from "../../services/Api/Users";
 
 export interface CreateAccountFormProps {}
 
@@ -49,7 +49,7 @@ export const CreateAccountForm = ({}: CreateAccountFormProps) => {
     acceptedCheckbox ? fadeIn() : fadeOut();
   };
 
-  const onSubmit = async (values: { name: string; password: string }) => {
+  const onSubmit = async (values: any) => {
     setIsLoading(true);
 
     // generate key pair with tweetnacl
@@ -59,6 +59,12 @@ export const CreateAccountForm = ({}: CreateAccountFormProps) => {
       // convert to base64
       const stringSecret = base64.fromByteArray(keypair.secretKey);
       const stringPublic = base64.fromByteArray(keypair.publicKey);
+
+      values.pubKey = stringPublic;
+
+      // get new user id
+      const id = await new Users().createAccount(values);
+      console.log(id);
 
       // store private key in encrypted storage
       const string = setToEncryptedStorage("secret", stringSecret);
@@ -77,7 +83,7 @@ export const CreateAccountForm = ({}: CreateAccountFormProps) => {
       validateOnBlur={submitted}
       initialValues={{
         name: "",
-        password: "",
+        handle: "",
       }}
       onSubmit={onSubmit}>
       {({ handleSubmit, isValid, validateForm }) => (
@@ -95,22 +101,19 @@ export const CreateAccountForm = ({}: CreateAccountFormProps) => {
             submitted={submitted}
             styles={styles}
           />
-          {/*<Field
-            key="email"
-            name="email"
-            label="Email"
-            placeholder="User@example.com"
+          <Field
+            key="Handle"
+            name="handle"
+            label="Handle"
             component={CustomInput}
-            keyboardType="email-address"
-            textContentType="emailAddress"
-            autoCompleteType="email"
+            placeholder="@John12"
+            keyboardType="default"
+            textContentType="name"
+            autoCompleteType="off"
+            validateForm={validateForm}
+            submitted={submitted}
             styles={styles}
-          />*/}
-          <Field key="password" name="password" styles={styles}>
-            {(props: any) => (
-              <CustomPasswordInput validateForm={validateForm} {...props} />
-            )}
-          </Field>
+          />
           <View style={styles.checkboxWrapper}>
             <Pressable
               onPress={onCheckBoxPress}

@@ -19,6 +19,7 @@ import { Confirmation, DepositSuccessful } from "screens/payments";
 import { NavigationScreens } from "tabs/NavigationScreens";
 import { OnboardingScreens } from "tabs/OnboardingScreens";
 import { UserRegistrationScreens } from "tabs/UserRegistrationScreens";
+import { LogIn } from "screens/LogIn";
 
 // Ignore all log notifications:
 LogBox.ignoreAllLogs();
@@ -57,13 +58,13 @@ function App() {
               <Stack.Navigator
                 initialRouteName="Navigation Screens"
                 headerMode="screen">
-                {auth ? (
+                {!auth ? (
                   <>
-                    {/* <Stack.Screen
-                    name="Log In"
-                    component={LogIn}
-                    options={{ headerShown: false }}
-                  />*/}
+                    {/*<Stack.Screen
+                      name="Log In"
+                      component={LogIn}
+                      options={{ headerShown: false }}
+                    />*/}
                     <Stack.Screen
                       name="Navigation Screens"
                       component={NavigationScreens}

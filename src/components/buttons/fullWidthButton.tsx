@@ -12,12 +12,13 @@ import { Buttons, Colors } from "styles/index";
 
 export interface FullWidthButton {
   colorScheme: "light" | "dark";
-  onPressCallback: () => any;
+  onPressCallback: () => any | Promise<void>;
   loadingIndicator?: boolean;
   text: string;
   disabled?: boolean;
   buttonType?: "filled" | "transparent";
   style?: StyleProp<any>;
+  textStyle?: StyleProp<any>;
   lightMode?: boolean;
 }
 
@@ -29,6 +30,7 @@ export const FullWidthButton = ({
   disabled,
   buttonType = "filled",
   style,
+  textStyle,
   lightMode,
 }: FullWidthButton) => {
   const [textWidth, setTextWidth] = React.useState<number>(0);
@@ -79,7 +81,7 @@ export const FullWidthButton = ({
       style={Buttons.applyOpacity(
         Object.assign({}, ...customButtonStyle, style)
       )}>
-      <Text onLayout={onLayoutText} style={customTextStyle}>
+      <Text onLayout={onLayoutText} style={textStyle ?? customTextStyle}>
         {text}
       </Text>
       {loadingIndicator && pressableWidth && textWidth && (

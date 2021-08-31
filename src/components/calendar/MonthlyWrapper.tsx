@@ -378,6 +378,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: Outlines.borderRadius.base,
     ...Outlines.shadow.lifted,
+    elevation: 4,
   },
   headerContainer: {
     width: "100%",

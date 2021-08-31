@@ -30,44 +30,51 @@ export const AvailableTimeSelection = ({ route, navigation }: Props) => {
   const [toTime, setToTime] = React.useState<Date>(new Date());
   const [minTime, setMinTime] = React.useState<number>(0);
   const [maxTime, setMaxTime] = React.useState<number>(0);
+  const [enabledPicker, setEnabledPicker] = React.useState<boolean>(true);
   const [openPicker, setOpenPicker] = React.useState<string | null>(null);
   const { colorScheme } = appContext();
   const { addAvailability, availabilities } = eventCreationContext();
 
   const minInputRange = React.useMemo(() => {
-    let arr: number[] = [];
+    let arr: any[] = [];
     const range = toTime.getTime() - fromTime.getTime();
 
+    console.log(fromTime, toTime, range);
     if (range > 0) {
       for (let i = 1; i < range / 1000 / 60 + 1; i++) {
         arr.push(i);
       }
+      setEnabledPicker(true);
     } else {
-      arr = [1];
+      arr = ["--"];
+      setEnabledPicker(false);
     }
 
     return arr;
-  }, [fromTime, toTime]);
+  }, [fromTime, toTime, minTime]);
   const maxInputRange = React.useMemo(() => {
-    let arr: number[] = [];
+    let arr: any[] = [];
     const range = toTime.getTime() - fromTime.getTime();
 
-    if (range !== 0) {
+    console.log(range);
+    if (range > 0) {
       for (let i = 1; i < range / 1000 / 60 + 1; i++) {
         arr.push(i);
       }
+      setEnabledPicker(true);
     } else {
-      arr = [1];
+      arr = ["--"];
+      setEnabledPicker(false);
     }
 
     // when minTime is already selected, substract it from maxTime,
     if (minTime) arr.splice(0, minTime - 1);
 
     return arr;
-  }, [fromTime, toTime, minTime]);
+  }, [fromTime, toTime, minTime, maxTime]);
 
   const hasExistingAvailability = !!availabilities.find(
-    (el) =>
+    el =>
       el &&
       el.from === fromTime &&
       el.to === toTime &&
@@ -78,7 +85,9 @@ export const AvailableTimeSelection = ({ route, navigation }: Props) => {
   const isLightMode = colorScheme === "light";
   const isDisabledButton = !availabilities.length;
   const isDisabledAddBtn =
-    fromTime === toTime || fromTime > toTime || hasExistingAvailability;
+    String(fromTime) === String(toTime) ||
+    String(fromTime) > String(toTime) ||
+    hasExistingAvailability;
 
   const onTimeChangeValue = (label: string, val: Date) => {
     if (label === "From") setFromTime(val);
@@ -92,11 +101,12 @@ export const AvailableTimeSelection = ({ route, navigation }: Props) => {
   const onMaxValueChange = (val: number) => setMaxTime(val);
   const onOpenChange = (label: string | null) => setOpenPicker(label);
   const addNewAvailability = () => {
+    console.log(maxTime, minTime);
     addAvailability({
       from: fromTime,
       to: toTime,
-      maxDuration: maxTime,
-      minDuration: minTime,
+      maxDuration: maxTime ?? maxInputRange[0],
+      minDuration: minTime ?? minInputRange[0],
     });
     // react-navigation doesn't update screen immediately after context dispatch
     navigation.setParams({ availabilities: availabilities.length++ });
@@ -161,6 +171,7 @@ export const AvailableTimeSelection = ({ route, navigation }: Props) => {
               onValueChange={onMinValueChange}
               openPicker={openPicker}
               onOpenChange={onOpenChange}
+              enabledPicker={enabledPicker}
             />
           </View>
           <View style={styles.slotsWrapperBottom}>
@@ -171,6 +182,7 @@ export const AvailableTimeSelection = ({ route, navigation }: Props) => {
               onValueChange={onMaxValueChange}
               openPicker={openPicker}
               onOpenChange={onOpenChange}
+              enabledPicker={enabledPicker}
             />
           </View>
         </View>
@@ -206,7 +218,18 @@ export const AvailableTimeSelection = ({ route, navigation }: Props) => {
                     : {}
                 )
               )}>
-              <PlusIcon style={styles.plusIcon} strokeWidth={2} />
+              <PlusIcon
+                style={[
+                  styles.plusIcon,
+                  {
+                    //@ts-ignore
+                    color: isDisabledAddBtn
+                      ? Colors.primary.s350
+                      : Colors.primary.s600,
+                  },
+                ]}
+                strokeWidth={2}
+              />
             </Pressable>
           </View>
         </View>
@@ -285,6 +308,5 @@ const styles = StyleSheet.create({
     width: Sizing.x25,
     height: Sizing.x25,
     alignSelf: "center",
-    color: Colors.primary.s600,
   },
 });

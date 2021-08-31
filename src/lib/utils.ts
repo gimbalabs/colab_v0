@@ -64,12 +64,16 @@ export function formValidationSchema() {
 export function createAccountValidationScheme() {
   return yup.object().shape({
     name: yup.string().required("Name is required"),
-    // email: yup.string().email().required("Email address is required"),
-    password: yup
+    handle: yup
       .string()
-      .required("Password is required")
-      .min(8, "Password is too short - should be 8 chars minimum.")
-      .matches(/[a-zA-Z]/, "Password can only contain Latin letters."),
+      .min(2, "Handle should be at least 2 chars long")
+      .required("Handle is required"),
+    // email: yup.string().email().required("Email address is required"),
+    // password: yup
+    //   .string()
+    //   .required("Password is required")
+    //   .min(8, "Password is too short - should be 8 chars minimum.")
+    //   .matches(/[a-zA-Z]/, "Password can only contain Latin letters."),
   });
 }
 
@@ -274,8 +278,9 @@ export function getCalendarMonths(
       currDayIndex = firstDay;
 
       for (let j = 1; isValidDate(j, currMonthIndex, currYear); j++) {
-        let dayAvailabilities = availableSlots.find((s) => s.day === j)
-          ?.timeSlots;
+        let dayAvailabilities = availableSlots.find(
+          (s) => s.day === j
+        )?.timeSlots;
         let dayEvents = events.find((e) => e.day === j)?.scheduledEvents;
 
         let day: Day = {
@@ -385,8 +390,9 @@ export function getCalendarMonths(
       currDayIndex = firstDay;
 
       for (let j = 1; isValidDate(j, currMonthIndex, currYear); j++) {
-        let dayAvailabilities = availableSlots.find((s) => s.day === j)
-          ?.timeSlots;
+        let dayAvailabilities = availableSlots.find(
+          (s) => s.day === j
+        )?.timeSlots;
         let dayEvents = events.find((e) => e.day === j)?.scheduledEvents;
 
         let day: Day = {
@@ -561,9 +567,13 @@ export function getDigitalLocaleTime(
   time: number | Date,
   locale: string = "en"
 ): string {
+  console.log(time, locale);
   var timeString: any = new Date(time).toLocaleTimeString(locale);
   timeString = timeString.split(" ");
+  if (timeString.length === 1) timeString;
+
   var abbreviation = timeString[1]?.toLocaleLowerCase();
+  console.log(timeString, abbreviation);
 
   timeString.pop();
   timeString = timeString?.[0].split(":");
