@@ -47,7 +47,7 @@ export const UserDetailsScreen = ({ pagerRef }: any) => {
       <View style={styles.formContainer}>
         <CustomPlainInput
           label="Profession"
-          placeholder="Doctor, therapist, developer, etc..."
+          placeholder="Doctor, therapist, developer..."
           icon={DownIcon}
           styles={styles}
           isLightMode={false}

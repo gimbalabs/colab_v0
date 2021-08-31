@@ -8,6 +8,7 @@ import { FullWidthButton } from "components/buttons/fullWidthButton";
 import { appContext } from "contexts/contextApi";
 import { PressableIcon } from "components/buttons/pressableIcon";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useNavigation } from "@react-navigation/native";
 
 export interface PaymentConfirmationScreenProps {}
 
@@ -24,11 +25,15 @@ const USER_TAGS = [
 ];
 
 export const PaymentConfirmationScreen = () => {
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const { ref } = appContext();
+  const { navigate } = useNavigation();
 
   const onChangePress = () => ref.current.setPage(0);
 
-  const onConfirm = () => {};
+  const onConfirm = () => {
+    navigate("Navigation Screens");
+  };
 
   return (
     <KeyboardAwareScrollView
@@ -84,6 +89,7 @@ export const PaymentConfirmationScreen = () => {
         onPressCallback={onConfirm}
         colorScheme="dark"
         buttonType="transparent"
+        loadingIndicator={isLoading}
         text="Confirm"
       />
     </KeyboardAwareScrollView>
@@ -105,8 +111,8 @@ const styles = StyleSheet.create({
     marginBottom: Sizing.x5,
   },
   headerImage: {
-    width: SCREEN_WIDTH * 0.65,
-    height: SCREEN_WIDTH * 0.65,
+    width: SCREEN_WIDTH * 0.45,
+    height: SCREEN_WIDTH * 0.45,
     marginTop: -Sizing.x20,
     marginBottom: -Sizing.x30,
     marginRight: "auto",
