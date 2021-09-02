@@ -30,12 +30,10 @@ import { NativeModal } from "components/modals/nativeModal";
 import { useCameraAccess } from "lib/hooks/useCameraAccess";
 import { useMediaAccess } from "lib/hooks/useMediaAccess";
 
-export interface OrganizerProfileScreenProps
+export interface UserProfileScreenProps
   extends StackScreenProps<OrganizerTabParamList, "Browse"> {}
 
-export const OrganizerProfileScreen = ({
-  navigation,
-}: OrganizerProfileScreenProps) => {
+export const UserProfileScreen = ({ navigation }: UserProfileScreenProps) => {
   const { colorScheme, setColorScheme } = appContext();
   const [imagePressed, setImagePressed] = React.useState<boolean>(false);
   const [currImage, setCurrImage] = React.useState<string>("");
