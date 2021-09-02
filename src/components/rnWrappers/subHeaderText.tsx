@@ -28,9 +28,11 @@ export const SubHeaderText = ({
   const { colorScheme } = appContext();
 
   const textColor =
-    colorScheme != null && colorScheme === "light"
-      ? { color: colors[0] }
-      : { color: colors[1] };
+    colors.length > 1
+      ? colorScheme != null && colorScheme === "light"
+        ? { color: colors[0] }
+        : { color: colors[1] }
+      : { color: colors[0] };
 
   const onPress = () => callbackFn && callbackFn();
 

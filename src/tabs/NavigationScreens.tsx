@@ -6,7 +6,7 @@ import { ProfileContextProvider } from "contexts/profileContext";
 import { OrganizerTabParamList } from "common/types/navigationTypes";
 import { WalletScreen } from "screens/index";
 import { Calendar } from "containers/MyCalendar";
-import { OrganizerProfileScreen } from "screens/organizer/OrganizerProfileScreen";
+import { UserProfileScreen } from "screens/organizer/UserProfileScreen";
 import { NavigationTabBar } from "components/navBarComponents/navigationTabBar";
 import { BrowseScreensStack } from "../stacks/BrowseScreensStack";
 import { OrganizerHomeScreenStack } from "stacks/OrganizerHomeScreenStack";
@@ -21,7 +21,7 @@ export const NavigationScreens = () => {
     <ProfileContextProvider>
       <NavigationTabs.Navigator
         //@ts-ignore
-        tabBar={props => <NavigationTabBar {...props} />}>
+        tabBar={(props) => <NavigationTabBar {...props} />}>
         <NavigationTabs.Screen
           name="Home"
           component={
@@ -31,10 +31,7 @@ export const NavigationScreens = () => {
         <NavigationTabs.Screen name="Browse" component={BrowseScreensStack} />
         <NavigationTabs.Screen name="Wallet" component={WalletScreen} />
         <NavigationTabs.Screen name="Availability" component={Calendar} />
-        <NavigationTabs.Screen
-          name="Profile"
-          component={OrganizerProfileScreen}
-        />
+        <NavigationTabs.Screen name="Profile" component={UserProfileScreen} />
       </NavigationTabs.Navigator>
     </ProfileContextProvider>
   );
