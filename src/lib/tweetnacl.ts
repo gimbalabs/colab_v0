@@ -1,3 +1,4 @@
+//@ts-ignore
 import nacl from "tweet-nacl-react-native-expo";
 
 interface KeyPair {
@@ -11,6 +12,15 @@ export const generateKeyPair = async (
   try {
     const keypair = await nacl.sign.keyPair();
     return keypair;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+export const signChallenge = async (privateKey: string, challenge: string) => {
+  try {
+    const signedChallenge = await nacl.sign(challenge, privateKey);
+    return signedChallenge;
   } catch (e) {
     console.error(e);
   }
