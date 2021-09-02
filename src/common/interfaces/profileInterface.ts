@@ -1,5 +1,8 @@
 export interface BioState {
-  alias: string;
+  username: string;
+  name: string;
+  publicKey: string;
+  id: string;
   walletBalance: number;
   aboutURL?: string | null;
   imageURL?: string | null;
@@ -11,7 +14,10 @@ export interface BioState {
   description: string | string[] | null;
   skills: string | string[] | null;
   profileType: "attendee" | "organizer" | null;
-  setAlias: (input: string) => void;
+  setUsername: (input: string) => void;
+  setName: (input: string) => void;
+  setPublicKey: (input: string) => void;
+  setId: (input: string) => void;
   setAboutURL: (input: string) => void;
   setImageURL: (input: string) => void;
   setTimeBlockLengthMin: (input: string) => void;
@@ -23,4 +29,11 @@ export interface BioState {
   setDescription: (input: string | string[]) => void;
   setSkills: (input: string | string[]) => void;
   setProfileType: (input: "organizer" | "attendee") => void;
+}
+
+export interface UserDTO {
+  username: string;
+  name: string;
+  id: string;
+  publicKey: string;
 }

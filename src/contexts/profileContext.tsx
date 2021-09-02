@@ -6,7 +6,10 @@ import React, { useState, createContext } from "react";
 import { BioState } from "interfaces/profileInterface";
 
 export const initialState: BioState = {
-  alias: "",
+  username: "",
+  name: "",
+  publicKey: "",
+  id: "",
   aboutURL: "",
   imageURL: "",
   profession: null,
@@ -18,7 +21,10 @@ export const initialState: BioState = {
   timeBlockCostADA: "20",
   walletBalance: 56,
   profileType: null,
-  setAlias: () => {},
+  setUsername: () => {},
+  setName: () => {},
+  setId: () => {},
+  setPublicKey: () => {},
   setAboutURL: () => {},
   setImageURL: () => {},
   setTimeBlockLengthMin: () => {},
@@ -39,7 +45,10 @@ export interface ContextProviderProps {
 export const ProfileContext = createContext<BioState>(initialState);
 
 export const ProfileContextProvider = ({ children }: ContextProviderProps) => {
-  const [alias, setAlias] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [id, setId] = useState<string>("");
+  const [publicKey, setPublicKey] = useState<string>("");
   const [aboutURL, setAboutURL] = useState<string>("");
   const [imageURL, setImageURL] = useState<string>("");
   const [timeBlockLengthMin, setTimeBlockLengthMin] = useState<string | null>(
@@ -61,7 +70,10 @@ export const ProfileContextProvider = ({ children }: ContextProviderProps) => {
   return (
     <ProfileContext.Provider
       value={{
-        alias,
+        username,
+        name,
+        id,
+        publicKey,
         walletBalance,
         aboutURL,
         imageURL,
@@ -74,7 +86,10 @@ export const ProfileContextProvider = ({ children }: ContextProviderProps) => {
         skills,
         profileType,
         setProfileType,
-        setAlias,
+        setUsername,
+        setId,
+        setName,
+        setPublicKey,
         setAboutURL,
         setImageURL,
         setWalletBalance,
