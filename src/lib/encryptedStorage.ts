@@ -2,10 +2,12 @@ import * as SC from "expo-secure-store";
 
 export const setToEncryptedStorage = async (
   key: string,
-  value: string
+  value: any
 ): Promise<void> => {
   try {
-    await SC.setItemAsync(key, JSON.stringify(value));
+    value = JSON.stringify(value);
+
+    await SC.setItemAsync(key, value);
   } catch (e) {
     throw new Error(e);
   }
@@ -27,12 +29,14 @@ export const isAvailableEncrptedStorage = async (): Promise<boolean> => {
   }
 };
 
-export const getFromEncryptedStorage = async (key: string): Promise<any> => {
+export const getFromEncryptedStorage = async (
+  key: string
+): Promise<string | null> => {
   try {
-    const obj = await SC.getItemAsync(key);
+    const val = await SC.getItemAsync(key);
 
-    if (obj !== undefined) {
-      return obj;
+    if (val != null) {
+      return JSON.parse(val);
     } else {
       return null;
     }
