@@ -1,4 +1,8 @@
 import { monthsByName } from "common/types/calendarTypes";
+import { Auth } from "../services/Api/Auth";
+import { getFromEncryptedStorage } from "./encryptedStorage";
+import { signChallenge } from "./tweetnacl";
+import base64 from "base64-js";
 
 /**
  *  Takes index of the selected day in the weeek
@@ -39,4 +43,41 @@ export const getRecurringMonthDays = (
   }
 
   return daysArray;
+};
+
+/**
+ * Starts challenge sequence to obtain JWT from the server.
+ * Returns {id, username, accessToken, expiresIn} or  `null` if failed.
+ *
+ * @param id
+ * @returns jwt | null
+ */
+export const startChallengeSequence = async (
+  id: string
+): Promise<{ [index: string]: string } | null> => {
+  try {
+    let { challengeString } = await new Auth().requestChallenge(id);
+    let secretKey = await getFromEncryptedStorage("secret");
+
+    if (challengeString && secretKey) {
+      let signature: any = await signChallenge(challengeString, secretKey);
+
+      if (signature) {
+        signature = base64.fromByteArray(signature);
+
+        // request JWT
+        let res = await new Auth().requestAccessToken(
+          challengeString,
+          signature,
+          id
+        );
+        if (res) return res;
+      }
+    }
+
+    return null;
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
 };
