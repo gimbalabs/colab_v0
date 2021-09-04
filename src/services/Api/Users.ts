@@ -1,3 +1,4 @@
+import { UserDTO } from "common/interfaces/profileInterface";
 import axios from "./base";
 
 export class Users {
@@ -21,11 +22,15 @@ export class Users {
     }
   }
 
-  public async createAccount(values: any): Promise<void> {
+  public async createAccount(values: any): Promise<UserDTO | void> {
     try {
-      await axios.post("/auth/register", values);
+      const res = await axios.post("/auth/register", values);
+
+      if (res) {
+        return res.data;
+      }
     } catch (e) {
-      throw new Error(e);
+      if (e.response) console.error(e.response.data);
     }
   }
 }
