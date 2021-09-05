@@ -10,7 +10,7 @@ export const initialState: BioState = {
   name: "",
   publicKey: "",
   id: "",
-  aboutURL: "",
+  bio: "",
   imageURL: "",
   profession: null,
   jobTitle: null,
@@ -25,7 +25,7 @@ export const initialState: BioState = {
   setName: () => {},
   setId: () => {},
   setPublicKey: () => {},
-  setAboutURL: () => {},
+  setBio: () => {},
   setImageURL: () => {},
   setTimeBlockLengthMin: () => {},
   setTimeBlockCostADA: () => {},
@@ -49,7 +49,7 @@ export const ProfileContextProvider = ({ children }: ContextProviderProps) => {
   const [name, setName] = useState<string>("");
   const [id, setId] = useState<string>("");
   const [publicKey, setPublicKey] = useState<string>("");
-  const [aboutURL, setAboutURL] = useState<string>("");
+  const [bio, setBio] = useState<string>("");
   const [imageURL, setImageURL] = useState<string>("");
   const [timeBlockLengthMin, setTimeBlockLengthMin] = useState<string | null>(
     null
@@ -75,7 +75,7 @@ export const ProfileContextProvider = ({ children }: ContextProviderProps) => {
         id,
         publicKey,
         walletBalance,
-        aboutURL,
+        bio,
         imageURL,
         hasSyncedWallet,
         timeBlockLengthMin,
@@ -90,7 +90,7 @@ export const ProfileContextProvider = ({ children }: ContextProviderProps) => {
         setId,
         setName,
         setPublicKey,
-        setAboutURL,
+        setBio,
         setImageURL,
         setWalletBalance,
         setHasSyncedWallet,

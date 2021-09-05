@@ -19,6 +19,7 @@ import {
   TextContent,
 } from "common/interfaces/newEventInterface";
 import { EventCreationTypes } from "common/types/contextTypes";
+import { JWTPayload } from "common/interfaces/appInterface";
 
 export const appContext = () => {
   const { state, dispatch } = React.useContext(AppContext);
@@ -32,6 +33,8 @@ export const appContext = () => {
     ref: state.ref,
     setRef: (ref: React.RefObject<any>) =>
       dispatch({ type: "SET_REF", payload: { ref } }),
+    setJWT: (jwtPayload: JWTPayload) =>
+      dispatch({ type: "SET_REF", payload: { jwtPayload } }),
     toggleAuth: (auth: boolean, accountType: string) => {
       dispatch({ type: "TOGGLE_AUTH", payload: { auth, accountType } });
     },

@@ -11,6 +11,12 @@ export interface AppState {
   favoriteOrganizers: any[];
   pageIndex: number;
   ref: any;
+  JWT: JWTPayload | null;
+}
+
+export interface JWTPayload {
+  expiresIn: string | null;
+  accessToken: string | null;
 }
 
 export interface AppContextProviderProps {

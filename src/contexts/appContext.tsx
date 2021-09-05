@@ -19,6 +19,10 @@ const initialAppState: AppState = {
   authentication: false,
   //@TODO Set to null after developing
   accountType: "organizer",
+  JWT: {
+    expiresIn: null,
+    accessToken: null,
+  },
   colorScheme: colorScheme == null ? "light" : colorScheme,
   favoriteOrganizers: [],
   pageIndex: 0,
@@ -31,6 +35,16 @@ const reducer = (state: AppState, action: AppActions) => {
       return {
         ...state,
         ref: action.payload.ref,
+      };
+    case AppTypes.SetJWT:
+      const { expiresIn, accessToken } = action.payload.jwtPayload;
+
+      return {
+        ...state,
+        JWT: {
+          expiresIn: expiresIn ?? null,
+          accessToken: accessToken ?? null,
+        },
       };
     case AppTypes.ToggleAuth:
       return {
@@ -80,6 +94,7 @@ export const AppContext = React.createContext<AppContextProps>({
 });
 
 export const AppContextProvider = ({ children }: AppContextProviderProps) => {
+  //@ts-ignore
   const [state, dispatch] = React.useReducer(reducer, initialAppState);
 
   return (

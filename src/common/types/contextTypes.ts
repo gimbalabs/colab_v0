@@ -4,7 +4,7 @@ import {
   SelectedWeekDays,
   TextContent,
 } from "common/interfaces/newEventInterface";
-import { ColorSchemeName } from "interfaces/appInterface";
+import { ColorSchemeName, JWTPayload } from "interfaces/appInterface";
 import {
   Availabilities,
   CalendarHeader,
@@ -17,6 +17,7 @@ import {
 export enum AppTypes {
   ToggleAuth = "TOGGLE_AUTH",
   SetRef = "SET_REF",
+  SetJWT = "SET_JWT",
   SetPageIndex = "SET_PAGE_INDEX",
   SetColorScheme = "SET_COLOR_SCHEME",
   SetFavoriteOrganizer = "SET_FAVORITE_ORGANIZER",
@@ -79,6 +80,9 @@ export type AppPayload = {
   };
   [AppTypes.SetRef]: {
     ref: any;
+  };
+  [AppTypes.SetJWT]: {
+    jwtPayload: JWTPayload;
   };
   [AppTypes.SetPageIndex]: {
     pageIndex: number;
