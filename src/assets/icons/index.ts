@@ -30,6 +30,7 @@ import { PlusIcon } from "./plus";
 import { PresentationIcon } from "./presentation";
 import { QrCodeSampleIcon } from "./qrCodeSample";
 import { RefreshIcon } from "./refresh";
+import { RegistrationIcon } from "./registration";
 import { RemoveIcon } from "./remove";
 import { RightArrowIcon } from "./rightArrow";
 import { SearchIcon } from "./search";
@@ -66,6 +67,7 @@ export {
   LiveCollaborationIcon,
   RemoveIcon,
   RefreshIcon,
+  RegistrationIcon,
   PencilAltIcon,
   PaymentIcon,
   PaymentSuccessfulIcon,
