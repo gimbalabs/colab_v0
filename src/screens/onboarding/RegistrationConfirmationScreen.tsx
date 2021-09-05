@@ -1,16 +1,19 @@
 import * as React from "react";
 import { View, StyleSheet, Text, Dimensions } from "react-native";
 
-import { CreditCardIcon, PencilAltIcon } from "icons/index";
-import { Typography, Colors, Sizing, Outlines, Buttons } from "styles/index";
+import { PencilAltIcon, RegistrationIcon } from "icons/index";
+import { Typography, Colors, Sizing, Outlines } from "styles/index";
 import { ProfileTag } from "components/profile/profileTag";
 import { FullWidthButton } from "components/buttons/fullWidthButton";
 import { appContext } from "contexts/contextApi";
 import { PressableIcon } from "components/buttons/pressableIcon";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useNavigation } from "@react-navigation/native";
+import { ProfileContext } from "contexts/profileContext";
+import { Auth } from "Api/Auth";
+import { Users } from "Api/Users";
 
-export interface PaymentConfirmationScreenProps {}
+export interface RegistrationConfirmationScreen {}
 
 const SCREEN_WIDTH = Dimensions.get("screen").width;
 
@@ -24,14 +27,21 @@ const USER_TAGS = [
   },
 ];
 
-export const PaymentConfirmationScreen = () => {
+export const RegistrationConfirmationScreen = () => {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const { profession, jobTitle, bio, timeBlockCostADA, skills } =
+    React.useContext(ProfileContext);
   const { ref } = appContext();
   const { navigate } = useNavigation();
 
   const onChangePress = () => ref.current.setPage(0);
 
   const onConfirm = () => {
+    try {
+      const res = new Users().;
+    } catch (e) {
+      console.error(e);
+    }
     navigate("Navigation Screens");
   };
 
@@ -42,10 +52,12 @@ export const PaymentConfirmationScreen = () => {
       keyboardOpeningTime={Number.MAX_SAFE_INTEGER}
       style={{ width: "90%" }}>
       <View style={styles.headerImage}>
-        <CreditCardIcon style={styles.image} />
+        <RegistrationIcon style={styles.image} />
       </View>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Confirm details and make payment</Text>
+        <Text style={styles.headerText}>
+          Confirm details and complete registration
+        </Text>
         <Text style={styles.subHeaderText}>
           You will be able to edit any personal information in your account
           profile if needed.
@@ -63,27 +75,47 @@ export const PaymentConfirmationScreen = () => {
           onPressCallback={onChangePress}
           styles={styles.iconWrapper}
         />
-        <Text style={styles.userDetailsHeader}>Profession</Text>
-        <Text style={styles.userDetailsText}>Software engineer</Text>
-        <Text style={styles.userDetailsHeader}>Job title</Text>
-        <Text style={styles.userDetailsText}>Fullstack engineer</Text>
-        <Text style={styles.userDetailsHeader}>About yourself</Text>
-        <Text style={styles.userDetailsText}>
-          Fluent in Java, Javascipt, HTML5 and CSS. Experienced in mentoring
-          students, developing and mastering their skills.
-        </Text>
-        <Text style={styles.userDetailsHeader}>Hourly rate</Text>
-        <Text style={styles.userDetailsText}>50 ₳ an hour</Text>
-        <Text style={styles.userDetailsHeader}>Skills</Text>
-        <View style={styles.skillTags}>
-          {USER_TAGS.map((tag, i) => {
-            return (
-              <View key={i}>
-                <ProfileTag tag={tag} key={i} />
-              </View>
-            );
-          })}
-        </View>
+        {profession ? (
+          <>
+            <Text style={styles.userDetailsHeader}>Profession</Text>
+            <Text style={styles.userDetailsText}>{profession}</Text>
+          </>
+        ) : null}
+        {jobTitle ? (
+          <>
+            <Text style={styles.userDetailsHeader}>Job title</Text>
+            <Text style={styles.userDetailsText}>{jobTitle}</Text>
+          </>
+        ) : null}
+        {bio ? (
+          <>
+            <Text style={styles.userDetailsHeader}>About yourself</Text>
+            <Text style={styles.userDetailsText}>{bio}</Text>
+          </>
+        ) : null}
+        {timeBlockCostADA ? (
+          <>
+            <Text style={styles.userDetailsHeader}>Hourly rate</Text>
+            <Text style={styles.userDetailsText}>
+              {timeBlockCostADA} ₳ an hour
+            </Text>
+          </>
+        ) : null}
+        {skills ? (
+          <>
+            <Text style={styles.userDetailsHeader}>Skills</Text>
+            <Text style={styles.userDetailsText}>{skills}</Text>
+            {/*}<View style={styles.skillTags}>
+              {USER_TAGS.map((tag, i) => {
+                return (
+                  <View key={i}>
+                    <ProfileTag tag={tag} key={i} />
+                  </View>
+                );
+              })}
+             </View>*/}
+          </>
+        ) : null}
       </View>
       <FullWidthButton
         onPressCallback={onConfirm}
@@ -127,6 +159,7 @@ const styles = StyleSheet.create({
   },
   userDetails: {
     width: "100%",
+    minHeight: Sizing.x70,
     backgroundColor: Colors.primary.neutral,
     borderRadius: Outlines.borderRadius.base,
     padding: Sizing.x20,
