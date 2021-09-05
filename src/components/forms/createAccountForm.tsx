@@ -15,20 +15,22 @@ import { CustomInput } from "../forms/CustomInput";
 import { CheckIcon } from "icons/index";
 import { FullWidthButton } from "components/buttons/fullWidthButton";
 import { setToEncryptedStorage } from "lib/encryptedStorage";
-import { generateKeyPair } from "lib/tweetnacl";
-import base64 from "base64-js";
 import { Users } from "../../services/Api/Users";
 import { ProfileContext } from "contexts/profileContext";
 import { useNavigation } from "@react-navigation/native";
 import { appContext } from "contexts/contextApi";
+import { startChallengeSequence } from "lib/helpers";
+import { generateKeyPair } from "lib/tweetnacl";
+import base64 from "base64-js";
 
 export interface CreateAccountFormProps {}
 
 const AnimatedCheckIcon = Animated.createAnimatedComponent(CheckIcon);
 
 export const CreateAccountForm = ({}: CreateAccountFormProps) => {
-  const { profileType } = React.useContext(ProfileContext);
-  const { toggleAuth } = appContext();
+  const { profileType, setName, setUsername, setId, setPublicKey } =
+    React.useContext(ProfileContext);
+  const { toggleAuth, setJWT } = appContext();
   const [acceptedCheckbox, setAcceptedChecbox] = React.useState<boolean>(false);
   const [submitted, setSubmitted] = React.useState<boolean>(false);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -63,32 +65,46 @@ export const CreateAccountForm = ({}: CreateAccountFormProps) => {
   const onSubmit = async (values: any) => {
     setIsLoading(true);
 
-    // generate key pair with tweetnacl
-    const keypair = await generateKeyPair();
+    // generate key pair
+    const keyPair = await generateKeyPair();
+    const secretKey = keyPair?.secretKey;
+    const publicKey = keyPair?.publicKey;
 
-    if (keypair) {
-      // convert to base64
-      const stringSecret = base64.fromByteArray(keypair.secretKey);
-      const stringPublic = base64.fromByteArray(keypair.publicKey);
-
-      values.publicKey = stringPublic;
+    if (publicKey && secretKey) {
+      // store private key in encrypted storage as base64
+      setToEncryptedStorage("secret", base64.fromByteArray(secretKey));
+      setToEncryptedStorage("public", base64.fromByteArray(publicKey));
 
       try {
-        // get new user id
-        // const id = await new Users().createAccount(values);
-        // console.log(id);
+        values.publicKey = base64.fromByteArray(publicKey);
+        values.profileType = profileType;
 
-        // store private key in encrypted storage
-        const string = setToEncryptedStorage("secret", stringSecret);
+        // get new user object
+        const user = await new Users().createAccount(values);
 
-        setSubmitted(true);
-        setIsLoading(false);
+        if (user != null) {
+          const { id, name, username } = user;
 
-        if (profileType === "attendee") {
-          toggleAuth(true);
-          navigation.navigate("Navigation Screens");
-        } else {
-          navigation.navigate("User Registration Screens");
+          setId(id);
+          setUsername(username);
+          setName(name);
+
+          if (profileType === "attendee") {
+            // start challenge and get JWT
+            const loginResponseDTO = await startChallengeSequence(id);
+
+            if (loginResponseDTO) {
+              const { accessToken, expiresIn } = loginResponseDTO;
+              setJWT({ accessToken, expiresIn });
+              setSubmitted(true);
+            }
+
+            toggleAuth(true, "attendee");
+            navigation.navigate("Navigation Screens");
+          } else if (profileType === "organizer") {
+            navigation.navigate("User Registration Screens");
+          }
+          setIsLoading(false);
         }
       } catch (e) {
         // show error notification
