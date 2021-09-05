@@ -26,6 +26,7 @@ module.exports = function (api) {
             icons: "./src/assets/icons",
             images: "./src/assets/images",
             interfaces: "./src/common/interfaces",
+            Api: "./src/services/Api",
             screens: "./src/screens",
             stacks: "./src/stacks",
             styles: "./src/styles",

@@ -23,6 +23,7 @@
       "icons/*": ["./src/assets/icons/index"],
       "images/*": ["./src/assets/images/*"],
       "interfaces/*": ["./src/common/interfaces/*"],
+      "Api/*": ["./src/services/Api/*"],
       "screens/*": ["./src/screens/*"],
       "stacks/*": ["./src/stacks/*"],
       "styles/*": ["./src/styles/index"],
