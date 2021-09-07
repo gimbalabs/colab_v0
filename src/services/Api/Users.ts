@@ -24,11 +24,20 @@ export class Users {
 
   public async createAccount(values: any): Promise<UserDTO | void> {
     try {
-      const res = await axios.post("/auth/register", values);
+      const res = await axios.post("/users/register", values);
 
       if (res) {
         return res.data;
       }
+    } catch (e) {
+      if (e.response) console.error(e.response.data);
+    }
+  }
+
+  public async updateUser(values: any, id: string): Promise<any> {
+    try {
+      const res = await axios.put(`/users/${id}`, values);
+      if (res) return res.data;
     } catch (e) {
       if (e.response) console.error(e.response.data);
     }

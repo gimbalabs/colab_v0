@@ -1,10 +1,13 @@
 import axios from "axios";
 import { API_URL } from "@env";
-import { Platform } from "react-native";
 
 const instance = axios.create({
   baseURL: API_URL,
 });
+
+export const setAuthorizationToken = (token: string) => {
+  instance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+};
 
 instance.defaults.headers.post["Content-Type"] = "application/json";
 
