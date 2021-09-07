@@ -6,11 +6,9 @@ import {
   Pressable,
   Switch,
   Platform,
-  Alert,
   ImageBackground,
 } from "react-native";
 
-import ModalSelector from "react-native-modal-selector";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Buttons, Outlines, Typography, Sizing, Colors } from "styles/index";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -24,16 +22,16 @@ import {
 } from "icons/index";
 
 // image only for testing purposes
-//@ts-ignore
-import ProfilePic from "assets/images/profilePic.jpg";
 import { NativeModal } from "components/modals/nativeModal";
 import { useCameraAccess } from "lib/hooks/useCameraAccess";
 import { useMediaAccess } from "lib/hooks/useMediaAccess";
+import { ProfileContext } from "contexts/profileContext";
 
 export interface UserProfileScreenProps
   extends StackScreenProps<OrganizerTabParamList, "Browse"> {}
 
 export const UserProfileScreen = ({ navigation }: UserProfileScreenProps) => {
+  const { name } = React.useContext(ProfileContext);
   const { colorScheme, setColorScheme } = appContext();
   const [imagePressed, setImagePressed] = React.useState<boolean>(false);
   const [currImage, setCurrImage] = React.useState<string>("");
@@ -44,7 +42,6 @@ export const UserProfileScreen = ({ navigation }: UserProfileScreenProps) => {
     /**
      *  @TODO send the user selected image to our back end
      */
-
     if (mediaObj) {
       //we only allow user to select one image, so take the first in array
       const { uri } = mediaObj.assets[0];
@@ -65,6 +62,7 @@ export const UserProfileScreen = ({ navigation }: UserProfileScreenProps) => {
   const onImageLongPress = async () => {
     // don't run it on the browser
     if (Platform.OS !== "web") {
+      setImagePressed(true);
     }
   };
 
@@ -82,22 +80,61 @@ export const UserProfileScreen = ({ navigation }: UserProfileScreenProps) => {
           cameraAccessCb={launchCamera}
           mediaLibraryCb={launchImageLibrary}
           child={
-            <ImageBackground
-              // only for testing purpose render uri conditionally
-              source={currImage ? { uri: currImage } : ProfilePic}
-              imageStyle={styles.profilePicImage}
-              style={styles.profilePic}>
-              <Pressable
-                onPressIn={onImagePress}
-                onPressOut={onImagePressOut}
-                onLongPress={onImageLongPress}
-                hitSlop={5}
-                pressRetentionOffset={5}
+            currImage ? (
+              <ImageBackground
+                // only for testing purpose render uri conditionally
+                source={{ uri: currImage }}
+                imageStyle={styles.profilePicImage}
                 style={[
-                  styles.profilePicWrapper,
-                  imagePressed ? { backgroundColor: "rgba(0,0,0,0.15)" } : {},
-                ]}></Pressable>
-            </ImageBackground>
+                  styles.profilePic,
+                  darkMode
+                    ? {
+                        borderColor: Colors.primary.neutral,
+                        borderWidth: Outlines.borderWidth.base,
+                      }
+                    : {},
+                ]}>
+                <Pressable
+                  onPressIn={onImagePress}
+                  onPressOut={onImagePressOut}
+                  onLongPress={onImageLongPress}
+                  hitSlop={5}
+                  pressRetentionOffset={5}
+                  style={[
+                    styles.profilePicWrapper,
+                    imagePressed ? { backgroundColor: "rgba(0,0,0,.15)" } : {},
+                  ]}>
+                  <View style={styles.profilePicEdit}>
+                    <Text style={styles.profilePicEditText}>Edit</Text>
+                  </View>
+                </Pressable>
+              </ImageBackground>
+            ) : (
+              <View
+                style={[
+                  styles.profilePicPlaceholder,
+                  {
+                    backgroundColor: Colors.neutral.s300,
+                  },
+                  ,
+                ]}>
+                <Pressable
+                  onPressIn={onImagePress}
+                  onPressOut={onImagePressOut}
+                  onLongPress={onImageLongPress}
+                  hitSlop={5}
+                  pressRetentionOffset={5}
+                  style={[
+                    styles.profilePicWrapper,
+                    imagePressed ? { backgroundColor: "rgba(0,0,0,.15)" } : {},
+                  ]}>
+                  <Text style={styles.profilePicLetter}>{name[0]}</Text>
+                  <View style={styles.profilePicEdit}>
+                    <Text style={styles.profilePicEditText}>Edit</Text>
+                  </View>
+                </Pressable>
+              </View>
+            )
           }></NativeModal>
         <Text
           style={[
@@ -108,9 +145,9 @@ export const UserProfileScreen = ({ navigation }: UserProfileScreenProps) => {
           DocOcatavius.md
         </Text>
         <Pressable
-          style={
+          style={Buttons.applyOpacity(
             colorScheme === "light" ? styles.button_light : styles.button_dark
-          }
+          )}
           onPress={() => {}}>
           <Text
             style={
@@ -281,11 +318,10 @@ const styles = StyleSheet.create({
     color: Colors.primary.s600,
   },
   profilePicWrapper: {
-    width: "100%",
-    height: "100%",
+    flex: 1,
+    justifyContent: "center",
     borderRadius: 999,
     ...Outlines.shadow.lifted_noElevation,
-    marginBottom: Sizing.x10,
   },
   profilePicImage: {
     borderRadius: 999,
@@ -295,6 +331,31 @@ const styles = StyleSheet.create({
     borderRadius: Outlines.borderRadius.max,
     width: Sizing.x85,
     height: Sizing.x85,
+    overflow: "hidden",
+  },
+  profilePicPlaceholder: {
+    borderRadius: Outlines.borderRadius.max,
+    width: Sizing.x85,
+    height: Sizing.x85,
+    overflow: "hidden",
+  },
+  profilePicLetter: {
+    alignSelf: "center",
+    color: "white",
+    ...Typography.roboto.medium,
+    fontSize: Sizing.x60,
+  },
+  profilePicEdit: {
+    backgroundColor: Colors.neutral.s500,
+    width: "100%",
+    height: "25%",
+    position: "absolute",
+    bottom: 0,
+  },
+  profilePicEditText: {
+    color: "white",
+    textAlign: "center",
+    ...Typography.subHeader.x20,
   },
   navigationItem: {
     flexDirection: "row",
