@@ -48,7 +48,7 @@ export const bar: Record<Bar, ViewStyle> = {
     backgroundColor: Colors.primary.neutral,
     paddingVertical: Sizing.x7,
     borderRadius: Outlines.borderRadius.base,
-    borderWidth: 4,
+    borderWidth: 3,
     borderColor: Colors.primary.s800,
     marginTop: Sizing.x15,
     ...Outlines.shadow.lifted,
@@ -60,7 +60,7 @@ export const bar: Record<Bar, ViewStyle> = {
     backgroundColor: Colors.primary.s600,
     paddingVertical: Sizing.x7,
     borderRadius: Outlines.borderRadius.base,
-    borderWidth: 4,
+    borderWidth: 3,
     borderColor: Colors.primary.neutral,
     marginTop: Sizing.x15,
     ...Outlines.shadow.lifted,
@@ -96,12 +96,12 @@ export const barText: Record<BarText, TextStyle> = {
   },
   transparent_light: {
     ...Typography.subHeader.x35,
-    fontFamily: "Roboto-Medium",
+    fontFamily: "Roboto-Bold",
     color: Colors.primary.s800,
   },
   transparent_dark: {
     ...Typography.subHeader.x35,
-    fontFamily: "Roboto-Medium",
+    fontFamily: "Roboto-Bold",
     color: Colors.primary.neutral,
   },
   small: {

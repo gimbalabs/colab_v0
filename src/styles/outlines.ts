@@ -1,4 +1,4 @@
-import { StyleSheet, ViewStyle } from "react-native";
+import { Platform, StyleSheet, ViewStyle } from "react-native";
 import * as Colors from "./colors";
 
 type BorderWidth = "hairline" | "thin" | "base" | "thick";
@@ -36,6 +36,7 @@ export const shadow: Record<Shadow, ViewStyle> = {
     },
     shadowOpacity: 0.4,
     shadowRadius: 3,
+    elevation: Platform.OS === "android" ? 4 : 0,
   },
   lifted_noElevation: {
     shadowColor: Colors.neutral.s600,
