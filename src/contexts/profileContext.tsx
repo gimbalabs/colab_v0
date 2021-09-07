@@ -6,21 +6,21 @@ import React, { useState, createContext } from "react";
 import { BioState } from "interfaces/profileInterface";
 
 export const initialState: BioState = {
-  username: "",
-  name: "",
+  username: "Satoshi",
+  name: "Adam Back",
   publicKey: "",
   id: "",
   bio: "",
   imageURL: "",
-  profession: null,
-  jobTitle: null,
-  description: null,
-  skills: null,
+  profession: "",
+  jobTitle: "",
+  description: "",
+  skills: "",
   hasSyncedWallet: false,
-  timeBlockLengthMin: "15",
-  timeBlockCostADA: "20",
-  walletBalance: 56,
-  profileType: null,
+  timeBlockLengthMin: 0,
+  timeBlockCostADA: 0,
+  walletBalance: 400,
+  profileType: "organizer",
   setUsername: () => {},
   setName: () => {},
   setId: () => {},
@@ -45,27 +45,27 @@ export interface ContextProviderProps {
 export const ProfileContext = createContext<BioState>(initialState);
 
 export const ProfileContextProvider = ({ children }: ContextProviderProps) => {
-  const [username, setUsername] = useState<string>("");
-  const [name, setName] = useState<string>("");
+  const [username, setUsername] = useState<string>("Adam Back");
+  const [name, setName] = useState<string>("Satoshi");
   const [id, setId] = useState<string>("");
   const [publicKey, setPublicKey] = useState<string>("");
   const [bio, setBio] = useState<string>("");
   const [imageURL, setImageURL] = useState<string>("");
-  const [timeBlockLengthMin, setTimeBlockLengthMin] = useState<string | null>(
-    null
+  const [timeBlockLengthMin, setTimeBlockLengthMin] = useState<number | null>(
+    0
   );
-  const [timeBlockCostADA, setTimeBlockCostADA] = useState<string | null>(null);
-  const [profession, setProfession] = useState<string | string[] | null>(null);
-  const [jobTitle, setJobTitle] = useState<string | string[] | null>(null);
-  const [description, setDescription] = useState<string | string[] | null>(
-    null
+  const [timeBlockCostADA, setTimeBlockCostADA] = useState<number | undefined>(
+    0
   );
-  const [skills, setSkills] = useState<string | string[] | null>(null);
+  const [profession, setProfession] = useState<string | undefined>("");
+  const [jobTitle, setJobTitle] = useState<string | undefined>("");
+  const [description, setDescription] = useState<string | undefined>("");
+  const [skills, setSkills] = useState<string | undefined>("");
   const [hasSyncedWallet, setHasSyncedWallet] = useState<boolean>(false);
   const [walletBalance, setWalletBalance] = useState<number>(56);
-  const [profileType, setProfileType] = useState<
-    "attendee" | "organizer" | null
-  >(null);
+  const [profileType, setProfileType] = useState<"attendee" | "organizer">(
+    "attendee"
+  );
 
   return (
     <ProfileContext.Provider

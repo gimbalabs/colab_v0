@@ -6,7 +6,7 @@ export type ColorSchemeName = "light" | "dark";
 
 export interface AppState {
   authentication: boolean | null;
-  accountType: "attendee" | "organizer" | null;
+  accountType: "attendee" | "organizer";
   colorScheme: ColorSchemeName;
   favoriteOrganizers: any[];
   pageIndex: number;
