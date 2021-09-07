@@ -3,8 +3,7 @@ import { View, Animated, StyleSheet, Dimensions } from "react-native";
 
 import {
   UserDetailsScreen,
-  WalletTopUpScreen,
-  PaymentConfirmationScreen,
+  RegistrationConfirmationScreen,
 } from "screens/onboarding/index";
 import { SafeAreaView } from "react-native-safe-area-context";
 import PagerView from "react-native-pager-view";
@@ -16,8 +15,8 @@ const AnimatedPagerView = Animated.createAnimatedComponent(PagerView);
 
 const SCREENS = [
   { component: UserDetailsScreen },
-  { component: WalletTopUpScreen },
-  { component: PaymentConfirmationScreen },
+  // { component: WalletTopUpScreen },
+  { component: RegistrationConfirmationScreen },
 ];
 
 export const UserRegistrationScreens = () => {
@@ -73,7 +72,7 @@ export const UserRegistrationScreens = () => {
         keyboardDismissMode="on-drag"
         showPageIndicator={false}
         onPageScroll={onPageScroll}
-        scrollEnabled={true}
+        scrollEnabled={false}
         initialPage={pageIndex}
         style={styles.animatedPager}>
         {SCREENS.map(renderScreens)}

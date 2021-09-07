@@ -3,46 +3,61 @@ import { View, StyleSheet, Text, Dimensions } from "react-native";
 
 import { PencilAltIcon, RegistrationIcon } from "icons/index";
 import { Typography, Colors, Sizing, Outlines } from "styles/index";
-import { ProfileTag } from "components/profile/profileTag";
 import { FullWidthButton } from "components/buttons/fullWidthButton";
 import { appContext } from "contexts/contextApi";
 import { PressableIcon } from "components/buttons/pressableIcon";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useNavigation } from "@react-navigation/native";
 import { ProfileContext } from "contexts/profileContext";
-import { Auth } from "Api/Auth";
 import { Users } from "Api/Users";
+import { OrganizerProfileDto } from "common/types/dto/organizer.dto";
+import { getFromEncryptedStorage } from "lib/encryptedStorage";
+import { startChallengeSequence } from "lib/helpers";
+import { signChallenge } from "lib/tweetnacl";
+import base64 from "base64-js";
 
 export interface RegistrationConfirmationScreen {}
 
 const SCREEN_WIDTH = Dimensions.get("screen").width;
 
-const USER_TAGS = [
-  { tagName: "Teach", tagBackgroundColor: "#FEF3C7", tagTextColor: "#92400E" },
-  { tagName: "Code", tagBackgroundColor: "#E0E7FF", tagTextColor: "#3730A3" },
-  {
-    tagName: "Innovation",
-    tagBackgroundColor: "#FEE2E2",
-    tagTextColor: "#92400E",
-  },
-];
-
 export const RegistrationConfirmationScreen = () => {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const { profession, jobTitle, bio, timeBlockCostADA, skills } =
+  const { profession, jobTitle, bio, timeBlockCostADA, skills, id } =
     React.useContext(ProfileContext);
   const { ref } = appContext();
   const { navigate } = useNavigation();
 
   const onChangePress = () => ref.current.setPage(0);
 
-  const onConfirm = () => {
+  const onConfirm = async () => {
     try {
-      const res = new Users().;
+      const publicKey = await getFromEncryptedStorage("public");
+      const secretKey = await getFromEncryptedStorage("secret");
+
+      if (publicKey && secretKey) {
+        var organizerProfileDto = new OrganizerProfileDto(
+          bio,
+          timeBlockCostADA ?? 0,
+          profession,
+          jobTitle,
+          skills
+        );
+
+        const user = await new Users().updateUser(organizerProfileDto, id);
+        if (user) {
+          const { id } = user;
+
+          // get challenge from server
+          const accessToken = await startChallengeSequence(id);
+          console.log(accessToken);
+        }
+      } else {
+        throw new Error("Occured problems while accessing keys from storage");
+      }
     } catch (e) {
       console.error(e);
     }
-    navigate("Navigation Screens");
+    // navigate("Navigation Screens");
   };
 
   return (
