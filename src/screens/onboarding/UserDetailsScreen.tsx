@@ -2,7 +2,6 @@ import * as React from "react";
 import { View, StyleSheet, Text, TextInput } from "react-native";
 
 import { CustomPlainInput } from "components/forms/CustomPlainInput";
-import { CalendarIcon, DownIcon, PencilAltIcon } from "icons/index";
 import { Typography, Colors, Sizing, Forms } from "styles/index";
 import { FullWidthButton } from "components/buttons/fullWidthButton";
 import { ProfileContext } from "contexts/profileContext";
@@ -11,23 +10,18 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 export interface UserDetailScreenProps {}
 
 export const UserDetailsScreen = ({ pagerRef }: any) => {
-  const {
-    setProfession,
-    setJobTitle,
-    setDescription,
-    setSkills,
-    setTimeBlockCostADA,
-  } = React.useContext(ProfileContext);
-  const [_profession, _setProfession] = React.useState<string | string[]>("");
-  const [_jobTitle, _setJobTitle] = React.useState<string | string[]>("");
-  const [_description, _setDescription] = React.useState<string | string[]>("");
-  const [_timeBlockCostAda, _setTimeBlockCostAda] = React.useState<string>("");
-  const [_skills, _setSkills] = React.useState<string | string[]>("");
+  const { setProfession, setJobTitle, setBio, setSkills, setTimeBlockCostADA } =
+    React.useContext(ProfileContext);
+  const [_profession, _setProfession] = React.useState<string>("");
+  const [_jobTitle, _setJobTitle] = React.useState<string>("");
+  const [_bio, _setBio] = React.useState<string>("");
+  const [_timeBlockCostAda, _setTimeBlockCostAda] = React.useState<number>(0);
+  const [_skills, _setSkills] = React.useState<string>("");
 
   const submitBioState = () => {
     setProfession(_profession);
     setJobTitle(_jobTitle);
-    setDescription(_description);
+    setBio(_bio);
     setTimeBlockCostADA(_timeBlockCostAda);
     setSkills(_skills);
     pagerRef.current.setPage(1);
@@ -48,7 +42,6 @@ export const UserDetailsScreen = ({ pagerRef }: any) => {
         <CustomPlainInput
           label="Profession"
           placeholder="Doctor, therapist, developer..."
-          icon={DownIcon}
           styles={styles}
           isLightMode={false}
           onChangeCallback={(val) => _setProfession(val)}
@@ -56,7 +49,6 @@ export const UserDetailsScreen = ({ pagerRef }: any) => {
         <CustomPlainInput
           label="Job Title"
           placeholder="Full Stack Engineer, Sr Business..."
-          icon={DownIcon}
           styles={styles}
           isLightMode={false}
           onChangeCallback={(val) => _setJobTitle(val)}
@@ -68,42 +60,39 @@ export const UserDetailsScreen = ({ pagerRef }: any) => {
           numberOfLines={8}
           maxChar={250}
           placeholder="Passionate in helping others draw business goals and needs..."
-          icon={PencilAltIcon}
           styles={styles}
           isLightMode={false}
-          onChangeCallback={(val) => _setDescription(val)}
+          onChangeCallback={(val) => _setBio(val)}
         />
-        <CustomPlainInput
+        {/*<CustomPlainInput
           label="Availability"
           placeholder="weekly, weekends, mornings, e..."
-          icon={CalendarIcon}
           styles={styles}
           isLightMode={false}
           onChangeCallback={() => {}}
-        />
-        <View style={styles.inputContainer}>
-          <View style={styles.labelContainer}>
-            <Text style={styles.label}>Hourly rate</Text>
-          </View>
-          <View style={styles.textInputWrapper}>
-            <TextInput
-              style={styles.input}
-              keyboardType="numeric"
-              textContentType="none"
-              placeholder="35 ₳ an hour"
-              placeholderTextColor={styles.placeholderText.color}
-              onChangeText={(val) => _setTimeBlockCostAda(val)}
-            />
-          </View>
-        </View>
+        />*/}
         <CustomPlainInput
           label="Skills"
           placeholder="Organized, Motivated, Critical Th..."
-          icon={DownIcon}
           styles={styles}
           isLightMode={false}
           onChangeCallback={(val) => _setSkills(val)}
         />
+      </View>
+      <View style={styles.inputContainer}>
+        <View style={styles.labelContainer}>
+          <Text style={styles.label}>Hourly rate</Text>
+        </View>
+        <View style={styles.textInputWrapper}>
+          <TextInput
+            style={styles.input}
+            keyboardType="numeric"
+            textContentType="none"
+            placeholder="35 ₳ an hour"
+            placeholderTextColor={styles.placeholderText.color}
+            onChangeText={(val) => _setTimeBlockCostAda(Number(val))}
+          />
+        </View>
       </View>
       <FullWidthButton
         onPressCallback={submitBioState}
@@ -162,15 +151,15 @@ const styles = StyleSheet.create({
   placeholderText: {
     color: Colors.primary.s300,
   },
-  iconWrapper: {
-    left: -40,
-    width: Sizing.x35,
-    height: Sizing.x35,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  icon: {
-    width: Sizing.x30,
-    height: Sizing.x30,
-  },
+  // iconWrapper: {
+  //   left: -40,
+  //   width: Sizing.x35,
+  //   height: Sizing.x35,
+  //   alignItems: "center",
+  //   justifyContent: "center",
+  // },
+  // icon: {
+  //   width: Sizing.x30,
+  //   height: Sizing.x30,
+  // },
 });
