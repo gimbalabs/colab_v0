@@ -49,7 +49,6 @@ export const RegistrationConfirmationScreen = () => {
 
           // get challenge from server
           const accessToken = await startChallengeSequence(id);
-          console.log(accessToken);
         }
       } else {
         throw new Error("Occured problems while accessing keys from storage");

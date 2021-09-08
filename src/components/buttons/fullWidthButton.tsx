@@ -2,7 +2,6 @@ import * as React from "react";
 import {
   Pressable,
   Text,
-  StyleSheet,
   StyleProp,
   ActivityIndicator,
   LayoutChangeEvent,
@@ -11,10 +10,10 @@ import {
 import { Buttons, Colors } from "styles/index";
 
 export interface FullWidthButton {
-  colorScheme: "light" | "dark";
   onPressCallback: () => any | Promise<void>;
-  loadingIndicator?: boolean;
   text: string;
+  loadingIndicator?: boolean;
+  colorScheme?: "light" | "dark";
   disabled?: boolean;
   buttonType?: "filled" | "transparent";
   style?: StyleProp<any>;

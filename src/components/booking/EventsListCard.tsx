@@ -19,9 +19,13 @@ export interface EventsListCardProps {
   toDate: number;
   image: any;
   color: string;
+  isEventCardPreview: boolean;
+  isTransparent: boolean;
 }
 
 export const EventsListCard = ({
+  isEventCardPreview,
+  isTransparent,
   title,
   description,
   fromDate,
@@ -30,35 +34,49 @@ export const EventsListCard = ({
   color,
 }: EventsListCardProps) => {
   const navigation = useNavigation();
-  const getEventDate = () => {};
 
   const onCardPress = () => {
-    return navigation.navigate("Event Description", {
-      title,
-      description,
-      fromDate,
-      toDate,
-      image,
-      color,
-    });
+    if (!isEventCardPreview)
+      return navigation.navigate("Event Description", {
+        title,
+        description,
+        fromDate,
+        toDate,
+        image,
+        color,
+      });
   };
 
   return (
-    <Pressable onPress={onCardPress} style={{ flex: 1 }}>
+    <Pressable onPress={onCardPress} style={styles.main}>
       <ImageBackground
         imageStyle={styles.image}
         resizeMode="cover"
-        source={image}
+        source={
+          isEventCardPreview
+            ? {
+                uri: image,
+              }
+            : image
+        }
         style={styles.backgroundImage}>
         <View
           style={[
             styles.container,
-            { backgroundColor: applyOpacity(color, 0.5) },
+            {
+              backgroundColor: isTransparent
+                ? "transparent"
+                : applyOpacity(color, 0.5),
+            },
           ]}>
           <View
             style={[
               styles.dateCard,
-              { backgroundColor: applyOpacity(color, 0.8) },
+              {
+                backgroundColor: isTransparent
+                  ? "transparent"
+                  : applyOpacity(color, 0.8),
+              },
             ]}>
             <Text style={styles.dateCardText}>
               {getEventCardDate(fromDate, toDate)}
@@ -72,12 +90,16 @@ export const EventsListCard = ({
 };
 
 const styles = StyleSheet.create({
+  main: {
+    height: Sizing.x120,
+    marginVertical: Sizing.x10,
+    ...Outlines.shadow.base,
+    borderRadius: Outlines.borderRadius.base,
+  },
   backgroundImage: {
     flex: 1,
     width: "100%",
     height: Sizing.x120,
-    marginVertical: Sizing.x10,
-    ...Outlines.shadow.base,
   },
   image: {
     borderRadius: Outlines.borderRadius.base,
