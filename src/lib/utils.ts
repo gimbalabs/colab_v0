@@ -1,4 +1,4 @@
-import { Dimensions } from "react-native";
+import { Dimensions, Platform } from "react-native";
 import * as Random from "expo-random";
 import * as yup from "yup";
 import {
@@ -16,6 +16,8 @@ import { months, monthsByName, weekDays } from "common/types/calendarTypes";
  */
 import { customScheduledEvents } from "../api_data/customScheduledEvents.js";
 import { customAvailabilities } from "../api_data/customAvailabilities.js";
+
+const IS_ANDROID = Platform.OS === "android";
 
 export function scale(size: number, factor = 1) {
   return +((Dimensions.get("window").width / 390) * size * factor).toFixed(2);
@@ -566,20 +568,23 @@ export function getDigitalTime(
 export function getDigitalLocaleTime(
   time: number | Date,
   locale: string = "en"
-): string {
-  console.log(time, locale);
+): string | void {
   var timeString: any = new Date(time).toLocaleTimeString(locale);
+
   timeString = timeString.split(" ");
-  if (timeString.length === 1) timeString;
+  if (timeString == null || timeString.length === 0) return;
 
-  var abbreviation = timeString[1]?.toLocaleLowerCase();
-  console.log(timeString, abbreviation);
+  // `toLocaleTimeString` doesn't work on Android
+  if (!IS_ANDROID) {
+    var abbreviation = timeString[1]?.toLocaleLowerCase();
 
-  timeString.pop();
-  timeString = timeString?.[0].split(":");
+    timeString.pop();
+  }
+  timeString = timeString[0].split(":");
   timeString.pop();
   timeString = timeString.join(":");
 
+  if (IS_ANDROID) return timeString;
   return timeString + " " + abbreviation;
 }
 
