@@ -25,7 +25,7 @@ type Props = StackScreenProps<
   "Available Time Selection"
 >;
 
-export const AvailableTimeSelection = ({ route, navigation }: Props) => {
+export const AvailableTimeSelection = ({ navigation }: Props) => {
   const [fromTime, setFromTime] = React.useState<Date>(new Date());
   const [toTime, setToTime] = React.useState<Date>(new Date());
   const [minTime, setMinTime] = React.useState<number>(0);
@@ -39,7 +39,6 @@ export const AvailableTimeSelection = ({ route, navigation }: Props) => {
     let arr: any[] = [];
     const range = toTime.getTime() - fromTime.getTime();
 
-    console.log(fromTime, toTime, range);
     if (range > 0) {
       for (let i = 1; i < range / 1000 / 60 + 1; i++) {
         arr.push(i);
@@ -56,7 +55,6 @@ export const AvailableTimeSelection = ({ route, navigation }: Props) => {
     let arr: any[] = [];
     const range = toTime.getTime() - fromTime.getTime();
 
-    console.log(range);
     if (range > 0) {
       for (let i = 1; i < range / 1000 / 60 + 1; i++) {
         arr.push(i);
@@ -74,7 +72,7 @@ export const AvailableTimeSelection = ({ route, navigation }: Props) => {
   }, [fromTime, toTime, minTime, maxTime]);
 
   const hasExistingAvailability = !!availabilities.find(
-    el =>
+    (el) =>
       el &&
       el.from === fromTime &&
       el.to === toTime &&
@@ -94,14 +92,13 @@ export const AvailableTimeSelection = ({ route, navigation }: Props) => {
     if (label === "To") setToTime(val);
   };
   const onMinValueChange = (val: number) => {
-    setMinTime(val);
+    setMinTime(val != 0 ? val : 1);
     // if new min. time slot > max. time slot, reset maxTime
     if (val > maxTime) setMaxTime(val);
   };
   const onMaxValueChange = (val: number) => setMaxTime(val);
   const onOpenChange = (label: string | null) => setOpenPicker(label);
   const addNewAvailability = () => {
-    console.log(maxTime, minTime);
     addAvailability({
       from: fromTime,
       to: toTime,

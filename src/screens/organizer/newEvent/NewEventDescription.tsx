@@ -5,7 +5,7 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { LeftArrowIcon } from "assets/icons";
 import { CustomPlainInput } from "components/forms/CustomPlainInput";
 import { HeaderText } from "components/rnWrappers/headerText";
-import { appContext } from "contexts/contextApi";
+import { appContext, eventCreationContext } from "contexts/contextApi";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors, Sizing } from "styles/index";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -16,6 +16,7 @@ type Props = StackScreenProps<EventCreationParamList, "New Event Description">;
 
 export const NewEventDescription = ({ navigation, route }: Props) => {
   const { colorScheme } = appContext();
+  const { setTextContent } = eventCreationContext();
   const [eventTitle, setEventTitle] = React.useState<string>("");
   const [eventDescription, setEventsDescription] = React.useState<string>("");
 
@@ -28,7 +29,10 @@ export const NewEventDescription = ({ navigation, route }: Props) => {
 
   // navigation handlers
   const onBackNavigationPress = () => navigation.goBack();
-  const onNextPress = () => navigation.navigate("Available Days Selection");
+  const onNextPress = () => {
+    setTextContent({ title: eventTitle, description: eventDescription });
+    navigation.navigate("Available Days Selection");
+  };
 
   return (
     <SafeAreaView
