@@ -6,8 +6,10 @@ import { CashStackIcon } from "./cashStack";
 import { CheckIcon } from "./check";
 import { ClockIcon } from "./clock";
 import { CogIcon } from "./cog";
+import { ColorsPalleteIcon } from "./colorsPallete";
 import { CreditCardIcon } from "./creditCard";
 import { DepositSuccessfulIcon } from "./depositSuccessful";
+import { DescriptionIcon } from "./description";
 import { DotIcon } from "./dot";
 import { DownIcon } from "./down";
 import { DuplicateIcon } from "./duplicate";
@@ -48,10 +50,12 @@ export {
   CheckIcon,
   ClockIcon,
   CogIcon,
+  ColorsPalleteIcon,
   CreditCardIcon,
   DotIcon,
   DuplicateIcon,
   DepositSuccessfulIcon,
+  DescriptionIcon,
   DownIcon,
   LeftArrowIcon,
   LightBulbIcon,
