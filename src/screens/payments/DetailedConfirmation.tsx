@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView } from "react-native-safe-area-context";
 import { appContext, bookingContext } from "contexts/contextApi";
 import { LeftArrowIcon } from "assets/icons";
 import { Colors, Sizing, Typography } from "styles/index";
@@ -13,12 +13,12 @@ function wait(ms: number): Promise<void> {
   return new Promise((res) => setTimeout(res, ms));
 }
 
-export const BookingConfirmation = ({ navigation }: any) => {
+export const DetailedConfirmation = ({ navigation, route }: any) => {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const { setWalletBalance, walletBalance } = React.useContext(ProfileContext);
   const { colorScheme } = appContext();
   const { durationCost } = bookingContext();
-
+  const params = route?.params;
   const isLightMode = colorScheme === "light";
 
   const onBackNavigationPress = () => navigation.goBack();
@@ -28,7 +28,9 @@ export const BookingConfirmation = ({ navigation }: any) => {
     await wait(1500);
     //@TODO submit transaction to blockchain
     setWalletBalance(walletBalance - durationCost);
-    navigation.navigate("Confirmation", { isBookingConfirmation: true });
+    navigation.navigate("Confirmation", {
+      isBookingConfirmation: params?.isNewEvent ?? false,
+    });
   };
 
   return (
@@ -59,7 +61,7 @@ export const BookingConfirmation = ({ navigation }: any) => {
             Confirmation
           </Text>
         </View>
-        <EventConfirmationDetails />
+        <EventConfirmationDetails isNewEvent={params?.isNewEvent} />
         <View style={styles.buttonContainer}>
           <FullWidthButton
             onPressCallback={onButtonPress}
