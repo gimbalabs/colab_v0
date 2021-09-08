@@ -11,13 +11,18 @@ import {
 } from "common/types/contextTypes";
 
 const initialState: InitialState = {
-  textContent: null,
+  textContent: {
+    title: "",
+    description: "",
+  },
   availabilities: [],
   selectedDays: null,
   tags: [],
   hourlyRate: null,
-  imageURI: null,
+  imageURI: "",
+  eventCardColor: "",
   selectedWeekDays: [],
+  privateEvent: false,
 };
 
 const reducer = (
@@ -32,12 +37,8 @@ const reducer = (
       };
     }
     case EventCreationTypes.AddAvailability: {
-      const {
-        from,
-        to,
-        minDuration,
-        maxDuration,
-      } = action.payload.availability;
+      const { from, to, minDuration, maxDuration } =
+        action.payload.availability;
       // Why is keep adding undefined...
       state.availabilities = state.availabilities.filter((el) => el != null);
 
@@ -58,12 +59,8 @@ const reducer = (
       return state;
     }
     case EventCreationTypes.RemoveAvailability: {
-      const {
-        from,
-        to,
-        minDuration,
-        maxDuration,
-      } = action.payload.availability;
+      const { from, to, minDuration, maxDuration } =
+        action.payload.availability;
       const newAvailabilities = state.availabilities.filter(
         (el) =>
           el.from !== from ||
@@ -129,6 +126,18 @@ const reducer = (
       return {
         ...state,
         tags: action.payload.tags,
+      };
+    }
+    case EventCreationTypes.SetPrivateEvent: {
+      return {
+        ...state,
+        privateEvent: action.payload.privateEvent,
+      };
+    }
+    case EventCreationTypes.SetEventCardColor: {
+      return {
+        ...state,
+        eventCardColor: action.payload.eventCardColor,
       };
     }
     default: {

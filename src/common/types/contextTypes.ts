@@ -32,6 +32,8 @@ export enum EventCreationTypes {
   SetTags = "SET_TAGS",
   SetImageURI = "SET_IMAGE_URI",
   SetHourlyRate = "SET_HOURLY_RATE",
+  SetPrivateEvent = "SET_PRIVATE_EVENT",
+  SetEventCardColor = "SET_EVENT_CARD_COLOR",
 }
 
 export enum BookingTypes {
@@ -121,6 +123,12 @@ export type EventCreationPayload = {
   };
   [EventCreationTypes.SetTextContent]: {
     textContent: TextContent;
+  };
+  [EventCreationTypes.SetPrivateEvent]: {
+    privateEvent: boolean;
+  };
+  [EventCreationTypes.SetEventCardColor]: {
+    eventCardColor: string;
   };
   ["unknown"]: any;
 };

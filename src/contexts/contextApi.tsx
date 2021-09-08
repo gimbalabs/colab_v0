@@ -61,7 +61,9 @@ export const eventCreationContext = () => {
     tags: state.tags,
     hourlyRate: state.hourlyRate,
     imageURI: state.imageURI,
-    setTextContext: (textContent: TextContent) => {
+    privateEvent: state.privateEvent,
+    eventCardColor: state.eventCardColor,
+    setTextContent: (textContent: TextContent) => {
       dispatch({
         type: EventCreationTypes.SetTextContent,
         payload: { textContent },
@@ -110,6 +112,18 @@ export const eventCreationContext = () => {
       dispatch({
         type: EventCreationTypes.SetTags,
         payload: { tags },
+      });
+    },
+    setPrivateEvent: (privateEvent: boolean) => {
+      dispatch({
+        type: EventCreationTypes.SetPrivateEvent,
+        payload: { privateEvent },
+      });
+    },
+    setEventCardColor: (color: string) => {
+      dispatch({
+        type: EventCreationTypes.SetEventCardColor,
+        payload: { eventCardColor: color },
       });
     },
   };
