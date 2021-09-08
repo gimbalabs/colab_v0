@@ -12,13 +12,15 @@ export interface ContextObjectProps {
 }
 
 export interface InitialState {
-  textContent: TextContent | null;
+  textContent: TextContent;
   availabilities: EventAvailability[];
   selectedDays: SelectedDays | null;
   tags: string[];
   hourlyRate: number | null;
-  imageURI: string | null;
+  imageURI: string;
   selectedWeekDays: SelectedWeekDays[];
+  privateEvent: boolean;
+  eventCardColor: string;
 }
 
 export type SelectedDays = { [key: string]: number };

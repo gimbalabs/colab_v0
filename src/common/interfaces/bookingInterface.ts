@@ -19,10 +19,10 @@ export interface BookingContextProps {
 }
 
 export interface SectionDetail {
-  callbackFn?: EventCallbackFn | undefined;
-  lineContent: EventLine | EventLine[];
+  lineContent: EventLine | EventLine[] | undefined;
   label: string;
-  isLastItem: boolean;
+  callbackFn?: EventCallbackFn | undefined;
+  isLastItem?: boolean;
 }
 
 export interface EventCallbackFn {

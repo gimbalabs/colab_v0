@@ -54,4 +54,6 @@ export type EventCreationParamList = {
   "Available Days Selection": undefined;
   "Available Time Selection": { availabilities: any } | undefined;
   "Image Cover Selection": undefined;
+  "Event Card Customization": undefined;
+  "Event Confirmation Details": { isNewEvent: boolean } | undefined;
 };
