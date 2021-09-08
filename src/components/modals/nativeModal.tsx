@@ -1,8 +1,8 @@
 import * as React from "react";
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import { Text, Pressable } from "react-native";
 
 import ModalSelector from "react-native-modal-selector";
-import { Buttons, Sizing, Typography } from "styles/index";
+import { Buttons, Sizing, Typography, Outlines } from "styles/index";
 
 export interface NativeModalProps {
   cameraAccessCb: () => any;
@@ -69,7 +69,7 @@ export const NativeModal = React.memo(
 
     return (
       <>
-        {/* @ts-ignore) */}
+        {/* @ts-ignore */}
         <ModalSelector
           closeOnChange={false}
           cancelText="Cancel"

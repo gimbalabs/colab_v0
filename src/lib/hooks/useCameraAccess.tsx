@@ -85,6 +85,7 @@ export const useCameraAccess = () => {
   return {
     access,
     imageObj,
+    setImgObj,
     requestCameraAccessAsync,
     launchCamera: _launchCamera,
   };

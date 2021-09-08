@@ -10,7 +10,7 @@ import {
 } from "screens/booking/index";
 import { BrowseScreen } from "screens/index";
 import { WalletTopUpScreen } from "screens/onboarding";
-import { BookingConfirmation } from "screens/payments";
+import { DetailedConfirmation } from "screens/payments";
 import { BookingStackParamList } from "common/types/navigationTypes";
 
 const Stack = createStackNavigator<BookingStackParamList>();
@@ -26,7 +26,7 @@ export const BrowseScreensStack = () => (
       <Stack.Screen name="Add Funds" component={WalletTopUpScreen} />
       <Stack.Screen
         name="Booking Confirmation"
-        component={BookingConfirmation}
+        component={DetailedConfirmation}
       />
     </Stack.Navigator>
   </BookingContextProvider>

@@ -16,7 +16,7 @@ import {
 
 export const useMediaAccess = () => {
   const [access, setAccess] = React.useState<boolean | null>(false);
-  const [mediaObj, setImgObj] = React.useState<any>(null);
+  const [mediaObj, setMediaObj] = React.useState<any>(null);
   const os = Platform.OS;
 
   const checkImageLibraryPermission = async (): Promise<void> => {
@@ -87,12 +87,13 @@ export const useMediaAccess = () => {
 
     launchImageLibrary(options, (res) => {
       if (res.didCancel) return;
-      setImgObj(res);
+      setMediaObj(res);
     });
   };
   return {
     access,
     mediaObj,
+    setMediaObj,
     requestImageLibraryAccessAsync,
     launchImageLibrary: _launchImageLibrary,
   };

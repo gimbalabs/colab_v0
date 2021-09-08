@@ -6,17 +6,16 @@ import { appContext } from "contexts/contextApi";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors, Sizing } from "styles/index";
 import { HeaderText } from "components/rnWrappers/headerText";
-import { MonthlyWrapper } from "components/calendar";
-import { CalendarWrapperSimple } from "components/calendar/CalendarWrapperSimple";
 import { StackScreenProps } from "@react-navigation/stack";
 import { EventCreationParamList } from "common/types/navigationTypes";
+import { MonthlyWrapper } from "components/calendar";
 
 type Props = StackScreenProps<
   EventCreationParamList,
   "Available Days Selection"
 >;
 
-export const AvailableDaysSelection = ({ navigation, route }: Props) => {
+export const AvailableDaysSelection = ({ navigation }: Props) => {
   const { colorScheme } = appContext();
 
   const isLightMode = colorScheme === "light";
@@ -50,9 +49,7 @@ export const AvailableDaysSelection = ({ navigation, route }: Props) => {
           </HeaderText>
         </View>
         <View style={styles.calendarWrapper}>
-          <CalendarWrapperSimple isNewEventCalendar>
-            <MonthlyWrapper isNewEventCalendar />
-          </CalendarWrapperSimple>
+          <MonthlyWrapper isNewEventCalendar />
         </View>
       </View>
     </SafeAreaView>
