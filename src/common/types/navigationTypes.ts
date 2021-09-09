@@ -40,11 +40,12 @@ export type BookingStackParamList = {
         selectedEvent: any | undefined;
       }
     | undefined;
-  "Available Times": any;
-  "Duration Choice": any;
-  "Event Description": any;
-  "Add Funds": any;
-  "Booking Confirmation": any;
+  "Available Event Days Selection": EventDescription;
+  "Available Times": EventDescription;
+  "Duration Choice": EventDescription;
+  "Event Description": EventDescription;
+  "Add Funds": EventDescription;
+  "Booking Confirmation": EventDescription;
   Confirmation: any;
 };
 
@@ -57,3 +58,19 @@ export type EventCreationParamList = {
   "Event Card Customization": undefined;
   "Event Confirmation Details": { isNewEvent: boolean } | undefined;
 };
+
+/**
+ * Navigation params interfaces
+ */
+
+interface EventDescription {
+  title: string;
+  description: string;
+  fromDate: number | string;
+  toDate: number | string;
+  image: any;
+  color: string;
+  eventId: string;
+  fromScreen?: string;
+  isBookingWalletTopUp?: boolean;
+}
