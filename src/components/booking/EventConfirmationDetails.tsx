@@ -1,11 +1,18 @@
 import * as React from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 
-import { appContext, bookingContext } from "contexts/contextApi";
+import {
+  appContext,
+  bookingContext,
+  eventCreationContext,
+} from "contexts/contextApi";
 import { EventConfirmationDetail } from "./EventConfirmationDetail";
 import {
   AdaIcon,
   CalendarIcon,
+  ColorsPalleteIcon,
+  DescriptionIcon,
+  PlaceholderIcon,
   PresentationIcon,
   TimeIcon,
   UserIcon,
@@ -21,15 +28,31 @@ import {
   getTimeSpanLength,
 } from "lib/utils";
 
-export const EventConfirmationDetails = ({ navigation }: any) => {
+export const EventConfirmationDetails = ({ isNewEvent = false }: any) => {
   const { colorScheme } = appContext();
   const {
-    previewingOrganizer,
-    duration,
-    durationCost,
-    pickedDate,
-    eventTitle,
+    previewingOrganizer = null,
+    duration = null,
+    durationCost = null,
+    pickedDate = null,
+    eventTitle = null,
   } = bookingContext();
+  const {
+    textContent = null,
+    hourlyRate = null,
+    selectedDays = null,
+    imageURI = null,
+    eventCardColor = null,
+  } = eventCreationContext();
+
+  var selectedDaysArr: number[] = [];
+  var fromDate, toDate;
+
+  if (isNewEvent) {
+    selectedDaysArr = Object.values(selectedDays as any);
+    fromDate = Math.min(...selectedDaysArr);
+    toDate = Math.max(...selectedDaysArr);
+  }
 
   const isLightMode = colorScheme === "light";
 
@@ -43,13 +66,86 @@ export const EventConfirmationDetails = ({ navigation }: any) => {
 
   const sectionsIcons = {
     presentation: <PresentationIcon {...iconStyles} />,
+    description: <DescriptionIcon {...iconStyles} />,
     user: <UserIcon {...iconStyles} />,
     calendar: <CalendarIcon {...iconStyles} />,
     time: <TimeIcon {...iconStyles} />,
     ada: <AdaIcon {...iconStyles} />,
+    placeholder: <PlaceholderIcon {...iconStyles} />,
+    colorsPallete: <ColorsPalleteIcon {...iconStyles} />,
   };
 
-  const sections: SectionDetail[] = [
+  const newEventSections: any[] = [
+    textContent?.title && {
+      label: "Title",
+      callbackFn: {
+        label: "Edit",
+        callbackFnScreen: "New Event Description",
+      },
+      lineContent: {
+        content: textContent.title,
+        icon: sectionsIcons.presentation,
+      },
+    },
+    textContent?.description && {
+      label: "Description",
+      callbackFn: {
+        label: "Edit",
+        callbackFnScreen: "New Event Description",
+      },
+      lineContent: {
+        content: textContent.description,
+        icon: sectionsIcons.description,
+      },
+    },
+    selectedDays && {
+      label: "Date & time",
+      callbackFn: {
+        label: "Edit",
+        callbackFnScreen: "Available Days Selection",
+      },
+      lineContent: [
+        {
+          content: `Start: ${weekDays[getDay(fromDate)]} - ${
+            months[getMonth(fromDate)]
+          } ${getDate(fromDate)}`,
+          icon: sectionsIcons.calendar,
+        },
+        {
+          content: `End: ${weekDays[getDay(toDate)]} - ${
+            months[getMonth(toDate)]
+          } ${getDate(toDate)}`,
+          icon: sectionsIcons.calendar,
+        },
+      ],
+    },
+    {
+      label: "Hourly Rate",
+      lineContent: {
+        content: "50 ADA",
+        icon: sectionsIcons.ada,
+      },
+    },
+    {
+      label: "Event card",
+      callbackFn: {
+        label: "Edit",
+        callbackFnScreen: "Event Card Customization",
+      },
+      lineContent: [
+        {
+          content: "my_image_20210908",
+          icon: sectionsIcons.placeholder,
+        },
+        {
+          content: `${eventCardColor}`,
+          icon: sectionsIcons.colorsPallete,
+        },
+      ],
+    },
+  ];
+
+  const bookingEventSections: SectionDetail[] = [
     eventTitle && {
       label: "Event",
       lineContent: {
@@ -57,39 +153,40 @@ export const EventConfirmationDetails = ({ navigation }: any) => {
         icon: sectionsIcons.presentation,
       },
     },
-    previewingOrganizer.alias && {
+    previewingOrganizer?.alias && {
       label: "Organizer",
       lineContent: {
         content: previewingOrganizer.alias,
         icon: sectionsIcons.user,
       },
     },
-    pickedDate && {
-      label: "Date & time",
-      callbackFn: {
-        label: "Edit",
-        callbackFnScreen: "Available Dates",
+    pickedDate &&
+      duration && {
+        label: "Date & time",
+        callbackFn: {
+          label: "Edit",
+          callbackFnScreen: "Available Event Days Selection",
+        },
+        lineContent: [
+          {
+            content: `${weekDays[getDay(pickedDate)]} - ${
+              months[getMonth(pickedDate)]
+            } ${getDate(pickedDate)}`,
+            icon: sectionsIcons.calendar,
+          },
+          {
+            content: `${getDigitalLocaleTime(
+              pickedDate
+            )} - ${getDigitalLocaleTime(pickedDate + duration)}`,
+            icon: sectionsIcons.time,
+          },
+        ],
       },
-      lineContent: [
-        {
-          content: `${weekDays[getDay(pickedDate)]} - ${
-            months[getMonth(pickedDate)]
-          } ${getDate(pickedDate)}`,
-          icon: sectionsIcons.calendar,
-        },
-        {
-          content: `${getDigitalLocaleTime(
-            pickedDate
-          )} - ${getDigitalLocaleTime(pickedDate + duration)}`,
-          icon: sectionsIcons.time,
-        },
-      ],
-    },
     duration && {
       label: "Reservation time",
       callbackFn: {
         label: "Change",
-        callbackFnScreen: "Available Times",
+        callbackFnScreen: "Duration Choice",
       },
       lineContent: {
         content: getTimeSpanLength(duration),
@@ -104,6 +201,11 @@ export const EventConfirmationDetails = ({ navigation }: any) => {
     },
   ];
 
+  const isLastItem = (index: number) =>
+    isNewEvent
+      ? index === newEventSections.length - 1
+      : index === bookingEventSections.length - 1;
+
   const renderSections = ({
     item,
     index,
@@ -117,7 +219,7 @@ export const EventConfirmationDetails = ({ navigation }: any) => {
         label={item.label}
         lineContent={item.lineContent}
         callbackFn={item.callbackFn}
-        isLastItem={index === sections.length - 1}
+        isLastItem={isLastItem(index)}
       />
     );
   };
@@ -126,7 +228,7 @@ export const EventConfirmationDetails = ({ navigation }: any) => {
 
   return (
     <FlatList
-      data={sections}
+      data={isNewEvent ? newEventSections : bookingEventSections}
       renderItem={renderSections}
       keyExtractor={keyExtractor}
     />
