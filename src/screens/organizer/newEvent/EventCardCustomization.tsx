@@ -25,11 +25,20 @@ type Props = StackScreenProps<
 >;
 
 export const EventCardCustomization = ({ navigation }: Props) => {
-  const { textContent, imageURI, selectedDays, setEventCardColor } =
-    eventCreationContext();
+  const {
+    textContent,
+    imageURI,
+    selectedDays,
+    setEventCardColor,
+    eventCardColor,
+  } = eventCreationContext();
   const { colorScheme } = appContext();
   const [color, setColor] = React.useState<string>("#030303");
   const [transparent, setTransparent] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
+    if (eventCardColor) setColor(eventCardColor);
+  }, []);
 
   const selectedDaysArr: number[] = Object.values(selectedDays as any);
   const fromDate = Math.min(...selectedDaysArr);

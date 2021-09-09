@@ -35,20 +35,22 @@ export const EventsListCard = ({
 }: EventsListCardProps) => {
   const navigation = useNavigation();
 
-  const onCardPress = () => {
-    if (!isEventCardPreview)
-      return navigation.navigate("Event Description", {
-        title,
-        description,
-        fromDate,
-        toDate,
-        image,
-        color,
-      });
-  };
+  const onCardPress = () =>
+    navigation.navigate("Event Description", {
+      title,
+      description,
+      fromDate,
+      toDate,
+      image,
+      color,
+    });
 
+  //@TODO replace logic for imagebackground source for production release
   return (
-    <Pressable onPress={onCardPress} style={styles.main}>
+    <Pressable
+      disabled={isEventCardPreview ?? false}
+      onPress={onCardPress}
+      style={styles.main}>
       <ImageBackground
         imageStyle={styles.image}
         resizeMode="cover"
@@ -72,11 +74,14 @@ export const EventsListCard = ({
           <View
             style={[
               styles.dateCard,
-              {
-                backgroundColor: isTransparent
-                  ? "transparent"
-                  : applyOpacity(color, 0.8),
-              },
+              isTransparent
+                ? {
+                    backgroundColor: applyOpacity("000000", 0.3),
+                  }
+                : {
+                    backgroundColor: applyOpacity(color, 0.8),
+                    ...Outlines.shadow.lifted,
+                  },
             ]}>
             <Text style={styles.dateCardText}>
               {getEventCardDate(fromDate, toDate)}
@@ -115,7 +120,6 @@ const styles = StyleSheet.create({
     height: "auto",
     marginLeft: "auto",
     borderRadius: Outlines.borderRadius.small,
-    ...Outlines.shadow.lifted,
   },
   dateCardText: {
     textAlign: "center",

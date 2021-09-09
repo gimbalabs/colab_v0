@@ -116,7 +116,10 @@ export const UserProfileScreen = ({ navigation }: UserProfileScreenProps) => {
                   {
                     backgroundColor: Colors.neutral.s300,
                   },
-                  ,
+                  darkMode && {
+                    borderColor: Colors.primary.neutral,
+                    borderWidth: Outlines.borderWidth.base,
+                  },
                 ]}>
                 <Pressable
                   onPressIn={onImagePress}

@@ -29,7 +29,7 @@ export const ImageCoverSelection = ({ navigation }: Props) => {
   const { launchImageLibrary, mediaObj, setMediaObj } = useMediaAccess();
   const { launchCamera, imageObj, setImgObj } = useCameraAccess();
   const { colorScheme } = appContext();
-  const { setImageUri } = eventCreationContext();
+  const { setImageUri, imageURI } = eventCreationContext();
 
   const mainPositionAnimation = React.useRef<any>(
     new Animated.Value(0)
@@ -40,6 +40,11 @@ export const ImageCoverSelection = ({ navigation }: Props) => {
   const isLightMode = colorScheme === "light";
 
   React.useEffect(() => {
+    if (!currImage && imageURI) {
+      animateNavigationButtons(0);
+      setCurrImage(imageURI);
+    }
+
     if (imageObj?.assets[0]?.uri && imageObj !== currImage) {
       setCurrImage(imageObj.assets[0].uri);
       animateNavigationButtons();
@@ -64,17 +69,17 @@ export const ImageCoverSelection = ({ navigation }: Props) => {
   };
   const onLayout = (e: LayoutChangeEvent) => setLayout(e.nativeEvent.layout);
 
-  const animateNavigationButtons = () => {
+  const animateNavigationButtons = (duration?: number) => {
     Animated.parallel([
       Animated.timing(mainPositionAnimation, {
         toValue: (mainPositionAnimation as any)._value === 0 ? 200 : 0,
         useNativeDriver: false,
-        duration: 200,
+        duration: duration ?? 200,
       }),
       Animated.timing(secondPositionAnimation, {
         toValue: (secondPositionAnimation as any)._value === 200 ? 0 : 200,
         useNativeDriver: false,
-        duration: 200,
+        duration: duration ?? 200,
       }),
     ]).start();
   };

@@ -10,6 +10,8 @@ import {
   NewEventDescription,
 } from "screens/organizer/newEvent";
 import { EventCreationParamList } from "common/types/navigationTypes";
+import { EventCardCustomization } from "screens/organizer/newEvent/EventCardCustomization";
+import { DetailedConfirmation } from "screens/payments";
 
 const Stack = createStackNavigator<EventCreationParamList>();
 
@@ -33,6 +35,14 @@ export const OrganizerHomeScreenStack = () => {
         <Stack.Screen
           name="Image Cover Selection"
           component={ImageCoverSelection}
+        />
+        <Stack.Screen
+          name="Event Card Customization"
+          component={EventCardCustomization}
+        />
+        <Stack.Screen
+          name="Event Confirmation Details"
+          component={DetailedConfirmation}
         />
       </Stack.Navigator>
     </EventCreationContextProvider>
