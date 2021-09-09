@@ -8,8 +8,6 @@ import { myCalendarContext } from "contexts/contextApi";
 export const MainCalendar = () => {
   const { calendar, changeMonthHeader, calendarHeader } = myCalendarContext();
   const onPreviousPress = () => {
-    // console.log(calendar.map((m) => m.name));
-    // setCalendarDirection("previous");
     const calendarHeader = {
       month: calendar[0].name,
       year: calendar[0].year,
@@ -17,8 +15,6 @@ export const MainCalendar = () => {
     changeMonthHeader(calendarHeader);
   };
   const onNextPress = () => {
-    // console.log(calendar.map((m) => m.name));
-    // setCalendarDirection("next");
     const calendarHeader = {
       month: calendar[2].name,
       year: calendar[2].year,

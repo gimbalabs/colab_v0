@@ -65,25 +65,25 @@ export const MonthlyWrapper = ({
     Animated.parallel([
       Animated.timing(animatedOpacity, {
         toValue: 0,
-        duration: 120,
+        duration: 80,
         useNativeDriver: true,
         easing: Easing.sin,
       }),
       Animated.timing(animatedTranslateX, {
         toValue: fadeOutPrevious ? 20 : -20,
-        duration: 120,
+        duration: 80,
         useNativeDriver: true,
         easing: Easing.sin,
       }),
       Animated.timing(animatedOpacitySlideIn, {
         toValue: 1,
-        duration: 120,
+        duration: 80,
         useNativeDriver: true,
         easing: Easing.sin,
       }),
       Animated.timing(animatedTranslateXSlideIn, {
         toValue: 0,
-        duration: 120,
+        duration: 80,
         useNativeDriver: true,
         easing: Easing.sin,
       }),
@@ -103,7 +103,7 @@ export const MonthlyWrapper = ({
       duration: 200,
       easing: Easing.sin,
       useNativeDriver: true,
-    }).start(({ finished }) => finished && setInitialHasLoaded(true));
+    }).start();
     setInitialHasLoaded(true);
   };
 
@@ -358,6 +358,7 @@ const styles = StyleSheet.create({
     marginTop: Sizing.x10,
   },
   legendWrapper: {
+    marginTop: Sizing.x10,
     alignSelf: "flex-start",
   },
   calendarContainer: {
@@ -378,7 +379,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: Outlines.borderRadius.base,
     ...Outlines.shadow.lifted,
-    elevation: 4,
   },
   headerContainer: {
     width: "100%",

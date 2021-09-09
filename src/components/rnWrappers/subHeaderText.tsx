@@ -10,11 +10,11 @@ import * as React from "react";
 import { Text, StyleSheet, StyleProp, TextStyle } from "react-native";
 
 import { appContext } from "contexts/contextApi";
-import { Typography } from "styles/index";
+import { Colors, Typography } from "styles/index";
 
 export interface SubHeaderTextProps {
   children?: any;
-  colors: string[];
+  colors?: string[];
   customStyle?: StyleProp<TextStyle>;
   callbackFn?: () => any;
 }
@@ -28,11 +28,13 @@ export const SubHeaderText = ({
   const { colorScheme } = appContext();
 
   const textColor =
-    colors.length > 1
-      ? colorScheme != null && colorScheme === "light"
-        ? { color: colors[0] }
-        : { color: colors[1] }
-      : { color: colors[0] };
+    colors != null
+      ? colors.length > 1
+        ? colorScheme != null && colorScheme === "light"
+          ? { color: colors[0] }
+          : { color: colors[1] }
+        : { color: colors[0] }
+      : { color: Colors.primary.neutral };
 
   const onPress = () => callbackFn && callbackFn();
 
