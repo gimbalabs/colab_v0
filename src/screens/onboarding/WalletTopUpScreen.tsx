@@ -12,14 +12,7 @@ import ViewPager from "react-native-pager-view";
 import QRCode from "react-native-qrcode-svg";
 import { CustomPlainInput } from "components/forms/CustomPlainInput";
 import { DuplicateIcon, LeftArrowIcon } from "icons/index";
-import {
-  Typography,
-  Colors,
-  Sizing,
-  Outlines,
-  Forms,
-  Buttons,
-} from "styles/index";
+import { Typography, Colors, Sizing, Outlines, Buttons } from "styles/index";
 import { appContext } from "contexts/contextApi";
 import { FullWidthButton } from "components/buttons/fullWidthButton";
 import { BodyText } from "components/rnWrappers/bodyText";
@@ -51,6 +44,7 @@ export const WalletTopUpScreen = ({
   const { hasSyncedWallet, walletBalance, setWalletBalance } =
     React.useContext(ProfileContext);
   const windowWidth = useWindowDimensions().width;
+  const { fromScreen } = route.params;
 
   const isRegistrationScreen = pagerRef?.current instanceof ViewPager;
   const isBookingScreen = route != null && route.params?.isBookingScreen;
@@ -81,13 +75,16 @@ export const WalletTopUpScreen = ({
       });
     }
 
-    if (route != null && route.params?.fromScreen != null) {
+    if (route != null && route.params?.fromScreen == "Duration Choice") {
       navigation.navigate("Deposit Successful", {
         fromScreen: route.params.fromScreen,
       });
     }
 
-    // navigation.navigate("Deposit Successful", { isBookingWalletTopUp: true });
+    navigation.navigate("Deposit Successful", {
+      ...route.params,
+      isBookingWalletTopUp: true,
+    });
   };
 
   const hideModal = () => setIsVisibleModal(false);
@@ -119,18 +116,15 @@ export const WalletTopUpScreen = ({
   }, [colorScheme]);
 
   return (
-    <>
-      <SafeAreaView
-        style={[
-          styles.safeArea,
-          {
-            backgroundColor: isLightMode
-              ? Colors.primary.neutral
-              : isRegistrationScreen
-              ? Colors.primary.s600
-              : Colors.primary.s800,
-          },
-        ]}>
+    <SafeAreaView
+      style={[
+        isRegistrationScreen
+          ? styles.safeArea_dark
+          : isLightMode
+          ? styles.safeArea_light
+          : styles.safeArea_dark,
+      ]}>
+      <View style={styles.mainContainer}>
         <KeyboardAwareScrollView
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
@@ -185,71 +179,72 @@ export const WalletTopUpScreen = ({
                 backgroundColor={Colors.primary.neutral}
               />
             </View>
-          </View>
-          <CustomPlainInput
-            label="Address"
-            placeholder="addr9czf30t9dzbdsxe79a2vtf8io"
-            icon={DuplicateIcon}
-            labelStyle={!isBookingScreen && { color: Colors.primary.neutral }}
-            onChangeCallback={onTextChangeCallback}
-            onPressHandler={onCopyPress}
-            customChild={<CopyMessage isActive={copyMsgActive} />}
-          />
-          <CustomPlainInput
-            label="Amount"
-            placeholder="50 ₳"
-            keyboardType="numeric"
-            labelStyle={!isBookingScreen && { color: Colors.primary.neutral }}
-            onChangeCallback={onAmountChangeCallback}
-          />
-          <View style={styles.buttonWrapper}>
-            <FullWidthButton
-              onPressCallback={processPayment}
-              text={"Deposit"}
-              colorScheme={colorScheme}
-              disabled={isDisabled}
-              loadingIndicator={isLoading}
-              buttonType={!isLightMode ? "transparent" : "filled"}
-              lightMode={isLightMode}
+            <CustomPlainInput
+              label="Address"
+              placeholder="addr9czf30t9dzbdsxe79a2vtf8io"
+              icon={DuplicateIcon}
+              labelStyle={!isBookingScreen && { color: Colors.primary.neutral }}
+              onChangeCallback={onTextChangeCallback}
+              onPressHandler={onCopyPress}
+              customChild={<CopyMessage isActive={copyMsgActive} />}
             />
-          </View>
-          {!isBookingScreen && (
-            <View style={styles.backButtonSection}>
-              <Pressable
-                onPress={onBackPress}
-                style={Buttons.applyOpacity(styles.backButton)}>
-                <Text style={styles.backButtonText}>Back</Text>
-                <LeftArrowIcon
-                  color={Colors.primary.neutral}
-                  width={18}
-                  height={18}
-                  strokeWidth={3}
-                  style={styles.backButtonIcon}
-                />
-              </Pressable>
+            <CustomPlainInput
+              label="Amount"
+              placeholder="50 ₳"
+              keyboardType="numeric"
+              labelStyle={!isBookingScreen && { color: Colors.primary.neutral }}
+              onChangeCallback={onAmountChangeCallback}
+            />
+            <View style={styles.buttonWrapper}>
+              <FullWidthButton
+                onPressCallback={processPayment}
+                text={"Deposit"}
+                colorScheme={colorScheme}
+                disabled={isDisabled}
+                loadingIndicator={isLoading}
+                buttonType={!isLightMode ? "transparent" : "filled"}
+                lightMode={isLightMode}
+              />
             </View>
-          )}
+            {isRegistrationScreen && (
+              <View style={styles.backButtonSection}>
+                <Pressable
+                  onPress={onBackPress}
+                  style={Buttons.applyOpacity(styles.backButton)}>
+                  <Text style={styles.backButtonText}>Back</Text>
+                  <LeftArrowIcon
+                    color={Colors.primary.neutral}
+                    width={18}
+                    height={18}
+                    strokeWidth={3}
+                    style={styles.backButtonIcon}
+                  />
+                </Pressable>
+              </View>
+            )}
+          </View>
         </KeyboardAwareScrollView>
         {isVisibleModal && WalletTopUpModal}
-      </SafeAreaView>
-    </>
+      </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    alignItems: "center",
-    width: "90%",
-  },
-  container_light: {
+  safeArea_light: {
     backgroundColor: Colors.primary.neutral,
     alignItems: "center",
   },
-  container_dark: {
+  safeArea_dark: {
     backgroundColor: Colors.primary.s600,
     alignItems: "center",
   },
+  mainContainer: {
+    alignItems: "center",
+    width: "90%",
+  },
+  container_light: {},
+  container_dark: {},
   header: {
     width: "100%",
   },

@@ -15,20 +15,16 @@ import { LeftArrowIcon } from "assets/icons";
 import { appContext } from "contexts/contextApi";
 import { BodyText } from "components/rnWrappers/bodyText";
 import { FullWidthButton } from "components/buttons/fullWidthButton";
+import { StackScreenProps } from "@react-navigation/stack";
+import { BookingStackParamList } from "common/types/navigationTypes";
 
-export interface EventDescriptionProps {
-  navigation: any;
-  route: any;
-}
+type Props = StackScreenProps<BookingStackParamList, "Event Description">;
 
 function wait(ms: number): Promise<void> {
   return new Promise((res) => setTimeout(res, ms));
 }
 
-export const EventDescription = ({
-  navigation,
-  route,
-}: EventDescriptionProps) => {
+export const EventDescription = ({ navigation, route }: Props) => {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const { title, description, fromDate, toDate, image, color } = route.params;
   const { colorScheme } = appContext();
@@ -42,7 +38,9 @@ export const EventDescription = ({
     await wait(1000);
     //@TODO here we should make an API call to obtain availabilities,
     //      and pass selected event (id?) as navigation prop
-    navigation.navigate("Available Dates", { selectedEvent: "test" });
+    navigation.navigate("Available Event Days Selection", {
+      ...route.params,
+    });
     setIsLoading(false);
   };
 
@@ -120,6 +118,8 @@ const styles = StyleSheet.create({
   bottomContainer: {
     flex: 1,
     alignItems: "center",
+    borderTopLeftRadius: Outlines.borderRadius.large,
+    borderTopRightRadius: Outlines.borderRadius.large,
   },
   bottomWrapper: {
     flex: 1,
@@ -129,12 +129,15 @@ const styles = StyleSheet.create({
   },
   backgroundImage: {
     width: "100%",
-    height: "100%",
+    height: "105%",
+    position: "absolute",
+    top: 0,
   },
   topInnerContainer: {
     flex: 1,
     alignItems: "center",
     justifyContent: "space-between",
+    paddingBottom: Sizing.x15,
   },
   topInnerWrapper: {
     width: "90%",

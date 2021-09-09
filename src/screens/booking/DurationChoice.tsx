@@ -1,7 +1,17 @@
 import * as React from "react";
-import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  ScrollView,
+  ImageBackground,
+} from "react-native";
 
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import { Colors, Outlines, Sizing, Typography } from "styles/index";
 import { OrganizerProfile } from "components/booking/index";
 import { LeftArrowIcon } from "icons/index";
@@ -13,6 +23,7 @@ import { useDurationSlots } from "lib/hooks/useDurationSlots";
 import AnimatedNumber from "react-native-animated-number";
 import { BookingStackParamList } from "common/types/navigationTypes";
 import { StackScreenProps } from "@react-navigation/stack";
+import { applyOpacity } from "../../styles/colors";
 
 function wait(ms: number): Promise<void> {
   return new Promise((res) => setTimeout(res, ms));
@@ -20,44 +31,48 @@ function wait(ms: number): Promise<void> {
 
 type Props = StackScreenProps<BookingStackParamList, "Duration Choice">;
 
-export const DurationChoice = ({ navigation }: Props) => {
+export const DurationChoice = ({ navigation, route }: Props) => {
+  const { title, description, image, color } = route.params;
   const { maxTimeSlotDuration } = bookingContext();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [selectedDuration, setSelectedDuration] = React.useState<number>(0);
   const [cost, setCost] = React.useState<number>(0);
   const { walletBalance } = React.useContext(ProfileContext);
 
-  const {
-    previewingOrganizer,
-    setDuration,
-    setDurationCost,
-  } = bookingContext();
-  const { colorScheme, auth } = appContext();
+  const { previewingOrganizer, setDuration, setDurationCost } =
+    bookingContext();
+  const { colorScheme } = appContext();
 
+  const insets = useSafeAreaInsets();
   const isLightMode = colorScheme === "light";
   const isDisabled = selectedDuration === 0;
   const timeBlockMilSec = previewingOrganizer?.timeBlock * 60 * 1000;
-  const buttonText = !auth
-    ? "Sign up"
-    : walletBalance != null && walletBalance < cost
-    ? "Deposit"
-    : "Next";
+  //@TODO: insert check for auth state
+  //    !auth
+  // ? "Sign up"
+  // :
+  //
+  const buttonText =
+    walletBalance != null && walletBalance < cost ? "Deposit" : "Next";
 
   const { timeSlots } = useDurationSlots(timeBlockMilSec, maxTimeSlotDuration);
 
   const onBackNavigationPress = () => navigation.goBack();
 
   const onNextPress = async () => {
-    if (buttonText === "Sign up") return; // @TODO must navigate to sign up screen
+    // if (buttonText === "Sign up") return; // @TODO must navigate to sign up screen
     if (buttonText === "Deposit")
-      navigation.navigate("Add Funds", { fromScreen: "Duration Choice" });
+      navigation.navigate("Add Funds", {
+        ...route.params,
+        fromScreen: "Duration Choice",
+      });
     if (buttonText === "Next") {
       setIsLoading(true);
       setDuration(selectedDuration);
       setDurationCost(cost);
       await wait(1500);
       setIsLoading(false);
-      navigation.navigate("Booking Confirmation");
+      navigation.navigate("Booking Confirmation", route.params);
     }
   };
 
@@ -99,28 +114,52 @@ export const DurationChoice = ({ navigation }: Props) => {
   );
 
   return (
-    <SafeAreaView
-      style={[
-        styles.safeArea,
-        {
-          backgroundColor: isLightMode
-            ? Colors.primary.neutral
-            : Colors.primary.s600,
-        },
-      ]}>
+    <SafeAreaView style={{ flex: 1, paddingBottom: insets.bottom }}>
+      <View style={styles.topContainer}>
+        <ImageBackground
+          resizeMode="cover"
+          source={image}
+          style={styles.backgroundImage}>
+          <View
+            style={[
+              styles.topInnerContainer,
+              { backgroundColor: applyOpacity(color, 0.5) },
+            ]}>
+            <View style={[styles.topInnerWrapper, { paddingTop: insets.top }]}>
+              <View style={styles.navigation}>
+                <Pressable onPress={onBackNavigationPress} hitSlop={10}>
+                  <LeftArrowIcon
+                    width={24}
+                    height={24}
+                    color={Colors.primary.neutral}
+                  />
+                </Pressable>
+              </View>
+            </View>
+            <View
+              style={[
+                styles.eventTitleWrapper,
+                { paddingBottom: insets.bottom + Sizing.x15 },
+              ]}>
+              <Text
+                ellipsizeMode="tail"
+                numberOfLines={2}
+                style={styles.eventTitle}>
+                {title}
+              </Text>
+            </View>
+          </View>
+        </ImageBackground>
+      </View>
       <ScrollView
-        style={{ flex: 1, width: "100%" }}
-        contentContainerStyle={{ alignItems: "center" }}>
-        <View style={styles.navigation}>
-          <Pressable onPress={onBackNavigationPress} hitSlop={10}>
-            <LeftArrowIcon
-              width={24}
-              height={24}
-              color={isLightMode ? Colors.primary.s600 : Colors.primary.neutral}
-            />
-          </Pressable>
-        </View>
-        <OrganizerProfile profile={previewingOrganizer} />
+        contentContainerStyle={[
+          styles.bottomContainer,
+          {
+            backgroundColor: isLightMode
+              ? Colors.primary.neutral
+              : Colors.primary.s800,
+          },
+        ]}>
         <View style={styles.timesHeader}>
           <Text
             style={
@@ -183,7 +222,8 @@ const styles = StyleSheet.create({
     marginVertical: Sizing.x15,
   },
   timesHeader: {
-    marginVertical: Sizing.x5,
+    marginTop: Sizing.x25,
+    marginBottom: Sizing.x5,
     marginRight: "auto",
     marginLeft: Sizing.x25,
   },
@@ -232,6 +272,7 @@ const styles = StyleSheet.create({
     textAlign: "auto",
   },
   totalAda_light: {
+    textAlignVertical: "center",
     fontSize: Sizing.x60,
     fontFamily: "Roboto-Medium",
     color: Colors.primary.s600,
@@ -248,5 +289,44 @@ const styles = StyleSheet.create({
   walletBalance_dark: {
     ...Typography.subHeader.x10,
     color: Colors.primary.s200,
+  },
+  topContainer: {
+    height: Sizing.x100,
+  },
+  bottomContainer: {
+    flexGrow: 1,
+    alignItems: "center",
+    borderTopLeftRadius: Outlines.borderRadius.large,
+    borderTopRightRadius: Outlines.borderRadius.large,
+  },
+  bottomWrapper: {
+    flex: 1,
+    width: "90%",
+    paddingVertical: Sizing.x20,
+    justifyContent: "space-between",
+  },
+  backgroundImage: {
+    width: "100%",
+    height: Sizing.x120,
+    position: "absolute",
+    top: 0,
+  },
+  topInnerContainer: {
+    height: "100%",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    paddingBottom: Sizing.x15,
+  },
+  topInnerWrapper: {
+    width: "90%",
+    flexDirection: "row",
+  },
+  eventTitleWrapper: {
+    width: "90%",
+  },
+  eventTitle: {
+    ...Typography.header.x55,
+    color: Colors.primary.neutral,
+    marginTop: Sizing.x15,
   },
 });

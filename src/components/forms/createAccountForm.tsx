@@ -22,13 +22,14 @@ import { appContext } from "contexts/contextApi";
 import { startChallengeSequence } from "lib/helpers";
 import { generateKeyPair } from "lib/tweetnacl";
 import base64 from "base64-js";
+import { setAuthorizationToken } from "Api/base";
 
 export interface CreateAccountFormProps {}
 
 const AnimatedCheckIcon = Animated.createAnimatedComponent(CheckIcon);
 
 export const CreateAccountForm = ({}: CreateAccountFormProps) => {
-  const { profileType, setName, setUsername, setId, setPublicKey } =
+  const { profileType, setName, setUsername, setId } =
     React.useContext(ProfileContext);
   const { toggleAuth, setJWT } = appContext();
   const [acceptedCheckbox, setAcceptedChecbox] = React.useState<boolean>(false);
@@ -89,17 +90,18 @@ export const CreateAccountForm = ({}: CreateAccountFormProps) => {
           setUsername(username);
           setName(name);
 
+          // start challenge and get JWT
+          const loginResponseDTO = await startChallengeSequence(id);
+
+          if (loginResponseDTO) {
+            const { accessToken, expiresIn } = loginResponseDTO;
+            setAuthorizationToken(accessToken);
+            setJWT({ accessToken, expiresIn });
+          }
+
+          setSubmitted(true);
+          toggleAuth(true, profileType);
           if (profileType === "attendee") {
-            // start challenge and get JWT
-            const loginResponseDTO = await startChallengeSequence(id);
-
-            if (loginResponseDTO) {
-              const { accessToken, expiresIn } = loginResponseDTO;
-              setJWT({ accessToken, expiresIn });
-              setSubmitted(true);
-            }
-
-            toggleAuth(true, "attendee");
             navigation.navigate("Navigation Screens");
           } else if (profileType === "organizer") {
             navigation.navigate("User Registration Screens");

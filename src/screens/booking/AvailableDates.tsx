@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, StyleSheet, Pressable } from "react-native";
+import { View, StyleSheet, Pressable, Text } from "react-native";
 
 import { Colors, Sizing, Typography } from "styles/index";
 import { OrganizerProfile } from "components/booking/index";
@@ -13,10 +13,6 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { customAvailabilities } from "../../api_data/customAvailabilities";
 import { featuredOrganizers } from "../../api_data/featuredOrganizers";
-import { MonthlyWrapper } from "components/calendar";
-import { CalendarWrapperSimple } from "components/calendar/CalendarWrapperSimple";
-import { FullWidthButton } from "components/buttons/fullWidthButton";
-import { SubHeaderText } from "components/rnWrappers/subHeaderText";
 import { EventsList } from "components/booking/EventsList";
 import { BookingStackParamList } from "common/types/navigationTypes";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -30,12 +26,9 @@ export const AvailableDates = ({ navigation, route }: Props) => {
   const [currentTab, setCurrentTab] = React.useState<string>("events");
   const { colorScheme } = appContext();
   const { setAvailCalendar } = myCalendarContext();
-  const {
-    setPreviewingOrganizer,
-    previewingOrganizer,
-    pickedDate,
-  } = bookingContext();
+  const { setPreviewingOrganizer, previewingOrganizer } = bookingContext();
   const alias = route.params?.alias;
+  const isLightMode = colorScheme === "light";
 
   React.useEffect(() => {
     if (route.params?.selectedEvent != null) {
@@ -49,14 +42,7 @@ export const AvailableDates = ({ navigation, route }: Props) => {
     setPreviewingOrganizer(profile);
   }, [navigation, route.params]);
 
-  const isLightMode = colorScheme === "light";
-  const isDisabled = pickedDate === null;
-
   const onBackNavigationPress = () => navigation.goBack();
-  const onNextPress = () => navigation.navigate("Available Times");
-
-  const onEventsTabPress = () => setCurrentTab("events");
-  const onAvailabilitiesTabPress = () => setCurrentTab("availabilities");
 
   return (
     <SafeAreaView
@@ -78,49 +64,20 @@ export const AvailableDates = ({ navigation, route }: Props) => {
             />
           </Pressable>
         </View>
-        {previewingOrganizer && currentTab != "availabilities" && (
-          <OrganizerProfile profile={previewingOrganizer} />
-        )}
-        <View style={styles.calendarHeader}>
-          <SubHeaderText
-            callbackFn={onEventsTabPress}
-            customStyle={
-              currentTab === "events" && { fontFamily: "Roboto-Bold" }
-            }
-            colors={[Colors.primary.s800, Colors.primary.neutral]}>
-            Events
-          </SubHeaderText>
-          <SubHeaderText
-            callbackFn={onAvailabilitiesTabPress}
-            customStyle={
-              currentTab === "availabilities" && { fontFamily: "Roboto-Bold" }
-            }
-            colors={[Colors.primary.s800, Colors.primary.neutral]}>
-            Availabilities
-          </SubHeaderText>
+        <OrganizerProfile profile={previewingOrganizer} />
+        <View style={styles.timesHeader}>
+          <Text
+            style={
+              isLightMode
+                ? styles.timesHeaderText_light
+                : styles.timesHeaderText_dark
+            }>
+            Currently available
+          </Text>
         </View>
-        {selectedEvent && currentTab === "availabilities" && (
-          <>
-            <View style={styles.calendarWrapper}>
-              <CalendarWrapperSimple>
-                <MonthlyWrapper isBookingCalendar={true} />
-              </CalendarWrapperSimple>
-            </View>
-            <View style={styles.buttonContainer}>
-              <FullWidthButton
-                onPressCallback={onNextPress}
-                text={"Book event"}
-                colorScheme={colorScheme}
-                disabled={isDisabled}
-              />
-            </View>
-          </>
-        )}
-        {currentTab === "events" && (
-          <View style={{ flex: 1, width: "90%" }}>
-            <EventsList />
-          </View>
-        )}
+        <View style={{ flex: 1, width: "90%" }}>
+          <EventsList />
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -160,5 +117,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "90%",
     marginVertical: Sizing.x10,
+  },
+  timesHeader: {
+    marginVertical: Sizing.x5,
+    marginRight: "auto",
+    marginLeft: Sizing.x25,
+  },
+  timesHeaderText_light: {
+    ...Typography.header.x50,
+    color: Colors.primary.s800,
+  },
+  timesHeaderText_dark: {
+    ...Typography.header.x50,
+    color: Colors.primary.neutral,
   },
 });
