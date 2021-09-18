@@ -59,7 +59,7 @@ export const CustomPasswordInput = (props: any) => {
         style={[
           styles.errorWrapper,
           {
-            backgroundColor: !hasError ? "transparent" : Colors.danger.s400,
+            backgroundColor: !hasError ? "transparent" : Colors.danger.s300,
           },
         ]}>
         {hasError && <Text style={styles.error}>{errors[name]}</Text>}
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     height: Sizing.x30,
   },
   errorInput: {
-    borderColor: Colors.danger.s400,
+    borderColor: Colors.danger.s300,
   },
   errorWrapper: {
     height: 22, // inspect element in expo to see how much pixels it needs

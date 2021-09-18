@@ -1,22 +1,12 @@
 import * as React from "react";
-
-import { EventCreationContextProvider } from "contexts/eventCreationContext";
 import { MyCalendarProvider } from "contexts/myCalendarContext";
 
 export interface CalendarWrapperSimpleProps {
   children: React.ReactNode;
-  isNewEventCalendar?: boolean;
 }
 
 export const CalendarWrapperSimple = ({
   children,
-  isNewEventCalendar = false,
-}: CalendarWrapperSimpleProps) => {
-  return !isNewEventCalendar ? (
-    <MyCalendarProvider>{children}</MyCalendarProvider>
-  ) : (
-    <MyCalendarProvider>
-      <EventCreationContextProvider>{children}</EventCreationContextProvider>
-    </MyCalendarProvider>
-  );
-};
+}: CalendarWrapperSimpleProps) => (
+  <MyCalendarProvider>{children}</MyCalendarProvider>
+);

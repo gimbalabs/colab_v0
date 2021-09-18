@@ -2,35 +2,81 @@ import * as React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 
 import { SafeAreaView } from "react-native-safe-area-context";
-import { appContext, bookingContext } from "contexts/contextApi";
+import {
+  appContext,
+  bookingContext,
+  eventCreationContext,
+} from "contexts/contextApi";
 import { LeftArrowIcon } from "assets/icons";
 import { Colors, Sizing, Typography } from "styles/index";
 import { FullWidthButton } from "components/buttons/fullWidthButton";
 import { EventConfirmationDetails } from "components/booking";
 import { ProfileContext } from "contexts/profileContext";
-
-function wait(ms: number): Promise<void> {
-  return new Promise((res) => setTimeout(res, ms));
-}
+import { Events } from "Api/Events";
+import { CreateEventDto } from "common/types/dto/create-event.dto";
 
 export const DetailedConfirmation = ({ navigation, route }: any) => {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const { setWalletBalance, walletBalance } = React.useContext(ProfileContext);
+  const {
+    setWalletBalance,
+    walletBalance,
+    timeBlockCostADA: hourlyRate,
+  } = React.useContext(ProfileContext);
   const { colorScheme } = appContext();
   const { durationCost } = bookingContext();
+  const {
+    textContent,
+    selectedDays,
+    tags,
+    hourlyRate: eventHourlyRate,
+    imageURI,
+    privateEvent,
+    eventCardColor,
+    availabilities,
+    resetState,
+  } = eventCreationContext();
+  const { username, id } = React.useContext(ProfileContext);
   const params = route?.params;
   const isLightMode = colorScheme === "light";
 
   const onBackNavigationPress = () => navigation.goBack();
-
   const onButtonPress = async () => {
-    setIsLoading(true);
-    await wait(1500);
+    if (params?.isNewEvent) {
+      setIsLoading(true);
+      const newEvent: CreateEventDto = {
+        title: textContent.title,
+        description: textContent.description,
+        availabilities,
+        selectedDays,
+        tags,
+        hourlyRate: hourlyRate ?? eventHourlyRate,
+        imageURI,
+        privateEvent,
+        eventCardColor,
+        organizer: {
+          id,
+          username,
+        },
+      };
+
+      try {
+        const res = await Events.createEvent(newEvent);
+
+        if (res) {
+          setIsLoading(false);
+          resetState();
+          navigation.navigate("Confirmation", {
+            isBookingConfirmation: params?.isNewEvent ?? false,
+          });
+        }
+      } catch (e) {
+        setIsLoading(false);
+        console.error(e);
+      }
+    }
+
     //@TODO submit transaction to blockchain
-    setWalletBalance(walletBalance - durationCost);
-    navigation.navigate("Confirmation", {
-      isBookingConfirmation: params?.isNewEvent ?? false,
-    });
+    // setWalletBalance(walletBalance - durationCost);
   };
 
   return (

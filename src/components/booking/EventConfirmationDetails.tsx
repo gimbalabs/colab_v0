@@ -27,6 +27,7 @@ import {
   getMonth,
   getTimeSpanLength,
 } from "lib/utils";
+import { ProfileContext } from "contexts/profileContext";
 
 export const EventConfirmationDetails = ({ isNewEvent = false }: any) => {
   const { colorScheme } = appContext();
@@ -38,12 +39,13 @@ export const EventConfirmationDetails = ({ isNewEvent = false }: any) => {
     eventTitle = null,
   } = bookingContext();
   const {
-    textContent = null,
-    hourlyRate = null,
-    selectedDays = null,
-    imageURI = null,
-    eventCardColor = null,
+    textContent,
+    hourlyRate: eventHourlyRate,
+    selectedDays,
+    imageURI,
+    eventCardColor,
   } = eventCreationContext();
+  const { timeBlockCostADA: hourlyRate } = React.useContext(ProfileContext);
 
   var selectedDaysArr: number[] = [];
   var fromDate, toDate;
@@ -122,7 +124,7 @@ export const EventConfirmationDetails = ({ isNewEvent = false }: any) => {
     {
       label: "Hourly Rate",
       lineContent: {
-        content: "50 ADA",
+        content: `${hourlyRate ?? eventHourlyRate} ADA`,
         icon: sectionsIcons.ada,
       },
     },
@@ -134,10 +136,10 @@ export const EventConfirmationDetails = ({ isNewEvent = false }: any) => {
       },
       lineContent: [
         {
-          content: "my_image_20210908",
+          content: imageURI,
           icon: sectionsIcons.placeholder,
         },
-        {
+        eventCardColor !== "transparent" && {
           content: `${eventCardColor}`,
           icon: sectionsIcons.colorsPallete,
         },

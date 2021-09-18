@@ -19,6 +19,7 @@ import {
 } from "styles/index";
 import { StackScreenProps } from "@react-navigation/stack";
 import { EventCreationParamList } from "common/types/navigationTypes";
+import { roundDateMinutes } from "lib/utils";
 
 type Props = StackScreenProps<
   EventCreationParamList,
@@ -26,50 +27,70 @@ type Props = StackScreenProps<
 >;
 
 export const AvailableTimeSelection = ({ navigation }: Props) => {
-  const [fromTime, setFromTime] = React.useState<Date>(new Date());
-  const [toTime, setToTime] = React.useState<Date>(new Date());
+  const [fromTime, setFromTime] = React.useState<Date>(
+    roundDateMinutes(new Date())
+  );
+  const [toTime, setToTime] = React.useState<Date>(
+    roundDateMinutes(new Date())
+  );
   const [minTime, setMinTime] = React.useState<number>(0);
   const [maxTime, setMaxTime] = React.useState<number>(0);
+  const [maxInputRange, setMaxInputRange] = React.useState<any[]>([]);
+  const [minInputRange, setMinInputRange] = React.useState<any[]>([]);
   const [enabledPicker, setEnabledPicker] = React.useState<boolean>(true);
   const [openPicker, setOpenPicker] = React.useState<string | null>(null);
   const { colorScheme } = appContext();
   const { addAvailability, availabilities } = eventCreationContext();
 
-  const minInputRange = React.useMemo(() => {
+  React.useEffect(() => {
+    setMinInputRange(calculateMinRange());
+    setMaxInputRange(calculateMaxRange());
+  }, [fromTime, toTime, minTime, maxTime]);
+
+  const calculateMinRange = () => {
     let arr: any[] = [];
     const range = toTime.getTime() - fromTime.getTime();
 
     if (range > 0) {
-      for (let i = 1; i < range / 1000 / 60 + 1; i++) {
+      // in range of 5min
+      for (let i = 5; i < range / 1000 / 60 + 1; i += 5) {
         arr.push(i);
       }
+      if (!minTime) setMinTime(arr[0]);
       setEnabledPicker(true);
     } else {
       arr = ["--"];
+      setMinTime(0);
       setEnabledPicker(false);
     }
 
     return arr;
-  }, [fromTime, toTime, minTime]);
-  const maxInputRange = React.useMemo(() => {
+  };
+
+  const calculateMaxRange = () => {
     let arr: any[] = [];
     const range = toTime.getTime() - fromTime.getTime();
 
     if (range > 0) {
-      for (let i = 1; i < range / 1000 / 60 + 1; i++) {
+      for (let i = 5; i < range / 1000 / 60 + 1; i += 5) {
         arr.push(i);
       }
+      if (!maxTime) setMaxTime(arr[0]);
       setEnabledPicker(true);
+
+      // when the `maxTime` is bigger than new selected time range
+      if (maxTime > arr[arr.length - 1]) setMaxTime(arr[arr.length - 1]);
     } else {
       arr = ["--"];
+      setMaxTime(0);
       setEnabledPicker(false);
     }
 
     // when minTime is already selected, substract it from maxTime,
-    if (minTime) arr.splice(0, minTime - 1);
+    if (minTime) arr.splice(0, arr.indexOf(minTime));
 
     return arr;
-  }, [fromTime, toTime, minTime, maxTime]);
+  };
 
   const hasExistingAvailability = !!availabilities.find(
     (el) =>

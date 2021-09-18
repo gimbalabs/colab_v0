@@ -8,7 +8,7 @@ import { Colors, Sizing } from "styles/index";
 import { HeaderText } from "components/rnWrappers/headerText";
 import { StackScreenProps } from "@react-navigation/stack";
 import { EventCreationParamList } from "common/types/navigationTypes";
-import { CalendarWrapper, MonthlyWrapper } from "components/calendar";
+import { MonthlyWrapper } from "components/calendar";
 import { CalendarWrapperSimple } from "components/calendar/CalendarWrapperSimple";
 
 type Props = StackScreenProps<
@@ -49,7 +49,7 @@ export const AvailableDaysSelection = ({ navigation }: Props) => {
             Select dates you are available to host event
           </HeaderText>
         </View>
-        <CalendarWrapperSimple isNewEventCalendar>
+        <CalendarWrapperSimple>
           <MonthlyWrapper isNewEventCalendar />
         </CalendarWrapperSimple>
       </View>

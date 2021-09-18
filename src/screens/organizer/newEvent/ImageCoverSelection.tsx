@@ -41,7 +41,7 @@ export const ImageCoverSelection = ({ navigation }: Props) => {
 
   React.useEffect(() => {
     if (!currImage && imageURI) {
-      animateNavigationButtons(0);
+      animateNavigationButtons();
       setCurrImage(imageURI);
     }
 
@@ -69,17 +69,17 @@ export const ImageCoverSelection = ({ navigation }: Props) => {
   };
   const onLayout = (e: LayoutChangeEvent) => setLayout(e.nativeEvent.layout);
 
-  const animateNavigationButtons = (duration?: number) => {
+  const animateNavigationButtons = () => {
     Animated.parallel([
       Animated.timing(mainPositionAnimation, {
         toValue: (mainPositionAnimation as any)._value === 0 ? 200 : 0,
         useNativeDriver: false,
-        duration: duration ?? 200,
+        duration: 200,
       }),
       Animated.timing(secondPositionAnimation, {
         toValue: (secondPositionAnimation as any)._value === 200 ? 0 : 200,
         useNativeDriver: false,
-        duration: duration ?? 200,
+        duration: 200,
       }),
     ]).start();
   };

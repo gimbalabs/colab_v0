@@ -40,7 +40,7 @@ export const EventCardCustomization = ({ navigation }: Props) => {
     if (eventCardColor) setColor(eventCardColor);
   }, []);
 
-  const selectedDaysArr: number[] = Object.values(selectedDays as any);
+  const selectedDaysArr: number[] = Object.values(selectedDays ?? {});
   const fromDate = Math.min(...selectedDaysArr);
   const toDate = Math.max(...selectedDaysArr);
 
@@ -51,7 +51,7 @@ export const EventCardCustomization = ({ navigation }: Props) => {
 
   const onBackNavigationPress = () => navigation.goBack();
   const onNextPress = () => {
-    setEventCardColor(color);
+    setEventCardColor(transparent ? "transparent" : color);
     navigation.navigate("Event Confirmation Details", {
       isNewEvent: true,
     });
@@ -155,16 +155,18 @@ export const EventCardCustomization = ({ navigation }: Props) => {
           </BodyText>
         </View>
         <View style={styles.main}>
-          <EventsListCard
-            isEventCardPreview={true}
-            title={textContent.title}
-            description={textContent.description}
-            fromDate={fromDate}
-            toDate={toDate}
-            image={imageURI}
-            color={color}
-            isTransparent={transparent}
-          />
+          {fromDate && toDate && (
+            <EventsListCard
+              isEventCardPreview={true}
+              title={textContent.title}
+              description={textContent.description}
+              fromDate={fromDate}
+              toDate={toDate}
+              image={imageURI}
+              color={color}
+              isTransparent={transparent}
+            />
+          )}
         </View>
         <FullWidthButton
           text="Next"
