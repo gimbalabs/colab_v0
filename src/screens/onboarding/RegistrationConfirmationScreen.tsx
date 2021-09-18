@@ -11,7 +11,10 @@ import { useNavigation } from "@react-navigation/native";
 import { ProfileContext } from "contexts/profileContext";
 import { Users } from "Api/Users";
 import { OrganizerProfileDto } from "common/types/dto/organizer.dto";
-import { getFromEncryptedStorage } from "lib/encryptedStorage";
+import {
+  getFromEncryptedStorage,
+  setToEncryptedStorage,
+} from "lib/encryptedStorage";
 import { startChallengeSequence } from "lib/helpers";
 import { signChallenge } from "lib/tweetnacl";
 import base64 from "base64-js";
@@ -30,6 +33,7 @@ export const RegistrationConfirmationScreen = () => {
   const onChangePress = () => ref.current.setPage(0);
 
   const onConfirm = async () => {
+    setIsLoading(true);
     try {
       const publicKey = await getFromEncryptedStorage("public");
       const secretKey = await getFromEncryptedStorage("secret");
@@ -43,12 +47,12 @@ export const RegistrationConfirmationScreen = () => {
           skills
         );
 
-        const user = await new Users().updateUser(organizerProfileDto, id);
-        if (user) {
-          const { id } = user;
-
+        const res = await Users.updateUser(organizerProfileDto, id);
+        if (res.status === 201) {
           // get challenge from server
-          const accessToken = await startChallengeSequence(id);
+          const accessToken = await startChallengeSequence(id, true);
+          await setToEncryptedStorage("accessToken", accessToken);
+          navigate("Navigation Screens");
         }
       } else {
         throw new Error("Occured problems while accessing keys from storage");
@@ -56,7 +60,7 @@ export const RegistrationConfirmationScreen = () => {
     } catch (e) {
       console.error(e);
     }
-    // navigate("Navigation Screens");
+    setIsLoading(false);
   };
 
   return (

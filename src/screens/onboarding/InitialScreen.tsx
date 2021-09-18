@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from "react-native";
 import PagerView from "react-native-pager-view";
 import { LiveCollaborationIcon } from "icons/index";
 import { LearnMoreModal } from "components/modals/learnMoreModal";
-import { Colors, Typography, Buttons, Sizing } from "styles/index";
+import { Colors, Typography, Sizing } from "styles/index";
 import { FullWidthButton } from "components/buttons/fullWidthButton";
 import { scale } from "lib/utils";
 

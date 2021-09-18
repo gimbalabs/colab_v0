@@ -42,14 +42,14 @@ export const UserDetailsScreen = ({ pagerRef }: any) => {
         <CustomPlainInput
           label="Profession"
           placeholder="Doctor, therapist, developer..."
-          styles={styles}
+          styles={inputStyles}
           isLightMode={false}
           onChangeCallback={(val) => _setProfession(val)}
         />
         <CustomPlainInput
           label="Job Title"
           placeholder="Full Stack Engineer, Sr Business..."
-          styles={styles}
+          styles={inputStyles}
           isLightMode={false}
           onChangeCallback={(val) => _setJobTitle(val)}
         />
@@ -60,7 +60,7 @@ export const UserDetailsScreen = ({ pagerRef }: any) => {
           numberOfLines={8}
           maxChar={250}
           placeholder="Passionate in helping others draw business goals and needs..."
-          styles={styles}
+          styles={inputStyles}
           isLightMode={false}
           onChangeCallback={(val) => _setBio(val)}
         />
@@ -74,22 +74,22 @@ export const UserDetailsScreen = ({ pagerRef }: any) => {
         <CustomPlainInput
           label="Skills"
           placeholder="Organized, Motivated, Critical Th..."
-          styles={styles}
+          styles={inputStyles}
           isLightMode={false}
           onChangeCallback={(val) => _setSkills(val)}
         />
       </View>
-      <View style={styles.inputContainer}>
-        <View style={styles.labelContainer}>
-          <Text style={styles.label}>Hourly rate</Text>
+      <View style={inputStyles.inputContainer}>
+        <View style={inputStyles.labelContainer}>
+          <Text style={inputStyles.label}>Hourly rate</Text>
         </View>
-        <View style={styles.textInputWrapper}>
+        <View style={inputStyles.textInputWrapper}>
           <TextInput
-            style={styles.input}
+            style={inputStyles.input}
             keyboardType="numeric"
             textContentType="none"
             placeholder="35 ₳ an hour"
-            placeholderTextColor={styles.placeholderText.color}
+            placeholderTextColor={inputStyles.placeholderText.color}
             onChangeText={(val) => _setTimeBlockCostAda(Number(val))}
           />
         </View>
@@ -124,9 +124,11 @@ const styles = StyleSheet.create({
     flex: 1,
     marginVertical: Sizing.x10,
   },
-  /**
-   * styles passed as prop to CustomPlainInput
-   */
+});
+/**
+ * styles passed as prop to CustomPlainInput
+ */
+const inputStyles = StyleSheet.create({
   inputContainer: {
     flex: 1,
     width: "100%",
@@ -151,15 +153,4 @@ const styles = StyleSheet.create({
   placeholderText: {
     color: Colors.primary.s300,
   },
-  // iconWrapper: {
-  //   left: -40,
-  //   width: Sizing.x35,
-  //   height: Sizing.x35,
-  //   alignItems: "center",
-  //   justifyContent: "center",
-  // },
-  // icon: {
-  //   width: Sizing.x30,
-  //   height: Sizing.x30,
-  // },
 });

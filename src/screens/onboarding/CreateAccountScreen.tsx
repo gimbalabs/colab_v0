@@ -11,6 +11,7 @@ import {
 } from "icons/index";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { ProfileContext } from "contexts/profileContext";
+import { ErrorModal } from "components/modals/errorModal";
 
 const SCREEN_WIDTH = Dimensions.get("screen").width;
 
@@ -20,53 +21,70 @@ export interface CreateAccountScreenProps {
 
 export const CreateAccountScreen = ({ pagerRef }: CreateAccountScreenProps) => {
   const { profileType } = React.useContext(ProfileContext);
+  const [modalVisible, setModalVisible] = React.useState<boolean>(false);
 
   const onBackPress = () => {
     pagerRef.current?.setPage(1);
   };
+
+  const onErrorCallback = () => {
+    setModalVisible(true);
+  };
+
+  const onChangeCallback = () => {
+    setModalVisible(false);
+  };
+
   return (
-    <KeyboardAwareScrollView
-      keyboardShouldPersistTaps="handled"
-      showsVerticalScrollIndicator={false}
-      keyboardOpeningTime={Number.MAX_SAFE_INTEGER}
-      style={{ width: "90%" }}
-      contentContainerStyle={{ alignItems: "center" }}>
-      <View style={styles.imageContainer}>
-        {profileType === "attendee" ? (
-          <ModernProfessionalIcon
-            style={styles.image}
-            width="80%"
-            height="80%"
-          />
-        ) : (
-          <BusinessDecisionsIcon
-            style={styles.image}
-            width="80%"
-            height="80%"
-          />
-        )}
-      </View>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>
-          Create {profileType === "attendee" ? "attendee" : "organizer"} account
-        </Text>
-      </View>
-      <CreateAccountForm />
-      <View style={styles.backButtonSection}>
-        <Pressable
-          onPress={onBackPress}
-          style={Buttons.applyOpacity(styles.backButton)}>
-          <Text style={styles.backButtonText}>Back</Text>
-          <LeftArrowIcon
-            color={Colors.primary.neutral}
-            width={18}
-            height={18}
-            strokeWidth={3}
-            style={styles.backButtonIcon}
-          />
-        </Pressable>
-      </View>
-    </KeyboardAwareScrollView>
+    <>
+      <KeyboardAwareScrollView
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+        keyboardOpeningTime={Number.MAX_SAFE_INTEGER}
+        style={{ width: "90%" }}
+        contentContainerStyle={{ alignItems: "center" }}>
+        <View style={styles.imageContainer}>
+          {profileType === "attendee" ? (
+            <ModernProfessionalIcon
+              style={styles.image}
+              width="80%"
+              height="80%"
+            />
+          ) : (
+            <BusinessDecisionsIcon
+              style={styles.image}
+              width="80%"
+              height="80%"
+            />
+          )}
+        </View>
+        <View style={styles.header}>
+          <Text style={styles.headerText}>
+            Create {profileType === "attendee" ? "attendee" : "organizer"}{" "}
+            account
+          </Text>
+        </View>
+        <CreateAccountForm
+          onChangeCallback={onChangeCallback}
+          onErrorCallback={onErrorCallback}
+        />
+        <View style={styles.backButtonSection}>
+          <Pressable
+            onPress={onBackPress}
+            style={Buttons.applyOpacity(styles.backButton)}>
+            <Text style={styles.backButtonText}>Back</Text>
+            <LeftArrowIcon
+              color={Colors.primary.neutral}
+              width={18}
+              height={18}
+              strokeWidth={3}
+              style={styles.backButtonIcon}
+            />
+          </Pressable>
+        </View>
+      </KeyboardAwareScrollView>
+      <ErrorModal isModalVisible={modalVisible} />
+    </>
   );
 };
 
