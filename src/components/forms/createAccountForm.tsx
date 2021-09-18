@@ -24,14 +24,20 @@ import { generateKeyPair } from "lib/tweetnacl";
 import base64 from "base64-js";
 import { setAuthorizationToken } from "Api/base";
 
-export interface CreateAccountFormProps {}
+export interface CreateAccountFormProps {
+  onErrorCallback: () => void;
+  onChangeCallback: () => void;
+}
 
 const AnimatedCheckIcon = Animated.createAnimatedComponent(CheckIcon);
 
-export const CreateAccountForm = ({}: CreateAccountFormProps) => {
+export const CreateAccountForm = ({
+  onErrorCallback,
+  onChangeCallback,
+}: CreateAccountFormProps) => {
   const { profileType, setName, setUsername, setId } =
     React.useContext(ProfileContext);
-  const { toggleAuth, setJWT } = appContext();
+  const { toggleAuth } = appContext();
   const [acceptedCheckbox, setAcceptedChecbox] = React.useState<boolean>(false);
   const [submitted, setSubmitted] = React.useState<boolean>(false);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -81,7 +87,8 @@ export const CreateAccountForm = ({}: CreateAccountFormProps) => {
         values.profileType = profileType;
 
         // get new user object
-        const user = await new Users().createAccount(values);
+        const user = await Users.createAccount(values);
+        console.log("user: ", user);
 
         if (user != null) {
           const { id, name, username } = user;
@@ -91,16 +98,18 @@ export const CreateAccountForm = ({}: CreateAccountFormProps) => {
           setName(name);
 
           // start challenge and get JWT
-          const loginResponseDTO = await startChallengeSequence(id);
+          const loginResponseDTO = await startChallengeSequence(id, true);
+          console.log("login response: ", loginResponseDTO);
 
           if (loginResponseDTO) {
-            const { accessToken, expiresIn } = loginResponseDTO;
+            const { accessToken } = loginResponseDTO;
             setAuthorizationToken(accessToken);
-            setJWT({ accessToken, expiresIn });
+            setToEncryptedStorage("accessToken", accessToken);
           }
 
           setSubmitted(true);
           toggleAuth(true, profileType);
+
           if (profileType === "attendee") {
             navigation.navigate("Navigation Screens");
           } else if (profileType === "organizer") {
@@ -108,8 +117,9 @@ export const CreateAccountForm = ({}: CreateAccountFormProps) => {
           }
           setIsLoading(false);
         }
-      } catch (e) {
+      } catch (e: any) {
         // show error notification
+        if (e.message === "User already exists") onErrorCallback();
         setIsLoading(false);
       }
     }
@@ -138,20 +148,21 @@ export const CreateAccountForm = ({}: CreateAccountFormProps) => {
             autoCompleteType="name"
             validateForm={validateForm}
             submitted={submitted}
-            styles={styles}
+            styles={inputStyles}
           />
           <Field
             key="Username"
             name="username"
             label="Username"
             component={CustomInput}
+            onChange={onChangeCallback}
             placeholder="@John12"
             keyboardType="default"
             textContentType="username"
             autoCompleteType="username"
             validateForm={validateForm}
             submitted={submitted}
-            styles={styles}
+            styles={inputStyles}
           />
           <View style={styles.checkboxWrapper}>
             <Pressable
@@ -209,6 +220,7 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     alignItems: "center",
+    marginTop: Sizing.x5,
   },
   pressableCheckbox: {
     width: 32,
@@ -256,9 +268,12 @@ const styles = StyleSheet.create({
     fontFamily: "Roboto-Regular",
     color: Colors.primary.s300,
   },
-  /**
-   * Styles passed as props to CustomInput
-   */
+});
+
+/**
+ * Styles passed as props to CustomInput
+ */
+const inputStyles = StyleSheet.create({
   inputContainer: {
     width: "100%",
     alignItems: "center",
@@ -282,7 +297,7 @@ const styles = StyleSheet.create({
     color: Colors.primary.s300,
   },
   errorInput: {
-    borderColor: Colors.danger.s400,
+    borderColor: Colors.danger.s300,
   },
   errorWrapper: {
     alignSelf: "center",
@@ -290,7 +305,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Sizing.x8,
     marginTop: Sizing.x5,
     justifyContent: "center",
-    backgroundColor: Colors.danger.s400,
+    backgroundColor: Colors.danger.s300,
     borderRadius: Outlines.borderRadius.base,
   },
   error: {

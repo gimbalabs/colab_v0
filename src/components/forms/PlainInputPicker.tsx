@@ -18,7 +18,7 @@ export interface PlainInputPickerProps {
   label: string;
   minTime?: number;
   maxTime?: number;
-  inputRange: number[];
+  inputRange: any[];
   styles?: any;
   isLightMode?: boolean;
   enabledPicker: boolean;
@@ -28,13 +28,14 @@ export interface PlainInputPickerProps {
 }
 
 export const PlainInputPicker = (props: PlainInputPickerProps) => {
-  const [iconAnimationValue, setIconAnimationValue] = React.useState<number>(0);
+  const [, setIconAnimationValue] = React.useState<number>(0);
   const [dropDownAnimationValue, setDropDownAnimationValue] =
     React.useState<number>(0);
   const [dimensions, setDimensions] = React.useState<LayoutRectangle | null>(
     null
   );
   const [showPicker, setShowPicker] = React.useState<boolean>(false);
+  const [inputValue, setInputValue] = React.useState<any>(null);
   var {
     label,
     inputRange,
@@ -49,7 +50,12 @@ export const PlainInputPicker = (props: PlainInputPickerProps) => {
   }: PlainInputPickerProps = props;
   const iconRotationRef = React.useRef(new Animated.Value(0)).current;
   const dropDownHeightRef = React.useRef(new Animated.Value(0)).current;
+  const isDisabled = inputValue === "--";
   const os = Platform.OS;
+
+  React.useEffect(() => {
+    setInputValue(minTime || maxTime || inputRange[0]);
+  }, [inputRange, minTime, maxTime]);
 
   if (isLightMode) {
     styles = Object.assign({}, defaultStyles, styles, formStyleLight);
@@ -92,28 +98,28 @@ export const PlainInputPicker = (props: PlainInputPickerProps) => {
   const onChange = (val: string) => {
     onValueChange(Number(val));
   };
+
+  /**
+   * Animations
+   */
+  const iconAnimation = Animated.timing(iconRotationRef, {
+    toValue: (iconRotationRef as any)._value === 0 ? 1 : 0,
+    duration: 120,
+    useNativeDriver: true,
+  });
+  const dropDownAnimation = Animated.timing(dropDownHeightRef, {
+    toValue: dropDownAnimationValue === 0 ? 150 : 0,
+    duration: 120,
+    useNativeDriver: true,
+  });
+
   const onInputPress = () => {
     if (openPicker && openPicker !== label) return onOpenChange(null);
-
-    // Whenever there is a selected value event from android component
-    // just turn the icon
-    const iconAnimation = Animated.timing(iconRotationRef, {
-      toValue: (iconRotationRef as any)._value === 0 ? 1 : 0,
-      duration: 120,
-      useNativeDriver: true,
-    });
-    const dropDownAnimation = Animated.timing(dropDownHeightRef, {
-      toValue: dropDownAnimationValue === 0 ? 150 : 0,
-      duration: 120,
-      useNativeDriver: true,
-    });
-
     const animations: any[] = [];
     animations.push(iconAnimation);
     if (os === "ios") {
       animations.push(dropDownAnimation);
     }
-
     // on Android we can close by pressing buttons, we do not need
     // change showTimePicker value
     setShowPicker((prev: boolean) => {
@@ -128,7 +134,6 @@ export const PlainInputPicker = (props: PlainInputPickerProps) => {
     } else {
       onOpenChange(null);
     }
-
     Animated.parallel(animations).start();
   };
 
@@ -137,11 +142,9 @@ export const PlainInputPicker = (props: PlainInputPickerProps) => {
   );
 
   const renderPickerItems = React.useCallback(
-    () => inputRange.map(val => PickerItem(val)),
+    () => inputRange.map((val) => PickerItem(val)),
     [inputRange]
   );
-
-  const inputValue = minTime || maxTime || inputRange[0];
 
   return (
     <View style={styles.inputContainer}>
@@ -150,6 +153,7 @@ export const PlainInputPicker = (props: PlainInputPickerProps) => {
       </View>
       <Pressable
         onPress={onInputPress}
+        disabled={isDisabled}
         onLayout={onLayout}
         style={styles.input}>
         <View style={styles.textInputWrapper}>
@@ -182,6 +186,8 @@ export const PlainInputPicker = (props: PlainInputPickerProps) => {
         )}
         {os === "android" && (
           <Picker
+            onFocus={() => iconAnimation.start()}
+            onBlur={() => iconAnimation.start()}
             enabled={enabledPicker}
             style={[
               styles.androidPicker,

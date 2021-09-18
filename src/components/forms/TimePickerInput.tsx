@@ -172,6 +172,7 @@ export const TimePickerInput = (props: TimePickerInputProps) => {
               mode="time"
               display="spinner"
               onChange={onChange}
+              minuteInterval={5}
             />
           </Animated.View>
         )}
@@ -183,6 +184,7 @@ export const TimePickerInput = (props: TimePickerInputProps) => {
           mode="time"
           display="spinner"
           onChange={onChange}
+          minuteInterval={5}
         />
       )}
     </View>

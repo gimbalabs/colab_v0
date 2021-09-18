@@ -17,6 +17,7 @@ export interface SubHeaderTextProps {
   colors?: string[];
   customStyle?: StyleProp<TextStyle>;
   callbackFn?: () => any;
+  extraProps?: any;
 }
 
 export const SubHeaderText = ({
@@ -24,6 +25,7 @@ export const SubHeaderText = ({
   colors,
   customStyle,
   callbackFn,
+  extraProps,
 }: SubHeaderTextProps) => {
   const { colorScheme } = appContext();
 
@@ -39,7 +41,10 @@ export const SubHeaderText = ({
   const onPress = () => callbackFn && callbackFn();
 
   return (
-    <Text onPress={onPress} style={[styles.text, textColor, customStyle]}>
+    <Text
+      onPress={onPress}
+      style={[styles.text, textColor, customStyle]}
+      {...extraProps}>
       {children}
     </Text>
   );
@@ -48,5 +53,6 @@ export const SubHeaderText = ({
 const styles = StyleSheet.create({
   text: {
     ...Typography.subHeader.x30,
+    maxWidth: "90%",
   },
 });
