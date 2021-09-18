@@ -14,6 +14,7 @@ import { DotIcon } from "./dot";
 import { DownIcon } from "./down";
 import { DuplicateIcon } from "./duplicate";
 import { EditIcon } from "./edit";
+import { ErrorIcon } from "./error";
 import { EyeIcon } from "./eye";
 import { EyeOffIcon } from "./eyeOff";
 import { HearthIcon } from "./hearth";
@@ -61,6 +62,7 @@ export {
   LightBulbIcon,
   RightArrowIcon,
   EditIcon,
+  ErrorIcon,
   EyeIcon,
   EyeOffIcon,
   IdeaIcon,
