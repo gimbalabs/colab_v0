@@ -126,6 +126,9 @@ export const eventCreationContext = () => {
         payload: { eventCardColor: color },
       });
     },
+    resetState: () => {
+      dispatch({ type: EventCreationTypes.ResetState });
+    },
   };
 };
 

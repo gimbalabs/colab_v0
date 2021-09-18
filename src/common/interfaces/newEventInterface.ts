@@ -14,9 +14,9 @@ export interface ContextObjectProps {
 export interface InitialState {
   textContent: TextContent;
   availabilities: EventAvailability[];
-  selectedDays: SelectedDays | null;
+  selectedDays: SelectedDays;
   tags: string[];
-  hourlyRate: number | null;
+  hourlyRate: number;
   imageURI: string;
   selectedWeekDays: SelectedWeekDays[];
   privateEvent: boolean;

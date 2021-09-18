@@ -34,6 +34,7 @@ export enum EventCreationTypes {
   SetHourlyRate = "SET_HOURLY_RATE",
   SetPrivateEvent = "SET_PRIVATE_EVENT",
   SetEventCardColor = "SET_EVENT_CARD_COLOR",
+  ResetState = "RESET_STATE",
 }
 
 export enum BookingTypes {
@@ -130,6 +131,7 @@ export type EventCreationPayload = {
   [EventCreationTypes.SetEventCardColor]: {
     eventCardColor: string;
   };
+  [EventCreationTypes.ResetState]: any;
   ["unknown"]: any;
 };
 
