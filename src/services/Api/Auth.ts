@@ -1,34 +1,44 @@
 import axios from "./base";
 
 export class ChallengeRequestDTO {
-  constructor(challenge: string, signature: string) {
+  constructor(challenge: string, signature: string, userCredential: any) {
     this.challenge = challenge;
     this.signature = signature;
+    this.userCredential = userCredential;
   }
 
   challenge: string;
   signature: string;
+  userCredential: UserCredential;
 }
 
+export type UserCredential = { [index: string]: any };
+
 export class Auth {
-  async requestChallenge(id: string): Promise<any | void> {
+  public static async requestChallenge(
+    credential: UserCredential
+  ): Promise<any | void> {
     try {
-      const res = await axios.get(`/auth/${id}/challenge`);
+      const res = await axios.post("/auth/challenge", credential);
       if (res.data) return res.data;
     } catch (e) {
       if (e.response) console.error(e.response.data);
     }
   }
 
-  async requestAccessToken(
+  public static async requestAccessToken(
     challenge: string,
     signature: string,
-    id: string
+    userCredential: UserCredential
   ): Promise<{ index: string } | void> {
-    const challengeRequestDTO = new ChallengeRequestDTO(challenge, signature);
+    const challengeRequestDTO = new ChallengeRequestDTO(
+      challenge,
+      signature,
+      userCredential
+    );
 
     try {
-      const res = await axios.post(`/auth/${id}/login`, challengeRequestDTO);
+      const res = await axios.post(`/auth/login`, challengeRequestDTO);
       if (res.data) return res.data;
     } catch (e) {
       if (e.response) console.error(e.response.data);

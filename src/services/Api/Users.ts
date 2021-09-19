@@ -1,13 +1,18 @@
 import { UserDTO } from "common/interfaces/profileInterface";
+import {
+  PaginationRequestDto,
+  OrganizerProfileDto,
+  PaginationResponseDto,
+} from "common/types/dto";
 import axios from "./base";
 
 export class Users {
-  async getUser(id: string): Promise<any> {
+  public static async getUser(id: string): Promise<any> {
     try {
       const res = await axios.get(`user/${id}`);
       const data = res.data;
       return data;
-    } catch (e) {
+    } catch (e: any) {
       if (e.response) {
         if (e.status === 401) {
           throw new Error("User not authorized");
@@ -22,10 +27,18 @@ export class Users {
     }
   }
 
-  public async createAccount(values: any): Promise<UserDTO | void> {
+  public static async getAllOrganizers(
+    query: PaginationRequestDto
+  ): Promise<OrganizerProfileDto[] | PaginationResponseDto | void> {
     try {
-      const res = await axios.post("/users/register", values);
-
+      const res = await axios.get(
+        "/users/organizers",
+        query && {
+          params: {
+            limit: query.limit,
+          },
+        }
+      );
       if (res) {
         return res.data;
       }
@@ -34,11 +47,23 @@ export class Users {
     }
   }
 
-  public async updateUser(values: any, id: string): Promise<any> {
+  public static async createAccount(values: any): Promise<UserDTO | void> {
+    try {
+      const res = await axios.post("/users/register", values);
+
+      if (res) {
+        return res.data;
+      }
+    } catch (e: any) {
+      throw new Error(e.response.data.message);
+    }
+  }
+
+  public static async updateUser(values: any, id: string): Promise<any> {
     try {
       const res = await axios.put(`/users/${id}`, values);
       if (res) return res.data;
-    } catch (e) {
+    } catch (e: any) {
       if (e.response) console.error(e.response.data);
     }
   }
