@@ -133,7 +133,9 @@ const opacity = (state: PressableStateCallbackType): ViewStyle => {
   return { opacity };
 };
 
-export const applyOpacity = (style: ViewStyle) => {
+export const applyOpacity = (style: ViewStyle | ViewStyle[]) => {
+  if ((style as any).length !== undefined)
+    style = Object.assign({}, ...(style as any));
   return (state: PressableStateCallbackType): ViewStyle => {
     return {
       ...style,

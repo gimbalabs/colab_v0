@@ -16,9 +16,9 @@ const initialState: InitialState = {
     description: "",
   },
   availabilities: [],
-  selectedDays: null,
+  selectedDays: {},
   tags: [],
-  hourlyRate: null,
+  hourlyRate: 0,
   imageURI: "",
   eventCardColor: "",
   selectedWeekDays: [],
@@ -138,6 +138,11 @@ const reducer = (
       return {
         ...state,
         eventCardColor: action.payload.eventCardColor,
+      };
+    }
+    case EventCreationTypes.ResetState: {
+      return {
+        ...initialState,
       };
     }
     default: {

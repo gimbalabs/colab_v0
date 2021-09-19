@@ -77,8 +77,9 @@ export const success: Record<Success, string> = {
   s400: "#008a09",
 };
 
-type Danger = "s400";
+type Danger = "s300" | "s400";
 export const danger: Record<Danger, string> = {
+  s300: "#dd3535",
   s400: "#cf1717",
 };
 

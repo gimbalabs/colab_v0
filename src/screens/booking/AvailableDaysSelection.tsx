@@ -21,7 +21,6 @@ import { CalendarWrapperSimple } from "components/calendar/CalendarWrapperSimple
 import { MonthlyWrapper } from "components/calendar";
 import { FullWidthButton } from "components/buttons/fullWidthButton";
 import { applyOpacity } from "../../styles/colors";
-import { SubHeaderText } from "components/rnWrappers/subHeaderText";
 
 type Props = StackScreenProps<
   BookingStackParamList,

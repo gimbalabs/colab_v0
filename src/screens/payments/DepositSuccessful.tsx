@@ -24,7 +24,6 @@ export const DepositSuccessful = ({ navigation, route }: Props) => {
   const isLightMode = colorScheme === "light";
 
   const navigateBack = async () => {
-    console.log(ref);
     if (route.params?.fromScreen != null) {
       // This will set the index of page on "User Registration Screens"
       if (ref) await ref.current.setPage(2);
