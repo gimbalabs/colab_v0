@@ -35,7 +35,7 @@ export const getRecurringMonthDays = (
   // Calculate number of weeks (+1 because starting from current selected day)
   var numOfWeeks = Math.floor((numOfDays - firstDayToSelect) / 7 + 1);
 
-  for (let i = numOfWeeks; numOfWeeks > 0; numOfWeeks--) {
+  for (; numOfWeeks > 0; numOfWeeks--) {
     daysArray.push(
       new Date(year, monthsByName[month], firstDayToSelect).getTime()
     );
@@ -49,14 +49,15 @@ export const getRecurringMonthDays = (
  * Starts challenge sequence to obtain JWT from the server.
  * Returns {id, username, accessToken, expiresIn} or  `null` if failed.
  *
- * @param id
+ * @param credential
  * @returns jwt | null
  */
 export const startChallengeSequence = async (
-  id: string
+  credential: string,
+  isSigningUp: boolean
 ): Promise<{ [index: string]: string } | null> => {
   try {
-    let { challengeString } = await new Auth().requestChallenge(id);
+    let { challengeString } = await Auth.requestChallenge({ credential });
     let secretKey = await getFromEncryptedStorage("secret");
 
     if (challengeString && secretKey) {
@@ -66,10 +67,10 @@ export const startChallengeSequence = async (
         signature = base64.fromByteArray(signature);
 
         // request JWT
-        let res = await new Auth().requestAccessToken(
+        let res = await Auth.requestAccessToken(
           challengeString,
           signature,
-          id
+          isSigningUp ? { id: credential } : { publicKey: credential }
         );
         if (res) return res;
       }

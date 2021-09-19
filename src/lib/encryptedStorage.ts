@@ -1,5 +1,9 @@
 import * as SC from "expo-secure-store";
 
+// Just to minimize chance of collision with other apps when
+// encryptes storage is shared among other apps.
+const generateKey = (val: any) => `${val}_onetoone`;
+
 export const setToEncryptedStorage = async (
   key: string,
   value: any
@@ -7,7 +11,7 @@ export const setToEncryptedStorage = async (
   try {
     value = JSON.stringify(value);
 
-    await SC.setItemAsync(key, value);
+    await SC.setItemAsync(generateKey(key), value);
   } catch (e) {
     throw new Error(e);
   }
@@ -15,7 +19,7 @@ export const setToEncryptedStorage = async (
 
 export const removeFromEncryptedStorage = async (key: string) => {
   try {
-    await SC.deleteItemAsync(key);
+    await SC.deleteItemAsync(generateKey(key));
   } catch (e) {
     throw new Error(e);
   }
@@ -29,11 +33,9 @@ export const isAvailableEncrptedStorage = async (): Promise<boolean> => {
   }
 };
 
-export const getFromEncryptedStorage = async (
-  key: string
-): Promise<string | null> => {
+export const getFromEncryptedStorage = async (key: string): Promise<any> => {
   try {
-    const val = await SC.getItemAsync(key);
+    const val = await SC.getItemAsync(generateKey(key));
 
     if (val != null) {
       return JSON.parse(val);

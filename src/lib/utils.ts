@@ -672,3 +672,7 @@ export async function getRandomKeyAsync(bytes: number): Promise<string> {
 
   return arr;
 }
+
+export const roundDateMinutes = (date: Date): Date => {
+  return new Date(date.setMinutes(Math.round(date.getMinutes() / 10) * 10));
+};
