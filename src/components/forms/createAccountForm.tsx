@@ -88,7 +88,6 @@ export const CreateAccountForm = ({
 
         // get new user object
         const user = await Users.createAccount(values);
-        console.log("user: ", user);
 
         if (user != null) {
           const { id, name, username } = user;
@@ -99,7 +98,6 @@ export const CreateAccountForm = ({
 
           // start challenge and get JWT
           const loginResponseDTO = await startChallengeSequence(id, true);
-          console.log("login response: ", loginResponseDTO);
 
           if (loginResponseDTO) {
             const { accessToken } = loginResponseDTO;
