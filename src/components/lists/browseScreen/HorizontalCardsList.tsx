@@ -9,11 +9,13 @@ import { HorizontalProfileCardItem } from "./HorizontalProfileCardItem";
 export interface HorizontalCardsListProps {
   list: any;
   navigateTo: any;
+  horizontal: boolean;
 }
 
-export const HorizontalCardsList = ({
+export const CardsList = ({
   list,
   navigateTo,
+  horizontal,
 }: HorizontalCardsListProps) => {
   const { colorScheme } = appContext();
 
@@ -48,7 +50,7 @@ export const HorizontalCardsList = ({
           renderItem={renderItem}
           maxToRenderPerBatch={10}
           keyExtractor={keyExtractor}
-          horizontal
+          horizontal={horizontal}
           contentContainerStyle={{ paddingLeft: 20 }}
           showsHorizontalScrollIndicator={false}
         />
