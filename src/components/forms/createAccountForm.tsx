@@ -25,7 +25,7 @@ import base64 from "base64-js";
 import { setAuthorizationToken } from "Api/base";
 
 export interface CreateAccountFormProps {
-  onErrorCallback: () => void;
+  onErrorCallback: (val: string) => void;
   onChangeCallback: () => void;
 }
 
@@ -117,7 +117,12 @@ export const CreateAccountForm = ({
         }
       } catch (e: any) {
         // show error notification
-        if (e.message === "User already exists") onErrorCallback();
+        if (e.message === "User already exists") {
+          onErrorCallback("UserNameTaken");
+        } else {
+          onErrorCallback("Server");
+        }
+
         setIsLoading(false);
       }
     }
@@ -140,6 +145,7 @@ export const CreateAccountForm = ({
             name="name"
             label="Name"
             component={CustomInput}
+            onChange={onChangeCallback}
             placeholder="John Doe"
             keyboardType="default"
             textContentType="name"

@@ -6,9 +6,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { AppStackParamList } from "common/types/navigationTypes";
 import { AppContextProvider } from "contexts/appContext";
-import { appContext } from "contexts/contextApi";
 import { ProfileContextProvider } from "contexts/profileContext";
-import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
 import { jsErrorHandler } from "lib/errors";
 import { setJSExceptionHandler } from "react-native-exception-handler";
@@ -19,14 +17,16 @@ import { Confirmation, DepositSuccessful } from "screens/payments";
 import { NavigationScreens } from "tabs/NavigationScreens";
 import { OnboardingScreens } from "tabs/OnboardingScreens";
 import { UserRegistrationScreens } from "tabs/UserRegistrationScreens";
-import { LogIn } from "screens/LogIn";
+import { useAppLogin } from "lib/hooks/useAppLogin";
+// import { LogIn } from "screens/LogIn";
+import AppLoading from "expo-app-loading";
 
 // Ignore all log notifications:
 LogBox.ignoreAllLogs();
 
 setJSExceptionHandler(jsErrorHandler, true); // true - enables the error in dev mode
 enableScreens(); // enable native screens for navigation instead of using Views
-//
+
 // this will enable LayoutAnimation API
 if (Platform.OS === "android") {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -36,7 +36,7 @@ if (Platform.OS === "android") {
 const Stack = createStackNavigator<AppStackParamList>();
 
 function App() {
-  const { auth } = appContext();
+  const { isAuthorized, isAuthLoaded } = useAppLogin();
 
   const [fontsLoadaed] = useFonts({
     "Roboto-Thin": require("./assets/fonts/Roboto-Thin.ttf"),
@@ -47,7 +47,7 @@ function App() {
     "Roboto-Black": require("./assets/fonts/Roboto-Black.ttf"),
   });
 
-  if (!fontsLoadaed) {
+  if (!fontsLoadaed || !isAuthLoaded) {
     return <AppLoading />;
   } else {
     return (
@@ -57,7 +57,7 @@ function App() {
             <NavigationContainer>
               <Stack.Navigator
                 initialRouteName={
-                  auth ? "Navigation Screens" : "Onboarding Screens"
+                  isAuthorized ? "Navigation Screens" : "Onboarding Screens"
                 }
                 headerMode="screen">
                 {/*<Stack.Screen
