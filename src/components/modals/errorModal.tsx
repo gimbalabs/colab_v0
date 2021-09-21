@@ -1,16 +1,18 @@
-import { ErrorIcon } from "assets/icons";
-import { SubHeaderText } from "components/rnWrappers/subHeaderText";
 import * as React from "react";
 import { View, StyleSheet, useWindowDimensions } from "react-native";
 
-import Modal from "react-native-modal";
+import { ErrorIcon } from "assets/icons";
+import { ErrorType } from "common/types/errors";
+import { SubHeaderText } from "components/rnWrappers/subHeaderText";
 import { Colors, Outlines, Sizing } from "styles/index";
+import Modal from "react-native-modal";
 
 export interface ErrorModalProps {
   isModalVisible: boolean;
+  errorType: string;
 }
 
-export const ErrorModal = ({ isModalVisible }: ErrorModalProps) => {
+export const ErrorModal = ({ isModalVisible, errorType }: ErrorModalProps) => {
   const [isVisible, setIsVisible] = React.useState<boolean>(isModalVisible);
   const { width, height } = useWindowDimensions();
 
@@ -41,8 +43,7 @@ export const ErrorModal = ({ isModalVisible }: ErrorModalProps) => {
           strokeWidth={1.5}
         />
         <SubHeaderText customStyle={styles.text}>
-          A user with a given user name already exists. Please choose a
-          different one.
+          {ErrorType.Server}
         </SubHeaderText>
       </View>
     </Modal>

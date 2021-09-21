@@ -22,12 +22,14 @@ export interface CreateAccountScreenProps {
 export const CreateAccountScreen = ({ pagerRef }: CreateAccountScreenProps) => {
   const { profileType } = React.useContext(ProfileContext);
   const [modalVisible, setModalVisible] = React.useState<boolean>(false);
+  const [errorType, setErrorType] = React.useState<string>("");
 
   const onBackPress = () => {
     pagerRef.current?.setPage(1);
   };
 
-  const onErrorCallback = () => {
+  const onErrorCallback = (errorType: string) => {
+    setErrorType(errorType);
     setModalVisible(true);
   };
 
@@ -83,7 +85,7 @@ export const CreateAccountScreen = ({ pagerRef }: CreateAccountScreenProps) => {
           </Pressable>
         </View>
       </KeyboardAwareScrollView>
-      <ErrorModal isModalVisible={modalVisible} />
+      <ErrorModal errorType={errorType} isModalVisible={modalVisible} />
     </>
   );
 };

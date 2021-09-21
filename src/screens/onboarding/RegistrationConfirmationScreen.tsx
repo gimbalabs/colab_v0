@@ -16,8 +16,6 @@ import {
   setToEncryptedStorage,
 } from "lib/encryptedStorage";
 import { startChallengeSequence } from "lib/helpers";
-import { signChallenge } from "lib/tweetnacl";
-import base64 from "base64-js";
 
 export interface RegistrationConfirmationScreen {}
 
@@ -31,6 +29,8 @@ export const RegistrationConfirmationScreen = () => {
   const { navigate } = useNavigation();
 
   const onChangePress = () => ref.current.setPage(0);
+  const emptyDetails =
+    !profession && !jobTitle && !bio && !timeBlockCostADA && !skills;
 
   const onConfirm = async () => {
     setIsLoading(true);
@@ -134,6 +134,11 @@ export const RegistrationConfirmationScreen = () => {
              </View>*/}
           </>
         ) : null}
+        {emptyDetails && (
+          <View style={styles.innerTextCenter}>
+            <Text style={styles.userDetailsText}>Nothing to show here...</Text>
+          </View>
+        )}
       </View>
       <FullWidthButton
         onPressCallback={onConfirm}
@@ -174,6 +179,10 @@ const styles = StyleSheet.create({
     ...Typography.subHeader.x35,
     fontFamily: "Roboto-Regular",
     color: Colors.primary.neutral,
+  },
+  innerTextCenter: {
+    justifyContent: "center",
+    padding: Sizing.x10,
   },
   userDetails: {
     width: "100%",
