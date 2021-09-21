@@ -17,6 +17,7 @@ import { BodyText } from "components/rnWrappers/bodyText";
 import { FullWidthButton } from "components/buttons/fullWidthButton";
 import { StackScreenProps } from "@react-navigation/stack";
 import { BookingStackParamList } from "common/types/navigationTypes";
+import tinyColor from "tinycolor2";
 
 type Props = StackScreenProps<BookingStackParamList, "Event Description">;
 
@@ -31,6 +32,7 @@ export const EventDescription = ({ navigation, route }: Props) => {
 
   const insets = useSafeAreaInsets();
   const isLightMode = colorScheme === "light";
+  const _color = tinyColor(color).toHexString();
 
   const onBackNavigationPress = () => navigation.goBack();
   const onBookEventPress = async () => {
@@ -49,13 +51,9 @@ export const EventDescription = ({ navigation, route }: Props) => {
       <View style={styles.topContainer}>
         <ImageBackground
           resizeMode="cover"
-          source={image}
+          source={{ uri: image }}
           style={styles.backgroundImage}>
-          <View
-            style={[
-              styles.topInnerContainer,
-              { backgroundColor: applyOpacity(color, 0.5) },
-            ]}>
+          <View style={[styles.topInnerContainer, { backgroundColor: color }]}>
             <View style={[styles.topInnerWrapper, { paddingTop: insets.top }]}>
               <View style={styles.navigation}>
                 <Pressable onPress={onBackNavigationPress} hitSlop={10}>
@@ -69,7 +67,7 @@ export const EventDescription = ({ navigation, route }: Props) => {
               <View
                 style={[
                   styles.dateCard,
-                  { backgroundColor: applyOpacity(color, 0.8) },
+                  { backgroundColor: applyOpacity(_color, 0.5) },
                 ]}>
                 <Text style={styles.dateCardText}>
                   {getEventCardDate(fromDate, toDate)}

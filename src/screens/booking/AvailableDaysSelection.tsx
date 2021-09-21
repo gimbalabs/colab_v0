@@ -20,7 +20,6 @@ import { LeftArrowIcon } from "assets/icons";
 import { CalendarWrapperSimple } from "components/calendar/CalendarWrapperSimple";
 import { MonthlyWrapper } from "components/calendar";
 import { FullWidthButton } from "components/buttons/fullWidthButton";
-import { applyOpacity } from "../../styles/colors";
 
 type Props = StackScreenProps<
   BookingStackParamList,
@@ -37,7 +36,7 @@ export const AvailableDaysSelection = ({ navigation, route }: Props) => {
   const insets = useSafeAreaInsets();
 
   //@TODO add the organizer info to route params
-  const onBackNavigationPress = () => navigation.navigate("Available Dates");
+  const onBackNavigationPress = () => navigation.navigate("Browse");
   const onNextPress = () =>
     navigation.navigate("Available Times", route.params);
 
@@ -46,13 +45,9 @@ export const AvailableDaysSelection = ({ navigation, route }: Props) => {
       <View style={styles.topContainer}>
         <ImageBackground
           resizeMode="cover"
-          source={image}
+          source={{ uri: image }}
           style={styles.backgroundImage}>
-          <View
-            style={[
-              styles.topInnerContainer,
-              { backgroundColor: applyOpacity(color, 0.5) },
-            ]}>
+          <View style={[styles.topInnerContainer, { backgroundColor: color }]}>
             <View style={[styles.topInnerWrapper, { paddingTop: insets.top }]}>
               <View style={styles.navigation}>
                 <Pressable onPress={onBackNavigationPress} hitSlop={10}>
@@ -184,6 +179,5 @@ const styles = StyleSheet.create({
   eventTitle: {
     ...Typography.header.x55,
     color: Colors.primary.neutral,
-    marginTop: Sizing.x15,
   },
 });

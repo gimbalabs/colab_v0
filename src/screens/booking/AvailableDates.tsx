@@ -22,8 +22,6 @@ export interface AvailableDatesProps {}
 type Props = StackScreenProps<BookingStackParamList, "Available Dates">;
 
 export const AvailableDates = ({ navigation, route }: Props) => {
-  const [selectedEvent, setSelectedEvent] = React.useState(null);
-  const [currentTab, setCurrentTab] = React.useState<string>("events");
   const { colorScheme } = appContext();
   const { setAvailCalendar } = myCalendarContext();
   const { setPreviewingOrganizer, previewingOrganizer } = bookingContext();
@@ -31,11 +29,6 @@ export const AvailableDates = ({ navigation, route }: Props) => {
   const isLightMode = colorScheme === "light";
 
   React.useEffect(() => {
-    if (route.params?.selectedEvent != null) {
-      setSelectedEvent(route.params.selectedEvent);
-      setCurrentTab("availabilities");
-    }
-
     let profile = featuredOrganizers.items.find((org) => org.alias === alias);
 
     setAvailCalendar(customAvailabilities);

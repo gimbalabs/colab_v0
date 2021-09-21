@@ -11,6 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Colors, Outlines, Sizing, Typography } from "styles/index";
 import { applyOpacity } from "../../styles/colors";
 import { getEventCardDate } from "lib/utils";
+import tinyColor from "tinycolor2";
 
 export interface EventsListCardProps {
   title: string;
@@ -19,8 +20,9 @@ export interface EventsListCardProps {
   toDate: number;
   image: any;
   color: string;
-  isEventCardPreview: boolean;
-  isTransparent: boolean;
+  isEventCardPreview?: boolean;
+  isBrowseScreenPreview?: boolean;
+  isTransparent?: boolean;
 }
 
 export const EventsListCard = ({
@@ -34,6 +36,7 @@ export const EventsListCard = ({
   color,
 }: EventsListCardProps) => {
   const navigation = useNavigation();
+  const _color = tinyColor(color);
 
   const onCardPress = () =>
     navigation.navigate("Event Description", {
@@ -45,7 +48,6 @@ export const EventsListCard = ({
       color,
     });
 
-  //@TODO replace logic for imagebackground source for production release
   return (
     <Pressable
       disabled={isEventCardPreview ?? false}
@@ -54,21 +56,15 @@ export const EventsListCard = ({
       <ImageBackground
         imageStyle={styles.image}
         resizeMode="cover"
-        source={
-          isEventCardPreview
-            ? {
-                uri: image,
-              }
-            : image
-        }
+        source={{
+          uri: image,
+        }}
         style={styles.backgroundImage}>
         <View
           style={[
             styles.container,
             {
-              backgroundColor: isTransparent
-                ? "transparent"
-                : applyOpacity(color, 0.5),
+              backgroundColor: isTransparent ? "transparent" : color,
             },
           ]}>
           <View
@@ -79,8 +75,7 @@ export const EventsListCard = ({
                     backgroundColor: applyOpacity("000000", 0.3),
                   }
                 : {
-                    backgroundColor: applyOpacity(color, 0.8),
-                    ...Outlines.shadow.lifted,
+                    backgroundColor: applyOpacity(_color.toHexString(), 0.5),
                   },
             ]}>
             <Text style={styles.dateCardText}>
