@@ -1,3 +1,4 @@
+import { PaginationRequestDto } from "common/types/dto";
 import { CreateEventDto } from "common/types/dto/create-event.dto";
 import { EventBookingDto } from "common/types/dto/event-booking.dto";
 import axios from "./base";
@@ -23,11 +24,22 @@ export class Events {
     }
   }
 
-  public static async getEvents(): Promise<any> {
+  public static async getAllEvents(
+    query: PaginationRequestDto
+  ): Promise<any | void> {
     try {
-      const res = await axios.get("events");
-
-      if (res) return res.data;
+      const res = await axios.get(
+        "/events",
+        query && {
+          params: {
+            limit: query.limit,
+            page: query.page,
+          },
+        }
+      );
+      if (res) {
+        return res.data;
+      }
     } catch (e) {
       if (e.response) console.error(e.response.data);
     }

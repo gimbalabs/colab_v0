@@ -1,9 +1,5 @@
 import { UserDTO } from "common/interfaces/profileInterface";
-import {
-  PaginationRequestDto,
-  OrganizerProfileDto,
-  PaginationResponseDto,
-} from "common/types/dto";
+import { PaginationRequestDto } from "common/types/dto";
 import axios from "./base";
 
 export class Users {
@@ -28,14 +24,15 @@ export class Users {
   }
 
   public static async getAllOrganizers(
-    query: PaginationRequestDto
-  ): Promise<OrganizerProfileDto[] | PaginationResponseDto | void> {
+    query?: PaginationRequestDto
+  ): Promise<any | void> {
     try {
       const res = await axios.get(
         "/users/organizers",
         query && {
           params: {
             limit: query.limit,
+            page: query.page,
           },
         }
       );
