@@ -57,7 +57,8 @@ export const startChallengeSequence = async (
   isSigningUp: boolean
 ): Promise<{ [index: string]: string } | null> => {
   try {
-    let { challengeString } = await Auth.requestChallenge({ credential });
+    let res = await Auth.requestChallenge({ credential });
+    let { challengeString } = res;
     let secretKey = await getFromEncryptedStorage("secret");
 
     if (challengeString && secretKey) {
@@ -78,7 +79,6 @@ export const startChallengeSequence = async (
 
     return null;
   } catch (e) {
-    console.log(e);
-    return null;
+    throw new Error(e.message);
   }
 };

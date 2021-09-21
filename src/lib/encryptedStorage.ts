@@ -13,6 +13,7 @@ export const setToEncryptedStorage = async (
 
     await SC.setItemAsync(generateKey(key), value);
   } catch (e) {
+    console.error(e);
     throw new Error(e);
   }
 };

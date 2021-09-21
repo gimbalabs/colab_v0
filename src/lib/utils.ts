@@ -615,7 +615,10 @@ export function getTimeSpanLength(time: number): string {
  *
  * @returns date: string
  */
-export function getEventCardDate(fromDate: number, toDate: number) {
+export function getEventCardDate(
+  fromDate: number | string,
+  toDate: number | string
+) {
   let dateString = "";
 
   // if the events happens in the same month
