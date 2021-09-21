@@ -17,12 +17,11 @@ const colorScheme: ColorSchemeName = Appearance.getColorScheme();
 
 const initialAppState: AppState = {
   authentication: false,
-  //@TODO Set to null after developing
-  accountType: "organizer",
-  JWT: {
-    expiresIn: null,
-    accessToken: null,
-  },
+  accountType: null,
+  // JWT: {
+  //   expiresIn: null,
+  //   accessToken: null,
+  // },
   colorScheme: colorScheme == null ? "light" : colorScheme,
   favoriteOrganizers: [],
   pageIndex: 0,

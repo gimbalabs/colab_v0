@@ -11,7 +11,7 @@ export interface AppState {
   favoriteOrganizers: any[];
   pageIndex: number;
   ref: any;
-  JWT: JWTPayload | null;
+  JWT?: JWTPayload | null;
 }
 
 export interface JWTPayload {
