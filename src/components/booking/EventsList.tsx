@@ -1,21 +1,31 @@
 import * as React from "react";
-import { FlatList } from "react-native";
+import {
+  StyleSheet,
+  ActivityIndicator,
+  View,
+  VirtualizedList,
+} from "react-native";
 
-//@ts-ignore
-import SummerImg from "../../assets/images/summer.jpeg";
-//@ts-ignore
-import FallImg from "../../assets/images/fall.jpg";
-
-import { events } from "../../api_data/events";
 import { EventsListCard } from "./EventsListCard";
+import { getRandomKey } from "lib/utils";
+import { useEventsPagination } from "lib/hooks/useEventsPagination";
+import { SubHeaderText } from "components/rnWrappers/subHeaderText";
+import { Colors, Sizing } from "styles/index";
+import { appContext } from "contexts/contextApi";
 
 export interface EventsListProps {}
 
 export const EventsList = ({}: EventsListProps) => {
-  const renderEventCard = ({ item }: any) => {
-    const { title, description, fromDate, toDate, image, color } = item;
+  const { events, isLoading, getEventsPaginated, eventsPage } =
+    useEventsPagination();
+  const { colorScheme } = appContext();
+  const isLightMode = colorScheme !== "dark";
 
-    const imageSrc = image === "Fall" ? FallImg : SummerImg;
+  const renderEventCard = ({ item }: any) => {
+    const { title, description, selectedDays, imageURI, eventCardColor } = item;
+    const selectedDaysArr: number[] = Object.values(selectedDays ?? {});
+    const fromDate = Math.min(...selectedDaysArr);
+    const toDate = Math.max(...selectedDaysArr);
 
     return (
       <EventsListCard
@@ -23,21 +33,59 @@ export const EventsList = ({}: EventsListProps) => {
         description={description}
         fromDate={fromDate}
         toDate={toDate}
-        image={imageSrc}
-        color={color}
+        image={imageURI}
+        color={eventCardColor}
+        isTransparent={eventCardColor === "transparent"}
       />
     );
   };
 
-  const keyExtractor = (item: any, index: number) => item.title + index;
+  const keyExtractor = (item: any, index: number) => getRandomKey(index);
+  const getItem = (data: any, index: number) => data[index];
+  const getItemCount = (data: any) => data.length;
+  const onEndReached = async () => {
+    await getEventsPaginated(eventsPage + 1);
+  };
 
   return (
-    <FlatList
-      style={{ flex: 1 }}
-      data={[...events, ...events]}
-      renderItem={renderEventCard}
-      keyExtractor={keyExtractor}
-      showsVerticalScrollIndicator={false}
-    />
+    <>
+      {!!events.length && !isLoading ? (
+        <VirtualizedList
+          style={{ flex: 1 }}
+          data={events}
+          getItem={getItem}
+          refreshing={isLoading}
+          initialNumToRender={4}
+          onEndReachedThreshold={0.1}
+          onEndReached={onEndReached}
+          getItemCount={getItemCount}
+          renderItem={renderEventCard}
+          keyExtractor={keyExtractor}
+          showsVerticalScrollIndicator={false}
+        />
+      ) : !events.length && isLoading ? (
+        <ActivityIndicator
+          animating={true}
+          color={isLightMode ? Colors.primary.s800 : Colors.primary.neutral}
+          size="large"
+          style={{ paddingTop: Sizing.x35 }}
+        />
+      ) : (
+        <View style={styles.noEventsMessage}>
+          <SubHeaderText colors={[Colors.primary.s800, Colors.primary.neutral]}>
+            Nothing yet to show...
+          </SubHeaderText>
+        </View>
+      )}
+    </>
   );
 };
+
+const styles = StyleSheet.create({
+  noEventsMessage: {
+    flex: 1,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
