@@ -2,11 +2,7 @@ import * as React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 
 import { SafeAreaView } from "react-native-safe-area-context";
-import {
-  appContext,
-  bookingContext,
-  eventCreationContext,
-} from "contexts/contextApi";
+import { appContext, eventCreationContext } from "contexts/contextApi";
 import { LeftArrowIcon } from "assets/icons";
 import { Colors, Sizing, Typography } from "styles/index";
 import { FullWidthButton } from "components/buttons/fullWidthButton";
@@ -17,13 +13,8 @@ import { CreateEventDto } from "common/types/dto/create-event.dto";
 
 export const DetailedConfirmation = ({ navigation, route }: any) => {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const {
-    setWalletBalance,
-    walletBalance,
-    timeBlockCostADA: hourlyRate,
-  } = React.useContext(ProfileContext);
+  const { timeBlockCostADA: hourlyRate } = React.useContext(ProfileContext);
   const { colorScheme } = appContext();
-  const { durationCost } = bookingContext();
   const {
     textContent,
     selectedDays,

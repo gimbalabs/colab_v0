@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, StyleSheet, Pressable, Switch } from "react-native";
+import { View, StyleSheet, Pressable, Switch, TextInput } from "react-native";
 
 import { StackScreenProps } from "@react-navigation/stack";
 import { EventCreationParamList } from "common/types/navigationTypes";
@@ -15,9 +15,11 @@ import {
   SliderSaturationPicker,
   SliderValuePicker,
 } from "react-native-slider-color-picker";
-import tinyColor from "tinycolor2";
 import { FullWidthButton } from "components/buttons/fullWidthButton";
 import { BodyText } from "components/rnWrappers/bodyText";
+import { applyOpacity } from "../../../styles/colors";
+import tinyColor from "tinycolor2";
+import Slider from "react-native-smooth-slider";
 
 type Props = StackScreenProps<
   EventCreationParamList,
@@ -34,7 +36,9 @@ export const EventCardCustomization = ({ navigation }: Props) => {
   } = eventCreationContext();
   const { colorScheme } = appContext();
   const [color, setColor] = React.useState<string>("#030303");
+  const [opacity, setOpacity] = React.useState<number>(0);
   const [transparent, setTransparent] = React.useState<boolean>(false);
+  const _color = tinyColor(color).setAlpha(opacity).toRgbString();
 
   React.useEffect(() => {
     if (eventCardColor) setColor(eventCardColor);
@@ -51,7 +55,7 @@ export const EventCardCustomization = ({ navigation }: Props) => {
 
   const onBackNavigationPress = () => navigation.goBack();
   const onNextPress = () => {
-    setEventCardColor(transparent ? "transparent" : color);
+    setEventCardColor(transparent ? "transparent" : _color);
     navigation.navigate("Event Confirmation Details", {
       isNewEvent: true,
     });
@@ -93,7 +97,6 @@ export const EventCardCustomization = ({ navigation }: Props) => {
             oldColor={color}
             trackStyle={[{ height: Sizing.x10, width: "100%" }]}
             thumbStyle={styles.thumb}
-            useNativeDriver={true}
             onColorChange={onColorChange}
           />
         </View>
@@ -102,7 +105,6 @@ export const EventCardCustomization = ({ navigation }: Props) => {
             oldColor={color}
             trackStyle={[{ height: Sizing.x10, width: "100%" }]}
             thumbStyle={styles.thumb}
-            useNativeDriver={true}
             onColorChange={onColorChange}
             style={[
               styles.colorPicker,
@@ -123,7 +125,6 @@ export const EventCardCustomization = ({ navigation }: Props) => {
             step={0.05}
             trackStyle={[{ height: Sizing.x10, width: "100%" }]}
             thumbStyle={styles.thumb}
-            useNativeDriver={true}
             onColorChange={onColorChange}
             trackImage={require("react-native-slider-color-picker/brightness_mask.png")}
             style={[
@@ -134,7 +135,44 @@ export const EventCardCustomization = ({ navigation }: Props) => {
             ]}
           />
         </View>
+        <View style={styles.colorPickerWrapper}>
+          <View
+            style={{
+              backgroundColor: "transparent",
+              flex: 1,
+              alignItems: "stretch",
+              justifyContent: "center",
+            }}>
+            <Slider
+              value={opacity}
+              minumumValue={0.1}
+              maximumValue={1}
+              minimumTrackTintColor={"#3f3f3f"}
+              maximumTrackTintColor={"#b3b3b3"}
+              thumbStyle={styles.thumb}
+              trackStyle={[
+                {
+                  height: Sizing.x10,
+                  width: "100%",
+                  borderRadius: Sizing.x10 / 2,
+                },
+              ]}
+              useNativeDriver={true}
+              style={[styles.colorPicker]}
+              trackImage={require("../../../assets/images/gradient_2.png")}
+              onValueChange={(value: number) => setOpacity(value)}
+              onSlidingComplete={(value: number) => setOpacity(value)}
+            />
+          </View>
+        </View>
         <View style={styles.enableColorsWrapper}>
+          <BodyText
+            customStyle={{
+              ...Typography.roboto.medium,
+            }}
+            colors={[Colors.primary.s800, Colors.primary.neutral]}>
+            Colors {!transparent ? "enabled" : "disabled"}
+          </BodyText>
           <Switch
             trackColor={{
               false: Colors.neutral.s200,
@@ -146,13 +184,7 @@ export const EventCardCustomization = ({ navigation }: Props) => {
             ios_backgroundColor={Colors.primary.brand}
             onValueChange={() => setTransparent((prev) => !prev)}
             value={!transparent}
-            style={{ marginLeft: "auto" }}
           />
-          <BodyText
-            customStyle={{ ...Typography.roboto.medium }}
-            colors={[Colors.primary.s800, Colors.primary.neutral]}>
-            Colors {!transparent ? "enabled" : "disabled"}
-          </BodyText>
         </View>
         <View style={styles.main}>
           {fromDate && toDate && (
@@ -163,7 +195,7 @@ export const EventCardCustomization = ({ navigation }: Props) => {
               fromDate={fromDate}
               toDate={toDate}
               image={imageURI}
-              color={color}
+              color={applyOpacity(color, opacity)}
               isTransparent={transparent}
             />
           )}
@@ -235,9 +267,15 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.35,
   },
   enableColorsWrapper: {
+    width: "90%",
     marginVertical: Sizing.x5,
-    marginLeft: Sizing.x25,
     flexDirection: "row",
-    alignSelf: "flex-start",
+    justifyContent: "space-between",
+  },
+  customizingButtonsWrapper: {
+    flexDirection: "row",
+  },
+  customizingButton: {
+    width: Sizing.x30,
   },
 });
