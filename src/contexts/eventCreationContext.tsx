@@ -143,6 +143,7 @@ const reducer = (
     case EventCreationTypes.ResetState: {
       return {
         ...initialState,
+        selectedWeekDays: [],
       };
     }
     default: {

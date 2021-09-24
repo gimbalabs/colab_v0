@@ -50,7 +50,7 @@ export const BrowseScreen = ({ navigation }: BrowseProps) => {
       </View>
       <View style={styles.main}>
         {!!events.length && !isLoading ? (
-          <EventsList eventsList={events} />
+          <EventsList />
         ) : !events.length && isLoading ? (
           <ActivityIndicator
             animating={true}

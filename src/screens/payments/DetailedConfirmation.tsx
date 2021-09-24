@@ -55,10 +55,10 @@ export const DetailedConfirmation = ({ navigation, route }: any) => {
 
         if (res) {
           setIsLoading(false);
-          resetState();
           navigation.navigate("Confirmation", {
             isBookingConfirmation: params?.isNewEvent ?? false,
           });
+          resetState();
         }
       } catch (e) {
         setIsLoading(false);

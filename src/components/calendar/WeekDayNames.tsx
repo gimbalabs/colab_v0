@@ -28,14 +28,9 @@ export const WeekDayNames = ({
   customCallback?: (arg: boolean) => void;
 }) => {
   const { calendarHeader } = myCalendarContext();
-  const {
-    setSelectedDays,
-    selectedDays,
-    setSelectedWeek,
-    selectedWeekDays,
-  } = eventCreationContext();
+  const { setSelectedDays, selectedDays, setSelectedWeek, selectedWeekDays } =
+    eventCreationContext();
   const { month, year } = calendarHeader;
-
   const isSelectedDay = (index: number) =>
     !!selectedWeekDays.length &&
     !!selectedWeekDays[currMonthSelectedWeekIndex()]?.[index];

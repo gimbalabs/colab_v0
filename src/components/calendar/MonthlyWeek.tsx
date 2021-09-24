@@ -1,6 +1,6 @@
 import { Day } from "common/interfaces/myCalendarInterface";
 import * as React from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text } from "react-native";
 import { Sizing } from "styles/index";
 
 export interface MonthlyWeekProps extends Day {}
