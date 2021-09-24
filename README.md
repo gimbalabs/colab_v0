@@ -5,18 +5,19 @@ A collaborative application built by the Gimbalabs team featuring decentralized 
 
 ## Usage
 1. Clone this repo
-2. `yarn install`
-3. `expo start`
-
+2. Run `yarn`
+3. Set up your development setup for [iOS/Android](https://reactnative.dev/docs/environment-setup "Instructions on how to setup development workflow")
+4. Run Metro bundler with `npx react-native start`
+5. In a separate terminal start mobile emulator, e.g. for Android `npx react-native run-android`
 
 ## Tech Stack:
 - React Native/Expo
-- InterPlanetary File System
-- Cardano Blockchain
 - React Context API
+- Typescript
+- Cardano Blockchain
 
 ## Process
-Miro (Playground) -> Gherkin (Project) -> (GitLab <- -> Figma) -> Dapp
+Miro (Playground) -> (GitLab <- -> Figma) -> Dapp
 
 
 ## How it works
@@ -31,6 +32,6 @@ Miro (Playground) -> Gherkin (Project) -> (GitLab <- -> Figma) -> Dapp
 
 We hope that this application is something that can help both developers and users join the decentralized movement .
 
-**"On behalf of the future, I ask you of the past to leave us alone. You are not welcome among us. You have no sovereignty where we gather."** 
-
-**-John Perry Barlow**
+> "On behalf of the future, I ask you of the past to leave us alone. You are not welcome among us. You have no sovereignty where we gather."
+>
+> *-John Perry Barlow*
