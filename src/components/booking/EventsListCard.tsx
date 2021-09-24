@@ -67,21 +67,24 @@ export const EventsListCard = ({
               backgroundColor: isTransparent ? "transparent" : color,
             },
           ]}>
-          <View
-            style={[
-              styles.dateCard,
-              isTransparent
-                ? {
-                    backgroundColor: applyOpacity("000000", 0.3),
-                  }
-                : {
-                    backgroundColor: applyOpacity(_color.toHexString(), 0.5),
-                  },
-            ]}>
-            <Text style={styles.dateCardText}>
-              {getEventCardDate(fromDate, toDate)}
-            </Text>
-          </View>
+          {fromDate && toDate && (
+            <View
+              style={[
+                styles.dateCard,
+                isTransparent
+                  ? {
+                      backgroundColor: applyOpacity("000000", 0.3),
+                    }
+                  : {
+                      backgroundColor: applyOpacity(_color.toHexString(), 0.5),
+                    },
+              ]}>
+              <Text style={styles.dateCardText}>
+                {getEventCardDate(fromDate, toDate)}
+              </Text>
+            </View>
+          )}
+
           <Text style={styles.eventTitle}>{title}</Text>
         </View>
       </ImageBackground>

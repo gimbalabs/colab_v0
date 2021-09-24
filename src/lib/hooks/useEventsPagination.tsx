@@ -14,7 +14,7 @@ export const useEventsPagination = () => {
     })();
   }, []);
 
-  const getEventsPaginated = async (page?: number) => {
+  const getEventsPaginated = async (page?: number, isRefreshing = false) => {
     try {
       const res = await Events.getAllEvents({
         limit: eventsLimit,
@@ -22,7 +22,7 @@ export const useEventsPagination = () => {
       });
 
       if (res) {
-        setEvents((prev) => [...prev, ...res.result]);
+        setEvents((prev) => [...(!isRefreshing ? prev : []), ...res.result]);
         setEventsPage(page ?? 1);
         setIsLoading(false);
       }

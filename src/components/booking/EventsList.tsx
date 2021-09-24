@@ -21,31 +21,44 @@ export const EventsList = ({}: EventsListProps) => {
   const { colorScheme } = appContext();
   const isLightMode = colorScheme !== "dark";
 
-  const renderEventCard = ({ item }: any) => {
-    const { title, description, selectedDays, imageURI, eventCardColor } = item;
-    const selectedDaysArr: number[] = Object.values(selectedDays ?? {});
-    const fromDate = Math.min(...selectedDaysArr);
-    const toDate = Math.max(...selectedDaysArr);
+  const renderEventCard = React.useCallback(
+    ({ item }: any) => {
+      const { title, description, selectedDays, imageURI, eventCardColor } =
+        item;
+      const selectedDaysArr: number[] = Object.values(selectedDays ?? {});
+      const fromDate = Math.min(...selectedDaysArr);
+      const toDate = Math.max(...selectedDaysArr);
 
-    return (
-      <EventsListCard
-        title={title}
-        description={description}
-        fromDate={fromDate}
-        toDate={toDate}
-        image={imageURI}
-        color={eventCardColor}
-        isTransparent={eventCardColor === "transparent"}
-      />
-    );
-  };
+      return (
+        <EventsListCard
+          title={title}
+          description={description}
+          fromDate={fromDate}
+          toDate={toDate}
+          image={imageURI}
+          color={eventCardColor}
+          isTransparent={eventCardColor === "transparent"}
+        />
+      );
+    },
+    [events]
+  );
 
   const keyExtractor = (item: any, index: number) => getRandomKey(index);
   const getItem = (data: any, index: number) => data[index];
   const getItemCount = (data: any) => data.length;
-  const onEndReached = async () => {
-    await getEventsPaginated(eventsPage + 1);
+  const loadEvents = async (page: number, isRefreshing: boolean) => {
+    await getEventsPaginated(page, isRefreshing);
   };
+
+  const _ActivityIndicator = () => (
+    <ActivityIndicator
+      animating={true}
+      color={isLightMode ? Colors.primary.s800 : Colors.primary.neutral}
+      size="large"
+      style={{ paddingTop: Sizing.x35 }}
+    />
+  );
 
   return (
     <>
@@ -56,20 +69,18 @@ export const EventsList = ({}: EventsListProps) => {
           getItem={getItem}
           refreshing={isLoading}
           initialNumToRender={4}
-          onEndReachedThreshold={0.1}
-          onEndReached={onEndReached}
+          onEndReachedThreshold={0.5}
+          onEndReached={() => loadEvents(eventsPage + 1, false)}
           getItemCount={getItemCount}
           renderItem={renderEventCard}
           keyExtractor={keyExtractor}
+          onRefresh={() => loadEvents(1, true)}
           showsVerticalScrollIndicator={false}
+          ListFooterComponent={_ActivityIndicator}
+          removeClippedSubviews
         />
       ) : !events.length && isLoading ? (
-        <ActivityIndicator
-          animating={true}
-          color={isLightMode ? Colors.primary.s800 : Colors.primary.neutral}
-          size="large"
-          style={{ paddingTop: Sizing.x35 }}
-        />
+        <_ActivityIndicator />
       ) : (
         <View style={styles.noEventsMessage}>
           <SubHeaderText colors={[Colors.primary.s800, Colors.primary.neutral]}>
