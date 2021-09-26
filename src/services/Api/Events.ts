@@ -44,4 +44,14 @@ export class Events {
       if (e.response) console.error(e.response.data);
     }
   }
+
+  public static async getEventsBySearch(
+    searchValue: string
+  ): Promise<any[] | void> {
+    try {
+      return await axios.get(`events/results?search_query=${searchValue}`);
+    } catch (e) {
+      if (e.response) console.error(e.response.data);
+    }
+  }
 }
