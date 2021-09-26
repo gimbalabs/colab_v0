@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { Buttons, Outlines, Typography, Sizing, Colors } from "styles/index";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -28,11 +28,8 @@ function wait(ms: number): Promise<void> {
 
 export const WalletScreen = ({ navigation, route }: WalletScreenProps) => {
   const { colorScheme } = appContext();
-  const {
-    hasSyncedWallet,
-    setHasSyncedWallet,
-    walletBalance,
-  } = React.useContext(ProfileContext);
+  const { hasSyncedWallet, setHasSyncedWallet, walletBalance } =
+    React.useContext(ProfileContext);
   const [layoutHeight, setLayoutHeight] = React.useState<any>(null);
   const [isSmallScreen, setIsSmallScreen] = React.useState<boolean>(false);
   const [isTxListLoading, setIsTxListLoading] = React.useState<boolean>(false);
@@ -172,7 +169,7 @@ export const WalletScreen = ({ navigation, route }: WalletScreenProps) => {
                     ? Colors.primary.s800
                     : Colors.primary.neutral
                 }
-                strokeWidth={1.6}
+                strokeWidth={1.8}
                 style={{ marginLeft: "auto" }}
               />
             </View>

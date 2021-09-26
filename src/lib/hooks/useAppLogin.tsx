@@ -15,6 +15,7 @@ export const useAppLogin = () => {
         let sec = await getFromEncryptedStorage("secret");
         let pub = await getFromEncryptedStorage("public");
 
+        console.log(jwt.accessToken);
         if (jwt && isExpired(jwt.expiresAt)) {
           setAuthorizationToken(jwt.accessToken);
           setIsAuthorized(true);
