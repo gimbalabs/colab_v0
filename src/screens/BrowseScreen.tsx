@@ -3,16 +3,16 @@ import { View, StyleSheet, ActivityIndicator, Animated } from "react-native";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StackScreenProps } from "@react-navigation/stack";
-import { Colors, Sizing } from "styles/index";
+import { Colors, Outlines, Sizing, Typography } from "styles/index";
 import { BookingStackParamList } from "common/types/navigationTypes";
 import { appContext } from "contexts/contextApi";
 import { useEventsPagination } from "lib/hooks/useEventsPagination";
 import { EventsList } from "components/booking/EventsList";
 import { SubHeaderText } from "components/rnWrappers/subHeaderText";
 import { applyOpacity } from "../styles/colors";
-import { SearchBar } from "components/searchBar";
 import { useEventsResults } from "lib/hooks/useEventsResults";
-import { EmptyDocumentsIcon } from "assets/icons";
+import { EmptyDocumentsIcon, SearchIcon } from "assets/icons";
+import SearchBar from "@pnap/react-native-search-bar";
 // import { browseFeatured } from "../api_data/browseFeatured";
 
 export interface BrowseProps
@@ -52,6 +52,21 @@ export const BrowseScreen = ({ navigation }: BrowseProps) => {
     if (!val) setEvents(null);
   };
 
+  const CustomSearchIcon = React.useCallback(
+    () => (
+      <SearchIcon
+        width={24}
+        height={24}
+        stroke={
+          colorScheme === "light" ? Colors.primary.s800 : Colors.primary.neutral
+        }
+        strokeWidth={1.8}
+        style={{ marginRight: Sizing.x10 }}
+      />
+    ),
+    []
+  );
+
   /**
    * Old code for displaying horizontal lists (categories, organizers, etc.)
    */
@@ -73,6 +88,26 @@ export const BrowseScreen = ({ navigation }: BrowseProps) => {
           onSubmitSearch={onSubmitSearch}
           onActiveSearch={onActiveSearch}
           onToggleSearchBar={onToggleSearchBar}
+          customIcon={CustomSearchIcon}
+          inputTextStyle={searchStyles.searchBarInput}
+          buttonStyle={Object.assign(
+            {},
+            searchStyles.searchButton,
+            isLightMode
+              ? {
+                  backgroundColor: Colors.primary.s800,
+                }
+              : { backgroundColor: Colors.primary.neutral }
+          )}
+          buttonTextStyle={Object.assign(
+            {},
+            isLightMode
+              ? { color: Colors.primary.neutral }
+              : { color: Colors.primary.s800 },
+            searchStyles.searchButtonText
+          )}
+          underlineActiveColor={Colors.primary.s600}
+          underlineInactiveColor={Colors.neutral.s300}
         />
       </View>
       <View style={styles.main}>
@@ -140,5 +175,39 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+});
+
+const searchStyles = StyleSheet.create({
+  searchToolContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    marginBottom: Sizing.x5,
+    marginTop: Sizing.x10,
+  },
+  searchBarInput: {
+    ...Typography.subHeader.x30,
+    fontFamily: "Roboto-Regular",
+    color: Colors.primary.s600,
+    width: "0%",
+    borderBottomWidth: Outlines.borderWidth.base,
+    paddingVertical: Sizing.x2,
+    paddingHorizontal: 0,
+  },
+  searchButton: {
+    borderRadius: Outlines.borderRadius.base,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: Sizing.x5,
+    paddingHorizontal: Sizing.x10,
+    ...Outlines.shadow.base,
+  },
+  searchButtonText: {
+    ...Typography.header.x20,
+  },
+  searchIcon: {
+    marginRight: Sizing.x10,
   },
 });
