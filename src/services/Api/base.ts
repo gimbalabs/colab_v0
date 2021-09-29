@@ -1,8 +1,11 @@
 import axios from "axios";
-import { API_URL } from "@env";
+import { ANDROID_API_URL, IOS_API_URL } from "@env";
+import { Platform } from "react-native";
+
+const OS = Platform.OS;
 
 const instance = axios.create({
-  baseURL: API_URL,
+  baseURL: OS === "android" ? ANDROID_API_URL : IOS_API_URL,
 });
 
 export const setAuthorizationToken = (token: string) => {
