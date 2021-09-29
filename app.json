@@ -1,9 +1,9 @@
 {
   "expo": {
-    "name": "1on1",
-    "slug": "1on1",
+    "name": "1on1 aka Bonfire",
+    "slug": "1on1 aka Bonfire",
     "version": "1.0.0",
-    "scheme": "one-on-one",
+    "scheme": "bonfire",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -18,11 +18,11 @@
     "ios": {
       "supportsTablet": true,
       "requireFullScreen": true,
-      "bundleIdentifier": "com.gimbalabs.oneonone",
+      "bundleIdentifier": "com.gimbalabs.bonfire",
       "buildNumber": "1.0.0"
     },
     "android": {
-      "package": "com.gimbalabs.oneonone",
+      "package": "com.gimbalabs.bonfire",
       "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",

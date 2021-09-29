@@ -25,8 +25,8 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>one-on-one</string>
-          <string>com.gimbalabs.oneonone</string>
+          <string>bonfire</string>
+          <string>com.gimbalabs.bonfire</string>
         </array>
       </dict>
       <dict>
@@ -36,7 +36,7 @@
         <string>OAuthRedirect</string>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>com.gimbalabs.oneonone</string>
+          <string>com.gimbalabs.bonfire</string>
         </array>
       </dict>
     </array>
