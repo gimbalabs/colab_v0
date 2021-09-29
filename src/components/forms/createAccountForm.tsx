@@ -12,17 +12,17 @@ import {
 } from "styles/index";
 import { createAccountValidationScheme } from "lib/utils";
 import { CustomInput } from "../forms/CustomInput";
+import { Users } from "Api/Users";
+import { setAuthorizationToken } from "Api/base";
 import { CheckIcon } from "icons/index";
 import { FullWidthButton } from "components/buttons/fullWidthButton";
 import { setToEncryptedStorage } from "lib/encryptedStorage";
-import { Users } from "../../services/Api/Users";
 import { ProfileContext } from "contexts/profileContext";
 import { useNavigation } from "@react-navigation/native";
 import { appContext } from "contexts/contextApi";
 import { startChallengeSequence } from "lib/helpers";
 import { generateKeyPair } from "lib/tweetnacl";
 import base64 from "base64-js";
-import { setAuthorizationToken } from "Api/base";
 
 export interface CreateAccountFormProps {
   onErrorCallback: (val: string) => void;

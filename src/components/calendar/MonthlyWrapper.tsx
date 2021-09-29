@@ -17,8 +17,6 @@ import { monthsByName } from "common/types/calendarTypes";
 import { WeekDayNames } from "./WeekDayNames";
 import { CalendarTopNavigation } from "./navigation/calendarTopNavigation";
 import { BookingCalendarLegend } from "./booking/BookingCalendarLegend";
-import { FullWidthButton } from "components/buttons/fullWidthButton";
-import { useNavigation } from "@react-navigation/native";
 
 export interface MonthlyWrapperProps {
   isBookingCalendar?: boolean;
@@ -43,8 +41,6 @@ export const MonthlyWrapper = ({
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [initialHasLoaded, setInitialHasLoaded] =
     React.useState<boolean>(false);
-  const [hasSelectedItem, setHasSelectedItem] = React.useState<boolean>(false);
-  const navigation = useNavigation();
 
   var animatedOpacity = React.useRef(new Animated.Value(1)).current;
   var animatedInitialOpacity = React.useRef(new Animated.Value(0)).current;
@@ -163,7 +159,6 @@ export const MonthlyWrapper = ({
             onPlaceholderPress={onPlaceholderPress}
             isBookingCalendar={isBookingCalendar}
             isNewEventCalendar={isNewEventCalendar}
-            customCallback={itemSelectedCallback}
           />
         </Animated.View>
       );
@@ -172,12 +167,7 @@ export const MonthlyWrapper = ({
   );
 
   const WeekComponent = React.useCallback(() => {
-    return (
-      <WeekDayNames
-        customCallback={itemSelectedCallback}
-        isNewEventCalendar={isNewEventCalendar}
-      />
-    );
+    return <WeekDayNames isNewEventCalendar={isNewEventCalendar} />;
   }, [monthsArray, initialHasLoaded]);
 
   const onPreviousStartAnimation = () => {
@@ -257,17 +247,6 @@ export const MonthlyWrapper = ({
     }
   };
 
-  /**
-   * part related to new-event-creation flow
-   */
-  const onNextButtonPress = React.useCallback(
-    () => navigation.navigate("Available Time Selection"),
-    [isNewEventCalendar]
-  );
-  const itemSelectedCallback = (payload: boolean) => {
-    setHasSelectedItem(payload);
-  };
-
   React.useEffect(() => {
     if (direction) {
       setDirection(null);
@@ -339,15 +318,6 @@ export const MonthlyWrapper = ({
           <BookingCalendarLegend colorScheme={colorScheme} />
         )}
       </View>
-      {isNewEventCalendar && (
-        <FullWidthButton
-          text="Next"
-          colorScheme={colorScheme}
-          disabled={!hasSelectedItem}
-          onPressCallback={onNextButtonPress}
-          style={styles.button}
-        />
-      )}
     </>
   );
 };
@@ -369,7 +339,6 @@ const styles = StyleSheet.create({
   loadingIndicator: {
     flex: 1,
   },
-  button: { width: "90%", marginTop: "auto", marginBottom: Sizing.x15 },
   calendar: {
     minHeight: 200,
     width: "100%",
