@@ -59,10 +59,9 @@ export const startChallengeSequence = async (
   try {
     let res = await Auth.requestChallenge({ credential });
     let { challengeString } = res;
-    let secretKey = await getFromEncryptedStorage("secret");
 
-    if (challengeString && secretKey) {
-      let signature: any = await signChallenge(challengeString, secretKey);
+    if (challengeString) {
+      let signature: any = await signChallenge(challengeString);
 
       if (signature) {
         signature = base64.fromByteArray(signature);
