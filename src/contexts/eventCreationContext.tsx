@@ -140,6 +140,18 @@ const reducer = (
         eventCardColor: action.payload.eventCardColor,
       };
     }
+    case EventCreationTypes.RemoveSelectedDays: {
+      return {
+        ...state,
+        selectedDays: {},
+      };
+    }
+    case EventCreationTypes.RemoveSelectedWeeks: {
+      return {
+        ...state,
+        selectedWeekDays: [],
+      };
+    }
     case EventCreationTypes.ResetState: {
       return {
         ...initialState,

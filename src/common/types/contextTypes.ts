@@ -28,7 +28,9 @@ export enum EventCreationTypes {
   AddAvailability = "SET_AVAILABILITIES",
   RemoveAvailability = "REMOVE_AVAILABILITIES",
   SetSelectedDays = "SET_SELECTED_DAYS",
+  RemoveSelectedDays = "REMOVE_SELECTED_DAYS",
   SetSelectedWeek = "SET_SELECTED_WEEKS",
+  RemoveSelectedWeeks = "REMOVE_SELECTED_WEEKS",
   SetTags = "SET_TAGS",
   SetImageURI = "SET_IMAGE_URI",
   SetHourlyRate = "SET_HOURLY_RATE",
@@ -110,9 +112,11 @@ export type EventCreationPayload = {
     selectedDays: number[];
     isRecurringSelection: boolean;
   };
+  [EventCreationTypes.RemoveSelectedDays]: any;
   [EventCreationTypes.SetSelectedWeek]: {
     selectedWeek: SelectedWeekDays;
   };
+  [EventCreationTypes.RemoveSelectedWeeks]: any;
   [EventCreationTypes.SetHourlyRate]: {
     hourlyRate: number;
   };

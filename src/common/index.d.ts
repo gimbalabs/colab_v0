@@ -6,3 +6,4 @@ declare module "rn-range-slider";
 declare module "tinycolor2";
 declare module "react-native-slider-color-picker";
 declare module "react-native-smooth-slider";
+declare module "qs";

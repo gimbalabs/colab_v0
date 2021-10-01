@@ -70,7 +70,7 @@ export const eventCreationContext = () => {
       });
     },
     setSelectedDays: (
-      selectedDays: number[],
+      selectedDays: any[],
       isRecurringSelection: boolean = false
     ) => {
       dispatch({
@@ -126,6 +126,10 @@ export const eventCreationContext = () => {
         payload: { eventCardColor: color },
       });
     },
+    removeSelectedDays: () =>
+      dispatch({ type: EventCreationTypes.RemoveSelectedDays }),
+    removeSelectedWeeks: () =>
+      dispatch({ type: EventCreationTypes.RemoveSelectedWeeks }),
     resetState: () => {
       dispatch({ type: EventCreationTypes.ResetState });
     },
