@@ -1,14 +1,15 @@
 import axios from "./base";
 
-export class ChallengeRequestDTO {
+export class ChallengeResponseDTO {
   constructor(challenge: string, signature: string, userCredential: any) {
-    this.challenge = challenge;
+    this.challengeString = challenge;
     this.signature = signature;
     this.userCredential = userCredential;
   }
 
-  challenge: string;
+  challengeString: string;
   signature: string;
+  // this value is used for looking up user in db
   userCredential: UserCredential;
 }
 
@@ -31,7 +32,7 @@ export class Auth {
     signature: string,
     userCredential: UserCredential
   ): Promise<{ index: string } | void> {
-    const challengeRequestDTO = new ChallengeRequestDTO(
+    const challengeRequestDTO = new ChallengeResponseDTO(
       challenge,
       signature,
       userCredential

@@ -54,4 +54,15 @@ export class Events {
       if (e.response) console.error(e.response.data);
     }
   }
+
+  public static async getGoogleCalendarEvents(query: {
+    [key: string]: string | number;
+  }): Promise<any[] | void> {
+    try {
+      const res = await axios.get("auth/google-calendar-events", query);
+      if (res) return res.data;
+    } catch (e) {
+      if (e.response) console.error(e.response.data);
+    }
+  }
 }
