@@ -2,7 +2,7 @@ import * as React from "react";
 import { View, StyleSheet, useWindowDimensions } from "react-native";
 
 import { ErrorIcon } from "assets/icons";
-import { ErrorType } from "common/types/errors";
+import { ErrorTypes } from "common/types/errors";
 import { SubHeaderText } from "components/rnWrappers/subHeaderText";
 import { Colors, Outlines, Sizing } from "styles/index";
 import Modal from "react-native-modal";
@@ -18,13 +18,16 @@ export const ErrorModal = ({ isModalVisible, errorType }: ErrorModalProps) => {
 
   React.useEffect(() => {
     setIsVisible(isModalVisible);
+    setTimeout(() => {
+      setIsVisible(false);
+    }, 7500);
   }, [isModalVisible]);
 
   return (
     <Modal
       animationIn={"slideInDown"}
       animationInTiming={200}
-      animationOut={"slideInUp"}
+      animationOut={"slideOutUp"}
       animationOutTiming={200}
       isVisible={isVisible}
       onSwipeCancel={() => setIsVisible(false)}
@@ -43,7 +46,7 @@ export const ErrorModal = ({ isModalVisible, errorType }: ErrorModalProps) => {
           strokeWidth={1.5}
         />
         <SubHeaderText customStyle={styles.text}>
-          {ErrorType.Server}
+          {ErrorTypes[`${errorType}`]}
         </SubHeaderText>
       </View>
     </Modal>
