@@ -17,10 +17,12 @@ export const ErrorModal = ({ isModalVisible, errorType }: ErrorModalProps) => {
   const { width, height } = useWindowDimensions();
 
   React.useEffect(() => {
-    setIsVisible(isModalVisible);
-    setTimeout(() => {
+    if (isModalVisible) setIsVisible(isModalVisible);
+    let timeout = setTimeout(() => {
       setIsVisible(false);
     }, 7500);
+
+    return () => clearTimeout(timeout);
   }, [isModalVisible]);
 
   return (
@@ -28,7 +30,7 @@ export const ErrorModal = ({ isModalVisible, errorType }: ErrorModalProps) => {
       animationIn={"slideInDown"}
       animationInTiming={200}
       animationOut={"slideOutUp"}
-      animationOutTiming={200}
+      animationOutTiming={400}
       isVisible={isVisible}
       onSwipeCancel={() => setIsVisible(false)}
       deviceWidth={width}

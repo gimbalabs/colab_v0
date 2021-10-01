@@ -26,6 +26,7 @@ import { NativeModal } from "components/modals/nativeModal";
 import { useCameraAccess } from "lib/hooks/useCameraAccess";
 import { useMediaAccess } from "lib/hooks/useMediaAccess";
 import { ProfileContext } from "contexts/profileContext";
+import { applyOpacity } from "../../styles/colors";
 
 export interface UserProfileScreenProps
   extends StackScreenProps<OrganizerTabParamList, "Browse"> {}
@@ -349,7 +350,7 @@ const styles = StyleSheet.create({
     fontSize: Sizing.x60,
   },
   profilePicEdit: {
-    backgroundColor: Colors.neutral.s500,
+    backgroundColor: applyOpacity(Colors.neutral.s500, 0.6),
     width: "100%",
     height: "25%",
     position: "absolute",

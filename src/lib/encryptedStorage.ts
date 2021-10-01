@@ -26,7 +26,7 @@ export const removeFromEncryptedStorage = async (key: string) => {
   }
 };
 
-export const isAvailableEncrptedStorage = async (): Promise<boolean> => {
+export const isAvailableEncryptedStorage = async (): Promise<boolean> => {
   try {
     return await SC.isAvailableAsync();
   } catch {

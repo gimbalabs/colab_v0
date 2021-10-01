@@ -28,9 +28,9 @@ export const signChallenge = async (
     secretKey = base64.toByteArray(secretKey);
   }
 
+  // TODO: use a byte-array when the device API's support that type, and fill the buffer with zeros immediately after use.
   try {
     signedChallenge = await nacl.sign.detached(challenge, secretKey);
-    secretKey = secretKey.fill(0);
 
     return signedChallenge;
   } catch (e) {
