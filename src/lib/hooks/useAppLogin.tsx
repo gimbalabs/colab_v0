@@ -20,15 +20,16 @@ export const useAppLogin = () => {
           setIsAuthorized(true);
         } else if (sec && pub) {
           const jwtDto = await startChallengeSequence(pub, false);
-          if (jwtDto) setAuthorizationToken(jwtDto.accessToken);
-          setIsAuthorized(true);
+          if (jwtDto) {
+            setAuthorizationToken(jwtDto.accessToken);
+            setIsAuthorized(true);
+          }
         } else {
           setIsAuthorized(false);
         }
 
         setIsAuthLoaded(true);
       } catch (e) {
-        console.error(e);
         setIsAuthLoaded(true);
       }
     })();
