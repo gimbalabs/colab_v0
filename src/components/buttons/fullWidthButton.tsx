@@ -15,7 +15,7 @@ export interface FullWidthButton {
   loadingIndicator?: boolean;
   colorScheme?: "light" | "dark";
   disabled?: boolean;
-  buttonType?: "filled" | "transparent";
+  buttonType: "filled" | "transparent";
   style?: StyleProp<any>;
   textStyle?: StyleProp<any>;
   lightMode?: boolean;
@@ -40,13 +40,16 @@ export const FullWidthButton = ({
     style = Object.assign({}, ...style);
   }
 
+  const disabledStyle =
+    buttonType === "filled"
+      ? { backgroundColor: Colors.neutral.s400 }
+      : { opacity: 0.65 };
+
   const buttonStyleFilled = [
     isLightMode ? Buttons.bar.primary_light : Buttons.bar.primary_dark,
-    disabled && { backgroundColor: Colors.neutral.s400 },
   ];
   const buttonStyleTransparent = [
     isLightMode ? Buttons.bar.transparent_light : Buttons.bar.transparent_dark,
-    disabled && { backgroundColor: Colors.neutral.s400 },
   ];
 
   const textStyleFilled = [
@@ -77,9 +80,13 @@ export const FullWidthButton = ({
       onLayout={onLayoutPressable}
       disabled={disabled}
       hitSlop={5}
-      style={Buttons.applyOpacity(
-        Object.assign({}, ...customButtonStyle, style)
-      )}>
+      style={
+        disabled
+          ? Object.assign({}, ...customButtonStyle, style, disabledStyle)
+          : Buttons.applyOpacity([
+              Object.assign({}, ...customButtonStyle, style),
+            ])
+      }>
       <Text onLayout={onLayoutText} style={textStyle ?? customTextStyle}>
         {text}
       </Text>

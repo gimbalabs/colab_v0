@@ -20,11 +20,14 @@ export interface CreateAccountScreenProps {
 }
 
 export const CreateAccountScreen = ({ pagerRef }: CreateAccountScreenProps) => {
-  const { profileType } = React.useContext(ProfileContext);
+  const { profileType, setName, setUsername } =
+    React.useContext(ProfileContext);
   const [modalVisible, setModalVisible] = React.useState<boolean>(false);
   const [errorType, setErrorType] = React.useState<string>("");
 
   const onBackPress = () => {
+    setName("");
+    setUsername("");
     pagerRef.current?.setPage(1);
   };
 
@@ -34,6 +37,10 @@ export const CreateAccountScreen = ({ pagerRef }: CreateAccountScreenProps) => {
   };
 
   const onChangeCallback = () => {
+    setModalVisible(false);
+  };
+
+  const errorHideCallback = () => {
     setModalVisible(false);
   };
 
@@ -85,7 +92,11 @@ export const CreateAccountScreen = ({ pagerRef }: CreateAccountScreenProps) => {
           </Pressable>
         </View>
       </KeyboardAwareScrollView>
-      <ErrorModal errorType={errorType} isModalVisible={modalVisible} />
+      <ErrorModal
+        errorHideCallback={errorHideCallback}
+        errorType={errorType}
+        isModalVisible={modalVisible}
+      />
     </>
   );
 };

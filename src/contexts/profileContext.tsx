@@ -6,8 +6,8 @@ import React, { useState, createContext } from "react";
 import { BioState } from "interfaces/profileInterface";
 
 export const initialState: BioState = {
-  username: "Satoshi",
-  name: "Adam Back",
+  username: "",
+  name: "",
   publicKey: "",
   id: "",
   bio: "",

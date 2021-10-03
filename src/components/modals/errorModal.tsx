@@ -2,7 +2,7 @@ import * as React from "react";
 import { View, StyleSheet, useWindowDimensions } from "react-native";
 
 import { ErrorIcon } from "assets/icons";
-import { ErrorTypes } from "common/types/errors";
+import { Errors } from "common/types/errors";
 import { SubHeaderText } from "components/rnWrappers/subHeaderText";
 import { Colors, Outlines, Sizing } from "styles/index";
 import Modal from "react-native-modal";
@@ -10,19 +10,28 @@ import Modal from "react-native-modal";
 export interface ErrorModalProps {
   isModalVisible: boolean;
   errorType: string;
+  errorHideCallback?: () => void;
 }
 
-export const ErrorModal = ({ isModalVisible, errorType }: ErrorModalProps) => {
+export const ErrorModal = ({
+  isModalVisible,
+  errorHideCallback,
+  errorType,
+}: ErrorModalProps) => {
   const [isVisible, setIsVisible] = React.useState<boolean>(isModalVisible);
   const { width, height } = useWindowDimensions();
 
   React.useEffect(() => {
-    if (isModalVisible) setIsVisible(isModalVisible);
-    let timeout = setTimeout(() => {
+    if (isModalVisible) {
+      setIsVisible(isModalVisible);
+      let timeout = setTimeout(() => {
+        setIsVisible(false);
+        errorHideCallback && errorHideCallback();
+      }, 7500);
+      return () => clearTimeout(timeout);
+    } else {
       setIsVisible(false);
-    }, 7500);
-
-    return () => clearTimeout(timeout);
+    }
   }, [isModalVisible]);
 
   return (
@@ -48,7 +57,7 @@ export const ErrorModal = ({ isModalVisible, errorType }: ErrorModalProps) => {
           strokeWidth={1.5}
         />
         <SubHeaderText customStyle={styles.text}>
-          {ErrorTypes[`${errorType}`]}
+          {Errors[`${errorType}`]}
         </SubHeaderText>
       </View>
     </Modal>

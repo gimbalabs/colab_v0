@@ -31,7 +31,7 @@ import { applyOpacity } from "../../styles/colors";
 export interface UserProfileScreenProps
   extends StackScreenProps<OrganizerTabParamList, "Browse"> {}
 
-export const UserProfileScreen = ({ navigation }: UserProfileScreenProps) => {
+export const UserProfileScreen = ({}: UserProfileScreenProps) => {
   const { name } = React.useContext(ProfileContext);
   const { colorScheme, setColorScheme } = appContext();
   const [imagePressed, setImagePressed] = React.useState<boolean>(false);

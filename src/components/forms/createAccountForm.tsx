@@ -35,7 +35,7 @@ export const CreateAccountForm = ({
   onErrorCallback,
   onChangeCallback,
 }: CreateAccountFormProps) => {
-  const { profileType, setName, setUsername, setId } =
+  const { profileType, setName, setUsername, setId, name, username } =
     React.useContext(ProfileContext);
   const { toggleAuth } = appContext();
   const [acceptedCheckbox, setAcceptedChecbox] = React.useState<boolean>(false);
@@ -49,14 +49,18 @@ export const CreateAccountForm = ({
       toValue: 1,
       duration: 0,
       useNativeDriver: true,
-    }).start();
+    }).start(({ finished }) => {
+      if (finished) setAcceptedChecbox(true);
+    });
   };
   const fadeOut = () => {
     Animated.timing(animatedOpacity, {
       toValue: 0,
       duration: 0,
       useNativeDriver: true,
-    }).start();
+    }).start(({ finished }) => {
+      if (finished) setAcceptedChecbox(false);
+    });
   };
 
   React.useEffect(() => {
@@ -65,11 +69,15 @@ export const CreateAccountForm = ({
   }, [profileType]);
 
   const onCheckBoxPress = () => {
-    setAcceptedChecbox((prev) => !prev);
-    acceptedCheckbox ? fadeIn() : fadeOut();
+    onChangeCallback();
+    !acceptedCheckbox ? fadeIn() : fadeOut();
   };
 
   const onSubmit = async (values: any) => {
+    if (!acceptedCheckbox) {
+      onErrorCallback("AcceptedTerms");
+      return;
+    }
     setIsLoading(true);
 
     // generate key pair
@@ -194,6 +202,7 @@ export const CreateAccountForm = ({
           </View>
           <FullWidthButton
             colorScheme={"dark"}
+            buttonType="transparent"
             loadingIndicator={isLoading}
             onPressCallback={handleSubmit}
             style={styles.submitButton}
