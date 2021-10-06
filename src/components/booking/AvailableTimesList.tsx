@@ -7,14 +7,12 @@ export interface AvailableTimesListProps {
   availabilities: any;
 }
 
-export const AvailableTimesList = ({
-  availabilities,
-}: AvailableTimesListProps) => {
+export const AvailableTimesList = ({}: AvailableTimesListProps) => {
   // const renderItem = () => {
   //   return <AvailableTimeSlot time={100} />;
   // };
 
-  const keyExtractor = (item: any, index: number) => `${item.time}_${index}`;
+  // const keyExtractor = (item: any, index: number) => `${item.time}_${index}`;
 
   return (
     <View style={styles.container}>

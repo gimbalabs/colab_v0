@@ -13,7 +13,6 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { Colors, Outlines, Sizing, Typography } from "styles/index";
-import { OrganizerProfile } from "components/booking/index";
 import { LeftArrowIcon } from "icons/index";
 import {
   appContext,
@@ -127,7 +126,7 @@ export const AvailableTimes = ({ navigation, route }: Props) => {
                 color: Colors.available,
               },
             ]}>
-            {getDigitalLocaleTime(item, "en")}
+            {getDigitalLocaleTime(item, "en") ?? {}}
           </Text>
         </Pressable>
       );

@@ -15,7 +15,7 @@ export interface FullWidthButton {
   loadingIndicator?: boolean;
   colorScheme?: "light" | "dark";
   disabled?: boolean;
-  buttonType: "filled" | "transparent";
+  buttonType?: "filled" | "transparent";
   style?: StyleProp<any>;
   textStyle?: StyleProp<any>;
   lightMode?: boolean;

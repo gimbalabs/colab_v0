@@ -1,6 +1,6 @@
 import * as React from "react";
-import { View, Text, StyleSheet, Pressable, TextInput } from "react-native";
-import { Buttons, Colors, Typography, Sizing, Outlines } from "styles/index";
+import { View, StyleSheet, Pressable, TextInput } from "react-native";
+import { Buttons, Typography, Sizing, Outlines } from "styles/index";
 import { RemoveIcon, EditIcon } from "icons/index";
 
 export interface IdeaProps {

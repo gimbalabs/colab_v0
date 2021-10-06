@@ -14,7 +14,7 @@ import { Colors, Sizing } from "styles/index";
 import { appContext } from "contexts/contextApi";
 
 export interface EventsListProps {
-  customEvents: any[] | null;
+  customEvents?: any[] | null;
 }
 
 export const EventsList = ({ customEvents }: EventsListProps) => {
