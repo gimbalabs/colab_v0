@@ -45,4 +45,13 @@ export class Auth {
       if (e.response) console.error(e.response.data);
     }
   }
+
+  public static async checkForGoogleAuth(): Promise<any> {
+    try {
+      const res = await axios.get("/auth/google-oauth-valid");
+      return res.data;
+    } catch (e) {
+      console.error(e.response);
+    }
+  }
 }

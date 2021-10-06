@@ -128,6 +128,7 @@ export const CreateAccountForm = ({
         if (e.message === "User already exists") {
           onErrorCallback("UserNameTaken");
         } else {
+          console.error(e);
           onErrorCallback("Server");
         }
 

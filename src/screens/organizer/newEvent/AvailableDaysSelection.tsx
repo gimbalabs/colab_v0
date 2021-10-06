@@ -25,14 +25,13 @@ export const AvailableDaysSelection = ({ navigation }: Props) => {
   const { colorScheme } = appContext();
   const { selectedDays, removeSelectedDays, removeSelectedWeeks } =
     eventCreationContext();
-  const { isRequesting, requestAccess } = useGoogleAuth();
+  const { isRequesting, isValidOauth, requestAccess } = useGoogleAuth();
   const [acceptedCheckbox, setAcceptedChecbox] = React.useState<boolean>(false);
   const [error, setError] = React.useState<any>({ isVisible: false, type: "" });
 
   const listener = {
     start: function () {
       Linking.addEventListener("url", (event) => {
-        console.log(event);
         const query = qs.parse(event.url.split("?")[1]);
         const { success } = query;
 
@@ -113,49 +112,51 @@ export const AvailableDaysSelection = ({ navigation }: Props) => {
             <CalendarWrapperSimple>
               <MonthlyWrapper isNewEventCalendar />
             </CalendarWrapperSimple>
-            <View style={styles.checkboxWrapper}>
-              <Pressable
-                onPress={onCheckBoxPress}
-                hitSlop={5}
-                style={[
-                  styles.checkbox,
-                  {
-                    borderWidth: isLightMode ? Outlines.borderWidth.thin : 0,
-                    backgroundColor:
-                      isLightMode && acceptedCheckbox
+            {!isValidOauth && (
+              <View style={styles.checkboxWrapper}>
+                <Pressable
+                  onPress={onCheckBoxPress}
+                  hitSlop={5}
+                  style={[
+                    styles.checkbox,
+                    {
+                      borderWidth: isLightMode ? Outlines.borderWidth.thin : 0,
+                      backgroundColor:
+                        isLightMode && acceptedCheckbox
+                          ? Colors.primary.s600
+                          : Colors.primary.neutral,
+                      borderColor:
+                        isLightMode && acceptedCheckbox
+                          ? Colors.primary.s600
+                          : "black",
+                    },
+                  ]}>
+                  <CheckIcon
+                    width="15"
+                    height="15"
+                    strokeWidth="3.5"
+                    stroke={
+                      isLightMode
+                        ? Colors.primary.neutral
+                        : !isLightMode && acceptedCheckbox
                         ? Colors.primary.s600
-                        : Colors.primary.neutral,
-                    borderColor:
-                      isLightMode && acceptedCheckbox
-                        ? Colors.primary.s600
-                        : "black",
-                  },
-                ]}>
-                <CheckIcon
-                  width="15"
-                  height="15"
-                  strokeWidth="3.5"
-                  stroke={
-                    isLightMode
-                      ? Colors.primary.neutral
-                      : !isLightMode && acceptedCheckbox
-                      ? Colors.primary.s600
-                      : Colors.primary.neutral
-                  }
-                />
-              </Pressable>
-              <BodyText
-                customStyle={{
-                  fontFamily: "Roboto-Regular",
-                  fontSize: Sizing.x14,
-                  width: "90%",
-                }}
-                colors={[Colors.primary.s800, Colors.primary.neutral]}>
-                Attendees schedule time on my Google calendar
-                {"\n"}
-                Next: grant access
-              </BodyText>
-            </View>
+                        : Colors.primary.neutral
+                    }
+                  />
+                </Pressable>
+                <BodyText
+                  customStyle={{
+                    fontFamily: "Roboto-Regular",
+                    fontSize: Sizing.x14,
+                    width: "90%",
+                  }}
+                  colors={[Colors.primary.s800, Colors.primary.neutral]}>
+                  Attendees schedule time on my Google calendar
+                  {"\n"}
+                  Next: grant access
+                </BodyText>
+              </View>
+            )}
           </ScrollView>
           <FullWidthButton
             text="Next"
@@ -163,6 +164,7 @@ export const AvailableDaysSelection = ({ navigation }: Props) => {
             disabled={isDisabledBtn}
             onPressCallback={onNextButtonPress}
             loadingIndicator={isRequesting}
+            buttonType="filled"
             style={styles.button}
           />
         </View>

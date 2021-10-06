@@ -4,11 +4,20 @@ import { AxiosResponse } from "axios";
 import { MOBILE_APP_SCHEMA } from "@env";
 import * as WebBrowser from "expo-web-browser";
 import axios from "Api/base";
+import { Auth } from "Api/Auth";
 
 export const useGoogleAuth = () => {
   const [isRequesting, setIsRequesting] = React.useState<boolean>(false);
+  const [isValidOauth, setIsValidOauth] = React.useState<boolean>(false);
 
   React.useEffect(() => {
+    (async () => {
+      try {
+        const isValid = await Auth.checkForGoogleAuth();
+        if (isValid !== "undefined" && isValid) setIsValidOauth(true);
+      } catch (e) {}
+    })();
+
     WebBrowser.warmUpAsync();
 
     return () => {
@@ -25,8 +34,8 @@ export const useGoogleAuth = () => {
       if (authUrl) {
         await WebBrowser.openAuthSessionAsync(authUrl, MOBILE_APP_SCHEMA);
       }
-
       setIsRequesting(false);
+
       return;
     } catch (err) {
       setIsRequesting(false);
@@ -36,6 +45,7 @@ export const useGoogleAuth = () => {
 
   return {
     isRequesting,
+    isValidOauth,
     requestAccess,
   };
 };
