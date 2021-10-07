@@ -21,8 +21,9 @@ export const initialState: BioState = {
   timeBlockCostADA: 0,
   walletBalance: 400,
   profileType: "organizer",
-  setUsername: () => {},
   setName: () => {},
+  setUsername: () => {},
+  setProfileType: () => {},
   setId: () => {},
   setPublicKey: () => {},
   setBio: () => {},
@@ -35,7 +36,6 @@ export const initialState: BioState = {
   setJobTitle: () => {},
   setDescription: () => {},
   setSkills: () => {},
-  setProfileType: () => {},
 };
 
 export interface ContextProviderProps {
@@ -45,8 +45,8 @@ export interface ContextProviderProps {
 export const ProfileContext = createContext<BioState>(initialState);
 
 export const ProfileContextProvider = ({ children }: ContextProviderProps) => {
-  const [username, setUsername] = useState<string>("Adam Back");
-  const [name, setName] = useState<string>("Satoshi");
+  const [username, setUsername] = useState<string>("");
+  const [name, setName] = useState<string>("");
   const [id, setId] = useState<string>("");
   const [publicKey, setPublicKey] = useState<string>("");
   const [bio, setBio] = useState<string>("");
@@ -63,8 +63,8 @@ export const ProfileContextProvider = ({ children }: ContextProviderProps) => {
   const [skills, setSkills] = useState<string | undefined>("");
   const [hasSyncedWallet, setHasSyncedWallet] = useState<boolean>(false);
   const [walletBalance, setWalletBalance] = useState<number>(56);
-  const [profileType, setProfileType] = useState<"attendee" | "organizer">(
-    "attendee"
+  const [profileType, setProfileType] = useState<"attendee" | "organizer" | "">(
+    ""
   );
 
   return (
@@ -87,8 +87,8 @@ export const ProfileContextProvider = ({ children }: ContextProviderProps) => {
         profileType,
         setProfileType,
         setUsername,
-        setId,
         setName,
+        setId,
         setPublicKey,
         setBio,
         setImageURL,

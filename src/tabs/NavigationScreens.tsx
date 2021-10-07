@@ -10,26 +10,23 @@ import { NavigationTabBar } from "components/navBarComponents/navigationTabBar";
 import { BrowseScreensStack } from "../stacks/BrowseScreensStack";
 import { OrganizerHomeScreenStack } from "stacks/OrganizerHomeScreenStack";
 import { appContext } from "contexts/contextApi";
-import { getFromEncryptedStorage } from "lib/encryptedStorage";
 import { ProfileContext } from "contexts/profileContext";
 
 const NavigationTabs = createBottomTabNavigator<OrganizerTabParamList>();
 
-export const NavigationScreens = () => {
-  const { setId, setUsername } = React.useContext(ProfileContext);
+export const NavigationScreens = ({ route }: any) => {
+  const { setId, setUsername, setProfileType } =
+    React.useContext(ProfileContext);
   const { accountType, toggleAuth } = appContext();
 
   React.useEffect(() => {
-    (async () => {
-      try {
-        let jwt = await getFromEncryptedStorage("accessToken");
-        toggleAuth(true, jwt.profileType);
-        setId(jwt.id);
-        setUsername(jwt.username);
-      } catch (e) {
-        console.error(e);
-      }
-    })();
+    if (route.params) {
+      const { profileType, username, id } = route.params;
+      toggleAuth(true, profileType);
+      setId(id);
+      setProfileType(profileType);
+      setUsername(username);
+    }
   }, []);
 
   return (

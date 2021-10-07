@@ -12,7 +12,7 @@ import { Calendar } from "containers/MyCalendar";
 export interface HomeProps
   extends StackScreenProps<OrganizerTabParamList, "Home"> {}
 
-export const HomeScreen = ({ navigation }: HomeProps) => {
+export const HomeScreen = ({}: HomeProps) => {
   const { colorScheme, accountType } = appContext();
 
   return (

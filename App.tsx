@@ -36,7 +36,7 @@ if (Platform.OS === "android") {
 const Stack = createStackNavigator<AppStackParamList>();
 
 function App() {
-  const { isAuthorized, isAuthLoaded } = useAppLogin();
+  const { isAuthorized, isAuthLoaded, user } = useAppLogin();
 
   const [fontsLoadaed] = useFonts({
     "Roboto-Thin": require("./assets/fonts/Roboto-Thin.ttf"),
@@ -83,6 +83,7 @@ function App() {
                   name="Navigation Screens"
                   component={NavigationScreens}
                   options={{ headerShown: false }}
+                  initialParams={user}
                 />
                 <Stack.Screen
                   name="Deposit Successful"

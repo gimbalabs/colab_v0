@@ -13,9 +13,9 @@ export interface BioState {
   jobTitle: string | undefined;
   description: string | undefined;
   skills: string | undefined;
-  profileType: "attendee" | "organizer";
-  setUsername: (input: string) => void;
+  profileType: "attendee" | "organizer" | "";
   setName: (input: string) => void;
+  setUsername: (input: string) => void;
   setPublicKey: (input: string) => void;
   setId: (input: string) => void;
   setBio: (input: string) => void;
