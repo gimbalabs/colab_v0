@@ -20,6 +20,7 @@ export interface EventsListCardProps {
   toDate: number;
   image: any;
   color: string;
+  titleColor: string;
   isEventCardPreview?: boolean;
   isBrowseScreenPreview?: boolean;
   isTransparent?: boolean;
@@ -34,6 +35,7 @@ export const EventsListCard = ({
   toDate,
   image,
   color,
+  titleColor,
 }: EventsListCardProps) => {
   const navigation = useNavigation();
   const _color = tinyColor(color);
@@ -46,7 +48,9 @@ export const EventsListCard = ({
       toDate,
       image,
       color,
+      titleColor,
     });
+  console.log(titleColor);
 
   return (
     <Pressable
@@ -67,7 +71,7 @@ export const EventsListCard = ({
               backgroundColor: isTransparent ? "transparent" : color,
             },
           ]}>
-          {fromDate && toDate && (
+          {fromDate != null && toDate != null && (
             <View
               style={[
                 styles.dateCard,
@@ -85,7 +89,13 @@ export const EventsListCard = ({
             </View>
           )}
 
-          <Text style={styles.eventTitle}>{title}</Text>
+          <Text
+            style={[
+              styles.eventTitle,
+              titleColor && !isTransparent ? { color: titleColor } : {},
+            ]}>
+            {title}
+          </Text>
         </View>
       </ImageBackground>
     </Pressable>

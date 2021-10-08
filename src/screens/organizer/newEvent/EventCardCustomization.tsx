@@ -1,11 +1,18 @@
 import * as React from "react";
-import { View, StyleSheet, Pressable, Switch, TextInput } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Pressable,
+  Switch,
+  ScrollView,
+  Text,
+} from "react-native";
 
 import { StackScreenProps } from "@react-navigation/stack";
 import { EventCreationParamList } from "common/types/navigationTypes";
 import { appContext, eventCreationContext } from "contexts/contextApi";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Colors, Sizing, Outlines, Typography } from "styles/index";
+import { Colors, Sizing, Outlines, Buttons, Typography } from "styles/index";
 import { LeftArrowIcon } from "assets/icons";
 import { HeaderText } from "components/rnWrappers/headerText";
 import { SubHeaderText } from "components/rnWrappers/subHeaderText";
@@ -32,13 +39,20 @@ export const EventCardCustomization = ({ navigation }: Props) => {
     imageURI,
     selectedDays,
     setEventCardColor,
+    setEventTitleColor,
     eventCardColor,
   } = eventCreationContext();
   const { colorScheme } = appContext();
   const [color, setColor] = React.useState<string>("#030303");
+  const [titleColor, setTitleColor] = React.useState<string>("#ffffff");
   const [opacity, setOpacity] = React.useState<number>(0);
+  const [titleOpacity, setTitleOpacity] = React.useState<number>(1);
   const [transparent, setTransparent] = React.useState<boolean>(false);
+  const [activeSelection, setActiveSelection] = React.useState<
+    "background" | "title"
+  >("background");
   const _color = tinyColor(color).setAlpha(opacity).toRgbString();
+  const _titleColor = tinyColor(titleColor).setAlpha(opacity).toRgbString();
 
   React.useEffect(() => {
     if (eventCardColor) setColor(eventCardColor);
@@ -47,19 +61,57 @@ export const EventCardCustomization = ({ navigation }: Props) => {
   const selectedDaysArr: number[] = Object.values(selectedDays ?? {});
   const fromDate = Math.min(...selectedDaysArr);
   const toDate = Math.max(...selectedDaysArr);
-
+  const currColor = activeSelection === "background" ? color : titleColor;
   const isLightMode = colorScheme !== "dark";
-  const onColorChange = (colorHsvOrRgb: string, resType: any) => {
-    if (resType === "end") setColor(tinyColor(colorHsvOrRgb).toHexString());
-  };
+  const buttonStyle = React.useCallback(
+    (type) => {
+      var bgColor = isLightMode
+        ? type === activeSelection
+          ? Colors.primary.s800
+          : Colors.primary.s200
+        : type === activeSelection
+        ? Colors.primary.neutral
+        : "transparent";
+      var bdColor = isLightMode ? "transparent" : Colors.primary.neutral;
+      var txColor = isLightMode
+        ? type === activeSelection
+          ? Colors.primary.neutral
+          : Colors.primary.s800
+        : type === activeSelection
+        ? Colors.primary.s800
+        : Colors.primary.neutral;
 
+      return { backgroundColor: bgColor, borderColor: bdColor, color: txColor };
+    },
+    [activeSelection, colorScheme]
+  );
+
+  const onColorChange = (colorHsvOrRgb: any, resType: any) => {
+    if (resType === "end") {
+      if (activeSelection === "background") {
+        setColor(tinyColor(colorHsvOrRgb).toHexString());
+      } else {
+        setTitleColor(tinyColor(colorHsvOrRgb).toHexString());
+      }
+    }
+  };
+  const onOpacityChange = (val: number) => {
+    if (activeSelection === "background") {
+      setOpacity(val);
+    } else {
+      setTitleOpacity(val);
+    }
+  };
   const onBackNavigationPress = () => navigation.goBack();
   const onNextPress = () => {
     setEventCardColor(transparent ? "transparent" : _color);
+    setEventTitleColor(transparent ? "white" : _titleColor);
     navigation.navigate("Event Confirmation Details", {
       isNewEvent: true,
     });
   };
+  const onBackgroundSelected = () => setActiveSelection("background");
+  const onTitleSelected = () => setActiveSelection("title");
 
   return (
     <SafeAreaView
@@ -71,7 +123,9 @@ export const EventCardCustomization = ({ navigation }: Props) => {
             : Colors.primary.s600,
         },
       ]}>
-      <View style={{ width: "100%", height: "100%", alignItems: "center" }}>
+      <ScrollView
+        contentContainerStyle={{ alignItems: "center" }}
+        style={{ width: "100%", height: "100%" }}>
         <View style={styles.navigation}>
           <Pressable onPress={onBackNavigationPress} hitSlop={10}>
             <LeftArrowIcon
@@ -88,29 +142,69 @@ export const EventCardCustomization = ({ navigation }: Props) => {
             Customize your event card
           </HeaderText>
           <SubHeaderText colors={[Colors.primary.s800, Colors.primary.neutral]}>
-            Give your card some color to organize your events ex. by time, theme
-            or to simply bring aesthetics to your events.
+            Give your card some colors to organize your events ex. by time,
+            theme or to simply bring aesthetics to your events.
           </SubHeaderText>
+        </View>
+        <View style={styles.selectionButtonsWrapper}>
+          <Pressable
+            onPress={onBackgroundSelected}
+            style={Buttons.applyOpacity(
+              Object.assign(
+                {},
+                styles.colorSelectionButton,
+                buttonStyle("background")
+              )
+            )}>
+            <Text
+              style={[
+                styles.colorSelectionButtonText,
+                { color: buttonStyle("background").color },
+              ]}>
+              Background
+            </Text>
+          </Pressable>
+          <Pressable
+            onPress={onTitleSelected}
+            style={Buttons.applyOpacity(
+              Object.assign(
+                {},
+                styles.colorSelectionButton,
+                buttonStyle("title")
+              )
+            )}>
+            <Text
+              style={[
+                styles.colorSelectionButtonText,
+                { color: buttonStyle("title").color },
+              ]}>
+              Title
+            </Text>
+          </Pressable>
         </View>
         <View style={styles.colorPickerWrapper}>
           <SliderHuePicker
-            oldColor={color}
+            oldColor={currColor}
             trackStyle={[{ height: Sizing.x10, width: "100%" }]}
             thumbStyle={styles.thumb}
             onColorChange={onColorChange}
+            useNativeDriver={true}
           />
         </View>
         <View style={styles.colorPickerWrapper}>
           <SliderSaturationPicker
-            oldColor={color}
+            oldColor={currColor}
             trackStyle={[{ height: Sizing.x10, width: "100%" }]}
             thumbStyle={styles.thumb}
             onColorChange={onColorChange}
+            useNativeDriver={true}
             style={[
               styles.colorPicker,
               {
                 backgroundColor: tinyColor({
-                  h: tinyColor(color).toHsv().h,
+                  h: tinyColor(
+                    activeSelection === "background" ? color : titleColor
+                  ).toHsv().h,
                   s: 1,
                   v: 1,
                 }).toHexString(),
@@ -120,13 +214,14 @@ export const EventCardCustomization = ({ navigation }: Props) => {
         </View>
         <View style={styles.colorPickerWrapper}>
           <SliderValuePicker
-            oldColor={color}
+            oldColor={currColor}
             minumumValue={0.2}
             step={0.05}
             trackStyle={[{ height: Sizing.x10, width: "100%" }]}
             thumbStyle={styles.thumb}
             onColorChange={onColorChange}
             trackImage={require("react-native-slider-color-picker/brightness_mask.png")}
+            useNativeDriver={true}
             style={[
               styles.colorPicker,
               {
@@ -144,7 +239,7 @@ export const EventCardCustomization = ({ navigation }: Props) => {
               justifyContent: "center",
             }}>
             <Slider
-              value={opacity}
+              value={activeSelection === "background" ? opacity : titleOpacity}
               minumumValue={0.1}
               maximumValue={1}
               minimumTrackTintColor={"#3f3f3f"}
@@ -160,16 +255,14 @@ export const EventCardCustomization = ({ navigation }: Props) => {
               useNativeDriver={true}
               style={[styles.colorPicker]}
               trackImage={require("../../../assets/images/gradient_2.png")}
-              onValueChange={(value: number) => setOpacity(value)}
-              onSlidingComplete={(value: number) => setOpacity(value)}
+              onValueChange={onOpacityChange}
+              onSlidingComplete={onOpacityChange}
             />
           </View>
         </View>
         <View style={styles.enableColorsWrapper}>
           <BodyText
-            customStyle={{
-              ...Typography.roboto.medium,
-            }}
+            customStyle={{ fontFamily: "Roboto-Regular" }}
             colors={[Colors.primary.s800, Colors.primary.neutral]}>
             Colors {!transparent ? "enabled" : "disabled"}
           </BodyText>
@@ -179,7 +272,7 @@ export const EventCardCustomization = ({ navigation }: Props) => {
               true: Colors.neutral.s800,
             }}
             thumbColor={
-              !isLightMode ? Colors.primary.s600 : Colors.primary.neutral
+              !isLightMode ? Colors.primary.s800 : Colors.primary.neutral
             }
             ios_backgroundColor={Colors.primary.brand}
             onValueChange={() => setTransparent((prev) => !prev)}
@@ -196,6 +289,7 @@ export const EventCardCustomization = ({ navigation }: Props) => {
               toDate={toDate}
               image={imageURI}
               color={applyOpacity(color, opacity)}
+              titleColor={applyOpacity(titleColor, titleOpacity)}
               isTransparent={transparent}
             />
           )}
@@ -203,11 +297,11 @@ export const EventCardCustomization = ({ navigation }: Props) => {
         <FullWidthButton
           text="Next"
           disabled={false}
-          style={{ width: "90%", marginTop: "auto", marginBottom: Sizing.x15 }}
+          style={{ width: "90%", marginBottom: Sizing.x15 }}
           colorScheme={colorScheme}
           onPressCallback={onNextPress}
         />
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -275,7 +369,30 @@ const styles = StyleSheet.create({
   customizingButtonsWrapper: {
     flexDirection: "row",
   },
+  selectionButtonsWrapper: {
+    width: "90%",
+    alignItems: "center",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    marginTop: Sizing.x10,
+    marginBottom: Sizing.x5,
+  },
   customizingButton: {
     width: Sizing.x30,
+  },
+  colorSelectionButton: {
+    borderRadius: Outlines.borderRadius.base,
+    borderWidth: Outlines.borderWidth.base,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "30%",
+    paddingVertical: Sizing.x5,
+    paddingHorizontal: Sizing.x10,
+    ...Outlines.shadow.base,
+  },
+  colorSelectionButtonText: {
+    ...Typography.header.x20,
+    marginRight: Sizing.x5,
   },
 });

@@ -44,6 +44,7 @@ export const EventConfirmationDetails = ({ isNewEvent = false }: any) => {
     selectedDays,
     imageURI,
     eventCardColor,
+    eventTitleColor,
   } = eventCreationContext();
   const { timeBlockCostADA: hourlyRate } = React.useContext(ProfileContext);
 
@@ -141,6 +142,10 @@ export const EventConfirmationDetails = ({ isNewEvent = false }: any) => {
         },
         eventCardColor !== "transparent" && {
           content: `${eventCardColor}`,
+          icon: sectionsIcons.colorsPallete,
+        },
+        eventTitleColor !== "transparent" && {
+          content: `${eventTitleColor}`,
           icon: sectionsIcons.colorsPallete,
         },
       ],

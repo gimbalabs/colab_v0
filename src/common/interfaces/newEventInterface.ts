@@ -21,6 +21,7 @@ export interface InitialState {
   selectedWeekDays: SelectedWeekDays[];
   privateEvent: boolean;
   eventCardColor: string;
+  eventTitleColor: string;
 }
 
 export type SelectedDays = { [key: string]: number };

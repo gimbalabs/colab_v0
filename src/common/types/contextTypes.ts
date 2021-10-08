@@ -36,6 +36,7 @@ export enum EventCreationTypes {
   SetHourlyRate = "SET_HOURLY_RATE",
   SetPrivateEvent = "SET_PRIVATE_EVENT",
   SetEventCardColor = "SET_EVENT_CARD_COLOR",
+  SetEventTitleColor = "SET_EVENT_TITLE_COLOR",
   ResetState = "RESET_STATE",
 }
 
@@ -60,6 +61,7 @@ export enum MyCalendarTypes {
   CalendarDirection = "SET_CALENDAR_DIRECTION",
   SetAvailCalendar = "SET_AVAIL_CALENDAR",
   SetCurrentSelectedDay = "SET_CURR_SELECTED_DAY",
+  SetEvents = "SET_EVENTS",
 }
 
 /**
@@ -135,6 +137,9 @@ export type EventCreationPayload = {
   [EventCreationTypes.SetEventCardColor]: {
     eventCardColor: string;
   };
+  [EventCreationTypes.SetEventTitleColor]: {
+    eventTitleColor: string;
+  };
   [EventCreationTypes.ResetState]: any;
   ["unknown"]: any;
 };
@@ -191,6 +196,9 @@ export type MyCalendarPaylaod = {
   };
   [MyCalendarTypes.SetCurrentSelectedDay]: {
     selectedDay: any;
+  };
+  [MyCalendarTypes.SetEvents]: {
+    scheduledEvents?: any;
   };
   [MyCalendarTypes.ClearDayPreview]: object;
   ["unknown"]: any;

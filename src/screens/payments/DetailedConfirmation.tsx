@@ -23,6 +23,7 @@ export const DetailedConfirmation = ({ navigation, route }: any) => {
     imageURI,
     privateEvent,
     eventCardColor,
+    eventTitleColor,
     availabilities,
     resetState,
   } = eventCreationContext();
@@ -44,6 +45,7 @@ export const DetailedConfirmation = ({ navigation, route }: any) => {
         imageURI,
         privateEvent,
         eventCardColor,
+        eventTitleColor,
         organizer: {
           id,
           username,

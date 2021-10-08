@@ -18,5 +18,6 @@ export interface CreateEventDto {
   imageURI: string;
   privateEvent: boolean;
   eventCardColor: string;
+  eventTitleColor: string;
   organizer: EventUser;
 }

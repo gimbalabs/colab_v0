@@ -21,6 +21,7 @@ const initialState: InitialState = {
   hourlyRate: 0,
   imageURI: "",
   eventCardColor: "",
+  eventTitleColor: "",
   selectedWeekDays: [],
   privateEvent: false,
 };
@@ -138,6 +139,12 @@ const reducer = (
       return {
         ...state,
         eventCardColor: action.payload.eventCardColor,
+      };
+    }
+    case EventCreationTypes.SetEventTitleColor: {
+      return {
+        ...state,
+        eventTitleColor: action.payload.eventTitleColor,
       };
     }
     case EventCreationTypes.RemoveSelectedDays: {

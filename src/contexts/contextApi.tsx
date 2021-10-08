@@ -10,7 +10,7 @@ import {
   CalendarHeader,
   NewCalendarMonths,
   PreviewingDayEvents,
-  ScheduledEvent,
+  Event,
 } from "interfaces/myCalendarInterface";
 import { OrganizerRate } from "common/interfaces/bookingInterface";
 import {
@@ -63,6 +63,7 @@ export const eventCreationContext = () => {
     imageURI: state.imageURI,
     privateEvent: state.privateEvent,
     eventCardColor: state.eventCardColor,
+    eventTitleColor: state.eventTitleColor,
     setTextContent: (textContent: TextContent) => {
       dispatch({
         type: EventCreationTypes.SetTextContent,
@@ -126,6 +127,12 @@ export const eventCreationContext = () => {
         payload: { eventCardColor: color },
       });
     },
+    setEventTitleColor: (color: string) => {
+      dispatch({
+        type: EventCreationTypes.SetEventTitleColor,
+        payload: { eventTitleColor: color },
+      });
+    },
     removeSelectedDays: () =>
       dispatch({ type: EventCreationTypes.RemoveSelectedDays }),
     removeSelectedWeeks: () =>
@@ -178,11 +185,11 @@ export const myCalendarContext = () => {
     calendarHeader: state.calendarHeader,
     availabilities: state.availabilities,
     organizerAvailabilities: state.organizerAvailabilities,
-    scheduledEvents: state.scheduledEvents,
+    events: state.events,
     registrationDate: state.registrationDate,
     previewingDayEvents: state.previewingDayEvents,
     direction: state.direction,
-    addEvent: (event: ScheduledEvent) => {
+    addEvent: (event: Event) => {
       dispatch({ type: "ADD_EVENT", payload: event });
     },
     addAvailability: (availabilities: Availabilities[]) => {
@@ -205,6 +212,9 @@ export const myCalendarContext = () => {
     },
     setOrganizerAvail: (availabilities: any) => {
       dispatch({ type: "SET_ORGANIZER_AVAIL", payload: { availabilities } });
+    },
+    setEvents: (events: any) => {
+      dispatch({ type: "SET_EVENTS", payload: { events } });
     },
     previewDayEvents: (newPreviewingDayEvents: PreviewingDayEvents) => {
       dispatch({
