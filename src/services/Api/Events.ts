@@ -24,6 +24,15 @@ export class Events {
     }
   }
 
+  public static async getEventsByUserId(id: string): Promise<any[] | void> {
+    try {
+      const res = await axios.get(`/${id}/events`);
+      if (res.data) return res.data;
+    } catch (e) {
+      if (e.response) throw new Error(e.response.data);
+    }
+  }
+
   public static async getAllEvents(
     query: PaginationRequestDto
   ): Promise<any | void> {

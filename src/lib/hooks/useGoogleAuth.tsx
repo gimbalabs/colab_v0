@@ -8,7 +8,7 @@ import { Auth } from "Api/Auth";
 
 export const useGoogleAuth = () => {
   const [isRequesting, setIsRequesting] = React.useState<boolean>(false);
-  const [isValidOauth, setIsValidOauth] = React.useState<boolean>(false);
+  const [isValidOauth, setIsValidOauth] = React.useState<boolean>(true);
 
   React.useEffect(() => {
     (async () => {

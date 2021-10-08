@@ -44,14 +44,14 @@ export const AvailableTimes = ({ navigation, route }: Props) => {
     setMaxTimeSlotDuration,
   } = bookingContext();
   const { colorScheme } = appContext();
-  const { availabilities, scheduledEvents } = myCalendarContext();
+  const { availabilities, events } = myCalendarContext();
   const { currAvailabilities } = useAvailabilities(
     availabilities,
     pickedDate,
     previewingOrganizer.timeBlock
   );
   const { scheduledTimes } = useScheduledTimes(
-    scheduledEvents,
+    events,
     pickedDate,
     previewingOrganizer.timeBlock
   );

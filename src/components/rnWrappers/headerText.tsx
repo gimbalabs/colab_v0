@@ -26,6 +26,6 @@ const styles = StyleSheet.create({
   },
   text_dark: {
     ...Typography.header.x50,
-    color: Colors.primary.s800,
+    color: Colors.primary.neutral,
   },
 });

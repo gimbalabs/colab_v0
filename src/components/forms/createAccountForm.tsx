@@ -35,7 +35,7 @@ export const CreateAccountForm = ({
   onErrorCallback,
   onChangeCallback,
 }: CreateAccountFormProps) => {
-  const { profileType, setName, setUsername, setId, name, username } =
+  const { profileType, setProfileType, setUsername, setId, name, username } =
     React.useContext(ProfileContext);
   const { toggleAuth } = appContext();
   const [acceptedCheckbox, setAcceptedChecbox] = React.useState<boolean>(false);
@@ -102,7 +102,7 @@ export const CreateAccountForm = ({
 
           setId(id);
           setUsername(username);
-          setName(name);
+          setProfileType(name);
 
           // start challenge and get JWT
           const loginResponseDTO = await startChallengeSequence(id, true);

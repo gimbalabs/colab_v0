@@ -20,13 +20,13 @@ export interface CreateAccountScreenProps {
 }
 
 export const CreateAccountScreen = ({ pagerRef }: CreateAccountScreenProps) => {
-  const { profileType, setName, setUsername } =
+  const { profileType, setProfileType, setUsername } =
     React.useContext(ProfileContext);
   const [modalVisible, setModalVisible] = React.useState<boolean>(false);
   const [errorType, setErrorType] = React.useState<string>("");
 
   const onBackPress = () => {
-    setName("");
+    setProfileType("");
     setUsername("");
     pagerRef.current?.setPage(1);
   };
