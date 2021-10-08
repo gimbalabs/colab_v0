@@ -12,7 +12,7 @@ import {
 import { MyCalendarActions, MyCalendarTypes } from "common/types/contextTypes";
 import { getMonth, getCalendarMonths, getYear } from "lib/utils";
 
-import { customScheduledEvents as scheduledEvents } from "../api_data/customScheduledEvents";
+// import { customScheduledEvents as scheduledEvents } from "../api_data/customScheduledEvents";
 import { customAvailabilities as availabilities } from "../api_data/customAvailabilities";
 import { months } from "common/types/calendarTypes";
 
@@ -26,12 +26,12 @@ const initialCalendar = [
 ];
 
 export const initialState: MyCalendarState = {
-  registrationDate: 1620165600000,
+  registrationDate: null,
   calendar: initialCalendar,
   availabilitiesCalendar: null,
   organizerAvailabilities: null,
   availabilities,
-  scheduledEvents,
+  events: null,
   direction: null,
   currentSelectedDay: null,
   calendarHeader: {
@@ -45,8 +45,8 @@ const reducer = (state: MyCalendarState, action: MyCalendarActions) => {
   switch (action.type) {
     case MyCalendarTypes.AddEvent:
       // TODO: Sort through existing events, or send to a server?
-      if (state.scheduledEvents != null) {
-        state.scheduledEvents.push(action.payload.event);
+      if (state.events != null) {
+        state.events.push(action.payload.event);
       }
       return {
         ...state,
@@ -122,7 +122,12 @@ const reducer = (state: MyCalendarState, action: MyCalendarActions) => {
         ...state,
         availabilitiesCalendar: calendar,
       };
-
+    case MyCalendarTypes.SetEvents: {
+      return {
+        ...state,
+        scheduledEvents: action.payload.scheduledEvents,
+      };
+    }
     default:
       throw Error(`Unknown type of action: ${action.type}`);
   }

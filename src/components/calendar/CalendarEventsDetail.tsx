@@ -2,12 +2,12 @@ import * as React from "react";
 import { View, Text, StyleSheet, Pressable, Animated } from "react-native";
 
 import { Colors, Outlines, Sizing, Typography } from "styles/index";
-import { ScheduledEvent } from "interfaces/myCalendarInterface";
+import { Event } from "interfaces/myCalendarInterface";
 import { getDigitalTime, getLocaleTimezone } from "lib/utils";
 import { months } from "common/types/calendarTypes";
 import { RightArrowIcon } from "icons/index";
 
-export interface CalendarEventsDetailProps extends ScheduledEvent {
+export interface CalendarEventsDetailProps extends Event {
   setHighlightedDay: React.Dispatch<any>;
   highlightedDay: any;
   listLength: number;

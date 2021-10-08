@@ -52,8 +52,9 @@ export const MonthItem = ({
   );
 
   React.useEffect(() => {
+    if (!isBookingCalendar && !isNewEventCalendar) setActiveDay(null);
     customCallback && customCallback(!!selectedDays);
-  }, [selectedDays]);
+  }, [selectedDays, month]);
 
   return (
     <>
