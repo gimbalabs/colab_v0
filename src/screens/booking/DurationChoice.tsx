@@ -13,7 +13,6 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { Colors, Outlines, Sizing, Typography } from "styles/index";
-import { OrganizerProfile } from "components/booking/index";
 import { LeftArrowIcon } from "icons/index";
 import { appContext, bookingContext } from "contexts/contextApi";
 import { FullWidthButton } from "components/buttons/fullWidthButton";
@@ -23,17 +22,12 @@ import { useDurationSlots } from "lib/hooks/useDurationSlots";
 import AnimatedNumber from "react-native-animated-number";
 import { BookingStackParamList } from "common/types/navigationTypes";
 import { StackScreenProps } from "@react-navigation/stack";
-import { applyOpacity } from "../../styles/colors";
-
-function wait(ms: number): Promise<void> {
-  return new Promise((res) => setTimeout(res, ms));
-}
 
 type Props = StackScreenProps<BookingStackParamList, "Duration Choice">;
 
 export const DurationChoice = ({ navigation, route }: Props) => {
-  const { title, description, image, color } = route.params;
-  const { maxTimeSlotDuration } = bookingContext();
+  const { title, image, color, titleColor, hourlyRate } = route.params;
+  const { maxTimeSlotDuration, minTimeSlotDuration } = bookingContext();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [selectedDuration, setSelectedDuration] = React.useState<number>(0);
   const [cost, setCost] = React.useState<number>(0);
@@ -46,31 +40,34 @@ export const DurationChoice = ({ navigation, route }: Props) => {
   const insets = useSafeAreaInsets();
   const isLightMode = colorScheme === "light";
   const isDisabled = selectedDuration === 0;
-  const timeBlockMilSec = previewingOrganizer?.timeBlock * 60 * 1000;
   //@TODO: insert check for auth state
   //    !auth
   // ? "Sign up"
   // :
   //
   const buttonText =
-    walletBalance != null && walletBalance < cost ? "Deposit" : "Next";
+    walletBalance != null && walletBalance < cost
+      ? "Deposit Funds"
+      : "Preview Order";
 
-  const { timeSlots } = useDurationSlots(timeBlockMilSec, maxTimeSlotDuration);
+  const { timeSlots } = useDurationSlots(
+    minTimeSlotDuration,
+    maxTimeSlotDuration
+  );
 
   const onBackNavigationPress = () => navigation.goBack();
 
   const onNextPress = async () => {
     // if (buttonText === "Sign up") return; // @TODO must navigate to sign up screen
-    if (buttonText === "Deposit")
+    if (buttonText === "Deposit Funds")
       navigation.navigate("Add Funds", {
         ...route.params,
         fromScreen: "Duration Choice",
       });
-    if (buttonText === "Next") {
+    if (buttonText === "Preview Order") {
       setIsLoading(true);
       setDuration(selectedDuration);
       setDurationCost(cost);
-      await wait(1500);
       setIsLoading(false);
       navigation.navigate("Booking Confirmation", route.params);
     }
@@ -82,7 +79,9 @@ export const DurationChoice = ({ navigation, route }: Props) => {
       setCost(0);
     } else {
       setSelectedDuration(time);
-      let totalCost = previewingOrganizer?.hourlyRate * (time / 60 / 60 / 1000);
+      // TODO What's the hourly rate for this event?
+      let totalCost = (hourlyRate ?? 50) * (time / 60 / 60 / 1000);
+      console.log(totalCost);
       setCost(totalCost);
     }
   };
@@ -118,13 +117,9 @@ export const DurationChoice = ({ navigation, route }: Props) => {
       <View style={styles.topContainer}>
         <ImageBackground
           resizeMode="cover"
-          source={image}
+          source={{ uri: image }}
           style={styles.backgroundImage}>
-          <View
-            style={[
-              styles.topInnerContainer,
-              { backgroundColor: applyOpacity(color, 0.5) },
-            ]}>
+          <View style={[styles.topInnerContainer, { backgroundColor: color }]}>
             <View style={[styles.topInnerWrapper, { paddingTop: insets.top }]}>
               <View style={styles.navigation}>
                 <Pressable onPress={onBackNavigationPress} hitSlop={10}>
@@ -144,7 +139,7 @@ export const DurationChoice = ({ navigation, route }: Props) => {
               <Text
                 ellipsizeMode="tail"
                 numberOfLines={2}
-                style={styles.eventTitle}>
+                style={[styles.eventTitle, { color: titleColor }]}>
                 {title}
               </Text>
             </View>
@@ -320,13 +315,15 @@ const styles = StyleSheet.create({
   topInnerWrapper: {
     width: "90%",
     flexDirection: "row",
+    justifyContent: "space-between",
   },
   eventTitleWrapper: {
     width: "90%",
+    marginTop: "auto",
+    marginBottom: Sizing.x20,
   },
   eventTitle: {
     ...Typography.header.x55,
     color: Colors.primary.neutral,
-    marginTop: Sizing.x15,
   },
 });

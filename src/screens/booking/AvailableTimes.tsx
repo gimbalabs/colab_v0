@@ -23,129 +23,132 @@ import {
 import { FullWidthButton } from "components/buttons/fullWidthButton";
 import { useAvailabilities } from "lib/hooks/useAvailabilities";
 import { getDigitalLocaleTime } from "lib/utils";
-import { useScheduledTimes } from "lib/hooks/useScheduledTimes";
 import { BookingStackParamList } from "common/types/navigationTypes";
 import { StackScreenProps } from "@react-navigation/stack";
-import { applyOpacity } from "../../styles/colors";
 
 export interface AvailableTimesProps {}
 
 type Props = StackScreenProps<BookingStackParamList, "Available Times">;
 
 export const AvailableTimes = ({ navigation, route }: Props) => {
-  const { title, image, color } = route.params;
+  const { title, image, color, titleColor } = route.params;
   const [selectedTimeSlot, setSelectedTimeSlot] = React.useState<number | null>(
     null
   );
   const {
-    previewingOrganizer,
+    previewingEvent,
     pickedDate,
     setPickedDate,
     setMaxTimeSlotDuration,
+    setMinTimeSlotDuration,
   } = bookingContext();
   const { colorScheme } = appContext();
-  const { availabilities, events } = myCalendarContext();
+  const { availabilities } = myCalendarContext();
   const { currAvailabilities } = useAvailabilities(
-    availabilities,
-    pickedDate,
-    previewingOrganizer.timeBlock
+    previewingEvent.availabilities,
+    pickedDate
   );
-  const { scheduledTimes } = useScheduledTimes(
-    events,
-    pickedDate,
-    previewingOrganizer.timeBlock
-  );
+
+  // TODO once we want to adjust availabilities based on organizer scheduled time
+  // const { scheduledTimes } = useScheduledTimes(
+  //   events,
+  //   pickedDate,
+  //   previewingOrganizer.timeBlock
+  // );
+  const scheduledTimes: any = [];
   const insets = useSafeAreaInsets();
 
   const isLightMode = colorScheme === "light";
   const isDisabled = selectedTimeSlot === null;
 
-  const maxTimeSlotDuration = () => {
-    if (
-      selectedTimeSlot &&
-      currAvailabilities != null &&
-      scheduledTimes != null
-    ) {
-      // calculate the max time span of organizer availability
-      let timeBlockMilSec = previewingOrganizer?.timeBlock * 60 * 1000;
-      let endOfAvailability =
-        currAvailabilities?.[currAvailabilities.length - 1] + timeBlockMilSec;
-      let upcomingEvent = scheduledTimes?.find(
-        (time) => time > selectedTimeSlot
+  const setTimeDuration = () => {
+    if (selectedTimeSlot && currAvailabilities != null) {
+      const availability = previewingEvent.availabilities.find(
+        (availability: any) => {
+          const from = new Date(availability.from).getTime();
+          const to = new Date(availability.to).getTime();
+
+          return from < selectedTimeSlot && to > selectedTimeSlot;
+        }
       );
 
+      setMaxTimeSlotDuration(availability.maxDuration);
+      setMinTimeSlotDuration(availability.minDuration);
+
+      // calculate the max time span of organizer availability
+      // let timeBlockMilSec = previewingOrganizer?.timeBlock * 60 * 1000;
+      // let endOfAvailability =
+      //   currAvailabilities?.[currAvailabilities.length - 1] + timeBlockMilSec;
+      // let upcomingEvent = scheduledTimes?.find(
+      //   (time: any) => time > selectedTimeSlot
+      // );
+
       // there aren't any upcoming events at current day
-      if (upcomingEvent == null) {
-        // return the time span between selected time slot and
-        // the end of organizer availability
-        return endOfAvailability - selectedTimeSlot;
-      } else {
-        // else return the time span between selected time slot
-        // and the first already booked event
-        return upcomingEvent - selectedTimeSlot;
-      }
+      // if (upcomingEvent == null) {
+      //   // return the time span between selected time slot and
+      //   // the end of organizer availability
+      //   return endOfAvailability - selectedTimeSlot;
+      // } else {
+      //   // else return the time span between selected time slot
+      //   // and the first already booked event
+      //   return upcomingEvent - selectedTimeSlot;
+      // }
     }
   };
 
   const onBackNavigationPress = () => navigation.goBack();
   const onNextPress = () => {
     setPickedDate(selectedTimeSlot);
-    setMaxTimeSlotDuration(maxTimeSlotDuration());
+    setTimeDuration();
     navigation.navigate("Duration Choice", route.params);
   };
 
   const onPressCallback = (item: number) => {
     if (scheduledTimes?.includes(item)) return;
     if (selectedTimeSlot === item) return setSelectedTimeSlot(null);
+
     setSelectedTimeSlot(item);
   };
 
-  const renderTimeSlots = React.useCallback(
-    (item: number, index: number) => {
-      var _key = `${index}_${item}`;
-      return (
-        <Pressable
-          onPress={() => onPressCallback(item)}
-          hitSlop={5}
-          key={_key}
+  const renderTimeSlots = (item: number, index: number) => {
+    var _key = `${index}_${item}`;
+    return (
+      <Pressable
+        onPress={() => onPressCallback(item)}
+        hitSlop={5}
+        key={_key}
+        style={[
+          styles.timeSlotButton,
+          scheduledTimes?.includes(item)
+            ? { backgroundColor: Colors.booked }
+            : {
+                ...Outlines.shadow.lifted,
+              },
+          selectedTimeSlot === item && {
+            backgroundColor: Colors.primary.s800,
+          },
+        ]}>
+        <Text
           style={[
-            styles.timeSlotButton,
-            scheduledTimes?.includes(item)
-              ? { backgroundColor: Colors.booked }
-              : {
-                  ...Outlines.shadow.lifted,
-                },
+            styles.timeSlotButtonText,
             selectedTimeSlot === item && {
-              backgroundColor: Colors.primary.s800,
+              color: Colors.available,
             },
           ]}>
-          <Text
-            style={[
-              styles.timeSlotButtonText,
-              selectedTimeSlot === item && {
-                color: Colors.available,
-              },
-            ]}>
-            {getDigitalLocaleTime(item, "en") ?? {}}
-          </Text>
-        </Pressable>
-      );
-    },
-    [scheduledTimes, selectedTimeSlot]
-  );
+          {getDigitalLocaleTime(item, "en") ?? {}}
+        </Text>
+      </Pressable>
+    );
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, paddingBottom: insets.bottom }}>
       <View style={styles.topContainer}>
         <ImageBackground
           resizeMode="cover"
-          source={image}
+          source={{ uri: image }}
           style={styles.backgroundImage}>
-          <View
-            style={[
-              styles.topInnerContainer,
-              { backgroundColor: applyOpacity(color, 0.5) },
-            ]}>
+          <View style={[styles.topInnerContainer, { backgroundColor: color }]}>
             <View style={[styles.topInnerWrapper, { paddingTop: insets.top }]}>
               <View style={styles.navigation}>
                 <Pressable onPress={onBackNavigationPress} hitSlop={10}>
@@ -165,7 +168,7 @@ export const AvailableTimes = ({ navigation, route }: Props) => {
               <Text
                 ellipsizeMode="tail"
                 numberOfLines={2}
-                style={styles.eventTitle}>
+                style={[styles.eventTitle, { color: titleColor }]}>
                 {title}
               </Text>
             </View>
@@ -197,7 +200,7 @@ export const AvailableTimes = ({ navigation, route }: Props) => {
         <View style={styles.buttonContainer}>
           <FullWidthButton
             onPressCallback={onNextPress}
-            text={"Next"}
+            text={"Next Step"}
             colorScheme={colorScheme}
             disabled={isDisabled}
           />
@@ -284,13 +287,15 @@ const styles = StyleSheet.create({
   topInnerWrapper: {
     width: "90%",
     flexDirection: "row",
+    justifyContent: "space-between",
   },
   eventTitleWrapper: {
     width: "90%",
+    marginTop: "auto",
+    marginBottom: Sizing.x20,
   },
   eventTitle: {
     ...Typography.header.x55,
     color: Colors.primary.neutral,
-    marginTop: Sizing.x15,
   },
 });

@@ -12,12 +12,17 @@ import { applyOpacity } from "../../styles/colors";
 import { Colors, Outlines, Sizing, Typography } from "styles/index";
 import { getEventCardDate } from "lib/utils";
 import { LeftArrowIcon } from "assets/icons";
-import { appContext } from "contexts/contextApi";
+import {
+  appContext,
+  bookingContext,
+  myCalendarContext,
+} from "contexts/contextApi";
 import { BodyText } from "components/rnWrappers/bodyText";
 import { FullWidthButton } from "components/buttons/fullWidthButton";
 import { StackScreenProps } from "@react-navigation/stack";
 import { BookingStackParamList } from "common/types/navigationTypes";
 import tinyColor from "tinycolor2";
+import { Events } from "Api/Events";
 
 type Props = StackScreenProps<BookingStackParamList, "Event Description">;
 
@@ -27,8 +32,11 @@ function wait(ms: number): Promise<void> {
 
 export const EventDescription = ({ navigation, route }: Props) => {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const { title, description, fromDate, toDate, image, color } = route.params;
+  const { title, description, id, fromDate, toDate, image, color, titleColor } =
+    route.params;
   const { colorScheme } = appContext();
+  const { setPreviewingEvent } = bookingContext();
+  const { setAvailCalendar } = myCalendarContext();
 
   const insets = useSafeAreaInsets();
   const isLightMode = colorScheme === "light";
@@ -38,12 +46,23 @@ export const EventDescription = ({ navigation, route }: Props) => {
   const onBookEventPress = async () => {
     setIsLoading(true);
     await wait(1000);
-    //@TODO here we should make an API call to obtain availabilities,
-    //      and pass selected event (id?) as navigation prop
+
+    try {
+      const event = await Events.getEventById(id);
+      if (event) {
+        setPreviewingEvent(event);
+        setAvailCalendar(event.availableDays);
+      }
+      setIsLoading(false);
+    } catch (e) {
+      // TODO Implement better error handling
+      console.error(e.stack);
+      setIsLoading(false);
+    }
+
     navigation.navigate("Available Event Days Selection", {
       ...route.params,
     });
-    setIsLoading(false);
   };
 
   return (
@@ -79,7 +98,9 @@ export const EventDescription = ({ navigation, route }: Props) => {
                 styles.eventTitleWrapper,
                 { paddingBottom: insets.bottom + Sizing.x15 },
               ]}>
-              <Text style={styles.eventTitle}>{title}</Text>
+              <Text style={[styles.eventTitle, { color: titleColor }]}>
+                {title}
+              </Text>
             </View>
           </View>
         </ImageBackground>
@@ -94,7 +115,9 @@ export const EventDescription = ({ navigation, route }: Props) => {
           },
         ]}>
         <View style={styles.bottomWrapper}>
-          <BodyText colors={[Colors.primary.s800, Colors.primary.neutral]}>
+          <BodyText
+            customStyle={{ fontFamily: "Roboto-Regular" }}
+            colors={[Colors.primary.s800, Colors.primary.neutral]}>
             {description}
           </BodyText>
           <FullWidthButton
@@ -146,12 +169,11 @@ const styles = StyleSheet.create({
     marginTop: Sizing.x15,
   },
   dateCard: {
-    maxWidth: Sizing.x80,
+    maxWidth: Sizing.x85,
     height: "auto",
     marginLeft: "auto",
     marginTop: Sizing.x15,
     borderRadius: Outlines.borderRadius.small,
-    ...Outlines.shadow.lifted,
   },
   dateCardText: {
     textAlign: "center",

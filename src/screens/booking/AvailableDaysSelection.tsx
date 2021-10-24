@@ -17,7 +17,6 @@ import {
 } from "react-native-safe-area-context";
 import { appContext, bookingContext } from "contexts/contextApi";
 import { LeftArrowIcon } from "assets/icons";
-import { CalendarWrapperSimple } from "components/calendar/CalendarWrapperSimple";
 import { MonthlyWrapper } from "components/calendar";
 import { FullWidthButton } from "components/buttons/fullWidthButton";
 
@@ -27,16 +26,19 @@ type Props = StackScreenProps<
 >;
 
 export const AvailableDaysSelection = ({ navigation, route }: Props) => {
-  const { title, image, color } = route.params;
+  const { title, image, color, titleColor } = route.params;
   const { colorScheme } = appContext();
-  const { pickedDate } = bookingContext();
+  const { pickedDate, resetState } = bookingContext();
 
   const isLightMode = colorScheme !== "dark";
   const isDisabled = pickedDate === null;
   const insets = useSafeAreaInsets();
 
   //@TODO add the organizer info to route params
-  const onBackNavigationPress = () => navigation.navigate("Browse");
+  const onBackNavigationPress = () => {
+    resetState();
+    navigation.navigate("Browse");
+  };
   const onNextPress = () =>
     navigation.navigate("Available Times", route.params);
 
@@ -67,7 +69,7 @@ export const AvailableDaysSelection = ({ navigation, route }: Props) => {
               <Text
                 ellipsizeMode="tail"
                 numberOfLines={2}
-                style={styles.eventTitle}>
+                style={[styles.eventTitle, { color: titleColor }]}>
                 {title}
               </Text>
             </View>
@@ -90,18 +92,16 @@ export const AvailableDaysSelection = ({ navigation, route }: Props) => {
                 ? styles.timesHeaderText_light
                 : styles.timesHeaderText_dark
             }>
-            Select duration and confirm
+            Select an available day
           </Text>
         </View>
         <View style={styles.calendarWrapper}>
-          <CalendarWrapperSimple>
-            <MonthlyWrapper isBookingCalendar={true} />
-          </CalendarWrapperSimple>
+          <MonthlyWrapper isBookingCalendar={true} />
         </View>
         <View style={styles.buttonContainer}>
           <FullWidthButton
             onPressCallback={onNextPress}
-            text={"Book event"}
+            text={"Next Step"}
             colorScheme={colorScheme}
             disabled={isDisabled}
           />
@@ -172,9 +172,12 @@ const styles = StyleSheet.create({
   topInnerWrapper: {
     width: "90%",
     flexDirection: "row",
+    justifyContent: "space-between",
   },
   eventTitleWrapper: {
     width: "90%",
+    marginTop: "auto",
+    marginBottom: Sizing.x20,
   },
   eventTitle: {
     ...Typography.header.x55,
