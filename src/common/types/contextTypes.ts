@@ -31,6 +31,7 @@ export enum EventCreationTypes {
   RemoveSelectedDays = "REMOVE_SELECTED_DAYS",
   SetSelectedWeek = "SET_SELECTED_WEEKS",
   RemoveSelectedWeeks = "REMOVE_SELECTED_WEEKS",
+  SetDateFrame = "SET_DATE_FRAME",
   SetTags = "SET_TAGS",
   SetImageURI = "SET_IMAGE_URI",
   SetHourlyRate = "SET_HOURLY_RATE",
@@ -47,7 +48,10 @@ export enum BookingTypes {
   SetDurationCost = "SET_DURATION_COST",
   SetOrganizerRate = "SET_ORGANIZER_RATE",
   SetPreviewingOrganizer = "SET_PREVIEWING_ORGANIZER",
+  SetPreviewingEvent = "SET_PREVIEWING_EVENT",
   SetMaxTimeSlotDuration = "SET_MAX_TIME_SLOT_DUR",
+  SetMinTimeSlotDuration = "SET_MIN_TIME_SLOT_DUR",
+  ResetState = "RESET_STATE",
 }
 
 export enum MyCalendarTypes {
@@ -118,6 +122,10 @@ export type EventCreationPayload = {
   [EventCreationTypes.SetSelectedWeek]: {
     selectedWeek: SelectedWeekDays;
   };
+  [EventCreationTypes.SetDateFrame]: {
+    fromDate: Date;
+    toDate: Date;
+  };
   [EventCreationTypes.RemoveSelectedWeeks]: any;
   [EventCreationTypes.SetHourlyRate]: {
     hourlyRate: number;
@@ -163,9 +171,16 @@ export type BookingPayload = {
   [BookingTypes.SetMaxTimeSlotDuration]: {
     maxTimeSlotDuration: number;
   };
+  [BookingTypes.SetMinTimeSlotDuration]: {
+    minTimeSlotDuration: number;
+  };
   [BookingTypes.SetPreviewingOrganizer]: {
     previewingOrganizer: any;
   };
+  [BookingTypes.SetPreviewingEvent]: {
+    previewingEvent: any;
+  };
+  [BookingTypes.ResetState]: {};
   ["unknown"]: any;
 };
 
