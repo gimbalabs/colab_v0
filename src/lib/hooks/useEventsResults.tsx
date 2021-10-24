@@ -3,7 +3,7 @@ import * as React from "react";
 
 export const useEventsResults = () => {
   const [events, setEvents] = React.useState<any[] | null>(null);
-  const [isLoading, setIsLoading] = React.useState<boolean>(true);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   const getEventsBySearchQuery = async (searchValue: string) => {
     try {

@@ -14,7 +14,7 @@ export const useDurationSlots = (
       let index = numOfTimeSlots;
 
       while (index != 0) {
-        newTimeSlots.unshift(timeBlockMilSec * index);
+        newTimeSlots.unshift(timeBlockMilSec * index * 60 * 1000);
         index--;
       }
 

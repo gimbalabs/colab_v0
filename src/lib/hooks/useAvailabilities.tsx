@@ -1,11 +1,8 @@
 import * as React from "react";
 
-import { getDate, getMonthName, getYear } from "lib/utils";
-
 export const useAvailabilities = (
   availabilities: any,
-  pickedDate: number | null,
-  organizerTimeBlock: number
+  pickedDate: number | null
 ) => {
   const [currAvailabilities, setCurrentAvailabilities] = React.useState<
     undefined | number[]
@@ -13,20 +10,22 @@ export const useAvailabilities = (
 
   React.useEffect(() => {
     if (availabilities != null && pickedDate != null) {
-      let currAvail = availabilities
-        .find((obj: any) => obj.year === getYear(pickedDate))
-        ?.months.find((obj: any) => obj.month === getMonthName(pickedDate))
-        ?.days.find((obj: any) => obj.day === getDate(pickedDate))?.timeSlots;
-
       // Calculate how many time slots should we render depending on
       // organizer time block. Eg. organizerTimeBlock 30min = 8:00, 8:30, 9:00...
-      let startingTime = currAvail?.[0].fromTime;
-      let currTimeSlots: number[] = [];
+      const sortedAvailabilities = availabilities.sort(
+        (a, b) => a.from - b.from
+      );
+      const currTimeSlots: number[] = [];
 
-      while (startingTime < currAvail?.[0].toTime) {
-        currTimeSlots.push(startingTime);
-        startingTime = startingTime + organizerTimeBlock * 60 * 1000; // millisedonds
-      }
+      sortedAvailabilities.forEach((availability) => {
+        const to = new Date(availability.to).getTime();
+        let from = new Date(availability.from).getTime();
+
+        while (from < to) {
+          currTimeSlots.push(new Date(from).getTime());
+          from = from + availability.minDuration * 60 * 1000; // millisedonds
+        }
+      });
 
       setCurrentAvailabilities(currTimeSlots);
     }
