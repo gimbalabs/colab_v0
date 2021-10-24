@@ -17,6 +17,8 @@ const initialState: InitialState = {
   },
   availabilities: [],
   selectedDays: {},
+  fromDate: null,
+  toDate: null,
   tags: [],
   hourlyRate: 0,
   imageURI: "",
@@ -159,11 +161,15 @@ const reducer = (
         selectedWeekDays: [],
       };
     }
-    case EventCreationTypes.ResetState: {
+    case EventCreationTypes.SetDateFrame: {
       return {
-        ...initialState,
-        selectedWeekDays: [],
+        ...state,
+        fromDate: action.payload.fromDate,
+        toDate: action.payload.toDate,
       };
+    }
+    case EventCreationTypes.ResetState: {
+      return initialState;
     }
     default: {
       throw new Error(`Unknown type of action ${action.type}`);
