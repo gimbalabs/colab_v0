@@ -62,6 +62,8 @@ export const eventCreationContext = () => {
     hourlyRate: state.hourlyRate,
     imageURI: state.imageURI,
     privateEvent: state.privateEvent,
+    fromDate: state.fromDate,
+    toDate: state.toDate,
     eventCardColor: state.eventCardColor,
     eventTitleColor: state.eventTitleColor,
     setTextContent: (textContent: TextContent) => {
@@ -121,6 +123,12 @@ export const eventCreationContext = () => {
         payload: { privateEvent },
       });
     },
+    setDateFrame: (fromDate: Date, toDate: Date) => {
+      dispatch({
+        type: EventCreationTypes.SetDateFrame,
+        payload: { fromDate, toDate },
+      });
+    },
     setEventCardColor: (color: string) => {
       dispatch({
         type: EventCreationTypes.SetEventCardColor,
@@ -153,7 +161,9 @@ export const bookingContext = () => {
     pickedDate: state.pickedDate,
     organizerRate: state.organizerRate,
     previewingOrganizer: state.previewingOrganizer,
+    previewingEvent: state.previewingEvent,
     maxTimeSlotDuration: state.maxTimeSlotDuration,
+    minTimeSlotDuration: state.minTimeSlotDuration,
     setDuration: (duration: number) =>
       dispatch({ type: "SET_DURATION", payload: { duration } }),
     setDurationCost: (durationCost: number) =>
@@ -169,11 +179,27 @@ export const bookingContext = () => {
         type: "SET_MAX_TIME_SLOT_DUR",
         payload: { maxTimeSlotDuration },
       }),
+    setMinTimeSlotDuration: (minTimeSlotDuration: number | undefined) =>
+      dispatch({
+        type: "SET_MIN_TIME_SLOT_DUR",
+        payload: { minTimeSlotDuration },
+      }),
     setPreviewingOrganizer: (previewingOrganizer: any) =>
       dispatch({
         type: "SET_PREVIEWING_ORGANIZER",
         payload: { previewingOrganizer },
       }),
+    setPreviewingEvent: (previewingEvent: any) =>
+      dispatch({
+        type: "SET_PREVIEWING_EVENT",
+        payload: { previewingEvent },
+      }),
+    resetState: () => {
+      dispatch({
+        type: "RESET_STATE",
+        payload: {},
+      });
+    },
   };
 };
 
@@ -184,6 +210,7 @@ export const myCalendarContext = () => {
     calendar: state.calendar,
     calendarHeader: state.calendarHeader,
     availabilities: state.availabilities,
+    availabilitiesCalendar: state.availabilitiesCalendar,
     organizerAvailabilities: state.organizerAvailabilities,
     events: state.events,
     registrationDate: state.registrationDate,
@@ -205,7 +232,10 @@ export const myCalendarContext = () => {
       dispatch({ type: "LOAD_MY_CALENDAR", payload: { calendarArgs } });
     },
     setAvailCalendar: (availabilities: any) => {
-      dispatch({ type: "SET_AVAIL_CALENDAR", payload: { availabilities } });
+      dispatch({
+        type: "SET_AVAIL_CALENDAR",
+        payload: { availabilities: availabilities },
+      });
     },
     setCurrSelectedDay: (selectedDay: any) => {
       dispatch({ type: "SET_CURR_SELECTED_DAY", payload: { selectedDay } });
