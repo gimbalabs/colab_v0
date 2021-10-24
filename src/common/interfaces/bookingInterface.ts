@@ -5,7 +5,9 @@ export interface InitialState {
   eventTitle: string;
   organizerRate: OrganizerRate | null;
   previewingOrganizer: any;
-  maxTimeSlotDuration: number | undefined;
+  previewingEvent: any;
+  maxTimeSlotDuration: number;
+  minTimeSlotDuration: number;
 }
 
 export interface OrganizerRate {
