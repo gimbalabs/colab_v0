@@ -59,12 +59,14 @@ export const CreateAccountScreen = ({ pagerRef }: CreateAccountScreenProps) => {
               width="80%"
               height="80%"
             />
-          ) : (
+          ) : profileType === "organizer" ? (
             <BusinessDecisionsIcon
               style={styles.image}
               width="80%"
               height="80%"
             />
+          ) : (
+            <></>
           )}
         </View>
         <View style={styles.header}>
