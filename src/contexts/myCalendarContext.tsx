@@ -13,7 +13,7 @@ import { MyCalendarActions, MyCalendarTypes } from "common/types/contextTypes";
 import { getMonth, getCalendarMonths, getYear } from "lib/utils";
 
 // import { customScheduledEvents as scheduledEvents } from "../api_data/customScheduledEvents";
-import { customAvailabilities as availabilities } from "../api_data/customAvailabilities";
+// import { customAvailabilities as availabilities } from "../api_data/customAvailabilities";
 import { months } from "common/types/calendarTypes";
 
 export interface ContextProviderProps {
@@ -30,7 +30,7 @@ export const initialState: MyCalendarState = {
   calendar: initialCalendar,
   availabilitiesCalendar: null,
   organizerAvailabilities: null,
-  availabilities,
+  availabilities: null,
   events: null,
   direction: null,
   currentSelectedDay: null,
@@ -95,13 +95,29 @@ const reducer = (state: MyCalendarState, action: MyCalendarActions) => {
       const newCalendar: Month[] = [...state.calendar];
 
       if (nextMonths) {
-        newCalendar.push(...getCalendarMonths(true, false, month, year));
+        newCalendar.push(
+          ...getCalendarMonths(
+            true,
+            false,
+            month,
+            year,
+            state.availabilities,
+            state.events
+          )
+        );
         newCalendar.splice(0, 1);
       } else {
         newCalendar.splice(
           0,
           0,
-          ...getCalendarMonths(false, true, month, year)
+          ...getCalendarMonths(
+            false,
+            true,
+            month,
+            year,
+            state.availabilities,
+            state.events
+          )
         );
         newCalendar.splice(newCalendar.length - 1, 1);
       }
@@ -114,13 +130,16 @@ const reducer = (state: MyCalendarState, action: MyCalendarActions) => {
         action.payload.availabilities != null
           ? action.payload.availabilities
           : state.organizerAvailabilities;
+
       const calendar = [
         ...getCalendarMonths(false, true, undefined, undefined, availabilities),
         ...getCalendarMonths(true, false, undefined, undefined, availabilities),
       ];
+
       return {
         ...state,
-        availabilitiesCalendar: calendar,
+        availabilities: action.payload.availabilities,
+        calendar,
       };
     case MyCalendarTypes.SetEvents: {
       return {

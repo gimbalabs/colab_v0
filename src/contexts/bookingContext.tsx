@@ -7,13 +7,15 @@ import {
 import { BookingActions, BookingTypes } from "common/types/contextTypes";
 
 const initialState: InitialState = {
-  pickedDate: 1621288800000, // @TODO this is just for testing purposes
+  pickedDate: null,
   duration: 0,
   durationCost: 0,
-  eventTitle: "What makes us happier?", //@TODO this is just for testing purposes
+  eventTitle: "",
   organizerRate: null,
   maxTimeSlotDuration: 0,
+  minTimeSlotDuration: 0,
   previewingOrganizer: null,
+  previewingEvent: null,
 };
 
 const reducer = (state: InitialState, action: BookingActions) => {
@@ -48,11 +50,24 @@ const reducer = (state: InitialState, action: BookingActions) => {
         ...state,
         maxTimeSlotDuration: action.payload.maxTimeSlotDuration,
       };
+    case BookingTypes.SetMinTimeSlotDuration:
+      return {
+        ...state,
+        minTimeSlotDuration: action.payload.minTimeSlotDuration,
+      };
     case BookingTypes.SetPreviewingOrganizer:
       return {
         ...state,
         previewingOrganizer: action.payload.previewingOrganizer,
       };
+    case BookingTypes.SetPreviewingEvent:
+      return {
+        ...state,
+        previewingEvent: action.payload.previewingEvent,
+      };
+    case BookingTypes.ResetState: {
+      return initialState;
+    }
     default:
       throw Error(`Unknown type of action: ${action.type}`);
   }
