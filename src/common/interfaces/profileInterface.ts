@@ -28,7 +28,7 @@ export interface BioState {
   setJobTitle: (input: string) => void;
   setDescription: (input: string) => void;
   setSkills: (input: string) => void;
-  setProfileType: (input: "organizer" | "attendee") => void;
+  setProfileType: (input: "organizer" | "attendee" | "") => void;
 }
 
 export interface UserDTO {
