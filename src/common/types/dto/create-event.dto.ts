@@ -14,6 +14,8 @@ export interface CreateEventDto {
   selectedDays: SelectedDays;
   availabilities: EventAvailability[];
   tags: string[];
+  fromDate: Date | null;
+  toDate: Date | null;
   hourlyRate: number;
   imageURI: string;
   privateEvent: boolean;
