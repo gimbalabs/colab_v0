@@ -1,6 +1,6 @@
 import * as React from "react";
-
 import { LayoutRectangle } from "react-native";
+
 import { PlaceholderDay } from "./PlaceholderDay";
 import { MonthlyDay } from "./days/MonthlyDay";
 import { Month } from "interfaces/myCalendarInterface";
@@ -74,6 +74,7 @@ export const MonthItem = ({
             key={`${month}-${day.name}-${day.number}`}
             number={day.number}
             availabilities={day.availabilities}
+            isAvailable={day.isAvailable}
             activeDay={activeDay}
             setActiveDay={setActiveDay}
           />

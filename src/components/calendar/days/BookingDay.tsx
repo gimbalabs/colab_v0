@@ -4,15 +4,15 @@ import { Pressable, Text, View, StyleSheet } from "react-native";
 import { Colors, Outlines, Sizing, Typography } from "styles/index";
 import { PartiallyBookedDay } from "icons/index";
 import { Day } from "interfaces/myCalendarInterface";
-import { bookingContext } from "contexts/contextApi";
 import { getTime } from "lib/utils";
 import { monthsByName } from "common/types/calendarTypes";
-import { useNavigation } from "@react-navigation/native";
+import { bookingContext } from "contexts/contextApi";
 
 export interface BookingDayProps extends Day {
   year?: number;
   month: string;
   activeDay: number | null;
+  isAvailable?: boolean;
   setActiveDay: React.Dispatch<React.SetStateAction<number | null>>;
   setSelectedDay?: (arg: any) => any;
 }
@@ -30,22 +30,13 @@ export const _BookingDay = ({
   activeDay,
   scheduledEvents,
   availabilities,
+  isAvailable,
 }: BookingDayProps) => {
   const { pickedDate, setPickedDate } = bookingContext();
-  const navigation = useNavigation();
 
   const dayInTime = getTime(year, monthsByName[month], number);
   const isActiveDay =
     (activeDay && activeDay === number) || pickedDate === dayInTime;
-
-  React.useEffect(() => {
-    // listen to when user leaves the screen and update booking context state
-    const beforeRemoveCallback = navigation.addListener("blur", () => {
-      setPickedDate(dayInTime);
-    });
-
-    return beforeRemoveCallback;
-  }, []);
 
   // Whenever the first scheduled event starts at first available time,
   // and the last scheduled event ends at the last available time
@@ -62,6 +53,7 @@ export const _BookingDay = ({
   const isPartiallyBooked = !isFullyBooked && scheduledEvents != null;
   const isFullyAvailable = React.useCallback(
     () =>
+      isAvailable ||
       (availabilities != null &&
         availabilities.length > 0 &&
         scheduledEvents == null) ||
@@ -73,10 +65,10 @@ export const _BookingDay = ({
 
   const onPress = () => {
     // Do not select it
-    if (!availabilities) return;
+    if (!isAvailable) return;
 
     // When already selected, deselect it
-    if (pickedDate === dayInTime || !availabilities) {
+    if (pickedDate === dayInTime) {
       setPickedDate(null);
     } else if (
       pickedDate !== dayInTime ||

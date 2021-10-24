@@ -21,11 +21,13 @@ import { BookingCalendarLegend } from "./booking/BookingCalendarLegend";
 export interface MonthlyWrapperProps {
   isBookingCalendar?: boolean;
   isNewEventCalendar?: boolean;
+  isRegularCalendar?: boolean;
 }
 
 export const MonthlyWrapper = ({
-  isBookingCalendar = false,
-  isNewEventCalendar = false,
+  isBookingCalendar,
+  isNewEventCalendar,
+  isRegularCalendar,
 }: MonthlyWrapperProps) => {
   const { calendar, changeMonthHeader, calendarHeader, loadMyCalendar } =
     myCalendarContext();
@@ -111,7 +113,13 @@ export const MonthlyWrapper = ({
   };
 
   const loadNewMonths = (nextMonths: boolean, month: number, year?: number) => {
-    loadMyCalendar({ nextMonths, month, year });
+    loadMyCalendar({
+      nextMonths,
+      month,
+      year,
+      isBookingCalendar,
+      isRegularCalendar,
+    });
   };
 
   const onPlaceholderPress = (direction: string) => {
@@ -286,6 +294,7 @@ export const MonthlyWrapper = ({
               onNextPress={onNextStartAnimation}
               colorScheme={colorScheme}
               calendarHeader={calendarHeader}
+              isBookingCalendar={isBookingCalendar}
             />
           </View>
         </View>
