@@ -23,8 +23,12 @@ type Props = StackScreenProps<
 
 export const AvailableDaysSelection = ({ navigation }: Props) => {
   const { colorScheme } = appContext();
-  const { selectedDays, removeSelectedDays, removeSelectedWeeks } =
-    eventCreationContext();
+  const {
+    selectedDays,
+    setDateFrame,
+    removeSelectedDays,
+    removeSelectedWeeks,
+  } = eventCreationContext();
   const { isRequesting, isValidOauth, requestAccess } = useGoogleAuth();
   const [acceptedCheckbox, setAcceptedChecbox] = React.useState<boolean>(false);
   const [error, setError] = React.useState<any>({ isVisible: false, type: "" });
@@ -68,10 +72,18 @@ export const AvailableDaysSelection = ({ navigation }: Props) => {
   }, []);
   const onNextButtonPress = async () => {
     if (error.isVisible) setError({ isVisible: false, type: "" });
+
     if (acceptedCheckbox)
       try {
         await requestAccess();
       } catch (e) {}
+
+    const selectedDaysKeys = Object.keys(selectedDays);
+    setDateFrame(
+      new Date(Number(selectedDaysKeys[0])),
+      new Date(Number(selectedDaysKeys[selectedDaysKeys.length - 1]))
+    );
+
     if (!acceptedCheckbox) navigation.navigate("Available Time Selection");
   };
 

@@ -19,6 +19,8 @@ export const DetailedConfirmation = ({ navigation, route }: any) => {
     textContent,
     selectedDays,
     tags,
+    fromDate,
+    toDate,
     hourlyRate: eventHourlyRate,
     imageURI,
     privateEvent,
@@ -41,6 +43,8 @@ export const DetailedConfirmation = ({ navigation, route }: any) => {
         availabilities,
         selectedDays,
         tags,
+        fromDate,
+        toDate,
         hourlyRate: hourlyRate ?? eventHourlyRate,
         imageURI,
         privateEvent,
@@ -60,12 +64,13 @@ export const DetailedConfirmation = ({ navigation, route }: any) => {
           navigation.navigate("Confirmation", {
             isBookingConfirmation: params?.isNewEvent ?? false,
           });
-          resetState();
         }
       } catch (e) {
         setIsLoading(false);
         console.error(e);
       }
+
+      resetState();
     }
 
     //@TODO submit transaction to blockchain

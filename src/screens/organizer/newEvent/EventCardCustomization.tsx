@@ -37,7 +37,8 @@ export const EventCardCustomization = ({ navigation }: Props) => {
   const {
     textContent,
     imageURI,
-    selectedDays,
+    fromDate,
+    toDate,
     setEventCardColor,
     setEventTitleColor,
     eventCardColor,
@@ -52,15 +53,14 @@ export const EventCardCustomization = ({ navigation }: Props) => {
     "background" | "title"
   >("background");
   const _color = tinyColor(color).setAlpha(opacity).toRgbString();
-  const _titleColor = tinyColor(titleColor).setAlpha(opacity).toRgbString();
+  const _titleColor = tinyColor(titleColor)
+    .setAlpha(titleOpacity)
+    .toRgbString();
 
   React.useEffect(() => {
     if (eventCardColor) setColor(eventCardColor);
   }, []);
 
-  const selectedDaysArr: number[] = Object.values(selectedDays ?? {});
-  const fromDate = Math.min(...selectedDaysArr);
-  const toDate = Math.max(...selectedDaysArr);
   const currColor = activeSelection === "background" ? color : titleColor;
   const isLightMode = colorScheme !== "dark";
   const buttonStyle = React.useCallback(
@@ -188,7 +188,7 @@ export const EventCardCustomization = ({ navigation }: Props) => {
             trackStyle={[{ height: Sizing.x10, width: "100%" }]}
             thumbStyle={styles.thumb}
             onColorChange={onColorChange}
-            useNativeDriver={true}
+            useNativeDriver={false}
           />
         </View>
         <View style={styles.colorPickerWrapper}>
@@ -197,7 +197,7 @@ export const EventCardCustomization = ({ navigation }: Props) => {
             trackStyle={[{ height: Sizing.x10, width: "100%" }]}
             thumbStyle={styles.thumb}
             onColorChange={onColorChange}
-            useNativeDriver={true}
+            useNativeDriver={false}
             style={[
               styles.colorPicker,
               {
@@ -221,7 +221,7 @@ export const EventCardCustomization = ({ navigation }: Props) => {
             thumbStyle={styles.thumb}
             onColorChange={onColorChange}
             trackImage={require("react-native-slider-color-picker/brightness_mask.png")}
-            useNativeDriver={true}
+            useNativeDriver={false}
             style={[
               styles.colorPicker,
               {
@@ -252,7 +252,7 @@ export const EventCardCustomization = ({ navigation }: Props) => {
                   borderRadius: Sizing.x10 / 2,
                 },
               ]}
-              useNativeDriver={true}
+              useNativeDriver={false}
               style={[styles.colorPicker]}
               trackImage={require("../../../assets/images/gradient_2.png")}
               onValueChange={onOpacityChange}
