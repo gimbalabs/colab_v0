@@ -11,6 +11,7 @@ type Neutral =
   | "s250"
   | "s300"
   | "s400"
+  | "s550"
   | "s500"
   | "s600"
   | "s700"
@@ -26,6 +27,7 @@ export const neutral: Record<Neutral, string> = {
   s300: "#9f9ea4",
   s400: "#7c7c82",
   s500: "#6b7280",
+  s550: "#575B63",
   s600: "#38383a",
   s700: "#2d2c2e",
   s800: "#212123",
