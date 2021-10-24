@@ -65,7 +65,10 @@ export type EventCreationParamList = {
 
 interface EventDescription {
   title: string;
+  titleColor: string;
   description: string;
+  id: string;
+  organizerId: string;
   fromDate: number | string;
   toDate: number | string;
   image: any;
