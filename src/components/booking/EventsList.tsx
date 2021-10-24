@@ -24,17 +24,31 @@ export const EventsList = ({ customEvents }: EventsListProps) => {
   const isLightMode = colorScheme !== "dark";
 
   const renderEventCard = React.useCallback(({ item }: any) => {
-    const { title, description, selectedDays, imageURI, eventCardColor } = item;
-    const selectedDaysArr: number[] = Object.values(selectedDays ?? {});
-    const fromDate = Math.min(...selectedDaysArr);
-    const toDate = Math.max(...selectedDaysArr);
+    const {
+      title,
+      eventTitleColor,
+      description,
+      fromDate,
+      toDate,
+      // selectedDays,
+      imageURI,
+      eventCardColor,
+      id,
+      organizerId,
+    } = item;
+    // const selectedDaysArr: number[] = Object.values(selectedDays ?? {});
+    // const fromDate = Math.min(...selectedDaysArr);
+    // const toDate = Math.max(...selectedDaysArr);
 
     return (
       <EventsListCard
         title={title}
+        titleColor={eventTitleColor}
         description={description}
         fromDate={fromDate}
         toDate={toDate}
+        id={id}
+        organizerId={organizerId}
         image={imageURI}
         color={eventCardColor}
         isTransparent={eventCardColor === "transparent"}
@@ -86,7 +100,9 @@ export const EventsList = ({ customEvents }: EventsListProps) => {
           onRefresh={onRefresh}
           onLayout={onLayout}
           showsVerticalScrollIndicator={false}
-          ListFooterComponent={!customEvents ? _ActivityIndicator : null}
+          ListFooterComponent={
+            !customEvents && isLoading ? _ActivityIndicator : null
+          }
           maxToRenderPerBatch={10}
           updateCellsBatchingPeriod={30}
           removeClippedSubviews

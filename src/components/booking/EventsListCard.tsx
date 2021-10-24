@@ -16,8 +16,10 @@ import tinyColor from "tinycolor2";
 export interface EventsListCardProps {
   title: string;
   description: string;
-  fromDate: number;
-  toDate: number;
+  id?: string;
+  organizerId?: string;
+  fromDate: Date;
+  toDate: Date;
   image: any;
   color: string;
   titleColor: string;
@@ -29,6 +31,8 @@ export interface EventsListCardProps {
 export const EventsListCard = ({
   isEventCardPreview,
   isTransparent,
+  id,
+  organizerId,
   title,
   description,
   fromDate,
@@ -47,10 +51,11 @@ export const EventsListCard = ({
       fromDate,
       toDate,
       image,
+      id,
+      organizerId,
       color,
       titleColor,
     });
-  console.log(titleColor);
 
   return (
     <Pressable
