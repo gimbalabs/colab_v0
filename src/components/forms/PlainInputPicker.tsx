@@ -54,7 +54,7 @@ export const PlainInputPicker = (props: PlainInputPickerProps) => {
   const os = Platform.OS;
 
   React.useEffect(() => {
-    setInputValue(minTime || maxTime || inputRange[0]);
+    setInputValue(minTime || maxTime || inputRange[0] || "--");
   }, [inputRange, minTime, maxTime]);
 
   if (isLightMode) {

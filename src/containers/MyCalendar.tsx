@@ -21,11 +21,13 @@ import { useCalendarEvents } from "lib/hooks/useCalendarEvents";
 export interface CalendarProps {
   isBookingCalendar?: boolean;
   isHomeScreen?: boolean;
+  isRegularCalendar?: boolean;
 }
 
 export const Calendar = ({
   isBookingCalendar,
   isHomeScreen,
+  isRegularCalendar,
 }: CalendarProps) => {
   const { colorScheme } = appContext();
   const { id } = React.useContext(ProfileContext);
@@ -39,7 +41,10 @@ export const Calendar = ({
 
   return (
     <CalendarWrapper>
-      <MonthlyWrapper />
+      <MonthlyWrapper
+        isBookingCalendar={isBookingCalendar}
+        isRegularCalendar={isRegularCalendar}
+      />
       {(isBookingCalendar == null || isHomeScreen) &&
         (isLoading ? (
           <View style={styles.buttonWrapper}>
@@ -51,7 +56,10 @@ export const Calendar = ({
             />
           </View>
         ) : events && events.length ? (
-          <CalendarEventsList isBookingCalendar isHomeScreen />
+          <CalendarEventsList
+            isBookingCalendar={isBookingCalendar}
+            isHomeScreen={isHomeScreen}
+          />
         ) : (
           <View style={styles.buttonWrapper}>
             <Pressable
