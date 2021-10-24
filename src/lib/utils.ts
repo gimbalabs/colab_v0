@@ -5,17 +5,19 @@ import {
   AvailabilitiesDay,
   Day,
   Month,
+  ScheduledEvents,
   ScheduledEventsDay,
 } from "interfaces/myCalendarInterface";
 import { months, monthsByName, weekDays } from "common/types/calendarTypes";
 
 /**
+ *  TODO
  *  In the future we would want to fetch the scheduled events and user
  *  availabilities from an API and build our calendar base on the data
  *  received. For now, we'll be using a dummy object data.
  */
-import { customScheduledEvents } from "../api_data/customScheduledEvents.js";
-import { customAvailabilities } from "../api_data/customAvailabilities.js";
+// import { customScheduledEvents } from "../api_data/customScheduledEvents.js";
+// import { customAvailabilities } from "../api_data/customAvailabilities.js";
 
 const IS_ANDROID = Platform.OS === "android";
 
@@ -187,20 +189,12 @@ export function getCalendarMonths(
   previousMonths = false,
   fromMonth?: number,
   fromYear?: number,
-  availabilities?: any,
-  scheduledEvents?: any
+  availabilities: any[] | undefined | null = [],
+  scheduledEvents: ScheduledEvents[] | undefined | null = []
 ): Month[] {
   var month = fromMonth != null ? fromMonth : new Date().getMonth();
   var year = fromYear != null ? fromYear : new Date().getFullYear();
   var currMonthIndex = fromMonth != null ? month + 1 : month;
-
-  //@TODO Remove this once we have some external data
-  if (availabilities == null) {
-    availabilities = customAvailabilities;
-  }
-  if (scheduledEvents == null) {
-    scheduledEvents = customScheduledEvents;
-  }
 
   // console.log(`
   //              nextMonths: ${nextMonths}
@@ -236,12 +230,12 @@ export function getCalendarMonths(
   var currYear = year;
   var currDayIndex = firstDayIndex;
   var numOfDays = 0;
-  var scheduledYear = scheduledEvents.find(
-    (schedEvts: any) => schedEvts.year === currYear
-  );
-  var availableYear = availabilities.find(
-    (avail: any) => avail.year === currYear
-  );
+  var scheduledYear =
+    scheduledEvents &&
+    scheduledEvents.find((schedEvts: any) => schedEvts.year === currYear);
+  var availableYear =
+    availabilities &&
+    availabilities.find((avail: any) => avail.year === currYear);
 
   if (nextMonths) {
     if (month === 11) {
@@ -280,9 +274,7 @@ export function getCalendarMonths(
       currDayIndex = firstDay;
 
       for (let j = 1; isValidDate(j, currMonthIndex, currYear); j++) {
-        let dayAvailabilities = availableSlots.find(
-          (s) => s.day === j
-        )?.timeSlots;
+        let availableDay = availableSlots.find((s) => s.day === j);
         let dayEvents = events.find((e) => e.day === j)?.scheduledEvents;
 
         let day: Day = {
@@ -293,8 +285,9 @@ export function getCalendarMonths(
         if (isLastWeek(j, firstDay)) {
           day.isLastWeek = true;
         }
-        if (dayAvailabilities != null) {
-          day.availabilities = [...dayAvailabilities];
+        if (availableDay != null) {
+          // day.availabilities = [...dayAvailabilities];
+          day.isAvailable = true;
         }
         if (dayEvents != null) {
           day.scheduledEvents = [...dayEvents];
@@ -326,13 +319,14 @@ export function getCalendarMonths(
 
       monthsWithDays.push({
         name: months[currMonthIndex],
-        numOfEvents: events.length,
-        numOfAvailabilities: availabilities.length,
+        numOfEvents: events ? events.length : 0,
+        numOfAvailabilities: availableSlots ? availableSlots.length : 0,
         firstDayName,
         numOfDays,
         year: currYear,
         days,
       });
+
       currMonthIndex++;
       numOfDays = 0;
       if (currMonthIndex > 11) {
@@ -368,10 +362,9 @@ export function getCalendarMonths(
       let days: Day[] = [];
       let events: ScheduledEventsDay[] = [];
       let availableSlots: AvailabilitiesDay[] = [];
-
       if (availableYear != null) {
         var availableDays = availableYear.months.find(
-          (month: any) => month.month === months[i + 1]
+          (month: any) => month.month === months[i]
         );
         availableDays?.days.map((availDay: AvailabilitiesDay) =>
           availableSlots.push(availDay)
@@ -392,9 +385,7 @@ export function getCalendarMonths(
       currDayIndex = firstDay;
 
       for (let j = 1; isValidDate(j, currMonthIndex, currYear); j++) {
-        let dayAvailabilities = availableSlots.find(
-          (s) => s.day === j
-        )?.timeSlots;
+        let availableDay = availableSlots.find((s) => s.day === j);
         let dayEvents = events.find((e) => e.day === j)?.scheduledEvents;
 
         let day: Day = {
@@ -405,8 +396,8 @@ export function getCalendarMonths(
         if (isLastWeek(j, firstDay)) {
           day.isLastWeek = true;
         }
-        if (dayAvailabilities != null) {
-          day.availabilities = [...dayAvailabilities];
+        if (availableDay != null) {
+          day.isAvailable = true;
         }
         if (dayEvents != null) {
           day.scheduledEvents = [...dayEvents];
@@ -435,8 +426,8 @@ export function getCalendarMonths(
       monthsWithDays.push({
         name: months[currMonthIndex],
         firstDayName,
-        numOfEvents: events.length,
-        numOfAvailabilities: availabilities.length,
+        numOfEvents: events ? events.length : 0,
+        numOfAvailabilities: availableSlots ? availableSlots.length : 0,
         numOfDays,
         year: currYear,
         days,
@@ -616,8 +607,8 @@ export function getTimeSpanLength(time: number): string {
  * @returns date: string
  */
 export function getEventCardDate(
-  fromDate: number | string,
-  toDate: number | string
+  fromDate: number | string | Date,
+  toDate: number | string | Date
 ) {
   let dateString = "";
 
