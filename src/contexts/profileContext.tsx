@@ -19,8 +19,8 @@ export const initialState: BioState = {
   hasSyncedWallet: false,
   timeBlockLengthMin: 0,
   timeBlockCostADA: 0,
-  walletBalance: 400,
-  profileType: "organizer",
+  walletBalance: 0,
+  profileType: "",
   setName: () => {},
   setUsername: () => {},
   setProfileType: () => {},
@@ -63,7 +63,7 @@ export const ProfileContextProvider = ({ children }: ContextProviderProps) => {
   const [skills, setSkills] = useState<string | undefined>("");
   const [hasSyncedWallet, setHasSyncedWallet] = useState<boolean>(false);
   const [walletBalance, setWalletBalance] = useState<number>(56);
-  const [profileType, setProfileType] = useState<"attendee" | "organizer" | "">(
+  const [profileType, setProfileType] = useState<"" | "attendee" | "organizer">(
     ""
   );
 
