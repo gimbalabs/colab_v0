@@ -1,8 +1,8 @@
 export interface MyCalendarState {
   calendar: Month[];
   registrationDate: number | null;
-  availabilities: Availabilities[];
-  events: ScheduledEvents[] | null;
+  availabilities: Availabilities[] | null | undefined;
+  events: ScheduledEvents[] | null | undefined;
   calendarHeader: CalendarHeader;
   previewingDayEvents?: PreviewingDayEvents;
   direction: null | "previous" | "next";
@@ -65,6 +65,8 @@ export interface NewCalendarMonths {
   nextMonths: boolean;
   month: number;
   year?: number;
+  isBookingCalendar?: boolean;
+  isRegularCalendar?: boolean;
 }
 
 export interface PreviewingDayEvents {
@@ -92,6 +94,7 @@ export interface Month {
 export interface Day {
   name: string;
   number: number;
+  isAvailable?: boolean;
   isLastWeek?: boolean;
   availabilities?: AvailabilitySlot[];
   scheduledEvents?: Event[];

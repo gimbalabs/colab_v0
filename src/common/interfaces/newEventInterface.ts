@@ -16,6 +16,8 @@ export interface InitialState {
   availabilities: EventAvailability[];
   selectedDays: SelectedDays;
   tags: string[];
+  fromDate: Date | null;
+  toDate: Date | null;
   hourlyRate: number;
   imageURI: string;
   selectedWeekDays: SelectedWeekDays[];
