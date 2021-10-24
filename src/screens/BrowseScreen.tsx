@@ -3,7 +3,7 @@ import { View, StyleSheet, ActivityIndicator, Animated } from "react-native";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StackScreenProps } from "@react-navigation/stack";
-import { Colors, Outlines, Sizing, Typography } from "styles/index";
+import { Buttons, Colors, Outlines, Sizing, Typography } from "styles/index";
 import { BookingStackParamList } from "common/types/navigationTypes";
 import { appContext } from "contexts/contextApi";
 import { useEventsPagination } from "lib/hooks/useEventsPagination";
@@ -90,14 +90,18 @@ export const BrowseScreen = ({ navigation }: BrowseProps) => {
           onToggleSearchBar={onToggleSearchBar}
           customIcon={CustomSearchIcon}
           inputTextStyle={searchStyles.searchBarInput}
-          buttonStyle={Object.assign(
-            {},
-            searchStyles.searchButton,
-            isLightMode
-              ? {
-                  backgroundColor: Colors.primary.s800,
-                }
-              : { backgroundColor: Colors.primary.neutral }
+          animationDuration={240}
+          //@ts-ignore
+          buttonStyle={Buttons.applyOpacity(
+            Object.assign(
+              {},
+              searchStyles.searchButton,
+              isLightMode
+                ? {
+                    backgroundColor: Colors.primary.s800,
+                  }
+                : { backgroundColor: Colors.primary.neutral }
+            )
           )}
           buttonTextStyle={Object.assign(
             {},
@@ -126,6 +130,9 @@ export const BrowseScreen = ({ navigation }: BrowseProps) => {
             <View style={styles.noEventsMessage}>
               <EmptyDocumentsIcon width="30%" height="30%" />
               <SubHeaderText
+                customStyle={{
+                  fontFamily: "Roboto-Medium",
+                }}
                 colors={[Colors.primary.s800, Colors.primary.neutral]}>
                 Nothing to show yet...
               </SubHeaderText>
