@@ -32,7 +32,7 @@ export interface UserProfileScreenProps
   extends StackScreenProps<OrganizerTabParamList, "Browse"> {}
 
 export const UserProfileScreen = ({}: UserProfileScreenProps) => {
-  const { name } = React.useContext(ProfileContext);
+  const { username } = React.useContext(ProfileContext);
   const { colorScheme, setColorScheme } = appContext();
   const [imagePressed, setImagePressed] = React.useState<boolean>(false);
   const [currImage, setCurrImage] = React.useState<string>("");
@@ -132,7 +132,7 @@ export const UserProfileScreen = ({}: UserProfileScreenProps) => {
                     styles.profilePicWrapper,
                     imagePressed ? { backgroundColor: "rgba(0,0,0,.15)" } : {},
                   ]}>
-                  <Text style={styles.profilePicLetter}>{name[0]}</Text>
+                  <Text style={styles.profilePicLetter}>{username[0]}</Text>
                   <View style={styles.profilePicEdit}>
                     <Text style={styles.profilePicEditText}>Edit</Text>
                   </View>
@@ -146,7 +146,7 @@ export const UserProfileScreen = ({}: UserProfileScreenProps) => {
               ? styles.headerText_ligth
               : styles.headerText_dark,
           ]}>
-          DocOcatavius.md
+          {username}
         </Text>
         <Pressable
           style={Buttons.applyOpacity(
