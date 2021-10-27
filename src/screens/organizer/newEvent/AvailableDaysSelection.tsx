@@ -117,12 +117,9 @@ export const AvailableDaysSelection = ({ navigation }: Props) => {
               Select dates you are available to host event
             </HeaderText>
           </View>
-          <ScrollView
-            style={{ width: "100%" }}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ width: "100%", alignItems: "center" }}>
+          <ScrollView showsVerticalScrollIndicator={false}>
             <CalendarWrapperSimple>
-              <MonthlyWrapper isNewEventCalendar />
+              <MonthlyWrapper isNewEventCalendar={true} />
             </CalendarWrapperSimple>
             {!isValidOauth && (
               <View style={styles.checkboxWrapper}>

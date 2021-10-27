@@ -17,21 +17,30 @@ import { monthsByName } from "common/types/calendarTypes";
 import { WeekDayNames } from "./WeekDayNames";
 import { CalendarTopNavigation } from "./navigation/calendarTopNavigation";
 import { BookingCalendarLegend } from "./booking/BookingCalendarLegend";
+import { useNavigation } from "@react-navigation/native";
 
 export interface MonthlyWrapperProps {
   isBookingCalendar?: boolean;
   isNewEventCalendar?: boolean;
   isRegularCalendar?: boolean;
+  customCallback?: () => Promise<void>;
 }
 
 export const MonthlyWrapper = ({
   isBookingCalendar,
   isNewEventCalendar,
   isRegularCalendar,
+  customCallback,
 }: MonthlyWrapperProps) => {
-  const { calendar, changeMonthHeader, calendarHeader, loadMyCalendar } =
-    myCalendarContext();
+  const {
+    calendar,
+    changeMonthHeader,
+    calendarHeader,
+    loadMyCalendar,
+    setEvents,
+  } = myCalendarContext();
   const { colorScheme } = appContext();
+  const navigation = useNavigation();
   const [dimensions, setDimensions] = React.useState<LayoutRectangle | null>(
     null
   );
@@ -261,13 +270,17 @@ export const MonthlyWrapper = ({
       setMonthsArray(calendar);
       setCurrIndex(1);
       setIsLoading(false);
+
+      (async () => {
+        customCallback && (await customCallback());
+      })();
     }
   }, [calendar]);
 
   // Do not pass inline functions as props, as they will be recreated
   // on each component re-render (and slowing down the app)
   return (
-    <>
+    <View style={{ alignItems: "center" }}>
       <View style={styles.container}>
         <View style={styles.headerContainer}>
           <View style={styles.header}>
@@ -295,6 +308,7 @@ export const MonthlyWrapper = ({
               colorScheme={colorScheme}
               calendarHeader={calendarHeader}
               isBookingCalendar={isBookingCalendar}
+              isNewEventCalendar={isNewEventCalendar}
             />
           </View>
         </View>
@@ -327,7 +341,7 @@ export const MonthlyWrapper = ({
           <BookingCalendarLegend colorScheme={colorScheme} />
         )}
       </View>
-    </>
+    </View>
   );
 };
 
