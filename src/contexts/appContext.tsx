@@ -52,10 +52,7 @@ const reducer = (state: AppState, action: AppActions) => {
           action.payload.auth != null
             ? action.payload.auth
             : !state.authentication,
-        accountType:
-          action.payload.accountType != null
-            ? action.payload.accountType
-            : !state.accountType,
+        accountType: action.payload.accountType,
       };
     case AppTypes.SetPageIndex:
       return {

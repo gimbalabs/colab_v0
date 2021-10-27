@@ -144,7 +144,7 @@ const reducer = (state: MyCalendarState, action: MyCalendarActions) => {
     case MyCalendarTypes.SetEvents: {
       return {
         ...state,
-        scheduledEvents: action.payload.scheduledEvents,
+        events: action.payload.events,
       };
     }
     default:
