@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 
 import { Colors, Outlines, Sizing, Typography } from "styles/index";
 import { EventLine, SectionDetail } from "common/interfaces/bookingInterface";

@@ -32,11 +32,10 @@ import { ProfileContext } from "contexts/profileContext";
 export const EventConfirmationDetails = ({ isNewEvent = false }: any) => {
   const { colorScheme } = appContext();
   const {
-    previewingOrganizer = null,
     duration = null,
     durationCost = null,
     pickedDate = null,
-    eventTitle = null,
+    previewingEvent,
   } = bookingContext();
   const {
     textContent,
@@ -153,17 +152,17 @@ export const EventConfirmationDetails = ({ isNewEvent = false }: any) => {
   ];
 
   const bookingEventSections: SectionDetail[] = [
-    eventTitle && {
+    previewingEvent?.title && {
       label: "Event",
       lineContent: {
-        content: eventTitle,
+        content: previewingEvent.title,
         icon: sectionsIcons.presentation,
       },
     },
-    previewingOrganizer?.alias && {
+    previewingEvent?.organizerAlias && {
       label: "Organizer",
       lineContent: {
-        content: previewingOrganizer.alias,
+        content: previewingEvent.organizerAlias,
         icon: sectionsIcons.user,
       },
     },
@@ -231,7 +230,9 @@ export const EventConfirmationDetails = ({ isNewEvent = false }: any) => {
     );
   };
 
-  const keyExtractor = (item: any, index: number) => `${item.label}_${index}`;
+  const keyExtractor = (item: any, index: number) => {
+    return `${item.label}_${index}`;
+  };
 
   return (
     <FlatList
