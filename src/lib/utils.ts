@@ -5,8 +5,8 @@ import {
   AvailabilitiesDay,
   Day,
   Month,
-  ScheduledEvents,
-  ScheduledEventsDay,
+  Events,
+  EventsDay,
 } from "interfaces/myCalendarInterface";
 import { months, monthsByName, weekDays } from "common/types/calendarTypes";
 
@@ -190,7 +190,7 @@ export function getCalendarMonths(
   fromMonth?: number,
   fromYear?: number,
   availabilities: any[] | undefined | null = [],
-  scheduledEvents: ScheduledEvents[] | undefined | null = []
+  scheduledEvents: Events[] | undefined | null = []
 ): Month[] {
   var month = fromMonth != null ? fromMonth : new Date().getMonth();
   var year = fromYear != null ? fromYear : new Date().getFullYear();
@@ -245,7 +245,7 @@ export function getCalendarMonths(
 
     for (let i = currMonthIndex; month === 11 ? i < 1 : i <= month + 1; i++) {
       let days: Day[] = [];
-      let events: ScheduledEventsDay[] = [];
+      let events: EventsDay[] = [];
       let availableSlots: AvailabilitiesDay[] = [];
 
       if (availableYear != null) {
@@ -261,9 +261,7 @@ export function getCalendarMonths(
         var scheduledDays = scheduledYear.months.find(
           (month: any) => month.month === months[i]
         );
-        scheduledDays?.days.map((schedDay: ScheduledEventsDay) =>
-          events.push(schedDay)
-        );
+        scheduledDays?.days.map((schedDay: EventsDay) => events.push(schedDay));
       }
 
       const firstDay = new Date(currYear, currMonthIndex).getDay();
@@ -360,7 +358,7 @@ export function getCalendarMonths(
       const firstDay = new Date(currYear, currMonthIndex).getDay();
       const firstDayName = weekDays[firstDay];
       let days: Day[] = [];
-      let events: ScheduledEventsDay[] = [];
+      let events: EventsDay[] = [];
       let availableSlots: AvailabilitiesDay[] = [];
       if (availableYear != null) {
         var availableDays = availableYear.months.find(
@@ -375,9 +373,7 @@ export function getCalendarMonths(
         var scheduledDays = scheduledYear.months.find(
           (month: any) => month.month === months[i + 1]
         );
-        scheduledDays?.days.map((schedDay: ScheduledEventsDay) =>
-          events.push(schedDay)
-        );
+        scheduledDays?.days.map((schedDay: EventsDay) => events.push(schedDay));
       }
 
       // We want to start iterating on months days starting at the first
@@ -669,4 +665,219 @@ export async function getRandomKeyAsync(bytes: number): Promise<string> {
 
 export const roundDateMinutes = (date: Date): Date => {
   return new Date(date.setMinutes(Math.round(date.getMinutes() / 10) * 10));
+};
+
+/**
+ * @description Helper function to convert the event-selected-days into calendar ready availabilities
+ */
+export const convertToCalendarAvailabilities = (selectedDays: {
+  [index: string]: number;
+}) => {
+  const timesInMill: number[] = Object.values(selectedDays);
+
+  let calendarAvailabilities = [];
+  let currentYear, currentMonth, currentDay;
+
+  for (const time of timesInMill) {
+    const year = new Date(time).getFullYear();
+    const month = months[new Date(time).getMonth()];
+    const day = new Date(time).getDate();
+
+    // Case when it's the first time or the year has changed
+    if (year !== currentYear && month !== currentMonth && day !== currentDay) {
+      currentYear = year;
+      currentMonth = month;
+      currentDay = day;
+
+      calendarAvailabilities.push({
+        year,
+        months: [{ month, days: [{ day }] }],
+      });
+      continue;
+    }
+
+    // Case when year is the same but month and day has changed
+    if (month !== currentMonth && currentDay !== day) {
+      currentMonth = month;
+      currentDay = day;
+
+      const yearToPushIndex = calendarAvailabilities.findIndex(
+        (val) => val.year === year
+      );
+
+      calendarAvailabilities[yearToPushIndex].months.push({
+        month,
+        days: [{ day }],
+      });
+      continue;
+    }
+
+    // Case when year and month are the same but day has changed
+    if (currentDay !== day) {
+      currentDay = day;
+
+      const yearToPushIndex = calendarAvailabilities.findIndex(
+        (val) => val.year === year
+      );
+      const monthToPushIndex = calendarAvailabilities[
+        yearToPushIndex
+      ].months.findIndex((val: any) => val.month === month);
+
+      calendarAvailabilities[yearToPushIndex].months[
+        monthToPushIndex
+      ].days.push({
+        day,
+      });
+      continue;
+    }
+  }
+
+  return calendarAvailabilities;
+};
+
+export const convertToCalendarEvents = (events: { [index: string]: any[] }) => {
+  var bookedSlots = events?.bookedSlots;
+  var scheduledSlots = events?.scheduledSlots;
+
+  var calendarEvents: any[] = [];
+  var currentYear: number, currentMonth: string, currentDay: number;
+
+  const iterateOverEvents = (arr: any[], type: string) => {
+    if (!arr) return;
+
+    for (const val of arr) {
+      const year = new Date(val.bookedDate).getFullYear();
+      const month = months[new Date(val.bookedDate).getMonth()];
+      const day = new Date(val.bookedDate).getDate();
+
+      const yearIndex = calendarEvents.findIndex((obj) => obj.year === year);
+
+      let monthIndex = -1,
+        dayIndex = -1;
+
+      if (yearIndex > -1) {
+        monthIndex = calendarEvents[yearIndex].months.findIndex(
+          (obj) => obj.month === month
+        );
+      }
+
+      if (yearIndex > -1 && monthIndex > -1) {
+        dayIndex = calendarEvents[yearIndex].months[monthIndex].days.findIndex(
+          (obj) => obj.day === day
+        );
+      }
+      // evaluating 'calendarEvents[yearIndex].months[monthIndex].days')
+      // {"days": [{"day": 27, "events": [Array]}], "month": "October"}
+
+      const slotObject = {
+        id: val.id,
+        organizerId: val.organizerId,
+        organizerAlias: val.organizerAlias,
+        attendeeId: val.attendeeId,
+        attendeeAlias: val.attendeeAlias,
+        eventId: val.eventId,
+        eventTitle: val.eventTitle,
+        eventDescription: val.eventDescription,
+        bookedDuration: val.bookedDuration,
+        bookedDate: val.bookedDate,
+        txHash: val.txHash,
+        type,
+      };
+
+      // Case when it's the first time or the year has changed
+      if (
+        year !== currentYear &&
+        month !== currentMonth &&
+        day !== currentDay
+      ) {
+        currentYear = year;
+        currentMonth = month;
+        currentDay = day;
+
+        // if year doesn't exists yet
+        if (yearIndex < 0 && monthIndex < 0 && dayIndex < 0) {
+          calendarEvents.push({
+            year,
+            months: [
+              {
+                month,
+                days: [
+                  {
+                    day,
+                    events: [slotObject],
+                  },
+                ],
+              },
+            ],
+          });
+          // if month doesnt' exists yet
+        } else if (monthIndex < 0 && dayIndex < 0) {
+          calendarEvents[yearIndex].months.push({
+            month,
+            days: [
+              {
+                day,
+                events: [slotObject],
+              },
+            ],
+          });
+          // if day doesn't exists yet
+        } else if (dayIndex < 0) {
+          calendarEvents[yearIndex].months[monthIndex].days.push({
+            day,
+            events: [slotObject],
+          });
+        }
+
+        continue;
+      }
+
+      // Case when year is the same but month and day has changed
+      if (month !== currentMonth && currentDay !== day) {
+        currentMonth = month;
+        currentDay = day;
+
+        if (monthIndex < 0 && dayIndex < 0) {
+          calendarEvents[yearIndex].months.push({
+            month,
+            days: [
+              {
+                day,
+                events: [slotObject],
+              },
+            ],
+          });
+        } else if (dayIndex < 0) {
+          calendarEvents[yearIndex].months[monthIndex].days.push({
+            day,
+            events: [slotObject],
+          });
+        }
+
+        continue;
+      }
+
+      // Case when year and month are the same but day has changed
+      if (currentDay !== day) {
+        currentDay = day;
+
+        calendarEvents[yearIndex].months[monthIndex].days.push({
+          day,
+          events: [slotObject],
+        });
+
+        continue;
+      }
+
+      // if it's the same day
+      calendarEvents[yearIndex].months[monthIndex].days[dayIndex].events.push(
+        slotObject
+      );
+    }
+  };
+
+  iterateOverEvents(bookedSlots, "booked slot");
+  iterateOverEvents(scheduledSlots, "scheduled slot");
+
+  return calendarEvents;
 };
