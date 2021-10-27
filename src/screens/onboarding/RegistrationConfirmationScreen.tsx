@@ -28,6 +28,8 @@ export const RegistrationConfirmationScreen = () => {
   const { ref } = appContext();
   const { navigate } = useNavigation();
 
+  const { accountType, toggleAuth } = appContext();
+
   const onChangePress = () => ref.current.setPage(0);
   const emptyDetails =
     !profession && !jobTitle && !bio && !timeBlockCostADA && !skills;
@@ -48,11 +50,14 @@ export const RegistrationConfirmationScreen = () => {
         );
 
         const res = await Users.updateUser(organizerProfileDto, id);
+
         if (res.status === 201) {
           // get challenge from server
           const accessToken = await startChallengeSequence(id, true);
           await setToEncryptedStorage("accessToken", accessToken);
-          navigate("Navigation Screens");
+          navigate("Navigation Screens", {
+            profileType: "organizer",
+          });
         }
       } else {
         throw new Error("Occured problems while accessing keys from storage");

@@ -11,7 +11,7 @@ import {
   MyCalendarState,
   NewCalendarMonths,
   PreviewingDayEvents,
-  ScheduledEvents,
+  Events,
 } from "interfaces/myCalendarInterface";
 
 export enum AppTypes {
@@ -186,7 +186,7 @@ export type BookingPayload = {
 
 export type MyCalendarPaylaod = {
   [MyCalendarTypes.AddEvent]: {
-    event: ScheduledEvents;
+    event: Events;
   };
   [MyCalendarTypes.AddAvailability]: {
     availabilities: Availabilities[];
@@ -213,7 +213,7 @@ export type MyCalendarPaylaod = {
     selectedDay: any;
   };
   [MyCalendarTypes.SetEvents]: {
-    scheduledEvents?: any;
+    events: any;
   };
   [MyCalendarTypes.ClearDayPreview]: object;
   ["unknown"]: any;

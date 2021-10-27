@@ -24,7 +24,7 @@ export type AppStackParamList = {
 };
 
 export type OrganizerTabParamList = {
-  Home: undefined;
+  Home: { id: string };
   Browse: any;
   Wallet: undefined;
   "Add Funds": { fromScreen: string };

@@ -2,7 +2,7 @@ export interface MyCalendarState {
   calendar: Month[];
   registrationDate: number | null;
   availabilities: Availabilities[] | null | undefined;
-  events: ScheduledEvents[] | null | undefined;
+  events: Events[] | null | undefined;
   calendarHeader: CalendarHeader;
   previewingDayEvents?: PreviewingDayEvents;
   direction: null | "previous" | "next";
@@ -31,18 +31,18 @@ export interface AvailabilitySlot {
   toTime: number | string;
 }
 
-export interface ScheduledEvents {
+export interface Events {
   year: number;
-  months: ScheduledEventsMonth[];
+  months: EventsMonth[];
 }
 
-export interface ScheduledEventsMonth {
+export interface EventsMonth {
   month: string;
-  days: ScheduledEventsDay[];
+  days: EventsDay[];
   totalNumOfEvents: number;
 }
 
-export interface ScheduledEventsDay {
+export interface EventsDay {
   day: number;
   scheduledEvents: Event[];
 }
@@ -53,7 +53,8 @@ export interface Event {
   toTime: number | string;
   description: string;
   participants: string[];
-  organizer: string;
+  organizerAlias: string;
+  organizerId: string;
 }
 
 export interface MyCalendarContextProps {

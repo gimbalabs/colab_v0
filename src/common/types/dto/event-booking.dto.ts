@@ -1,8 +1,6 @@
 export interface EventBookingDto {
   eventId: string;
-  attendeeId: string;
-  txHash?: string;
-  bookedDay: number;
-  bookedTimeSlot: number;
+  bookedDate: Date;
   bookedDuration: number;
+  txHash?: string;
 }

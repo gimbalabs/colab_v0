@@ -1,5 +1,5 @@
 export interface InitialState {
-  pickedDate: number | null;
+  pickedDate: Date | number;
   duration: number;
   durationCost: number;
   eventTitle: string;
