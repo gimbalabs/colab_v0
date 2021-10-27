@@ -64,4 +64,19 @@ export class Users {
       if (e.response) console.error(e.response.data);
     }
   }
+
+  public static async getUserCalendarEvents(
+    id: string,
+    currCalendarDate?: Date
+  ): Promise<any | void> {
+    try {
+      const res = await axios.get(`/users/${id}/calendar-events`, {
+        params: { date: currCalendarDate ?? new Date() },
+      });
+
+      if (res) return res.data;
+    } catch (e) {
+      throw new Error(e.response.data.message);
+    }
+  }
 }
