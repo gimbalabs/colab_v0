@@ -2,7 +2,7 @@ import * as React from "react";
 
 export const useAvailabilities = (
   availabilities: any,
-  pickedDate: number | null
+  pickedDate: number | Date
 ) => {
   const [currAvailabilities, setCurrentAvailabilities] = React.useState<
     undefined | number[]
@@ -10,6 +10,8 @@ export const useAvailabilities = (
 
   React.useEffect(() => {
     if (availabilities != null && pickedDate != null) {
+      if (typeof pickedDate === "object")
+        pickedDate = new Date(pickedDate).getTime();
       // Calculate how many time slots should we render depending on
       // organizer time block. Eg. organizerTimeBlock 30min = 8:00, 8:30, 9:00...
       const sortedAvailabilities = availabilities.sort(
@@ -17,7 +19,7 @@ export const useAvailabilities = (
       );
       const currTimeSlots: number[] = [];
 
-      sortedAvailabilities.forEach((availability) => {
+      sortedAvailabilities.forEach((availability: any) => {
         const to = new Date(availability.to).getTime();
         let from = new Date(availability.from).getTime();
 

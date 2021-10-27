@@ -1,26 +1,25 @@
 import * as React from "react";
 
 export const useDurationSlots = (
-  timeBlockMilSec: number,
+  minTimeSlotDuration: number,
   maxTimeSlotDuration: number | undefined
 ) => {
   const [timeSlots, setTimeSlots] = React.useState<number[] | null>(null);
 
   React.useEffect(() => {
-    if (timeBlockMilSec != null && maxTimeSlotDuration != null) {
+    if (minTimeSlotDuration != null && maxTimeSlotDuration != null) {
       // create an array of accumulated time blocks based on maxTimeSlotDuration
       let newTimeSlots: number[] = [];
-      let numOfTimeSlots = maxTimeSlotDuration / timeBlockMilSec;
-      let index = numOfTimeSlots;
+      let totalTimeDuration = minTimeSlotDuration;
 
-      while (index != 0) {
-        newTimeSlots.unshift(timeBlockMilSec * index * 60 * 1000);
-        index--;
+      while (totalTimeDuration < maxTimeSlotDuration) {
+        newTimeSlots.push(totalTimeDuration * 60 * 1000);
+        totalTimeDuration += minTimeSlotDuration;
       }
 
       setTimeSlots(newTimeSlots);
     }
-  }, [maxTimeSlotDuration, timeBlockMilSec]);
+  }, [maxTimeSlotDuration, minTimeSlotDuration]);
 
   return { timeSlots, setTimeSlots };
 };
