@@ -15,12 +15,11 @@ export class Events {
 
   public static async bookEvent(event: EventBookingDto): Promise<any> {
     try {
-      const { eventId } = event;
-      const res = await axios.post(`events/booking/${eventId}`, event);
+      const res = await axios.post("events/booking", event);
 
       if (res.data) return res.data;
     } catch (e) {
-      if (e.response) throw new Error(e.response.data);
+      throw new Error(e);
     }
   }
 
