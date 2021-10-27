@@ -134,8 +134,6 @@ const styles = StyleSheet.create({
   },
   calendarWrapper: {
     flex: 1,
-    width: "100%",
-    alignItems: "center",
   },
   buttonContainer: {
     alignItems: "center",

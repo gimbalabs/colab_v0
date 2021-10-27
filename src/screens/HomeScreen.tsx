@@ -8,6 +8,7 @@ import { Colors } from "styles/index";
 import { CalendarEventsList } from "components/calendar";
 import { ErrorHandler } from "components/errors/errorHandler";
 import { Calendar } from "containers/MyCalendar";
+import { MyCalendarProvider } from "contexts/myCalendarContext";
 
 export interface HomeProps
   extends StackScreenProps<OrganizerTabParamList, "Home"> {}
@@ -21,9 +22,11 @@ export const HomeScreen = ({}: HomeProps) => {
         colorScheme == "light" ? styles.safeArea_light : styles.safeaArea_dark,
       ]}>
       {accountType === "organizer" ? (
-        <ErrorHandler>
-          <Calendar />
-        </ErrorHandler>
+        <MyCalendarProvider>
+          <ErrorHandler>
+            <Calendar isRegularCalendar={true} />
+          </ErrorHandler>
+        </MyCalendarProvider>
       ) : (
         <View style={styles.main}>
           <CalendarEventsList isHomeScreen={true} />

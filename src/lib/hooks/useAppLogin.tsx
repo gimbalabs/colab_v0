@@ -16,23 +16,31 @@ export const useAppLogin = () => {
         let sec = await getFromEncryptedStorage("secret");
         let pub = await getFromEncryptedStorage("public");
 
-        if (at && !isExpired(at.expiresAt)) {
-          setAuthorizationToken(at.accessToken);
-          setIsAuthorized(true);
-          setUser({
-            username: at.username,
-            profileType: at.profileType,
-            id: at.id,
-          });
-        } else if (sec && pub) {
-          const atDto = await startChallengeSequence(pub, false);
-          if (atDto) {
-            setAuthorizationToken(atDto.accessToken);
+        console.log("access token :", at);
+
+        /**
+         * We want to make sure if user exists in database first,
+         * TODO set the TTL for JWT and test it
+         */
+        // if (at && !isExpired(at.expiresAt)) {
+        //   setAuthorizationToken(at.accessToken);
+        //   setIsAuthorized(true);
+        //   setUser({
+        //     username: at.username,
+        //     profileType: at.profileType,
+        //     id: at.id,
+        //   });
+        // }
+
+        if (sec && pub) {
+          const accessTokenDto = await startChallengeSequence(pub, false);
+          if (accessTokenDto) {
+            setAuthorizationToken(accessTokenDto.accessToken);
             setIsAuthorized(true);
             setUser({
-              username: atDto.username,
-              profileType: atDto.profileType,
-              id: atDto.id,
+              username: accessTokenDto.username,
+              profileType: accessTokenDto.profileType,
+              id: accessTokenDto.id,
             });
           }
         } else {
@@ -45,13 +53,6 @@ export const useAppLogin = () => {
       }
     })();
   }, []);
-
-  // const setUserInfo = (args: any): void => {
-  //   const { id, username, name } = args;
-  //   setId(id);
-  //   setUsername(username);
-  //   setProfileType(name);
-  // };
 
   return { isAuthorized, isAuthLoaded, user };
 };
