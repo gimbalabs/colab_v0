@@ -20,8 +20,10 @@ export const NavigationScreens = ({ route }: any) => {
   const { accountType, toggleAuth } = appContext();
 
   React.useEffect(() => {
+    // if the params aren't empty, we are redirected from main App during login
     if (route.params) {
       const { profileType, username, id } = route.params;
+
       toggleAuth(true, profileType);
       setId(id);
       setProfileType(profileType);

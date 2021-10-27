@@ -15,11 +15,15 @@ import { DetailedConfirmation } from "screens/payments";
 
 const Stack = createStackNavigator<EventCreationParamList>();
 
-export const OrganizerHomeScreenStack = () => {
+export const OrganizerHomeScreenStack = ({ route }: any) => {
   return (
     <EventCreationContextProvider>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          initialParams={route.params}
+        />
         <Stack.Screen
           name="New Event Description"
           component={NewEventDescription}
