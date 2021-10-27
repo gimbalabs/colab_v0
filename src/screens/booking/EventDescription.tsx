@@ -10,7 +10,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { applyOpacity } from "../../styles/colors";
 import { Colors, Outlines, Sizing, Typography } from "styles/index";
-import { getEventCardDate } from "lib/utils";
+import { convertToCalendarAvailabilities, getEventCardDate } from "lib/utils";
 import { LeftArrowIcon } from "assets/icons";
 import {
   appContext,
@@ -26,16 +26,12 @@ import { Events } from "Api/Events";
 
 type Props = StackScreenProps<BookingStackParamList, "Event Description">;
 
-function wait(ms: number): Promise<void> {
-  return new Promise((res) => setTimeout(res, ms));
-}
-
 export const EventDescription = ({ navigation, route }: Props) => {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const { title, description, id, fromDate, toDate, image, color, titleColor } =
     route.params;
   const { colorScheme } = appContext();
-  const { setPreviewingEvent } = bookingContext();
+  const { setPreviewingEvent, resetState } = bookingContext();
   const { setAvailCalendar } = myCalendarContext();
 
   const insets = useSafeAreaInsets();
@@ -45,24 +41,30 @@ export const EventDescription = ({ navigation, route }: Props) => {
   const onBackNavigationPress = () => navigation.goBack();
   const onBookEventPress = async () => {
     setIsLoading(true);
-    await wait(1000);
 
     try {
       const event = await Events.getEventById(id);
       if (event) {
-        setPreviewingEvent(event);
-        setAvailCalendar(event.availableDays);
+        // convert to calendar-ready data model
+        const availableDays = convertToCalendarAvailabilities(
+          event.selectedDays
+        );
+
+        resetState();
+
+        setPreviewingEvent(Object.assign({}, event, route.params));
+        setAvailCalendar(availableDays);
       }
       setIsLoading(false);
+
+      navigation.navigate("Available Event Days Selection", {
+        ...route.params,
+      });
     } catch (e) {
       // TODO Implement better error handling
-      console.error(e.stack);
+      console.error(e);
       setIsLoading(false);
     }
-
-    navigation.navigate("Available Event Days Selection", {
-      ...route.params,
-    });
   };
 
   return (
@@ -180,6 +182,7 @@ const styles = StyleSheet.create({
     padding: Sizing.x5,
     ...Typography.header.x45,
     color: Colors.primary.neutral,
+    marginHorizontal: Sizing.x2,
   },
   eventTitleWrapper: {
     width: "90%",
