@@ -11,6 +11,7 @@ import { Buttons, Colors, Sizing } from "styles/index";
 import { CalendarHeader } from "common/interfaces/myCalendarInterface";
 import { monthsByName } from "common/types/calendarTypes";
 import { useRoute } from "@react-navigation/native";
+import { isSixMonthsLater } from "lib/utils";
 
 export interface CalendarTopNavigationProps {
   onPreviousPress: () => void;
@@ -18,6 +19,7 @@ export interface CalendarTopNavigationProps {
   colorScheme: ColorSchemeName;
   calendarHeader: CalendarHeader;
   isBookingCalendar?: boolean;
+  isNewEventCalendar?: boolean;
 }
 
 export const CalendarTopNavigation = ({
@@ -26,6 +28,7 @@ export const CalendarTopNavigation = ({
   colorScheme,
   calendarHeader,
   isBookingCalendar,
+  isNewEventCalendar,
 }: CalendarTopNavigationProps) => {
   const { month, year } = calendarHeader;
 
@@ -33,10 +36,6 @@ export const CalendarTopNavigation = ({
    * This will show disabled buttons after six months span time
    * (optional feature)
    */
-  // const disabledNextButton = isSixMonthsLater(
-  //   calendarHeader.year,
-  //   monthsByName[calendarHeader.month]
-  // );
   // const disabledPreviousButton = isSixMonthsBefore(
   //   calendarHeader.year,
   //   monthsByName[calendarHeader.month]
@@ -45,16 +44,23 @@ export const CalendarTopNavigation = ({
   var disabledNextButton = false;
   var disabledPreviousButton = false;
 
-  if (isBookingCalendar) {
-    var { fromDate, toDate }: any = useRoute().params;
-
+  if (isBookingCalendar || isNewEventCalendar) {
     disabledPreviousButton =
-      year === new Date(fromDate).getFullYear() &&
-      monthsByName[month] === new Date(fromDate).getMonth();
+      year === new Date().getFullYear() &&
+      monthsByName[month] === new Date().getMonth();
 
-    disabledNextButton =
-      year === new Date(toDate).getFullYear() &&
-      monthsByName[month] === new Date(toDate).getMonth();
+    if (isBookingCalendar) {
+      var { toDate }: any = useRoute().params;
+
+      disabledNextButton =
+        year === new Date(toDate).getFullYear() &&
+        monthsByName[month] === new Date(toDate).getMonth();
+    } else {
+      disabledNextButton = isSixMonthsLater(
+        calendarHeader.year,
+        monthsByName[calendarHeader.month]
+      );
+    }
   }
 
   const navigationButtonStyle = (direction: "next" | "prev"): ViewStyle => {
