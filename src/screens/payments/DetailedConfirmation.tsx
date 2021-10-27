@@ -2,7 +2,11 @@ import * as React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 
 import { SafeAreaView } from "react-native-safe-area-context";
-import { appContext, eventCreationContext } from "contexts/contextApi";
+import {
+  appContext,
+  bookingContext,
+  eventCreationContext,
+} from "contexts/contextApi";
 import { LeftArrowIcon } from "assets/icons";
 import { Colors, Sizing, Typography } from "styles/index";
 import { FullWidthButton } from "components/buttons/fullWidthButton";
@@ -27,16 +31,17 @@ export const DetailedConfirmation = ({ navigation, route }: any) => {
     eventCardColor,
     eventTitleColor,
     availabilities,
-    resetState,
   } = eventCreationContext();
+  const { duration, pickedDate, previewingEvent } = bookingContext();
   const { username, id } = React.useContext(ProfileContext);
   const params = route?.params;
   const isLightMode = colorScheme === "light";
 
   const onBackNavigationPress = () => navigation.goBack();
   const onButtonPress = async () => {
+    setIsLoading(true);
+
     if (params?.isNewEvent) {
-      setIsLoading(true);
       const newEvent: CreateEventDto = {
         title: textContent.title,
         description: textContent.description,
@@ -57,24 +62,40 @@ export const DetailedConfirmation = ({ navigation, route }: any) => {
       };
 
       try {
-        const res = await Events.createEvent(newEvent);
+        const eventId = await Events.createEvent(newEvent);
 
-        if (res) {
+        if (eventId) {
           setIsLoading(false);
+
           navigation.navigate("Confirmation", {
-            isBookingConfirmation: params?.isNewEvent ?? false,
+            isBookingConfirmation: false,
           });
         }
       } catch (e) {
         setIsLoading(false);
         console.error(e);
       }
+    } else {
+      try {
+        const res = await Events.bookEvent({
+          eventId: previewingEvent.id,
+          bookedDate: new Date(pickedDate),
+          bookedDuration: duration,
+        });
 
-      resetState();
+        if (res) {
+          navigation.navigate("Confirmation", {
+            isBookingConfirmation: true,
+          });
+        }
+      } catch (e) {
+        console.error(e);
+        setIsLoading(false);
+      }
+
+      //@TODO submit transaction to blockchain
+      // setWalletBalance(walletBalance - durationCost);
     }
-
-    //@TODO submit transaction to blockchain
-    // setWalletBalance(walletBalance - durationCost);
   };
 
   return (
