@@ -68,6 +68,9 @@ export const CalendarEventsList = ({
     var monthlyEvents: Event[] = [];
     var dayEvents: Event[] = [];
 
+    // merge two arrays,
+    // based on the event type ('booked event' or 'scheduled event') display the right color/info,
+
     if (events) {
       for (let scheduledYear of events) {
         if (scheduledYear.year === getYear()) {
@@ -81,7 +84,7 @@ export const CalendarEventsList = ({
 
             if (monthObj != null) {
               monthObj.days.forEach((day) =>
-                day.scheduledEvents.forEach((evt) => {
+                day.events.forEach((evt) => {
                   if (isHomeScreen && day.day === new Date().getDate()) {
                     dayEvents.push(evt);
                   } else if (day.day === getDate()) {
