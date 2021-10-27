@@ -26,15 +26,14 @@ import { StackScreenProps } from "@react-navigation/stack";
 type Props = StackScreenProps<BookingStackParamList, "Duration Choice">;
 
 export const DurationChoice = ({ navigation, route }: Props) => {
-  const { title, image, color, titleColor, hourlyRate } = route.params;
+  const { title, image, color, titleColor } = route.params;
   const { maxTimeSlotDuration, minTimeSlotDuration } = bookingContext();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [selectedDuration, setSelectedDuration] = React.useState<number>(0);
   const [cost, setCost] = React.useState<number>(0);
   const { walletBalance } = React.useContext(ProfileContext);
 
-  const { previewingOrganizer, setDuration, setDurationCost } =
-    bookingContext();
+  const { setDuration, setDurationCost } = bookingContext();
   const { colorScheme } = appContext();
 
   const insets = useSafeAreaInsets();
@@ -79,10 +78,12 @@ export const DurationChoice = ({ navigation, route }: Props) => {
       setCost(0);
     } else {
       setSelectedDuration(time);
+
       // TODO What's the hourly rate for this event?
-      let totalCost = (hourlyRate ?? 50) * (time / 60 / 60 / 1000);
-      console.log(totalCost);
-      setCost(totalCost);
+      const hourlyRate = 50;
+      const totalCost = (hourlyRate ?? 50) * (time / 60 / 60 / 1000);
+
+      setCost(Math.round(totalCost));
     }
   };
 

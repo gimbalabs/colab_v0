@@ -68,7 +68,7 @@ export const AvailableTimes = ({ navigation, route }: Props) => {
           const from = new Date(availability.from).getTime();
           const to = new Date(availability.to).getTime();
 
-          return from < selectedTimeSlot && to > selectedTimeSlot;
+          return from <= selectedTimeSlot && to > selectedTimeSlot;
         }
       );
 
@@ -98,9 +98,17 @@ export const AvailableTimes = ({ navigation, route }: Props) => {
 
   const onBackNavigationPress = () => navigation.goBack();
   const onNextPress = () => {
-    setPickedDate(selectedTimeSlot);
-    setTimeDuration();
-    navigation.navigate("Duration Choice", route.params);
+    if (selectedTimeSlot) {
+      const hour = new Date(selectedTimeSlot).getHours() * 60 * 60 * 1000;
+      const minutes = new Date(selectedTimeSlot).getMinutes() * 60 * 1000;
+
+      let date: number = new Date(pickedDate).getTime();
+      let newDate = new Date(date + hour + minutes).getTime();
+
+      setPickedDate(newDate);
+      setTimeDuration();
+      navigation.navigate("Duration Choice", route.params);
+    }
   };
 
   const onPressCallback = (item: number) => {
