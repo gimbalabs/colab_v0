@@ -11,13 +11,13 @@ target '1on1' do
   use_react_native!(:path => config["reactNativePath"])
 
   # Uncomment to opt-in to using Flipper
-  #
-  # if !ENV['CI']
-  #   use_flipper!('Flipper' => '0.75.1', 'Flipper-Folly' => '2.5.3', 'Flipper-RSocket' => '1.3.1')
-  #   post_install do |installer|
-  #     flipper_post_install(installer)
-  #   end
-  # end
+  
+   if !ENV['CI']
+     use_flipper!('Flipper' => '0.75.1', 'Flipper-Folly' => '2.5.3', 'Flipper-RSocket' => '1.3.1')
+     post_install do |installer|
+       flipper_post_install(installer)
+     end
+   end
    
 
   permissions_path = '../node_modules/react-native-permissions/ios'
