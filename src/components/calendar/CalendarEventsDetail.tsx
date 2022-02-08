@@ -11,15 +11,21 @@ export interface CalendarEventsDetailProps extends Event {
   setHighlightedDay: React.Dispatch<any>;
   highlightedDay: any;
   listLength: number;
+  title: string;
+  description: string;
   index: number;
   listSection: string;
+  fromTime: number;
+  toTime: number;
+  organizer: string;
+  participants: any;
 }
 
 export const CalendarEventsDetail = ({
   title,
   index,
-  fromDate,
-  toDate,
+  fromTime,
+  toTime,
   listLength,
   organizer,
   setHighlightedDay,
@@ -29,11 +35,11 @@ export const CalendarEventsDetail = ({
   const animatedMargin = React.useRef(new Animated.Value(-65)).current;
   const animatedValue = parseInt(JSON.stringify(animatedMargin));
 
-  const fromTimeDigit = getDigitalTime(fromDate);
-  const toTimeDigit = getDigitalTime(toDate);
+  const fromTimeDigit = getDigitalTime(fromTime);
+  const toTimeDigit = getDigitalTime(toTime);
 
-  const eventDay = new Date(fromDate).getDate();
-  const eventMonth = months[new Date(fromDate).getMonth()];
+  const eventDay = new Date(fromTime).getDate();
+  const eventMonth = months[new Date(fromTime).getMonth()];
 
   const even = index === 0 || index % 2 === 0;
 

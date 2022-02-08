@@ -59,6 +59,11 @@ export type EventCreationParamList = {
   "Event Confirmation Details": { isNewEvent: boolean } | undefined;
 };
 
+export type ProfileStackParamList = {
+  Profile: undefined;
+  "Edit Profile": undefined;
+};
+
 /**
  * Navigation params interfaces
  */

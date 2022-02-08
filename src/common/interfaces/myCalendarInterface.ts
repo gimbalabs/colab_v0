@@ -53,8 +53,8 @@ export interface Event {
   toTime: number | string;
   description: string;
   participants: string[];
-  organizerAlias: string;
-  organizerId: string;
+  organizerAlias?: string;
+  organizerId?: string;
 }
 
 export interface MyCalendarContextProps {

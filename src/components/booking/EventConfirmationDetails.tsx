@@ -183,7 +183,9 @@ export const EventConfirmationDetails = ({ isNewEvent = false }: any) => {
           {
             content: `${getDigitalLocaleTime(
               pickedDate
-            )} - ${getDigitalLocaleTime(pickedDate + duration)}`,
+            )} - ${getDigitalLocaleTime(
+              new Date(pickedDate).getTime() + duration
+            )}`,
             icon: sectionsIcons.time,
           },
         ],

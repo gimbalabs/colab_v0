@@ -83,8 +83,8 @@ export const CalendarEventsList = ({
             });
 
             if (monthObj != null) {
-              monthObj.days.forEach((day) =>
-                day.events.forEach((evt) => {
+              monthObj.days.forEach((day: any) =>
+                day.events.forEach((evt: Event) => {
                   if (isHomeScreen && day.day === new Date().getDate()) {
                     dayEvents.push(evt);
                   } else if (day.day === getDate()) {

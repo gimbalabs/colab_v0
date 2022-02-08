@@ -7,7 +7,7 @@ import {
 import { BookingActions, BookingTypes } from "common/types/contextTypes";
 
 const initialState: InitialState = {
-  pickedDate: null,
+  pickedDate: 0,
   duration: 0,
   durationCost: 0,
   eventTitle: "",
