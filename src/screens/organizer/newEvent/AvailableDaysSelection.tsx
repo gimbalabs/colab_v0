@@ -1,5 +1,12 @@
 import * as React from "react";
-import { View, StyleSheet, Pressable, ScrollView, Linking } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Pressable,
+  ScrollView,
+  Linking,
+  Text,
+} from "react-native";
 
 import { CheckIcon, LeftArrowIcon } from "assets/icons";
 import { appContext, eventCreationContext } from "contexts/contextApi";
@@ -15,6 +22,7 @@ import { BodyText } from "components/rnWrappers/bodyText";
 import { useGoogleAuth } from "lib/hooks/useGoogleAuth";
 import { ErrorModal } from "components/modals/errorModal";
 import * as qs from "qs";
+import { fontWeight } from "../../../styles/typography";
 
 type Props = StackScreenProps<
   EventCreationParamList,
@@ -29,7 +37,8 @@ export const AvailableDaysSelection = ({ navigation }: Props) => {
     removeSelectedDays,
     removeSelectedWeeks,
   } = eventCreationContext();
-  const { isRequesting, isValidOauth, requestAccess } = useGoogleAuth();
+  const { isRequesting, isValidOauth, isLoading, requestAccess } =
+    useGoogleAuth();
   const [acceptedCheckbox, setAcceptedChecbox] = React.useState<boolean>(false);
   const [error, setError] = React.useState<any>({ isVisible: false, type: "" });
 
@@ -121,8 +130,20 @@ export const AvailableDaysSelection = ({ navigation }: Props) => {
             <CalendarWrapperSimple>
               <MonthlyWrapper isNewEventCalendar={true} />
             </CalendarWrapperSimple>
-            {!isValidOauth && (
-              <View style={styles.checkboxWrapper}>
+            <View style={styles.messageWrapper}>
+              <BodyText
+                customStyle={{
+                  fontFamily: "Roboto-Regular",
+                  fontSize: Sizing.x14,
+                  width: "90%",
+                }}
+                colors={[Colors.primary.s800, Colors.primary.neutral]}>
+                * <Text style={{ ...fontWeight.bold }}>Hint:</Text> Press on a
+                day name to select them all
+              </BodyText>
+            </View>
+            {!isValidOauth && !isLoading && (
+              <View style={styles.messageWrapper}>
                 <Pressable
                   onPress={onCheckBoxPress}
                   hitSlop={5}
@@ -193,8 +214,10 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     width: "90%",
   },
-  checkboxWrapper: {
+  messageWrapper: {
     width: "90%",
+    marginLeft: "auto",
+    marginRight: "auto",
     flexDirection: "row",
     marginTop: Sizing.x5,
   },

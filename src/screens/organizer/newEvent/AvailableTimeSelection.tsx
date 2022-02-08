@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Pressable, StyleSheet, View, Text } from "react-native";
 
-import { LeftArrowIcon, PlusIcon } from "assets/icons";
+import { CurvedArrow, LeftArrowIcon, PlusIcon } from "assets/icons";
 import { FullWidthButton } from "components/buttons/fullWidthButton";
 import { AvailabilityList } from "components/events/availabilityList";
 import { PlainInputPicker } from "components/forms/PlainInputPicker";
@@ -20,6 +20,7 @@ import {
 import { StackScreenProps } from "@react-navigation/stack";
 import { EventCreationParamList } from "common/types/navigationTypes";
 import { roundDateMinutes } from "lib/utils";
+import { fontWeight } from "../../../styles/typography";
 
 type Props = StackScreenProps<
   EventCreationParamList,
@@ -39,6 +40,7 @@ export const AvailableTimeSelection = ({ navigation }: Props) => {
   const [minInputRange, setMinInputRange] = React.useState<any[]>([]);
   const [enabledPicker, setEnabledPicker] = React.useState<boolean>(true);
   const [openPicker, setOpenPicker] = React.useState<string | null>(null);
+  const [alreadyCreated, setAlreadyCreated] = React.useState<boolean>(false);
   const { colorScheme } = appContext();
   const { addAvailability, availabilities } = eventCreationContext();
 
@@ -100,13 +102,12 @@ export const AvailableTimeSelection = ({ navigation }: Props) => {
       el.maxDuration === maxTime &&
       el.minDuration === minTime
   );
+  const hasAvailabilities = !!availabilities.length;
 
   const isLightMode = colorScheme === "light";
-  const isDisabledButton = !availabilities.length;
+  const isDisabledButton = !hasAvailabilities;
   const isDisabledAddBtn =
-    String(fromTime) === String(toTime) ||
-    String(fromTime) > String(toTime) ||
-    hasExistingAvailability;
+    String(fromTime) === String(toTime) || String(fromTime) > String(toTime);
 
   const onTimeChangeValue = (label: string, val: Date) => {
     if (label === "From") setFromTime(val);
@@ -128,12 +129,15 @@ export const AvailableTimeSelection = ({ navigation }: Props) => {
     });
     // react-navigation doesn't update screen immediately after context dispatch
     navigation.setParams({ availabilities: availabilities.length++ });
+
+    setAlreadyCreated(true);
   };
   /**
    * Navigation handlers
    */
   const onBackNavigationPress = () => navigation.goBack();
   const onNextPress = () => navigation.navigate("Image Cover Selection");
+  console.log(isDisabledAddBtn);
 
   return (
     <SafeAreaView
@@ -221,9 +225,7 @@ export const AvailableTimeSelection = ({ navigation }: Props) => {
                   ? { color: Colors.primary.s800 }
                   : { color: Colors.primary.neutral },
                 styles.listHeaderText,
-              ]}>
-              Add new item
-            </Text>
+              ]}></Text>
             <Pressable
               onPress={addNewAvailability}
               disabled={isDisabledAddBtn}
@@ -242,16 +244,36 @@ export const AvailableTimeSelection = ({ navigation }: Props) => {
                   {
                     //@ts-ignore
                     color: isDisabledAddBtn
-                      ? Colors.primary.s350
-                      : Colors.primary.s600,
+                      ? Colors.neutral.s500
+                      : Colors.primary.s200,
                   },
                 ]}
-                strokeWidth={2}
+                strokeWidth={3}
               />
             </Pressable>
           </View>
         </View>
-        <AvailabilityList />
+        {hasAvailabilities ? (
+          <AvailabilityList />
+        ) : !hasAvailabilities && !alreadyCreated ? (
+          <View
+            style={{
+              flexDirection: "row",
+              marginLeft: "auto",
+              marginRight: Sizing.x20,
+            }}>
+            <Text style={{ ...fontWeight.bold, textAlign: "center" }}>
+              select your time frame &{"\n"} add new time slot
+            </Text>
+            <CurvedArrow
+              style={[
+                styles.arrowIcon,
+                //@ts-ignore
+                { fill: Colors.primary.s350 },
+              ]}
+            />
+          </View>
+        ) : null}
         <FullWidthButton
           text="Next"
           disabled={isDisabledButton}
@@ -319,12 +341,17 @@ const styles = StyleSheet.create({
     width: Sizing.x40,
     height: Sizing.x40,
     marginHorizontal: Sizing.x10,
-    backgroundColor: Colors.primary.s200,
+    backgroundColor: Colors.primary.s600,
     ...Outlines.shadow.lifted,
   },
   plusIcon: {
     width: Sizing.x25,
     height: Sizing.x25,
+    alignSelf: "center",
+  },
+  arrowIcon: {
+    width: Sizing.x70,
+    height: Sizing.x70,
     alignSelf: "center",
   },
 });

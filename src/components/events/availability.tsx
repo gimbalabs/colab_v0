@@ -5,6 +5,7 @@ import { ClockIcon, TrashIcon } from "assets/icons";
 import { EventAvailability } from "common/interfaces/newEventInterface";
 import { Buttons, Colors, Outlines, Sizing, Typography } from "styles/index";
 import { getDigitalLocaleTime } from "lib/utils";
+import { fontWeight } from "../../styles/typography";
 
 export interface AvailabilityProps {
   availability: EventAvailability;
@@ -22,20 +23,20 @@ export const Availability = ({
   return (
     <View style={styles.container}>
       <View style={styles.cardItem}>
-        <ClockIcon style={styles.clockIcon} strokeWidth={1.6} />
+        <ClockIcon style={styles.clockIcon} strokeWidth={2} />
         <View style={styles.body}>
-          <Text style={styles.innerText}>
-            {getDigitalLocaleTime(from)} - {getDigitalLocaleTime(to)}
+          <Text style={[styles.innerText, { ...fontWeight.semibold }]}>
+            from {getDigitalLocaleTime(from)} - to {getDigitalLocaleTime(to)}
           </Text>
-          <Text style={styles.innerText}>
-            Min. {minDuration} min - Max. {maxDuration} min
+          <Text style={[styles.innerText, { ...fontWeight.semibold }]}>
+            min. {minDuration} min / max. {maxDuration} min
           </Text>
         </View>
         <Pressable
           hitSlop={5}
           onPress={() => onRemovePress(index)}
           style={Buttons.applyOpacity(styles.removeButton)}>
-          <TrashIcon style={styles.trashIcon} strokeWidth={1.6} />
+          <TrashIcon style={styles.trashIcon} strokeWidth={2} />
         </Pressable>
       </View>
     </View>

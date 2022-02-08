@@ -757,13 +757,13 @@ export const convertToCalendarEvents = (events: { [index: string]: any[] }) => {
 
       if (yearIndex > -1) {
         monthIndex = calendarEvents[yearIndex].months.findIndex(
-          (obj) => obj.month === month
+          (obj: any) => obj.month === month
         );
       }
 
       if (yearIndex > -1 && monthIndex > -1) {
         dayIndex = calendarEvents[yearIndex].months[monthIndex].days.findIndex(
-          (obj) => obj.day === day
+          (obj: any) => obj.day === day
         );
       }
       // evaluating 'calendarEvents[yearIndex].months[monthIndex].days')

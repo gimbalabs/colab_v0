@@ -15,7 +15,7 @@ export const useAvailabilities = (
       // Calculate how many time slots should we render depending on
       // organizer time block. Eg. organizerTimeBlock 30min = 8:00, 8:30, 9:00...
       const sortedAvailabilities = availabilities.sort(
-        (a, b) => a.from - b.from
+        (a: any, b: any) => a.from - b.from
       );
       const currTimeSlots: number[] = [];
 

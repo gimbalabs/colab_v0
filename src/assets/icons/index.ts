@@ -8,6 +8,7 @@ import { ClockIcon } from "./clock";
 import { CogIcon } from "./cog";
 import { ColorsPalleteIcon } from "./colorsPallete";
 import { CreditCardIcon } from "./creditCard";
+import { CurvedArrow } from "./curvedArrow";
 import { DepositSuccessfulIcon } from "./depositSuccessful";
 import { DescriptionIcon } from "./description";
 import { DotIcon } from "./dot";
@@ -54,6 +55,7 @@ export {
   CogIcon,
   ColorsPalleteIcon,
   CreditCardIcon,
+  CurvedArrow,
   DotIcon,
   DuplicateIcon,
   DepositSuccessfulIcon,

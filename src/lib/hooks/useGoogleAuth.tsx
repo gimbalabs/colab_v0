@@ -8,14 +8,16 @@ import { Auth } from "Api/Auth";
 
 export const useGoogleAuth = () => {
   const [isRequesting, setIsRequesting] = React.useState<boolean>(false);
-  const [isValidOauth, setIsValidOauth] = React.useState<boolean>(true);
+  const [isValidOauth, setIsValidOauth] = React.useState<boolean>(false);
+  const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
   React.useEffect(() => {
     (async () => {
       try {
         const isValid = await Auth.checkForGoogleAuth();
-        if (isValid !== "undefined" && isValid) setIsValidOauth(true);
+        if (isValid != null) setIsValidOauth(isValid);
       } catch (e) {}
+      setIsLoading(false);
     })();
 
     WebBrowser.warmUpAsync();
@@ -46,6 +48,7 @@ export const useGoogleAuth = () => {
   return {
     isRequesting,
     isValidOauth,
+    isLoading,
     requestAccess,
   };
 };
