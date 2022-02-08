@@ -81,3 +81,10 @@ export const startChallengeSequence = async (
     throw new Error(e.message);
   }
 };
+
+export const getApiUrl = (url: string): string => {
+  if (url[0] !== "/") url = "/" + url;
+  const baseUrl = Platform.OS === "ios" ? IOS_API_URL : ANDROID_API_URL;
+
+  return baseUrl + url;
+};
