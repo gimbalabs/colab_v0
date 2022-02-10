@@ -169,7 +169,23 @@ const reducer = (
       };
     }
     case EventCreationTypes.ResetState: {
-      return { ...initialState, selectedDays: Object.create({}) };
+      return {
+        textContent: {
+          title: "",
+          description: "",
+        },
+        availabilities: [],
+        selectedDays: {},
+        fromDate: null,
+        toDate: null,
+        tags: [],
+        hourlyRate: 0,
+        imageURI: "",
+        eventCardColor: "",
+        eventTitleColor: "",
+        selectedWeekDays: [],
+        privateEvent: false,
+      };
     }
     default: {
       throw new Error(`Unknown type of action ${action.type}`);

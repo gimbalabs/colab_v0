@@ -9,14 +9,18 @@ import {
   Easing,
 } from "react-native";
 
-import { appContext, myCalendarContext } from "contexts/contextApi";
+import {
+  appContext,
+  eventCreationContext,
+  myCalendarContext,
+} from "contexts/contextApi";
 import { Colors, Typography, Sizing, Outlines } from "styles/index";
 import { MonthItem } from "./MonthItem";
 import { CalendarHeader, Month } from "interfaces/myCalendarInterface";
 import { monthsByName } from "common/types/calendarTypes";
 import { WeekDayNames } from "./WeekDayNames";
 import { CalendarTopNavigation } from "./navigation/calendarTopNavigation";
-import { BookingCalendarLegend } from "./booking/BookingCalendarLegend";
+import { CalendarLegend } from "./CalendarLegend";
 import { useNavigation } from "@react-navigation/native";
 
 export interface MonthlyWrapperProps {
@@ -40,6 +44,7 @@ export const MonthlyWrapper = ({
     setEvents,
   } = myCalendarContext();
   const { colorScheme } = appContext();
+  const { selectedWeekDays } = eventCreationContext();
   const navigation = useNavigation();
   const [dimensions, setDimensions] = React.useState<LayoutRectangle | null>(
     null
@@ -185,7 +190,7 @@ export const MonthlyWrapper = ({
 
   const WeekComponent = React.useCallback(() => {
     return <WeekDayNames isNewEventCalendar={isNewEventCalendar} />;
-  }, [monthsArray, initialHasLoaded]);
+  }, [monthsArray, initialHasLoaded, selectedWeekDays]);
 
   const onPreviousStartAnimation = () => {
     if (isLoading) return;
@@ -337,9 +342,11 @@ export const MonthlyWrapper = ({
         </View>
       </View>
       <View style={styles.legendWrapper}>
-        {isBookingCalendar && (
-          <BookingCalendarLegend colorScheme={colorScheme} />
-        )}
+        <CalendarLegend
+          colorScheme={colorScheme}
+          isBookingCalendar={isBookingCalendar}
+          isRegularCalendar={isRegularCalendar}
+        />
       </View>
     </View>
   );

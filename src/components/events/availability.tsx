@@ -26,7 +26,7 @@ export const Availability = ({
         <ClockIcon style={styles.clockIcon} strokeWidth={2} />
         <View style={styles.body}>
           <Text style={[styles.innerText, { ...fontWeight.semibold }]}>
-            from {getDigitalLocaleTime(from)} - to {getDigitalLocaleTime(to)}
+            From {getDigitalLocaleTime(from)} - to {getDigitalLocaleTime(to)}
           </Text>
           <Text style={[styles.innerText, { ...fontWeight.semibold }]}>
             min. {minDuration} min / max. {maxDuration} min
