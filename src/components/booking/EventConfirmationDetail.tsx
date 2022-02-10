@@ -6,6 +6,7 @@ import { EventLine, SectionDetail } from "common/interfaces/bookingInterface";
 import { SubHeaderText } from "components/rnWrappers/subHeaderText";
 import { appContext } from "contexts/contextApi";
 import { useNavigation } from "@react-navigation/native";
+import { fontWeight } from "../../styles/typography";
 
 export const EventConfirmationDetail = ({
   label,
@@ -46,6 +47,7 @@ export const EventConfirmationDetail = ({
             />
             {callbackFn && (
               <SubHeaderText
+                customStyle={{ ...fontWeight.semibold }}
                 children={callbackFn.label}
                 colors={[Colors.primary.s350, Colors.primary.s200]}
                 callbackFn={() => onTextPress(callbackFn.callbackFnScreen)}
@@ -75,6 +77,7 @@ export const EventConfirmationDetail = ({
             />
             {callbackFn && (
               <SubHeaderText
+                customStyle={{ ...fontWeight.semibold }}
                 children={callbackFn.label}
                 colors={[Colors.primary.s350, Colors.primary.s200]}
                 callbackFn={() => onTextPress(callbackFn.callbackFnScreen)}

@@ -11,6 +11,7 @@ import * as Colors from "./colors";
 
 type FontSize =
   | "x5"
+  | "x8"
   | "x10"
   | "x20"
   | "x25"
@@ -26,6 +27,9 @@ type FontSize =
 export const fontSize: Record<FontSize, TextStyle> = {
   x5: {
     fontSize: scale(10),
+  },
+  x8: {
+    fontSize: scale(11),
   },
   x10: {
     fontSize: scale(13),
@@ -235,10 +239,25 @@ export const header: Record<Header, TextStyle> = {
   },
 };
 
-type SubHeader = "x5" | "x10" | "x20" | "x25" | "x30" | "x35" | "x40" | "x50";
+type SubHeader =
+  | "x5"
+  | "x8"
+  | "x10"
+  | "x20"
+  | "x25"
+  | "x30"
+  | "x35"
+  | "x40"
+  | "x50";
 export const subHeader: Record<SubHeader, TextStyle> = {
   x5: {
     ...fontSize.x5,
+    ...lineHeight.x5,
+    ...fontWeight.semibold,
+    fontFamily: "Roboto-Regular",
+  },
+  x8: {
+    ...fontSize.x8,
     ...lineHeight.x5,
     ...fontWeight.semibold,
     fontFamily: "Roboto-Regular",

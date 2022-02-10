@@ -137,7 +137,6 @@ export const AvailableTimeSelection = ({ navigation }: Props) => {
    */
   const onBackNavigationPress = () => navigation.goBack();
   const onNextPress = () => navigation.navigate("Image Cover Selection");
-  console.log(isDisabledAddBtn);
 
   return (
     <SafeAreaView
@@ -187,7 +186,7 @@ export const AvailableTimeSelection = ({ navigation }: Props) => {
         <View style={styles.timeSlotsPickersWrapper}>
           <View style={styles.slotsWrapperTop}>
             <PlainInputPicker
-              label="Min. time slot"
+              label="Min. duration"
               minTime={minTime}
               inputRange={minInputRange}
               onValueChange={onMinValueChange}
@@ -198,7 +197,7 @@ export const AvailableTimeSelection = ({ navigation }: Props) => {
           </View>
           <View style={styles.slotsWrapperBottom}>
             <PlainInputPicker
-              label="Max. time slot"
+              label="Max. duration"
               maxTime={maxTime}
               inputRange={maxInputRange}
               onValueChange={onMaxValueChange}
@@ -263,7 +262,7 @@ export const AvailableTimeSelection = ({ navigation }: Props) => {
               marginRight: Sizing.x20,
             }}>
             <Text style={{ ...fontWeight.bold, textAlign: "center" }}>
-              select your time frame &{"\n"} add new time slot
+              Select your time frame &{"\n"} add new time slot
             </Text>
             <CurvedArrow
               style={[

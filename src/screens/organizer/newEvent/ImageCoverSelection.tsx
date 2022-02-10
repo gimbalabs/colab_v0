@@ -20,6 +20,7 @@ import { SubHeaderText } from "components/rnWrappers/subHeaderText";
 import { useMediaAccess } from "lib/hooks/useMediaAccess";
 import { useCameraAccess } from "lib/hooks/useCameraAccess";
 import { FullWidthButton } from "components/buttons/fullWidthButton";
+import { fontWeight } from "../../../styles/typography";
 
 type Props = StackScreenProps<EventCreationParamList, "Image Cover Selection">;
 
@@ -171,9 +172,9 @@ export const ImageCoverSelection = ({ navigation }: Props) => {
                 onPress={launchImageLibrary}>
                 <Text style={styles.button_text}>Gallery</Text>
                 <PlaceholderIcon
-                  width={Sizing.x30}
-                  height={Sizing.x30}
-                  strokeWidth={1.5}
+                  width={Sizing.x25}
+                  height={Sizing.x25}
+                  strokeWidth={2}
                   stroke={Colors.primary.s800}
                 />
               </Pressable>
@@ -182,9 +183,9 @@ export const ImageCoverSelection = ({ navigation }: Props) => {
                 onPress={launchCamera}>
                 <Text style={styles.button_text}>Take photo</Text>
                 <CameraIcon
-                  width={Sizing.x30}
-                  height={Sizing.x30}
-                  strokeWidth={1.5}
+                  width={Sizing.x25}
+                  height={Sizing.x25}
+                  strokeWidth={2}
                   stroke={Colors.primary.s800}
                 />
               </Pressable>
@@ -202,7 +203,7 @@ export const ImageCoverSelection = ({ navigation }: Props) => {
               ]}>
               <FullWidthButton
                 onPressCallback={animateNavigationButtons}
-                text={"Change"}
+                text={"Change image"}
                 lightMode={true}
                 buttonType={"transparent"}
               />
@@ -297,14 +298,15 @@ const styles = StyleSheet.create({
     width: "60%",
     paddingVertical: Sizing.x8,
     backgroundColor: Colors.primary.s400,
-    borderWidth: Outlines.borderWidth.thin,
+    borderWidth: Outlines.borderWidth.base,
     borderColor: Colors.primary.s800,
     borderRadius: Outlines.borderRadius.small,
     ...Outlines.shadow.base,
   },
   button_text: {
     ...Typography.subHeader.x30,
+    ...fontWeight.semibold,
     color: Colors.primary.s800,
-    marginRight: Sizing.x2,
+    marginRight: Sizing.x5,
   },
 });
