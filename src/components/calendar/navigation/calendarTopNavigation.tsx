@@ -7,7 +7,7 @@ import {
 } from "react-native";
 
 import { LeftArrowIcon, RightArrowIcon } from "assets/icons";
-import { Buttons, Colors, Sizing } from "styles/index";
+import { Buttons, Colors, Outlines, Sizing } from "styles/index";
 import { CalendarHeader } from "common/interfaces/myCalendarInterface";
 import { monthsByName } from "common/types/calendarTypes";
 import { useRoute } from "@react-navigation/native";
@@ -22,6 +22,8 @@ export interface CalendarTopNavigationProps {
   isNewEventCalendar?: boolean;
 }
 
+type Direction = "next" | "prev";
+
 export const CalendarTopNavigation = ({
   onPreviousPress,
   onNextPress,
@@ -30,6 +32,9 @@ export const CalendarTopNavigation = ({
   isBookingCalendar,
   isNewEventCalendar,
 }: CalendarTopNavigationProps) => {
+  const [currentPressed, setCurrentPressed] = React.useState<null | Direction>(
+    null
+  );
   const { month, year } = calendarHeader;
 
   /**
@@ -63,12 +68,12 @@ export const CalendarTopNavigation = ({
     }
   }
 
-  const navigationButtonStyle = (direction: "next" | "prev"): ViewStyle => {
+  const navigationButtonStyle = (direction: Direction): ViewStyle => {
     const disabled =
       (direction === "next" && disabledNextButton) ||
       (direction === "prev" && disabledPreviousButton)
         ? {
-            backgroundColor: Colors.neutral.s200,
+            backgroundColor: Colors.neutral.s400,
           }
         : {};
 
@@ -76,9 +81,22 @@ export const CalendarTopNavigation = ({
       colorScheme === "light"
         ? styles.monthSwitchButton_light
         : styles.monthSwitchButton_dark;
+    const shadow = currentPressed === direction ? Outlines.shadow.base : {};
 
-    return { ...buttonStyle, ...disabled };
+    return { ...buttonStyle, ...disabled, ...shadow };
   };
+
+  const onPress = (direction: Direction) => {
+    if (direction === "next") {
+      onNextPress();
+      setCurrentPressed(direction);
+    }
+    if (direction === "prev") {
+      onPreviousPress();
+      setCurrentPressed(direction);
+    }
+  };
+  const onPressOut = () => setCurrentPressed(null);
 
   return (
     <>
@@ -86,13 +104,15 @@ export const CalendarTopNavigation = ({
         style={Buttons.applyOpacity(navigationButtonStyle("prev"))}
         hitSlop={10}
         pressRetentionOffset={10}
-        onPress={onPreviousPress}
+        onPress={() => onPress("prev")}
+        onPressOut={onPressOut}
         disabled={disabledPreviousButton}>
         <LeftArrowIcon
           width="20"
           height="20"
+          strokeWidth={3}
           color={
-            colorScheme === "light" ? Colors.primary.s350 : Colors.primary.s800
+            colorScheme === "light" ? Colors.neutral.s100 : Colors.primary.s800
           }
         />
       </Pressable>
@@ -100,13 +120,15 @@ export const CalendarTopNavigation = ({
         hitSlop={10}
         pressRetentionOffset={10}
         style={Buttons.applyOpacity(navigationButtonStyle("next"))}
-        onPress={onNextPress}
+        onPress={() => onPress("next")}
+        onPressOut={onPressOut}
         disabled={disabledNextButton}>
         <RightArrowIcon
           width="20"
           height="20"
+          strokeWidth={3}
           color={
-            colorScheme === "light" ? Colors.primary.s350 : Colors.primary.s800
+            colorScheme === "light" ? Colors.neutral.s100 : Colors.primary.s800
           }
         />
       </Pressable>
@@ -119,8 +141,8 @@ const styles = StyleSheet.create({
     padding: 5,
     width: Sizing.x35,
     height: Sizing.x35,
-    borderRadius: 999,
-    backgroundColor: Colors.primary.s200,
+    borderRadius: Outlines.borderRadius.max,
+    backgroundColor: Colors.primary.s800,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -128,7 +150,7 @@ const styles = StyleSheet.create({
     padding: 5,
     width: Sizing.x35,
     height: Sizing.x35,
-    borderRadius: 999,
+    borderRadius: Outlines.borderRadius.max,
     backgroundColor: Colors.primary.s200,
     justifyContent: "center",
     alignItems: "center",
