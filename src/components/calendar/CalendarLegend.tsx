@@ -1,11 +1,7 @@
 import * as React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-import {
-  FullyAvailable,
-  FullyBooked,
-  PartiallyBooked,
-} from "assets/icons/calendarLegend/index";
+import { SingleColorDot, DoubleColorDot } from "assets/icons/index";
 import { Colors, Outlines, Sizing, Typography } from "styles/index";
 import { fontWeight } from "../../styles/typography";
 
@@ -27,7 +23,7 @@ export const CalendarLegend = ({
       {isBookingCalendar ? (
         <>
           <View style={styles.dotLine}>
-            <FullyAvailable style={styles.dot} />
+            <SingleColorDot style={styles.dot} color={"#DBEAFE"} />
             <Text
               style={[
                 styles.text,
@@ -37,7 +33,11 @@ export const CalendarLegend = ({
             </Text>
           </View>
           <View style={styles.dotLine}>
-            <PartiallyBooked style={styles.dot} />
+            <DoubleColorDot
+              firstColor={"#DBEAFE"}
+              secondColor={"#FECACA"}
+              style={styles.dot}
+            />
             <Text
               style={[
                 styles.text,
@@ -47,7 +47,7 @@ export const CalendarLegend = ({
             </Text>
           </View>
           <View style={styles.dotLine}>
-            <FullyBooked style={styles.dot} />
+            <SingleColorDot style={styles.dot} color={"#FECACA"} />
             <Text
               style={[
                 styles.text,
@@ -60,7 +60,7 @@ export const CalendarLegend = ({
       ) : isRegularCalendar ? (
         <>
           <View style={styles.dotLine}>
-            <FullyAvailable style={styles.dot} />
+            <SingleColorDot style={styles.dot} color={"#DBEAFE"} />
             <Text
               style={[
                 styles.text,
@@ -70,7 +70,7 @@ export const CalendarLegend = ({
             </Text>
           </View>
           <View style={styles.dotLine}>
-            <FullyBooked style={styles.dot} />
+            <SingleColorDot style={styles.dot} color={"#FECACA"} />
             <Text
               style={[
                 styles.text,

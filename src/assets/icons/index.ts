@@ -12,6 +12,7 @@ import { CurvedArrow } from "./curvedArrow";
 import { DepositSuccessfulIcon } from "./depositSuccessful";
 import { DescriptionIcon } from "./description";
 import { DotIcon } from "./dot";
+import { DoubleColorDot } from "./doubleColorDot";
 import { DownIcon } from "./down";
 import { DuplicateIcon } from "./duplicate";
 import { EditIcon } from "./edit";
@@ -39,6 +40,7 @@ import { RegistrationIcon } from "./registration";
 import { RemoveIcon } from "./remove";
 import { RightArrowIcon } from "./rightArrow";
 import { SearchIcon } from "./search";
+import { SingleColorDot } from "./singleColorDot";
 import { TimeIcon } from "./time";
 import { TrashIcon } from "./trash";
 import { UserIcon } from "./user";
@@ -57,6 +59,7 @@ export {
   CreditCardIcon,
   CurvedArrow,
   DotIcon,
+  DoubleColorDot,
   DuplicateIcon,
   DepositSuccessfulIcon,
   DescriptionIcon,
@@ -86,6 +89,7 @@ export {
   PartiallyBookedDay,
   QrCodeSampleIcon,
   SearchIcon,
+  SingleColorDot,
   UserIcon,
   WalletIcon,
   TimeIcon,
