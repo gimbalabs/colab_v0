@@ -60,7 +60,7 @@ export const CalendarLegend = ({
       ) : isRegularCalendar ? (
         <>
           <View style={styles.dotLine}>
-            <SingleColorDot style={styles.dot} color={"#DBEAFE"} />
+            <SingleColorDot style={styles.dot} color={"#60A5FA"} />
             <Text
               style={[
                 styles.text,
@@ -70,7 +70,7 @@ export const CalendarLegend = ({
             </Text>
           </View>
           <View style={styles.dotLine}>
-            <SingleColorDot style={styles.dot} color={"#FECACA"} />
+            <SingleColorDot style={styles.dot} color={"#FCD34D"} />
             <Text
               style={[
                 styles.text,

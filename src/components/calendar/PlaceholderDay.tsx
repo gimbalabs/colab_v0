@@ -20,9 +20,7 @@ const _PlaceholderDay = ({
 
   return (
     <Pressable onPress={onPress} style={styles.container}>
-      <View style={styles.placeholderWrapper}>
-        <Text style={styles.placeholderNumber}>{number}</Text>
-      </View>
+      <Text style={styles.placeholderNumber}>{number}</Text>
     </Pressable>
   );
 };
@@ -31,12 +29,6 @@ const styles = StyleSheet.create({
   container: {
     width: `${100 / 7}%`,
     height: `${100 / 6}%`,
-    justifyContent: "flex-start",
-    alignItems: "center",
-  },
-  placeholderWrapper: {
-    width: 33,
-    height: 33,
     justifyContent: "center",
     alignItems: "center",
   },

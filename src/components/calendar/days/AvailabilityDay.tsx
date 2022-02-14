@@ -54,9 +54,7 @@ const styles = StyleSheet.create({
     ...Typography.body.x30,
     ...Typography.roboto.medium,
     zIndex: 2,
-    // looks like the font is slightly moved to left
     textAlign: "center",
-    marginLeft: Sizing.x1,
   },
   dayContainer: {
     width: `${100 / 7}%`,
