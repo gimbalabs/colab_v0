@@ -24,7 +24,7 @@ export const NativeModal = React.memo(
             style={Buttons.applyOpacity({
               alignItems: "center",
               justifyContent: "center",
-              height: Sizing.x30,
+              height: Sizing.x35,
             })}
             hitSlop={10}
             onPress={cameraAccessCb}>
@@ -73,6 +73,9 @@ export const NativeModal = React.memo(
         <ModalSelector
           closeOnChange={false}
           cancelText="Cancel"
+          cancelContainerStyle={{
+            paddingVertical: Sizing.x5,
+          }}
           ref={(_selector) => setSelector(_selector)}
           data={modalData}>
           {child}

@@ -139,7 +139,7 @@ export const AvailableDaysSelection = ({ navigation }: Props) => {
                 }}
                 colors={[Colors.primary.s800, Colors.primary.neutral]}>
                 * <Text style={{ ...fontWeight.bold }}>Hint:</Text> Press on a
-                day name to select them all
+                day to select it or tap on a day name to select them all.
               </BodyText>
             </View>
             {!isValidOauth && !isLoading && (

@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
   text: {
     ...Typography.subHeader.x8,
     ...fontWeight.semibold,
-    paddingTop: Sizing.x2,
+    paddingTop: Sizing.x3,
     color: Colors.primary.neutral,
   },
 });

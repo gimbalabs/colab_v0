@@ -1,8 +1,11 @@
-import { monthsByName } from "common/types/calendarTypes";
-import { Auth } from "../services/Api/Auth";
-import { getFromEncryptedStorage } from "./encryptedStorage";
+import { Platform } from "react-native";
+
+import { ANDROID_API_URL, IOS_API_URL } from "@env";
 import { signChallenge } from "./tweetnacl";
 import base64 from "base64-js";
+
+import { monthsByName } from "common/types/calendarTypes";
+import { Auth } from "../services/Api/Auth";
 
 /**
  *  Takes index of the selected day in the weeek
