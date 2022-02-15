@@ -9,6 +9,7 @@ import {
   EventsDay,
 } from "interfaces/myCalendarInterface";
 import { months, monthsByName, weekDays } from "common/types/calendarTypes";
+import { AnyObject } from "yup/lib/types";
 
 /**
  *  TODO
@@ -735,20 +736,44 @@ export const convertToCalendarAvailabilities = (selectedDays: {
   return calendarAvailabilities;
 };
 
-export const convertToCalendarEvents = (events: { [index: string]: any[] }) => {
-  var bookedSlots = events?.bookedSlots;
-  var scheduledSlots = events?.scheduledSlots;
+export const convertToCalendarEvents = (organizerEvents: {
+  [index: string]: any[];
+}) => {
+  var bookedSlots = organizerEvents?.bookedSlots;
+  var scheduledSlots = organizerEvents?.scheduledSlots;
+  var activeEvents = organizerEvents?.events;
 
   var calendarEvents: any[] = [];
   var currentYear: number, currentMonth: string, currentDay: number;
 
-  const iterateOverEvents = (arr: any[], type: string) => {
-    if (!arr) return;
+  const iterateOverEvents = (
+    arr: any[],
+    type: "booked slot" | "scheduled slot" | "active slot"
+  ) => {
+    if (!arr.length) return;
+
+    // Because we want to show each available day for an ongoing
+    // event of our organizers, we have to create separate slots
+    // for each of the day in each event hosted by that person
+    if (type === "active slot") {
+      let newArr: any[] = [];
+      for (const event of arr) {
+        for (const day of Object.values(event.selectedDays)) {
+          newArr.push(Object.assign({ availableAt: day }, event));
+        }
+      }
+
+      if (newArr.length) arr = newArr;
+    }
 
     for (const val of arr) {
-      const year = new Date(val.bookedDate).getFullYear();
-      const month = months[new Date(val.bookedDate).getMonth()];
-      const day = new Date(val.bookedDate).getDate();
+      // if it's active ongoing event take the available day for
+      // this is event, otherwise the start from the booked date
+      const fromDate =
+        type === "active slot" ? val.availableAt : val.bookedDate;
+      const year = new Date(fromDate).getFullYear();
+      const month = months[new Date(fromDate).getMonth()];
+      const day = new Date(fromDate).getDate();
 
       const yearIndex = calendarEvents.findIndex((obj) => obj.year === year);
 
@@ -769,20 +794,23 @@ export const convertToCalendarEvents = (events: { [index: string]: any[] }) => {
       // evaluating 'calendarEvents[yearIndex].months[monthIndex].days')
       // {"days": [{"day": 27, "events": [Array]}], "month": "October"}
 
-      const slotObject = {
+      const slotObject: AnyObject = {
         id: val.id,
         organizerId: val.organizerId,
         organizerAlias: val.organizerAlias,
-        attendeeId: val.attendeeId,
-        attendeeAlias: val.attendeeAlias,
-        eventId: val.eventId,
-        eventTitle: val.eventTitle,
-        eventDescription: val.eventDescription,
-        bookedDuration: val.bookedDuration,
-        bookedDate: val.bookedDate,
-        txHash: val.txHash,
+        attendeeId: val?.attendeeId,
+        attendeeAlias: val?.attendeeAlias,
+        eventId: val?.eventId,
+        eventTitle: val.eventTitle || val.title,
+        eventDescription: val.eventDescription || val.description,
+        bookedDuration: val?.bookedDuration,
+        bookedDate: val?.bookedDate,
+        txHash: val.txHash || null,
         type,
       };
+
+      if (type === "active slot")
+        slotObject.availabilities = val.availabilities;
 
       // Case when it's the first time or the year has changed
       if (
@@ -878,6 +906,11 @@ export const convertToCalendarEvents = (events: { [index: string]: any[] }) => {
 
   iterateOverEvents(bookedSlots, "booked slot");
   iterateOverEvents(scheduledSlots, "scheduled slot");
+  iterateOverEvents(activeEvents, "active slot");
 
+  console.log(
+    "got some events ready to go ?",
+    JSON.stringify(calendarEvents, null, 4)
+  );
   return calendarEvents;
 };
