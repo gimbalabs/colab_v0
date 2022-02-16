@@ -215,6 +215,7 @@ export const myCalendarContext = () => {
     events: state.events,
     registrationDate: state.registrationDate,
     previewingDayEvents: state.previewingDayEvents,
+    currentSelectedDay: state.currentSelectedDay,
     direction: state.direction,
     addEvent: (event: Event) => {
       dispatch({ type: "ADD_EVENT", payload: event });
@@ -230,6 +231,9 @@ export const myCalendarContext = () => {
     },
     loadMyCalendar: (calendarArgs: NewCalendarMonths) => {
       dispatch({ type: "LOAD_MY_CALENDAR", payload: { calendarArgs } });
+    },
+    loadInitialMyCalendar: () => {
+      dispatch({ type: "LOAD_INITIAL_MY_CALENDAR" });
     },
     setAvailCalendar: (availabilities: any) => {
       dispatch({

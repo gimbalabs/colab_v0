@@ -59,6 +59,7 @@ export enum MyCalendarTypes {
   AddAvailability = "ADD_AVAILABILITY",
   ResetState = "RESET_STATE",
   LoadMyCalendar = "LOAD_MY_CALENDAR",
+  LoadInitialMyCalendar = "LOAD_INITIAL_MY_CALENDAR",
   ChangeMonthHeader = "CHANGE_MONTH_HEADER",
   PreviewDayEvents = "PREVIEW_DAY_EVENTS",
   ClearDayPreview = "CLEAR_DAY_PREVIEW",
@@ -190,6 +191,9 @@ export type MyCalendarPaylaod = {
   };
   [MyCalendarTypes.AddAvailability]: {
     availabilities: Availabilities[];
+  };
+  [MyCalendarTypes.LoadInitialMyCalendar]: {
+    calendarArgs: NewCalendarMonths;
   };
   [MyCalendarTypes.LoadMyCalendar]: {
     calendarArgs: NewCalendarMonths;

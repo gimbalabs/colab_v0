@@ -20,14 +20,12 @@ export interface ContextProviderProps {
   children: React.ReactNode;
 }
 
-const initialCalendar = [
-  ...getCalendarMonths(false, true),
-  ...getCalendarMonths(true),
-];
-
 export const initialState: MyCalendarState = {
   registrationDate: null,
-  calendar: initialCalendar,
+  calendar: [
+    ...getCalendarMonths(false, true),
+    ...getCalendarMonths(true, false),
+  ],
   availabilitiesCalendar: null,
   organizerAvailabilities: null,
   availabilities: null,
@@ -86,6 +84,31 @@ const reducer = (state: MyCalendarState, action: MyCalendarActions) => {
       return {
         ...state,
         currentSelectedDay: action.payload.selectedDay,
+      };
+    }
+    case MyCalendarTypes.LoadInitialMyCalendar: {
+      const initialCalendar = [
+        ...getCalendarMonths(
+          false,
+          true,
+          undefined,
+          undefined,
+          [],
+          state.events
+        ),
+        ...getCalendarMonths(
+          true,
+          false,
+          undefined,
+          undefined,
+          [],
+          state.events
+        ),
+      ];
+
+      return {
+        ...state,
+        calendar: initialCalendar,
       };
     }
     case MyCalendarTypes.LoadMyCalendar:

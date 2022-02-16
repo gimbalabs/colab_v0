@@ -1,5 +1,5 @@
 export interface MyCalendarState {
-  calendar: Month[];
+  calendar: any;
   registrationDate: number | null;
   availabilities: Availabilities[] | null | undefined;
   events: Events[] | null | undefined;
@@ -44,7 +44,7 @@ export interface EventsMonth {
 
 export interface EventsDay {
   day: number;
-  scheduledEvents: Event[];
+  events: Event[];
 }
 
 export interface Event {
@@ -53,6 +53,7 @@ export interface Event {
   toTime: number | string;
   description: string;
   participants: string[];
+  type: "booked slot" | "scheduled slot" | "active slot";
   organizerAlias?: string;
   organizerId?: string;
 }
@@ -98,7 +99,7 @@ export interface Day {
   isAvailable?: boolean;
   isLastWeek?: boolean;
   availabilities?: AvailabilitySlot[];
-  scheduledEvents?: Event[];
+  events?: Event[];
   direction?: "previous" | "next" | undefined;
 }
 
