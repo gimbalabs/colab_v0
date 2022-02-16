@@ -33,9 +33,12 @@ export const Calendar = ({
   const { colorScheme } = appContext();
   const { resetState } = eventCreationContext();
   const { id } = React.useContext(ProfileContext);
-  const { events, calendarHeader } = myCalendarContext();
+  const { events, calendarHeader, loadInitialMyCalendar } = myCalendarContext();
   const { getEvents } = useCalendarEvents(id);
+
   const [isLoading, setIsLoading] = React.useState(true);
+  const [currentSelectedDay, setCurrentSelectedDay] =
+    React.useState<Date | null>(null);
 
   const isLightMode = colorScheme === "light";
   const navigation = useNavigation();
@@ -43,18 +46,18 @@ export const Calendar = ({
   React.useEffect(() => {
     if (events === null)
       (async () => {
-        await getEvents();
+        await getEvents(
+          new Date(calendarHeader.year, monthsByName[calendarHeader.month])
+        );
+
+        loadInitialMyCalendar();
       })();
 
     setIsLoading(false);
 
     const subscribe = () => {
-      navigation.addListener("blur", () => {
-        console.log("blur");
-      });
+      navigation.addListener("blur", () => {});
       navigation.addListener("focus", async () => {
-        console.log("focus");
-
         setIsLoading(true);
         await getEvents(
           new Date(calendarHeader.year, monthsByName[calendarHeader.month])
@@ -72,6 +75,8 @@ export const Calendar = ({
 
     return unsubscribe;
   }, []);
+
+  // console.log(JSON.stringify(events, null, 4));
 
   const onAddEventPress = () => {
     resetState();
@@ -94,10 +99,13 @@ export const Calendar = ({
     }
   };
 
+  const onSelectedDayChange = (day: Date) => setCurrentSelectedDay(day);
+
   return (
     <>
       <MonthlyWrapper
         customCallback={onMonthChange}
+        secondCustomCallback={onSelectedDayChange}
         isRegularCalendar={isRegularCalendar}
       />
       {(isBookingCalendar == null || isHomeScreen) &&
@@ -112,7 +120,9 @@ export const Calendar = ({
           </View>
         ) : events && events.length ? (
           <CalendarEventsList
+            currentSelectedDay={currentSelectedDay}
             isBookingCalendar={isBookingCalendar}
+            isRegularCalendar={isRegularCalendar}
             isHomeScreen={isHomeScreen}
           />
         ) : (
@@ -135,7 +145,7 @@ export const Calendar = ({
                     ? { color: Colors.primary.neutral }
                     : { color: Colors.primary.s800 },
                 ]}>
-                Add Event
+                Create Event
               </Text>
               <PlusIcon
                 color={
@@ -143,7 +153,7 @@ export const Calendar = ({
                 }
                 width={Sizing.x14}
                 height={Sizing.x14}
-                strokeWidth={3.4}
+                strokeWidth={4}
               />
             </Pressable>
           </View>

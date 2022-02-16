@@ -21,13 +21,13 @@ import { monthsByName } from "common/types/calendarTypes";
 import { WeekDayNames } from "./WeekDayNames";
 import { CalendarTopNavigation } from "./navigation/calendarTopNavigation";
 import { CalendarLegend } from "./CalendarLegend";
-import { useNavigation } from "@react-navigation/native";
 
 export interface MonthlyWrapperProps {
   isBookingCalendar?: boolean;
   isNewEventCalendar?: boolean;
   isRegularCalendar?: boolean;
   customCallback?: () => Promise<void>;
+  secondCustomCallback?: (arg: Date) => void;
 }
 
 export const MonthlyWrapper = ({
@@ -35,17 +35,17 @@ export const MonthlyWrapper = ({
   isNewEventCalendar,
   isRegularCalendar,
   customCallback,
+  secondCustomCallback,
 }: MonthlyWrapperProps) => {
   const {
     calendar,
+    events,
     changeMonthHeader,
     calendarHeader,
     loadMyCalendar,
-    setEvents,
   } = myCalendarContext();
   const { colorScheme } = appContext();
   const { selectedWeekDays } = eventCreationContext();
-  const navigation = useNavigation();
   const [dimensions, setDimensions] = React.useState<LayoutRectangle | null>(
     null
   );
@@ -181,6 +181,7 @@ export const MonthlyWrapper = ({
             onPlaceholderPress={onPlaceholderPress}
             isBookingCalendar={isBookingCalendar}
             isNewEventCalendar={isNewEventCalendar}
+            secondCustomCallback={secondCustomCallback}
           />
         </Animated.View>
       );
@@ -270,6 +271,10 @@ export const MonthlyWrapper = ({
   };
 
   React.useEffect(() => {
+    if (!initialHasLoaded) {
+      setMonthsArray(calendar);
+    }
+
     if (direction) {
       setDirection(null);
       setMonthsArray(calendar);

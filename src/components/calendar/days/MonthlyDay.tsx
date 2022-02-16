@@ -10,7 +10,7 @@ export interface MonthlyDayProps extends Day {
   year?: number;
   month: string;
   activeDay: number | null;
-  setActiveDay: React.Dispatch<React.SetStateAction<number | null>>;
+  updateActiveDay: (arg: number) => void;
   setSelectedDay?: (arg: any) => any;
 }
 
@@ -22,14 +22,13 @@ export interface MonthlyDayProps extends Day {
 export const _MonthlyDay = ({
   month,
   number,
-  availabilities,
   activeDay,
-  setActiveDay,
-  scheduledEvents,
+  updateActiveDay,
+  events,
   year,
 }: MonthlyDayProps) => {
-  // const dayInTime = getTime(year, monthsByName[month], number);
-  // const hasAvailabilities = availabilities != null && availabilities.length > 0;
+  const hasActiveEvents = !!events?.find((e) => e.type === "active slot");
+  const hasScheduledSlots = !!events?.find((e) => e.type !== "active slot");
 
   // Today's day
   const isCurrentDay =
@@ -38,10 +37,8 @@ export const _MonthlyDay = ({
   // Whenever someone has pressed a day or it's a current day
   const isActiveDay = activeDay === number || (!activeDay && isCurrentDay);
 
-  // const hasEvents = scheduledEvents != null;
-
   const onPress = () => {
-    setActiveDay(number);
+    updateActiveDay(number);
   };
 
   const TextComponent = () => (
@@ -71,25 +68,25 @@ export const _MonthlyDay = ({
         ) : (
           <TextComponent />
         )}
-        {scheduledEvents && availabilities && (
+        {hasActiveEvents && hasScheduledSlots && (
           <>
             <DotIcon
-              style={[styles.icon, styles.rightIcon]}
+              style={[styles.icon, styles.leftIcon]}
               fill="#60A5FA"
               stroke="none"
             />
             <DotIcon
-              style={[styles.icon, styles.leftIcon]}
+              style={[styles.icon, styles.rightIcon]}
               fill="#FCD34D"
               stroke="none"
             />
           </>
         )}
-        {scheduledEvents && (
-          <DotIcon style={styles.icon} fill="#FCD34D" stroke="none" />
-        )}
-        {availabilities && (
+        {hasActiveEvents && !hasScheduledSlots && (
           <DotIcon style={styles.icon} fill="#60A5FA" stroke="none" />
+        )}
+        {hasScheduledSlots && !hasActiveEvents && (
+          <DotIcon style={styles.icon} fill="#FCD34D" stroke="none" />
         )}
       </Pressable>
     ),
