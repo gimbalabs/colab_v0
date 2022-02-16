@@ -207,8 +207,8 @@ export function getCalendarMonths(
   //              year: ${year}
   //       `);
 
-  // if the month is December and fromYear isn't specified, meaning
-  // we are at last month of the current year
+  // if current month is December and fromYear isn't specified, meaning
+  // we are at the last month of the current year
   if (previousMonths && month === 11 && fromYear === undefined) {
     year++;
     // set the first month to January (is index 0)
@@ -274,7 +274,7 @@ export function getCalendarMonths(
 
       for (let j = 1; isValidDate(j, currMonthIndex, currYear); j++) {
         let availableDay = availableSlots.find((s) => s.day === j);
-        let dayEvents = events.find((e) => e.day === j)?.scheduledEvents;
+        let dayEvents = events.find((e) => e.day === j)?.events;
 
         let day: Day = {
           name: weekDays[currDayIndex],
@@ -289,7 +289,7 @@ export function getCalendarMonths(
           day.isAvailable = true;
         }
         if (dayEvents != null) {
-          day.scheduledEvents = [...dayEvents];
+          day.events = [...dayEvents];
         }
 
         /* Check the day of the week, if it's Sunday -
@@ -383,7 +383,7 @@ export function getCalendarMonths(
 
       for (let j = 1; isValidDate(j, currMonthIndex, currYear); j++) {
         let availableDay = availableSlots.find((s) => s.day === j);
-        let dayEvents = events.find((e) => e.day === j)?.scheduledEvents;
+        let dayEvents = events.find((e) => e.day === j)?.events;
 
         let day: Day = {
           name: weekDays[currDayIndex],
@@ -397,7 +397,7 @@ export function getCalendarMonths(
           day.isAvailable = true;
         }
         if (dayEvents != null) {
-          day.scheduledEvents = [...dayEvents];
+          day.events = [...dayEvents];
         }
 
         /* Check the day of the week, if it's Sunday -
@@ -908,9 +908,5 @@ export const convertToCalendarEvents = (organizerEvents: {
   iterateOverEvents(scheduledSlots, "scheduled slot");
   iterateOverEvents(activeEvents, "active slot");
 
-  console.log(
-    "got some events ready to go ?",
-    JSON.stringify(calendarEvents, null, 4)
-  );
   return calendarEvents;
 };
