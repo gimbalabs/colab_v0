@@ -5,12 +5,12 @@ import { HomeScreen } from "screens/index";
 import { OrganizerTabParamList } from "common/types/navigationTypes";
 import { WalletScreen } from "screens/index";
 import { Calendar } from "containers/MyCalendar";
-import { UserProfileScreen } from "screens/organizer/UserProfileScreen";
 import { NavigationTabBar } from "components/navBarComponents/navigationTabBar";
 import { BrowseScreensStack } from "../stacks/BrowseScreensStack";
 import { OrganizerHomeScreenStack } from "stacks/OrganizerHomeScreenStack";
 import { appContext } from "contexts/contextApi";
 import { ProfileContext } from "contexts/profileContext";
+import { ProfileScreenStack } from "stacks/ProfileScreenStack";
 
 const NavigationTabs = createBottomTabNavigator<OrganizerTabParamList>();
 
@@ -43,8 +43,8 @@ export const NavigationScreens = ({ route }: any) => {
       />
       <NavigationTabs.Screen name="Browse" component={BrowseScreensStack} />
       <NavigationTabs.Screen name="Wallet" component={WalletScreen} />
-      <NavigationTabs.Screen name="Availability" component={Calendar} />
-      <NavigationTabs.Screen name="Profile" component={UserProfileScreen} />
+      <NavigationTabs.Screen name="My Events" component={Calendar} />
+      <NavigationTabs.Screen name="Profile" component={ProfileScreenStack} />
     </NavigationTabs.Navigator>
   );
 };

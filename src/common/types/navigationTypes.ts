@@ -28,7 +28,7 @@ export type OrganizerTabParamList = {
   Browse: any;
   Wallet: undefined;
   "Add Funds": { fromScreen: string };
-  Availability: undefined;
+  "My Events": undefined;
   Profile: undefined;
 };
 

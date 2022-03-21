@@ -32,7 +32,7 @@ export const NavigationTabBar = ({
         return SearchIcon;
       case "Wallet":
         return WalletIcon;
-      case "Availability":
+      case "My Events":
         return CalendarIcon;
       case "Profile":
         return UserIcon;
@@ -80,7 +80,7 @@ export const NavigationTabBar = ({
       if (colorScheme == "light" && isFocused) {
         return [
           styles.navBarButton_light,
-          { backgroundColor: Colors.primary.s600 },
+          { backgroundColor: Colors.primary.s800 },
         ];
       }
       if (colorScheme == "light" && !isFocused) {
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
   },
   navBarButtonLabel_light: {
     color: Colors.primary.s600,
-    ...Typography.subHeader.x5,
+    ...Typography.header.x5,
   },
   navBarButtonLabel_dark: {
     color: Colors.primary.s400,
