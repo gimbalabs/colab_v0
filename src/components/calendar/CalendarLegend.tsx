@@ -66,7 +66,7 @@ export const CalendarLegend = ({
                 styles.text,
                 isLightMode && { color: Colors.primary.s800 },
               ]}>
-              Active events
+              Active event
             </Text>
           </View>
           <View style={styles.dotLine}>
@@ -76,7 +76,7 @@ export const CalendarLegend = ({
                 styles.text,
                 isLightMode && { color: Colors.primary.s800 },
               ]}>
-              Scheduled events
+              Scheduled event
             </Text>
           </View>
         </>

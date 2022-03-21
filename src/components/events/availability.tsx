@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 
-import { ClockIcon, TrashIcon } from "assets/icons";
+import { ClockIcon, RemoveIcon } from "assets/icons";
 import { EventAvailability } from "common/interfaces/newEventInterface";
 import { Buttons, Colors, Outlines, Sizing, Typography } from "styles/index";
 import { getDigitalLocaleTime } from "lib/utils";
@@ -36,7 +36,7 @@ export const Availability = ({
           hitSlop={5}
           onPress={() => onRemovePress(index)}
           style={Buttons.applyOpacity(styles.removeButton)}>
-          <TrashIcon style={styles.trashIcon} strokeWidth={2} />
+          <RemoveIcon style={styles.trashIcon} strokeWidth={1.3} />
         </Pressable>
       </View>
     </View>
@@ -67,13 +67,18 @@ const styles = StyleSheet.create({
     color: Colors.primary.s800,
   },
   removeButton: {
-    width: Sizing.x25,
-    height: Sizing.x25,
+    width: Sizing.x40,
+    height: Sizing.x40,
+    backgroundColor: Colors.danger.s300,
+    borderRadius: Outlines.borderRadius.max,
+    margin: Sizing.x5,
+    alignItems: "center",
+    justifyContent: "center",
   },
   trashIcon: {
     width: Sizing.x25,
     height: Sizing.x25,
-    color: Colors.danger.s400,
+    color: Colors.neutral.s100,
   },
   clockIcon: {
     width: Sizing.x25,

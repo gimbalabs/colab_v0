@@ -31,7 +31,7 @@ export const EventConfirmationDetail = ({
       style={[
         styles.container,
         !isLastItem && {
-          borderBottomWidth: Outlines.borderWidth.thin,
+          borderBottomWidth: Outlines.borderWidth.base,
           borderBottomColor: isLightMode
             ? Colors.primary.s350
             : Colors.primary.s300,

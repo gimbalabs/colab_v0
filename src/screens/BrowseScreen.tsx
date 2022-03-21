@@ -60,7 +60,7 @@ export const BrowseScreen = ({ navigation }: BrowseProps) => {
         stroke={
           colorScheme === "light" ? Colors.primary.s800 : Colors.primary.neutral
         }
-        strokeWidth={1.8}
+        strokeWidth={2.4}
         style={{ marginRight: Sizing.x10 }}
       />
     ),
