@@ -1,34 +1,61 @@
+import * as R from "react";
 import { Users } from "Api/Users";
 import { myCalendarContext } from "contexts/contextApi";
+import { ProfileContext } from "contexts/profileContext";
 import { convertToCalendarEvents } from "lib/utils";
-import * as React from "react";
+import { NewCalendarMonths } from "common/interfaces/myCalendarInterface";
 
-export const useCalendarEvents = (id: string) => {
-  const { setEvents } = myCalendarContext();
+export const useCalendarEvents = (id?: string) => {
+  const [loadingEvents, setLoadingEvents] = R.useState<boolean>(false);
+  const { setEvents, loadInitialMyCalendar, loadMyCalendar } =
+    myCalendarContext();
+  const { id: userId } = R.useContext(ProfileContext);
 
-  const getEvents = async (currCalendarDate?: Date) => {
-    setEvents(null);
+  const getEvents = (
+    loadCalendar: boolean,
+    currCalendarDate?: Date,
+    calendarSetup?: NewCalendarMonths
+  ) => {
+    setLoadingEvents(true);
+    fetchEvents(currCalendarDate, loadCalendar, calendarSetup);
+  };
 
+  const fetchEvents = async (
+    date: any,
+    withCalendarLoad?: boolean,
+    setup?: NewCalendarMonths
+  ) => {
     try {
-      let res = await Users.getUserCalendarEvents(id, currCalendarDate);
+      let events = await Users.getUserCalendarEvents(
+        id || userId,
+        date
+      );
+      if (events) {
+        events = convertToCalendarEvents(events);
 
-      if (res) {
-        res = convertToCalendarEvents(res);
-
-        if (res && res.length) setEvents(res);
+        if (events && events.length) {
+          if (withCalendarLoad) {
+            setEvents(events);
+            if (!setup) {
+              loadInitialMyCalendar();
+            } else loadMyCalendar(setup);
+            setLoadingEvents(false);
+            return true;
+          } else {
+            setLoadingEvents(false);
+            return events;
+          }
+        }
       }
     } catch (e) {
+      setLoadingEvents(false);
       console.error(e);
     }
   };
 
-  React.useEffect(() => {
-    // if (!events) {
-    // setIsLoading(true);
-    // }
-  }, []);
-
   return {
     getEvents,
+    loadingEvents,
+    fetchEvents,
   };
 };
