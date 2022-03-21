@@ -33,10 +33,9 @@ export const Calendar = ({
   const { colorScheme } = appContext();
   const { resetState } = eventCreationContext();
   const { id } = React.useContext(ProfileContext);
-  const { events, calendarHeader, loadInitialMyCalendar } = myCalendarContext();
-  const { getEvents } = useCalendarEvents(id);
+  const { events, calendarHeader } = myCalendarContext();
+  const { getEvents, loadingEvents } = useCalendarEvents(id);
 
-  const [isLoading, setIsLoading] = React.useState(true);
   const [currentSelectedDay, setCurrentSelectedDay] =
     React.useState<Date | null>(null);
 
@@ -44,25 +43,26 @@ export const Calendar = ({
   const navigation = useNavigation();
 
   React.useEffect(() => {
-    if (events === null)
-      (async () => {
-        await getEvents(
-          new Date(calendarHeader.year, monthsByName[calendarHeader.month])
-        );
+    if (monthsByName[calendarHeader.month] === new Date().getMonth()) {
+      setCurrentSelectedDay(new Date());
+    } else setCurrentSelectedDay(null);
+  }, [calendarHeader]);
 
-        loadInitialMyCalendar();
-      })();
-
-    setIsLoading(false);
+  React.useEffect(() => {
+    if (events === null) {
+      getEvents(
+        true,
+        new Date(calendarHeader.year, monthsByName[calendarHeader.month])
+      );
+    }
 
     const subscribe = () => {
       navigation.addListener("blur", () => {});
       navigation.addListener("focus", async () => {
-        setIsLoading(true);
-        await getEvents(
+        getEvents(
+          false,
           new Date(calendarHeader.year, monthsByName[calendarHeader.month])
         );
-        setIsLoading(false);
       });
     };
 
@@ -83,33 +83,23 @@ export const Calendar = ({
     navigation.navigate("New Event Description");
   };
 
-  const onMonthChange = async () => {
-    if (events) setIsLoading(true);
+  // const onMonthChange = async () => {
+  //     getEvents(false,
+  //       new Date(calendarHeader.year, monthsByName[calendarHeader.month])
+  //     );
+  //   }
+  // };
 
-    try {
-      await getEvents(
-        new Date(calendarHeader.year, monthsByName[calendarHeader.month])
-      );
-
-      if (!events) return;
-
-      setIsLoading(false);
-    } catch (e) {
-      setIsLoading(false);
-    }
-  };
-
-  const onSelectedDayChange = (day: Date) => setCurrentSelectedDay(day);
+  const onSelectedDayChange = (day: Date | null) => setCurrentSelectedDay(day);
 
   return (
     <>
       <MonthlyWrapper
-        customCallback={onMonthChange}
         secondCustomCallback={onSelectedDayChange}
         isRegularCalendar={isRegularCalendar}
       />
       {(isBookingCalendar == null || isHomeScreen) &&
-        (isLoading ? (
+        (loadingEvents ? (
           <View style={styles.buttonWrapper}>
             <ActivityIndicator
               animating={true}

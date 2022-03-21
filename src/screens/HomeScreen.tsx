@@ -24,7 +24,7 @@ export const HomeScreen = ({}: HomeProps) => {
       {accountType === "organizer" ? (
         <MyCalendarProvider>
           <ErrorHandler>
-            <Calendar isRegularCalendar={true} />
+            <Calendar isRegularCalendar={true} isHomeScreen={true} />
           </ErrorHandler>
         </MyCalendarProvider>
       ) : (
