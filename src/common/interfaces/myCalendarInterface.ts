@@ -48,6 +48,7 @@ export interface EventsDay {
 }
 
 export interface Event {
+  id: string;
   title: string;
   fromTime: number | string;
   toTime: number | string;

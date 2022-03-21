@@ -226,6 +226,11 @@ export const myCalendarContext = () => {
     changeMonthHeader: (calendarHeader: CalendarHeader) => {
       dispatch({ type: "CHANGE_MONTH_HEADER", payload: { calendarHeader } });
     },
+    clearPreviewDayEvents: () => {
+      dispatch({
+        type: "CLEAR_DAY_PREVIEW",
+      });
+    },
     setCalendarDirection: (direction: null | "previous" | "next") => {
       dispatch({ type: "SET_CALENDAR_DIRECTION", payload: { direction } });
     },
@@ -256,10 +261,8 @@ export const myCalendarContext = () => {
         payload: { newPreviewingDayEvents },
       });
     },
-    clearPreviewDayEvents: () => {
-      dispatch({
-        type: "CLEAR_DAY_PREVIEW",
-      });
+    updateCalendarMonth: (calendarArgs: NewCalendarMonths) => {
+      dispatch({ type: "UPDATE_CALENDAR_MONTH", payload: { calendarArgs } });
     },
   };
 };

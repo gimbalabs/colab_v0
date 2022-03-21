@@ -67,6 +67,7 @@ export enum MyCalendarTypes {
   SetAvailCalendar = "SET_AVAIL_CALENDAR",
   SetCurrentSelectedDay = "SET_CURR_SELECTED_DAY",
   SetEvents = "SET_EVENTS",
+  UpdateCalendarMonth = "UPDATE_CALENDAR_MONTH",
 }
 
 /**
@@ -218,6 +219,9 @@ export type MyCalendarPaylaod = {
   };
   [MyCalendarTypes.SetEvents]: {
     events: any;
+  };
+  [MyCalendarTypes.UpdateCalendarMonth]: {
+    calendarArgs: NewCalendarMonths;
   };
   [MyCalendarTypes.ClearDayPreview]: object;
   ["unknown"]: any;
