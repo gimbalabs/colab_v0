@@ -1,16 +1,14 @@
 import * as React from "react";
 import { Pressable, Text, View, StyleSheet } from "react-native";
 
-import { Buttons, Colors, Outlines, Sizing, Typography } from "styles/index";
+import { Buttons, Colors, Sizing, Typography } from "styles/index";
 import { DotIcon } from "icons/index";
 import { Day } from "interfaces/myCalendarInterface";
-import { getDate, getMonthName, getYear } from "lib/utils";
+import { applyOpacity } from "../../../styles/colors";
 
 export interface MonthlyDayProps extends Day {
-  year?: number;
-  month: string;
   activeDay: number | null;
-  updateActiveDay: (arg: number) => void;
+  updateActiveDay: (arg: number | null) => void;
   setSelectedDay?: (arg: any) => any;
 }
 
@@ -19,43 +17,24 @@ export interface MonthlyDayProps extends Day {
  *    This component is being used to display days on a regular 'main' calendar.
  */
 
-export const _MonthlyDay = ({
-  month,
+export const MonthlyDay = ({
   number,
   activeDay,
   updateActiveDay,
   events,
-  year,
 }: MonthlyDayProps) => {
   const hasActiveEvents = !!events?.find((e) => e.type === "active slot");
   const hasScheduledSlots = !!events?.find((e) => e.type !== "active slot");
 
-  // Today's day
-  const isCurrentDay =
-    year === getYear() && month === getMonthName() && number === getDate();
-
   // Whenever someone has pressed a day or it's a current day
-  const isActiveDay = activeDay === number || (!activeDay && isCurrentDay);
+  const isActiveDay = activeDay === number;
 
   const onPress = () => {
-    updateActiveDay(number);
+    updateActiveDay(activeDay === number ? null : number);
   };
 
   const TextComponent = () => (
-    <Text
-      style={[
-        styles.dayButtonText,
-        isActiveDay || (isCurrentDay && !activeDay == null)
-          ? {
-              ...Outlines.shadow.base,
-              color: Colors.primary.neutral,
-            }
-          : {
-              color: Colors.primary.s600,
-            },
-      ]}>
-      {number}
-    </Text>
+    <Text style={styles.dayButtonText}>{number}</Text>
   );
 
   return React.useMemo(
@@ -108,13 +87,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 999,
-    backgroundColor: Colors.primary.s600,
+    backgroundColor: applyOpacity(Colors.primary.s350, 0.34),
   },
   dayButtonText: {
     ...Typography.body.x30,
     ...Typography.roboto.medium,
     textAlign: "center",
-    zIndex: 2,
+    zIndex: 3,
+    color: Colors.primary.s600,
   },
   dayButton: {
     width: `${100 / 7}%`,
@@ -137,5 +117,3 @@ const styles = StyleSheet.create({
     right: "35%",
   },
 });
-
-export const MonthlyDay = React.memo(_MonthlyDay);

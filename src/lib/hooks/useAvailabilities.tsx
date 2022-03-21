@@ -24,12 +24,13 @@ export const useAvailabilities = (
         let from = new Date(availability.from).getTime();
 
         while (from < to) {
-          currTimeSlots.push(new Date(from).getTime());
+          // prevent presenting the same time slots (like 19:40, 19:40)
+          if (!currTimeSlots.includes(from)) currTimeSlots.push(from);
           from = from + availability.minDuration * 60 * 1000; // millisedonds
         }
       });
 
-      setCurrentAvailabilities(currTimeSlots);
+      setCurrentAvailabilities(currTimeSlots.sort());
     }
   }, [availabilities]);
 

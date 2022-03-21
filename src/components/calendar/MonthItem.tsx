@@ -16,7 +16,7 @@ export interface MonthProps extends Month {
   isBookingCalendar?: boolean;
   isNewEventCalendar?: boolean;
   customCallback?: (arg: any | undefined) => void;
-  secondCustomCallback?: (arg: Date) => void;
+  secondCustomCallback?: (arg: Date | null) => void;
   month: string;
 }
 
@@ -53,14 +53,23 @@ export const MonthItem = ({
     [isNewEventCalendar]
   );
 
-  const updateActiveDay = (num: number) => {
+  const updateActiveDay = (num: number | null) => {
     setActiveDay(num);
     secondCustomCallback &&
-      secondCustomCallback(new Date(year, monthsByName[month], num));
+      secondCustomCallback(
+        num ? new Date(year, monthsByName[month], num) : null
+      );
   };
 
   React.useEffect(() => {
-    if (!isBookingCalendar && !isNewEventCalendar) setActiveDay(null);
+    if (!isBookingCalendar && !isNewEventCalendar) {
+      let isCurrMonth =
+        new Date().getFullYear() === year &&
+        new Date().getMonth() === monthsByName[month];
+      let currDay = new Date().getDate();
+
+      setActiveDay(isCurrMonth ? currDay : null);
+    }
     customCallback && customCallback(!!selectedDays);
   }, [selectedDays, month]);
 
@@ -98,8 +107,6 @@ export const MonthItem = ({
           />
         ) : (
           <MonthlyDay
-            month={month}
-            year={year}
             name={day.name}
             key={`${month}-${day.name}-${day.number}`}
             number={day.number}
