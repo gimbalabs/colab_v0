@@ -152,6 +152,7 @@ export const lineHeight: Record<LineHeight, TextStyle> = {
 };
 
 type Header =
+  | "x5"
   | "x10"
   | "x20"
   | "x25"
@@ -165,6 +166,12 @@ type Header =
   | "x65"
   | "x70";
 export const header: Record<Header, TextStyle> = {
+  x5: {
+    ...fontSize.x5,
+    ...lineHeight.x5,
+    ...fontWeight.bold,
+    fontFamily: "Roboto-Medium",
+  },
   x10: {
     ...fontSize.x10,
     ...lineHeight.x10,
