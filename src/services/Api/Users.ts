@@ -1,5 +1,6 @@
 import { UserDTO } from "common/interfaces/profileInterface";
 import { PaginationRequestDto } from "common/types/dto";
+import { Platform } from "react-native";
 import axios from "./base";
 
 export class Users {
@@ -69,14 +70,54 @@ export class Users {
     id: string,
     currCalendarDate?: Date
   ): Promise<any | void> {
+    console.log("args ...", id, currCalendarDate);
     try {
       const res = await axios.get(`/users/${id}/calendar-events`, {
         params: { date: currCalendarDate ?? new Date() },
       });
+      console.log("res?", !!res);
 
       if (res) return res.data;
     } catch (e) {
       throw new Error(e.response.data.message);
+    }
+  }
+
+  public static async uploadUserImage(filePath: string) {
+    const fileChunks = filePath.split(".");
+    const fileType = fileChunks[fileChunks.length - 1];
+    const formData = new FormData();
+
+    console.log("file type :", fileType, fileChunks);
+
+    formData.append("file", {
+      uri: Platform.OS === "ios" ? filePath.replace("file://", "") : filePath,
+      name: `photo.${fileType}`,
+      type: `image/${fileType}`,
+    });
+
+    try {
+      // console.log(JSON.stringify(axios.defaults, null, 4));
+      const res = await axios.post("/users/files/profile-image", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log("res :", res);
+    } catch (e) {
+      console.error("Error: ", e);
+      console.error("Error Message: ", e.response.data.message);
+    }
+  }
+
+  public static async getUserImage(id: string) {
+    try {
+      const profileImage = await axios.get(`/users/files/profile-image/${id}`);
+      console.log(profileImage);
+
+      return;
+    } catch (e) {
+      console.error(e.response.data.message);
     }
   }
 }

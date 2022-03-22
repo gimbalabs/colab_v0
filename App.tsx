@@ -1,6 +1,7 @@
 import "react-native-gesture-handler";
 import * as React from "react";
 import { LogBox, Platform, UIManager } from "react-native";
+import "./global";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -22,7 +23,7 @@ import { useAppLogin } from "lib/hooks/useAppLogin";
 import AppLoading from "expo-app-loading";
 
 // Ignore all log notifications:
-LogBox.ignoreAllLogs();
+// LogBox.ignoreAllLogs();
 
 setJSExceptionHandler(jsErrorHandler, true); // true - enables the error in dev mode
 enableScreens(); // enable native screens for navigation instead of using Views

@@ -171,7 +171,7 @@ export function areEqualDates(val1: number, val2: number): boolean {
 }
 
 /**
- *   @description This will return an array with next/previous months with
+ *   @description This will return an array with next/previous month/s with
  *    number of total days, name of the first day (eg. 'Monday'), and
  *    names of the months.
  *
@@ -185,7 +185,7 @@ export function areEqualDates(val1: number, val2: number): boolean {
  *          availabilites (organizer availabilities)
  *          scheduledEvents
  */
-export function getCalendarMonths(
+export function getCalendarMonth(
   nextMonths = false,
   previousMonths = false,
   fromMonth?: number,
@@ -439,6 +439,7 @@ export function getCalendarMonths(
     monthsWithDays.reverse();
     return monthsWithDays;
   }
+
   return monthsWithDays;
 }
 

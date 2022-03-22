@@ -12,7 +12,8 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Buttons, Outlines, Typography, Sizing, Colors } from "styles/index";
 import { StackScreenProps } from "@react-navigation/stack";
-import { OrganizerTabParamList } from "common/types/navigationTypes";
+
+import { ProfileStackParamList } from "common/types/navigationTypes";
 import { appContext } from "contexts/contextApi";
 import {
   CogIcon,
@@ -21,18 +22,20 @@ import {
   RightArrowIcon,
 } from "icons/index";
 
-// image only for testing purposes
 import { NativeModal } from "components/modals/nativeModal";
 import { useCameraAccess } from "lib/hooks/useCameraAccess";
 import { useMediaAccess } from "lib/hooks/useMediaAccess";
 import { ProfileContext } from "contexts/profileContext";
 import { applyOpacity } from "../../styles/colors";
+import { Users } from "Api/Users";
+import { getApiUrl } from "lib/helpers";
 
 export interface UserProfileScreenProps
-  extends StackScreenProps<OrganizerTabParamList, "Browse"> {}
+  extends StackScreenProps<ProfileStackParamList, "Profile"> {}
 
-export const UserProfileScreen = ({}: UserProfileScreenProps) => {
-  const { username } = React.useContext(ProfileContext);
+export const UserProfileScreen = ({ navigation }: UserProfileScreenProps) => {
+  const { username: _username } = React.useContext(ProfileContext);
+  let username = "john";
   const { colorScheme, setColorScheme } = appContext();
   const [imagePressed, setImagePressed] = React.useState<boolean>(false);
   const [currImage, setCurrImage] = React.useState<string>("");
@@ -46,7 +49,11 @@ export const UserProfileScreen = ({}: UserProfileScreenProps) => {
     if (mediaObj) {
       //we only allow user to select one image, so take the first in array
       const { uri } = mediaObj.assets[0];
-      if (uri !== currImage) setCurrImage(uri);
+
+      if (uri !== currImage) {
+        (async () => await Users.uploadUserImage(uri))();
+        setCurrImage(uri);
+      }
     }
     if (imageObj) {
       const { uri } = imageObj.assets[0];
@@ -81,10 +88,14 @@ export const UserProfileScreen = ({}: UserProfileScreenProps) => {
           cameraAccessCb={launchCamera}
           mediaLibraryCb={launchImageLibrary}
           child={
-            currImage ? (
+            true ? (
               <ImageBackground
-                // only for testing purpose render uri conditionally
-                source={{ uri: currImage }}
+                source={{
+                  uri: getApiUrl(
+                    `/users/files/profile-image/d06c3a18-7093-44ee-8772-e7cc61ed9508`
+                  ),
+                }}
+                onLoadEnd={() => console.log("finished loading image")}
                 imageStyle={styles.profilePicImage}
                 style={[
                   styles.profilePic,
@@ -152,7 +163,7 @@ export const UserProfileScreen = ({}: UserProfileScreenProps) => {
           style={Buttons.applyOpacity(
             colorScheme === "light" ? styles.button_light : styles.button_dark
           )}
-          onPress={() => {}}>
+          onPress={() => navigation.navigate("Edit Profile")}>
           <Text
             style={
               colorScheme === "light"
@@ -280,12 +291,12 @@ const styles = StyleSheet.create({
   headerText_ligth: {
     ...Typography.header.x45,
     color: Colors.primary.s600,
-    marginVertical: Sizing.x5,
+    marginVertical: Sizing.x8,
   },
   headerText_dark: {
     ...Typography.header.x45,
     color: Colors.primary.neutral,
-    marginVertical: Sizing.x5,
+    marginVertical: Sizing.x8,
   },
   mainNavigation: {
     flex: 1,

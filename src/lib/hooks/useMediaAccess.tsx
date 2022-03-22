@@ -81,6 +81,8 @@ export const useMediaAccess = () => {
 
     const options: ImageLibraryOptions = {
       mediaType: "photo",
+      maxWidth: 768,
+      maxHeight: 768,
       quality: 0.5,
       selectionLimit: 1,
     };
@@ -90,6 +92,7 @@ export const useMediaAccess = () => {
       setMediaObj(res);
     });
   };
+
   return {
     access,
     mediaObj,

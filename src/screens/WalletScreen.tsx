@@ -6,6 +6,7 @@ import {
   Pressable,
   LayoutChangeEvent,
   ActivityIndicator,
+  NativeModules,
 } from "react-native";
 
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -17,6 +18,7 @@ import { appContext } from "contexts/contextApi";
 import { RefreshIcon, RightArrowIcon, SearchIcon } from "icons/index";
 import { TransactionsList } from "components/wallet/transactionsList";
 import { ProfileContext } from "contexts/profileContext";
+import { Address } from "@emurgo/react-native-haskell-shelley";
 
 // @TODO: Implement navigationTypes type
 export interface WalletScreenProps
@@ -38,7 +40,23 @@ export const WalletScreen = ({ navigation, route }: WalletScreenProps) => {
   const darkGradient: string[] = [Colors.primary.s800, Colors.primary.s600];
   const lightGradient: string[] = [Colors.primary.s200, Colors.primary.neutral];
 
-  React.useEffect(() => {}, []);
+  console.log(NativeModules.HaskellShelley);
+  const getAddr = async () => {
+    try {
+      const addrHex =
+        "616464725f746573743176707134356b72613075366d6c7233747261676a70323072307037756a703733356774367430676d77767466773273797a637a3378";
+      const addrBytes = Buffer.from(addrHex, "hex");
+      console.log("bytes ", addrBytes);
+      const address = await Address.from_bytes(addrBytes);
+      console.log("address is :", address);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  React.useEffect(() => {
+    getAddr();
+  }, []);
 
   const onWalletButtonPress = async () => {
     if (!hasSyncedWallet) {

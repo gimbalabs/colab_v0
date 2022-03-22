@@ -21,31 +21,34 @@ import { monthsByName } from "common/types/calendarTypes";
 import { WeekDayNames } from "./WeekDayNames";
 import { CalendarTopNavigation } from "./navigation/calendarTopNavigation";
 import { CalendarLegend } from "./CalendarLegend";
+import { useCalendarEvents } from "lib/hooks/useCalendarEvents";
 
 export interface MonthlyWrapperProps {
   isBookingCalendar?: boolean;
   isNewEventCalendar?: boolean;
   isRegularCalendar?: boolean;
   customCallback?: () => Promise<void>;
-  secondCustomCallback?: (arg: Date) => void;
+  secondCustomCallback?: (arg: Date | null) => void;
 }
 
 export const MonthlyWrapper = ({
   isBookingCalendar,
   isNewEventCalendar,
   isRegularCalendar,
-  customCallback,
   secondCustomCallback,
 }: MonthlyWrapperProps) => {
   const {
     calendar,
-    events,
     changeMonthHeader,
     calendarHeader,
     loadMyCalendar,
+    updateCalendarMonth,
+    setEvents,
   } = myCalendarContext();
   const { colorScheme } = appContext();
   const { selectedWeekDays } = eventCreationContext();
+  const { fetchEvents } = useCalendarEvents();
+
   const [dimensions, setDimensions] = React.useState<LayoutRectangle | null>(
     null
   );
@@ -57,6 +60,13 @@ export const MonthlyWrapper = ({
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [initialHasLoaded, setInitialHasLoaded] =
     React.useState<boolean>(false);
+  const [eventsLoading, setEventsLoading] = React.useState<boolean>(false);
+  const [fetchedEventsFrom, setFetchedEventsFrom] = React.useState<{
+    month: number;
+    year: number;
+    direction: "left" | "right";
+  } | null>(null);
+  const [tempEvents, setTempEvents] = React.useState<any>(null);
 
   var animatedOpacity = React.useRef(new Animated.Value(1)).current;
   var animatedInitialOpacity = React.useRef(new Animated.Value(0)).current;
@@ -64,16 +74,16 @@ export const MonthlyWrapper = ({
   var animatedTranslateX = React.useRef(new Animated.Value(0)).current;
   var animatedTranslateXSlideIn = React.useRef(new Animated.Value(0)).current;
 
-  const startCalendarAnimation = (
-    direction: "left" | "right" | null,
-    fadeOut: boolean
-  ) => {
-    const fadeOutPrevious = direction === "left" && fadeOut;
-    const fadeOutNext = direction === "right" && fadeOut;
+  const isNotNextYear =
+    calendar[currIndex + 1]?.year !== new Date().getFullYear();
+  const isNotPreviousYear =
+    calendar[currIndex - 1]?.year !== new Date().getFullYear();
+  const prevMonth = calendar[currIndex - 1]?.name;
+  const prevYear = calendar[currIndex - 1]?.year;
+  const nextMonth = calendar[currIndex + 1]?.name;
+  const nextYear = calendar[currIndex + 1]?.year;
 
-    if (fadeOutPrevious) animatedTranslateXSlideIn.setValue(-20);
-    if (fadeOutNext) animatedTranslateXSlideIn.setValue(20);
-
+  const startCalendarAnimation = (fadeOutPrevious: boolean) => {
     Animated.parallel([
       Animated.timing(animatedOpacity, {
         toValue: 0,
@@ -116,24 +126,15 @@ export const MonthlyWrapper = ({
       easing: Easing.sin,
       useNativeDriver: true,
     }).start();
+    console.log("after initial animation");
     setInitialHasLoaded(true);
   };
 
   const onLayout = (event: LayoutChangeEvent) => {
     setDimensions(event.nativeEvent.layout);
-    if (!direction && !initialHasLoaded) {
-      startInitialCalendarAnimation();
-    }
-  };
-
-  const loadNewMonths = (nextMonths: boolean, month: number, year?: number) => {
-    loadMyCalendar({
-      nextMonths,
-      month,
-      year,
-      isBookingCalendar,
-      isRegularCalendar,
-    });
+    // if (!direction && !initialHasLoaded) {
+    //   startInitialCalendarAnimation();
+    // }
   };
 
   const onPlaceholderPress = (direction: string) => {
@@ -141,8 +142,18 @@ export const MonthlyWrapper = ({
     if (direction === "next") onNextStartAnimation();
   };
 
+  // React.useEffect(
+  //   () => console.log("dimensions changed", dimensions),
+  //   [dimensions]
+  // );
+
+  const WeekComponent = React.useCallback(() => {
+    return <WeekDayNames isNewEventCalendar={isNewEventCalendar} />;
+  }, [monthsArray, selectedWeekDays]);
+
   const CurrMonth = React.useCallback(
     ({ item, position }: { item: Month; position: string }) => {
+      console.log("dimensions are: ", dimensions);
       return (
         <Animated.View
           style={[
@@ -186,40 +197,63 @@ export const MonthlyWrapper = ({
         </Animated.View>
       );
     },
-    [monthsArray, initialHasLoaded]
+    [!!dimensions]
   );
 
-  const WeekComponent = React.useCallback(() => {
-    return <WeekDayNames isNewEventCalendar={isNewEventCalendar} />;
-  }, [monthsArray, initialHasLoaded, selectedWeekDays]);
+  const loadNewMonths = (nextMonths: boolean, month: number, year?: number) => {
+    const calendarSetup = {
+      nextMonths,
+      month,
+      year,
+      isBookingCalendar,
+      isRegularCalendar,
+    };
+    loadMyCalendar(calendarSetup);
+  };
 
   const onPreviousStartAnimation = () => {
     if (isLoading) return;
     setIsLoading(true);
+    // setNewEventsFetched(false);
     setDirection("left");
 
     const calendarHeader: CalendarHeader = {
-      month: calendar[currIndex - 1].name,
-      year: calendar[currIndex - 1].year,
+      month: prevMonth,
+      year: prevYear,
       numOfEvents: calendar[currIndex - 1]?.numOfEvents,
     };
+    animatedTranslateXSlideIn.setValue(-20);
+    changeMonthHeader(calendarHeader);
+    startCalendarAnimation(true);
+  };
+
+  const onNextStartAnimation = () => {
+    if (isLoading) return;
+    setIsLoading(true);
+    // setNewEventsFetched(false);
+    setDirection("right");
+
+    const calendarHeader = {
+      month: nextMonth,
+      year: nextYear,
+      numOfEvents: calendar[currIndex + 1]?.numOfEvents,
+    };
+
+    animatedTranslateXSlideIn.setValue(-20);
 
     changeMonthHeader(calendarHeader);
-    startCalendarAnimation("left", true);
+    startCalendarAnimation(false);
   };
 
   const onPreviousLoadCalendar = () => {
-    const isNotCurrentYear =
-      calendar[currIndex - 1].year !== new Date().getFullYear();
-
     // For the last month of current year
     if (calendarHeader.month === "January") {
       loadNewMonths(
         false,
         monthsByName[monthsArray[currIndex - 1].name],
-        isNotCurrentYear ? calendar[currIndex - 1].year : undefined
+        isNotPreviousYear ? calendar[currIndex - 1].year : undefined
       );
-    } else if (isNotCurrentYear) {
+    } else if (isNotPreviousYear) {
       // for when the year isnt' the current one
       loadNewMonths(
         false,
@@ -231,34 +265,16 @@ export const MonthlyWrapper = ({
     }
   };
 
-  const onNextStartAnimation = () => {
-    if (isLoading) return;
-    setIsLoading(true);
-    setDirection("right");
-
-    const calendarHeader = {
-      month: calendar[currIndex + 1].name,
-      year: calendar[currIndex + 1].year,
-      numOfEvents: calendar[currIndex + 1]?.numOfEvents,
-    };
-
-    changeMonthHeader(calendarHeader);
-    startCalendarAnimation("right", true);
-  };
-
   const onNextLoadCalendar = () => {
-    const isNotCurrentYear =
-      calendar[currIndex + 1].year !== new Date().getFullYear();
-
     // if the month is the first month of the next year, pass the next year
     // as last parameter
     if (calendarHeader.month === "December") {
       loadNewMonths(
         true,
         monthsByName[monthsArray[currIndex + 1].name],
-        isNotCurrentYear ? calendar[currIndex + 1].year : undefined
+        isNotNextYear ? calendar[currIndex + 1].year : undefined
       );
-    } else if (isNotCurrentYear) {
+    } else if (isNotNextYear) {
       // for when the year isnt' the current one
       loadNewMonths(
         true,
@@ -271,19 +287,75 @@ export const MonthlyWrapper = ({
   };
 
   React.useEffect(() => {
-    if (!initialHasLoaded) {
+    console.log(isLoading, fetchedEventsFrom);
+    // if we've fetched new events but user has already
+    // changed to another month, just return.
+    if (!isRegularCalendar || isLoading || !fetchedEventsFrom) return;
+
+    const month = monthsByName[monthsArray[currIndex].name];
+    const year = monthsArray[currIndex].year;
+    const isNextMonth = fetchedEventsFrom.direction === "right";
+    const isSameMonth =
+      fetchedEventsFrom.month === month && fetchedEventsFrom.year === year;
+
+    if (!isSameMonth) return;
+
+    console.log("updating calendar month after events fetching");
+    setEvents(tempEvents);
+    setFetchedEventsFrom(null);
+    updateCalendarMonth({
+      nextMonths: isNextMonth,
+      month,
+      year,
+      isBookingCalendar,
+      isRegularCalendar,
+    });
+  }, [tempEvents]);
+
+  React.useEffect(() => {
+    if (eventsLoading && !fetchedEventsFrom && direction)
+      (async () => {
+        const month = monthsByName[monthsArray[currIndex].name];
+        const year = monthsArray[currIndex].year;
+
+        console.log("fetching new events");
+        try {
+          const _events = await fetchEvents(new Date(year, month), false);
+
+          if (_events) {
+            setDirection(null);
+            setFetchedEventsFrom({ month, year, direction });
+            setTempEvents(_events);
+          }
+
+          setEventsLoading(false);
+          console.log("setting direction to null");
+        } catch (err) {
+          return;
+        }
+        console.log("after fetching");
+      })();
+  }, [eventsLoading]);
+
+  React.useEffect(() => {
+    if (!initialHasLoaded && isRegularCalendar) {
       setMonthsArray(calendar);
+      setInitialHasLoaded(true);
     }
 
     if (direction) {
-      setDirection(null);
+      if (!isRegularCalendar) {
+        setDirection(null);
+      } else setEventsLoading(true);
+
+      console.log("calendar has changed");
+      setIsLoading(false);
       setMonthsArray(calendar);
       setCurrIndex(1);
-      setIsLoading(false);
-
-      (async () => {
-        customCallback && (await customCallback());
-      })();
+    } else if (!fetchedEventsFrom && tempEvents) {
+      console.log("changing months array finally");
+      setMonthsArray(calendar);
+      setTempEvents(null);
     }
   }, [calendar]);
 
@@ -370,9 +442,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: Sizing.x150,
     marginTop: Sizing.x7,
-  },
-  loadingIndicator: {
-    flex: 1,
   },
   calendar: {
     minHeight: 200,

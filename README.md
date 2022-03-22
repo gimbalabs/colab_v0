@@ -23,7 +23,7 @@ Miro (Playground) -> (GitLab <- -> Figma) -> Dapp
 ## How it works
 
 *Content To Be Released Soon*
-1. 
+1.
 
 2. 
 

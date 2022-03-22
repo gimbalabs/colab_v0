@@ -74,6 +74,8 @@ export const useCameraAccess = () => {
     const options: CameraOptions = {
       mediaType: "photo",
       quality: 0.5,
+      maxWidth: 768,
+      maxHeight: 768,
       saveToPhotos: true,
     };
 
